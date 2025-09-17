@@ -17,9 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const menuItem = this.dataset.menuItem;
             setActiveMenuItem(menuItem);
+            if (window.loadSidebarMenu) {
+                loadSidebarMenu(menuItem);
+            }
         });
     });
 
-    // By default, we activate the first item
     setActiveMenuItem('android');
+    if (window.loadSidebarMenu) {
+        loadSidebarMenu('android');
+    }
 });
