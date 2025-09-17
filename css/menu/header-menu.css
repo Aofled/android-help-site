@@ -1,0 +1,40 @@
+.header-menu {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.header-menu ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+}
+
+.header-menu li {
+    position: relative;
+    cursor: pointer;
+}
+
+.header-menu li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+    padding: 12px 20px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.header-menu li a:hover {
+    background-color: #34495e;
+    transform: translateY(-2px);
+}
+
+.header-menu li a.active {
+    background-color: #27ae60;
+}
