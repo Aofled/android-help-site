@@ -35,6 +35,13 @@
     transform: translateY(-2px);
 }
 
+.header-menu li a.active::after {
+    transform: scaleX(1);
+    background-color: white;
+}
+
 .header-menu li a.active {
     background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
