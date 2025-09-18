@@ -1,0 +1,19 @@
+{
+  "title": "Активити",
+  "content": [
+    {
+      "type": "text",
+      "value": "## Введение\n\nАктивити - это операционная система для мобильных устройств..."
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<manifest>\n  <application>\n    <activity android:name=\".MainActivity\">\n  </application>\n</manifest>"
+    },
+    {
+      "type": "image",
+      "src": "/images/android/arch.png",
+      "alt": "Архитектура Android"
+    }
+  ]
+}

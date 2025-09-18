@@ -12,11 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     menuItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const menuItem = this.dataset.menuItem;
-                setActiveMenuItem(menuItem);
-                loadSidebarMenu(menuItem);
+            item.addEventListener('click', async function(e) {
+              e.preventDefault();
+              const menuItem = this.dataset.menuItem;
+              setActiveMenuItem(menuItem);
+              await loadSidebarMenu(menuItem);
+
+              if (window.location.hash.includes(menuItem)) {
+                window.dispatchEvent(new Event('hashchange'));
+              }
             });
     });
 

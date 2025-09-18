@@ -1,8 +1,8 @@
 {
   "menuItems": [
-    {"title": "kotlin", "url": "#"},
-    {"title": "2kotlin2", "url": "#"},
-    {"title": "kotlin33", "url": "#"},
-    {"title": "kotlin45", "url": "#"}
+    {"title": "kotlin", "url": "#kotlin1"},
+    {"title": "kotlin2", "url": "#kotlin2"},
+    {"title": "kotlin3", "url": "#kotlin3"},
+    {"title": "kotlin4", "url": "#kotlin4"}
   ]
 }
