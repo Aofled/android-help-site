@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     const menuItems = document.querySelectorAll('[data-menu-item]');
 
     function setActiveMenuItem(activeItem) {
@@ -14,11 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     menuItems.forEach(item => {
             item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const menuItem = this.dataset.menuItem;
-            setActiveMenuItem(menuItem);
-            loadSidebarMenu(menuItem, this.textContent.trim());
-        });
+                e.preventDefault();
+                const menuItem = this.dataset.menuItem;
+                setActiveMenuItem(menuItem);
+                loadSidebarMenu(menuItem);
+            });
     });
 
     setActiveMenuItem('android');
