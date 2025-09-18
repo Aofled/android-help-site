@@ -99,8 +99,12 @@ function renderContentBlocks(blocks) {
         case 'image':
           return `
             <figure class="content-image-wrapper">
-              <img src="${block.src}" alt="${block.alt || ''}"
-                   class="content-image" loading="lazy">
+              <img src="${block.src}"
+                   alt="${block.alt || ''}"
+                   class="content-image"
+                   style="max-width: ${block.width || '100%'}; ${block.style || ''}"
+                   loading="lazy"
+                   decoding="async">
               ${block.caption ? `<figcaption>${block.caption}</figcaption>` : ''}
             </figure>
           `;
