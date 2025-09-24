@@ -31,6 +31,15 @@
     transition: all 0.2s ease;
 }
 
+.footer-menu li a.active {
+    background-color: #27ae60;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer-menu li a.active:hover {
+    background-color: #2ecc71;
+}
+
 .footer-menu li a:hover {
     background-color: #34495e;
 }
