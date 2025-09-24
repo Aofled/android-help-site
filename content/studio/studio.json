@@ -1,0 +1,7 @@
+{
+  "menuItems": [
+    {"title": "studio1", "url": "#studio1"},
+    {"title": "studio2", "url": "#studio2"},
+    {"title": "studio3", "url": "#studio3"}
+  ]
+}

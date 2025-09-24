@@ -13,13 +13,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     menuItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+            item.addEventListener('click', function(e) {
             e.preventDefault();
             const menuItem = this.dataset.menuItem;
             setActiveMenuItem(menuItem);
+            loadSidebarMenu(menuItem, this.textContent.trim());
         });
     });
 
-    // By default, we activate the first item
     setActiveMenuItem('android');
+    if (window.loadSidebarMenu) {
+        loadSidebarMenu('android');
+    }
 });
