@@ -25,16 +25,42 @@ function loadSidebarMenu(menuType) {
         });
 }
 
-function createMenuHTML(items) {
+function createMenuHTML(items, activeItem) {
     return `
         <nav class="sidebar-menu">
             <ul>
                 ${items.map(item => `
-                    <li><a href="${item.url || '#'}">${item.title}</a></li>
+                    <li>
+                        <a href="${item.url || '#'}"
+                           class="${item.title === activeItem ? 'active' : ''}"
+                           data-sidebar-item="${item.title.toLowerCase()}">
+                            ${item.title}
+                        </a>
+                    </li>
                 `).join('')}
             </ul>
         </nav>
     `;
+}
+
+function setupSidebarListeners() {
+    document.querySelector('.sidebar').addEventListener('click', function(e) {
+        if (e.target.closest('[data-sidebar-item]')) {
+            const allItems = document.querySelectorAll('[data-sidebar-item]');
+            allItems.forEach(item => item.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+    });
+}
+
+function loadSidebarMenu(menuType, activeItem = '') {
+    fetch(`content/${menuType}/${menuType}.json`)
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.sidebar').innerHTML =
+                createMenuHTML(data.menuItems, activeItem);
+            setupSidebarListeners();
+        });
 }
 
 window.loadSidebarMenu = loadSidebarMenu;
