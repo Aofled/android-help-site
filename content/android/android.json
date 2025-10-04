@@ -1,7 +1,19 @@
 {
   "menuItems": [
-    {"title": "Андроид 1", "url": "#"},
-    {"title": "Андро 2", "url": "#"},
-    {"title": "Анд 3", "url": "#"}
+    {
+      "title": "Основы Android",
+      "url": "#android-basics",
+      "contentFile": "basics.json"
+    },
+    {
+      "title": "Activity",
+      "url": "#android-activity",
+      "contentFile": "activity.json"
+    },
+    {
+      "title": "Фрагменты",
+      "url": "#android-fragments",
+      "contentFile": "fragments.json"
+    }
   ]
 }
