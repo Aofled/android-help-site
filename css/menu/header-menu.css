@@ -6,6 +6,31 @@
     box-sizing: border-box;
 }
 
+.header-menu a {
+    color: white;
+    transition: all 0.3s;
+}
+
+.header-menu a:hover {
+    color: var(--android-green);
+    transform: translateY(-2px);
+}
+
+.header-menu a.active {
+    color: var(--android-green);
+    position: relative;
+}
+
+.header-menu a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--android-green);
+}
+
 .header-menu ul {
     display: flex;
     list-style: none;

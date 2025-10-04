@@ -1,5 +1,6 @@
 .footer {
-    background: #2c3e50;
+    background: var(--android-dark);
+    border-top: 2px solid var(--android-green);
     color: white;
     padding: 10px 0;
     width: 100%;
@@ -11,4 +12,5 @@
 
 .footer-year {
     margin-top: 10px;
+    color: var(--android-green);
 }

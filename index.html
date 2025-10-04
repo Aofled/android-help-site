@@ -15,7 +15,13 @@
     <link rel="stylesheet" href="css/menu/footer-menu.css">
 </head>
 <body>
+
 <header class="header">
+    <div class="header-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3ddc84" d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
+        </svg>
+    </div>
     <nav class="header-menu">
         <ul>
             <li><a href="#" class="active" data-menu-item="android">Android</a></li>
@@ -27,12 +33,13 @@
 </header>
 
 <div class="main-container">
+    <div class="sidebar-bg"></div>
     <aside class="sidebar">
         <!-- //todo:Side menu -->
     </aside>
-
     <main class="content">
         <!-- //todo:Main content -->
+        <div style="height: 1500px; background: #f0f0f0;"></div>
     </main>
 </div>
 
@@ -54,9 +61,10 @@
 <script src="js/sidebar.js"></script>
 <script src="js/menu.js"></script>
 <script src="js/footer.js"></script>
-
+<!--
 <style>
     * { outline: 1px solid red; } /* For debugging */
 </style>
+-->
 </body>
 </html>
