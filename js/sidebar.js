@@ -25,19 +25,25 @@ function loadSidebarMenu(menuType) {
         });
 }
 
-function createMenuHTML(items, activeItem) {
+function createMenuHTML(items, activeItem = null) {
+    const firstItemId = items[0]?.title.toLowerCase().replace(/\s+/g, '-');
+    const defaultActive = activeItem || firstItemId;
+
     return `
         <nav class="sidebar-menu">
             <ul>
-                ${items.map(item => `
-                    <li>
-                        <a href="${item.url || '#'}"
-                           class="${item.title === activeItem ? 'active' : ''}"
-                           data-sidebar-item="${item.title.toLowerCase()}">
-                            ${item.title}
-                        </a>
-                    </li>
-                `).join('')}
+                ${items.map(item => {
+                    const itemId = item.title.toLowerCase().replace(/\s+/g, '-');
+                    return `
+                        <li>
+                            <a href="${item.url || '#'}"
+                               class="${itemId === defaultActive ? 'active' : ''}"
+                               data-sidebar-item="${itemId}">
+                                ${item.title}
+                            </a>
+                        </li>
+                    `;
+                }).join('')}
             </ul>
         </nav>
     `;
@@ -53,13 +59,18 @@ function setupSidebarListeners() {
     });
 }
 
-function loadSidebarMenu(menuType, activeItem = '') {
+function loadSidebarMenu(menuType) {
     fetch(`content/${menuType}/${menuType}.json`)
         .then(response => response.json())
         .then(data => {
-            document.querySelector('.sidebar').innerHTML =
-                createMenuHTML(data.menuItems, activeItem);
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.innerHTML = createMenuHTML(data.menuItems);
             setupSidebarListeners();
+
+            if (data.menuItems.length > 0) {
+                const firstItem = document.querySelector('[data-sidebar-item]');
+                if (firstItem) firstItem.classList.add('active');
+            }
         });
 }
 

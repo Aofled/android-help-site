@@ -39,10 +39,8 @@
 
 .sidebar-menu a.active {
     color: var(--android-green);
-    border-left: 3px solid var(--android-green);
-    background: rgba(46, 204, 113, 0.1);
-    border-left: 2px solid #2ecc71;
-    text-decoration: none;
+    background: rgba(61, 220, 132, 0.1);
+    border-left: 2px solid var(--android-green);
     font-weight: 500;
 }
 
