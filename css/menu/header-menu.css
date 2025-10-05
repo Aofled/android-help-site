@@ -70,3 +70,19 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.header-menu li a::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: 2px;
+    background-color: #27ae60;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.header-menu li a:hover::after {
+    transform: scaleX(1);
+}
