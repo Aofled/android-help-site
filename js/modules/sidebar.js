@@ -2,11 +2,21 @@ import { loadContent } from '../core/content-loader.js';
 import { updateUrl } from '../core/utilities.js';
 
 const sidebarEl = document.querySelector('.sidebar');
+let sidebarEventListeners = [];
+
+function cleanupEventListeners() {
+  sidebarEventListeners.forEach(({ element, type, listener }) => {
+    element.removeEventListener(type, listener);
+  });
+  sidebarEventListeners = [];
+}
 
 export async function loadSidebarMenu(menuType) {
   if (!sidebarEl) return;
 
   try {
+    cleanupEventListeners();
+
     const response = await fetch(`content/${menuType}/${menuType}.json?v=${Date.now()}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -25,14 +35,6 @@ export async function loadSidebarMenu(menuType) {
 }
 
 function renderSidebarMenu(menuType, menuData) {
-  const menuWithOriginalOrder = {
-    ...menuData,
-    menuItems: menuData.menuItems.map(item => ({
-      ...item,
-      subItems: item.subItems ? [...item.subItems] : null
-    }))
-  };
-
   sidebarEl.innerHTML = `
     <nav class="sidebar-menu">
       <div class="sidebar-controls">
@@ -40,7 +42,7 @@ function renderSidebarMenu(menuType, menuData) {
           <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24">
             <path fill="currentColor" d="M7 10l5 5 5-5z"/>
           </svg>
-          <span class="toggle-text">Развернуть все</span>
+          <span class="toggle-text">Свернуть все</span>
         </button>
         <button class="sort-subitems" title="Сортировка подпунктов">
           <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24">
@@ -85,12 +87,12 @@ function renderSidebarMenu(menuType, menuData) {
 }
 
 function setupSidebarListeners() {
-  sidebarEl.addEventListener('click', (e) => {
+  const clickHandler = (e) => {
     const toggle = e.target.closest('.submenu-toggle');
     if (toggle) {
       e.preventDefault();
       const parentItem = toggle.closest('.sidebar-item');
-      parentItem.classList.toggle('expanded');
+      parentItem.classList.toggle('collapsed');
       return;
     }
 
@@ -103,6 +105,13 @@ function setupSidebarListeners() {
 
     loadContent(link.dataset.section, link.dataset.contentFile);
     updateUrl(link.href);
+  };
+
+  sidebarEl.addEventListener('click', clickHandler);
+  sidebarEventListeners.push({
+    element: sidebarEl,
+    type: 'click',
+    listener: clickHandler
   });
 }
 
@@ -110,33 +119,28 @@ function setupSidebarControls() {
   const toggleBtn = sidebarEl.querySelector('.toggle-all');
   if (!toggleBtn) return;
 
-  toggleBtn.addEventListener('click', () => {
+  const toggleHandler = () => {
     const allItems = document.querySelectorAll('.sidebar-item.has-submenu');
-    const allExpanded = Array.from(allItems).every(item => item.classList.contains('expanded'));
+    const allCollapsed = Array.from(allItems).every(item => item.classList.contains('collapsed'));
 
     allItems.forEach(item => {
-      item.classList.toggle('expanded', !allExpanded);
+      allCollapsed
+        ? item.classList.remove('collapsed')
+        : item.classList.add('collapsed');
     });
 
     const icon = toggleBtn.querySelector('.toggle-icon');
     const text = toggleBtn.querySelector('.toggle-text');
 
-    if (!allExpanded) {
-      text.textContent = 'Свернуть все';
-      icon.style.transform = 'rotate(180deg)';
-    } else {
-      text.textContent = 'Развернуть все';
-      icon.style.transform = 'rotate(0deg)';
-    }
-  });
-}
+    text.textContent = allCollapsed ? 'Свернуть все' : 'Развернуть все';
+    icon.style.transform = allCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
+  };
 
-export function setupHashChangeListener() {
-  window.addEventListener('hashchange', () => {
-    const hash = window.location.hash;
-    document.querySelectorAll('.sidebar-menu a').forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === hash);
-    });
+  toggleBtn.addEventListener('click', toggleHandler);
+  sidebarEventListeners.push({
+    element: toggleBtn,
+    type: 'click',
+    listener: toggleHandler
   });
 }
 
@@ -144,10 +148,9 @@ function setupSorting() {
   const sortBtn = sidebarEl.querySelector('.sort-subitems');
   if (!sortBtn) return;
 
-  let isSorted = false;
-
-  sortBtn.addEventListener('click', () => {
+  const sortHandler = () => {
     const allSubmenus = document.querySelectorAll('.submenu');
+    let isSorted = sortBtn.classList.contains('sorted');
 
     allSubmenus.forEach(submenu => {
       const originalOrder = JSON.parse(submenu.dataset.originalOrder);
@@ -184,5 +187,28 @@ function setupSorting() {
     isSorted = !isSorted;
     sortBtn.classList.toggle('sorted', isSorted);
     sortBtn.querySelector('.sort-text').textContent = isSorted ? 'Оригинал' : 'A→Z';
+  };
+
+  sortBtn.addEventListener('click', sortHandler);
+  sidebarEventListeners.push({
+    element: sortBtn,
+    type: 'click',
+    listener: sortHandler
+  });
+}
+
+export function setupHashChangeListener() {
+  const hashHandler = () => {
+    const hash = window.location.hash;
+    document.querySelectorAll('.sidebar-menu a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === hash);
+    });
+  };
+
+  window.addEventListener('hashchange', hashHandler);
+  sidebarEventListeners.push({
+    element: window,
+    type: 'hashchange',
+    listener: hashHandler
   });
 }
