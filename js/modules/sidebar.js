@@ -1,15 +1,7 @@
 import { loadContent } from '../core/content-loader.js';
 import { updateUrl } from '../core/utilities.js';
-
-const sidebarEl = document.querySelector('.sidebar');
-let sidebarEventListeners = [];
-
-function cleanupEventListeners() {
-  sidebarEventListeners.forEach(({ element, type, listener }) => {
-    element.removeEventListener(type, listener);
-  });
-  sidebarEventListeners = [];
-}
+import { setupSidebarControls } from './sidebar-controls.js';
+import { sidebarEl, sidebarEventListeners, addEventListener, cleanupEventListeners } from './sidebar-core.js';
 
 export async function loadSidebarMenu(menuType) {
   if (!sidebarEl) return;
@@ -39,20 +31,20 @@ function renderSidebarMenu(menuType, menuData) {
 
   sidebarEl.innerHTML = `
     <nav class="sidebar-menu">
-          <div class="sidebar-controls">
-            <button class="toggle-all" ${hasSubItems ? '' : 'disabled'}>
-              <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M7 10l5 5 5-5z"/>
-              </svg>
-              <span class="toggle-text">Свернуть все</span>
-            </button>
-            <button class="sort-subitems" title="Сортировка подпунктов" ${hasSubItems ? '' : 'disabled'}>
-              <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/>
-              </svg>
-              <span class="sort-text">A→Z</span>
-            </button>
-          </div>
+      <div class="sidebar-controls">
+        <button class="toggle-all" ${hasSubItems ? '' : 'disabled'}>
+          <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M7 10l5 5 5-5z"/>
+          </svg>
+          <span class="toggle-text">Свернуть все</span>
+        </button>
+        <button class="sort-subitems" title="Сортировка подпунктов" ${hasSubItems ? '' : 'disabled'}>
+          <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/>
+          </svg>
+          <span class="sort-text">A→Z</span>
+        </button>
+      </div>
       <ul class="sidebar-main-list">
         ${menuData.menuItems.map(item => `
           <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
@@ -84,8 +76,7 @@ function renderSidebarMenu(menuType, menuData) {
   `;
 
   setupSidebarListeners();
-  setupSidebarControls();
-  setupSorting();
+  setupSidebarControls(hasSubItems);
 }
 
 function setupSidebarListeners() {
@@ -109,105 +100,7 @@ function setupSidebarListeners() {
     updateUrl(link.href);
   };
 
-  sidebarEl.addEventListener('click', clickHandler);
-  sidebarEventListeners.push({
-    element: sidebarEl,
-    type: 'click',
-    listener: clickHandler
-  });
-}
-
-function setupSidebarControls() {
-  const toggleBtn = sidebarEl.querySelector('.toggle-all');
-  if (!toggleBtn || toggleBtn.disabled) return;
-
-  const toggleHandler = () => {
-    const allItems = document.querySelectorAll('.sidebar-item.has-submenu');
-
-    if (allItems.length === 0) {
-      toggleBtn.disabled = true;
-      return;
-    }
-
-    const allCollapsed = Array.from(allItems).every(item => item.classList.contains('collapsed'));
-
-    allItems.forEach(item => {
-      allCollapsed
-        ? item.classList.remove('collapsed')
-        : item.classList.add('collapsed');
-    });
-
-    const icon = toggleBtn.querySelector('.toggle-icon');
-    const text = toggleBtn.querySelector('.toggle-text');
-
-    text.textContent = allCollapsed ? 'Свернуть все' : 'Развернуть все';
-    icon.style.transform = allCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
-  };
-
-  toggleBtn.addEventListener('click', toggleHandler);
-  sidebarEventListeners.push({
-    element: toggleBtn,
-    type: 'click',
-    listener: toggleHandler
-  });
-}
-
-function setupSorting() {
-  const sortBtn = sidebarEl.querySelector('.sort-subitems');
-  if (!sortBtn || sortBtn.disabled) return;
-
-  const sortHandler = () => {
-    const allSubmenus = document.querySelectorAll('.submenu');
-
-    if (allSubmenus.length === 0) {
-      sortBtn.disabled = true;
-      return;
-    }
-
-    const isSorted = sortBtn.classList.contains('sorted');
-
-    allSubmenus.forEach(submenu => {
-      const originalOrder = JSON.parse(submenu.dataset.originalOrder);
-      const items = Array.from(submenu.children);
-
-      if (!isSorted) {
-        items.sort((a, b) => {
-          const textA = a.textContent.trim().toLowerCase();
-          const textB = b.textContent.trim().toLowerCase();
-
-          const isEnglishA = /[a-z]/.test(textA[0]);
-          const isEnglishB = /[a-z]/.test(textB[0]);
-
-          if (isEnglishA && !isEnglishB) return -1;
-          if (!isEnglishA && isEnglishB) return 1;
-
-          return textA.localeCompare(textB);
-        });
-      } else {
-        items.sort((a, b) => {
-          const indexA = originalOrder.findIndex(
-            item => item.title === a.textContent.trim()
-          );
-          const indexB = originalOrder.findIndex(
-            item => item.title === b.textContent.trim()
-          );
-          return indexA - indexB;
-        });
-      }
-
-      items.forEach(item => submenu.appendChild(item));
-    });
-
-    sortBtn.classList.toggle('sorted', !isSorted);
-    sortBtn.querySelector('.sort-text').textContent = isSorted ? 'A→Z' : 'Оригинал';
-  };
-
-  sortBtn.addEventListener('click', sortHandler);
-  sidebarEventListeners.push({
-    element: sortBtn,
-    type: 'click',
-    listener: sortHandler
-  });
+  addEventListener(sidebarEl, 'click', clickHandler);
 }
 
 export function setupHashChangeListener() {
