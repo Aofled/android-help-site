@@ -105,3 +105,111 @@
   position: relative;
   padding-right: 25px !important;
 }
+
+.sidebar-controls {
+  display: flex;
+  gap: 8px;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-controls button {
+  flex: 1;
+  padding: 6px 10px;
+  background: rgba(61, 220, 132, 0.1);
+  color: var(--android-green);
+  border: 1px solid var(--android-green);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.sidebar-controls button:hover {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(61, 220, 132, 0.1);
+  color: var(--android-green);
+  border: 1px solid var(--android-green);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.toggle-all:hover {
+  background: rgba(61, 220, 132, 0.2);
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  padding-left: 20px;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-item.expanded .submenu {
+  max-height: 1000px;
+}
+
+.submenu-toggle {
+  transition: transform 0.3s;
+}
+
+.sidebar-item.expanded .submenu-toggle {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  padding-left: 20px;
+}
+
+.toggle-all, .sort-subitems {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 8px 10px;
+  background: rgba(61, 220, 132, 0.1);
+  color: var(--android-green);
+  border: 1px solid var(--android-green);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.toggle-all:hover, .sort-subitems:hover {
+  background: rgba(61, 220, 132, 0.2);
+}
+
+.sort-subitems.sorted {
+  background: rgba(61, 220, 132, 0.3);
+  box-shadow: 0 0 0 1px var(--android-green);
+}
+
+.toggle-icon, .sort-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.sort-icon {
+  transform: rotate(180deg);
+}
+
+.sort-subitems.sorted .sort-icon {
+  transform: rotate(0deg);
+}
