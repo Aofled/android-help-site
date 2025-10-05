@@ -3,8 +3,43 @@ import { sidebarEl, addEventListener } from './sidebar-core.js';
 export function setupSidebarControls(hasSubItems) {
   if (!hasSubItems) return;
 
+  const controlsContainer = sidebarEl.querySelector('.sidebar-controls');
+
+  const searchContainer = document.createElement('div');
+  searchContainer.className = 'search-container';
+  searchContainer.innerHTML = `
+    <input type="text" class="sidebar-search" placeholder="Поиск..." />
+  `;
+  controlsContainer.parentNode.insertBefore(searchContainer, controlsContainer);
+
   const toggleBtn = sidebarEl.querySelector('.toggle-all');
   const sortBtn = sidebarEl.querySelector('.sort-subitems');
+  const searchInput = searchContainer.querySelector('.sidebar-search');
+
+  addEventListener(searchInput, 'input', (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    filterSidebarItems(searchTerm);
+  });
+
+  function filterSidebarItems(searchTerm) {
+    const allItems = sidebarEl.querySelectorAll('.sidebar-item');
+
+    allItems.forEach(item => {
+      const title = item.querySelector('a').textContent.toLowerCase();
+      const subItems = item.querySelectorAll('.submenu li');
+      let hasVisibleSubItems = false;
+
+      subItems.forEach(subItem => {
+        const subTitle = subItem.textContent.toLowerCase();
+        const isMatch = subTitle.includes(searchTerm);
+        subItem.style.display = isMatch ? '' : 'none';
+        if (isMatch) hasVisibleSubItems = true;
+      });
+
+      const isMainMatch = title.includes(searchTerm);
+      item.style.display = (isMainMatch || hasVisibleSubItems) ? '' : 'none';
+    });
+  }
 
   if (toggleBtn) {
     const toggleHandler = () => {
