@@ -66,3 +66,42 @@
 .main-container {
     position: relative;
 }
+
+.sidebar-item {
+  position: relative;
+}
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding-left: 15px;
+  list-style: none;
+}
+
+.sidebar-item.expanded .submenu {
+  max-height: 1000px;
+}
+
+.submenu a {
+  padding: 6px 10px 6px 25px !important;
+  font-size: 0.85rem !important;
+}
+
+.submenu-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0);
+  transition: transform 0.3s;
+  font-size: 1.2rem;
+}
+
+.sidebar-item.expanded .submenu-toggle {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.sidebar-menu a {
+  position: relative;
+  padding-right: 25px !important;
+}

@@ -29,13 +29,28 @@ function renderSidebarMenu(menuType, menuData) {
     <nav class="sidebar-menu">
       <ul>
         ${menuData.menuItems.map(item => `
-          <li>
+          <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
             <a href="${item.url}"
                data-content-file="${item.contentFile}"
                data-section="${menuType}"
                ${window.location.hash === item.url ? 'class="active"' : ''}>
               ${item.title}
+              ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
             </a>
+            ${item.subItems ? `
+              <ul class="submenu">
+                ${item.subItems.map(subItem => `
+                  <li>
+                    <a href="${subItem.url}"
+                       data-content-file="${subItem.contentFile}"
+                       data-section="${menuType}"
+                       ${window.location.hash === subItem.url ? 'class="active"' : ''}>
+                      ${subItem.title}
+                    </a>
+                  </li>
+                `).join('')}
+              </ul>
+            ` : ''}
           </li>
         `).join('')}
       </ul>
@@ -46,7 +61,15 @@ function renderSidebarMenu(menuType, menuData) {
 }
 
 function setupSidebarListeners() {
-  sidebarEl.addEventListener('click', async (e) => {
+  sidebarEl.addEventListener('click', (e) => {
+    const toggle = e.target.closest('.submenu-toggle');
+    if (toggle) {
+      e.preventDefault();
+      const parentItem = toggle.closest('.sidebar-item');
+      parentItem.classList.toggle('expanded');
+      return;
+    }
+
     const link = e.target.closest('a[data-content-file]');
     if (!link) return;
 
@@ -54,15 +77,16 @@ function setupSidebarListeners() {
     document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
     link.classList.add('active');
 
-    await loadContent(link.dataset.section, link.dataset.contentFile);
+    loadContent(link.dataset.section, link.dataset.contentFile);
     updateUrl(link.href);
   });
 }
 
 export function setupHashChangeListener() {
   window.addEventListener('hashchange', () => {
+    const hash = window.location.hash;
     document.querySelectorAll('.sidebar-menu a').forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === window.location.hash);
+      a.classList.toggle('active', a.getAttribute('href') === hash);
     });
   });
 }

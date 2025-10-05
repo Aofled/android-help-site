@@ -5,7 +5,15 @@ export function setupMenu() {
 
   function setActiveMenuItem(activeItem) {
     menuItems.forEach(item => {
-      item.classList.toggle('active', item.dataset.menuItem === activeItem);
+      const isActive = item.dataset.menuItem === activeItem;
+      item.classList.toggle('active', isActive);
+
+      if (isActive) {
+        const sidebarItem = document.querySelector(`.sidebar-item a[href="#${activeItem}"]`);
+        if (sidebarItem) {
+          sidebarItem.closest('.sidebar-item')?.classList.add('expanded');
+        }
+      }
     });
   }
 
