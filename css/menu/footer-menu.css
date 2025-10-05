@@ -58,3 +58,24 @@
     background-color: rgba(255,255,255,0.1);
     border-radius: 4px;
 }
+
+.footer-menu .json-generator {
+    margin-left: auto;
+}
+
+.footer-menu .json-generator a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    border: none;
+}
+
+.footer-menu .json-generator a:hover {
+    background-color: #34495e;
+}
