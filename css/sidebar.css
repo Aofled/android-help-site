@@ -116,34 +116,30 @@
 }
 
 .sidebar-controls {
-  display: flex;
-  gap: 8px;
-  padding: 10px 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .toggle-all,
 .sort-subitems {
-  --btn-bg: rgba(61, 220, 132, 0.1);
-  --btn-border: 1px solid var(--android-green);
+  --btn-padding: 5px 8px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   flex: 1;
-  padding: 8px 10px;
-  background: var(--btn-bg);
+  padding: var(--btn-padding);
+  min-height: 28px;
+  background: rgba(61, 220, 132, 0.1);
   color: var(--android-green);
-  border: var(--btn-border);
-  border-radius: 4px;
+  border: 1px solid var(--android-green);
+  border-radius: 3px;
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: all var(--transition-duration);
-
-  &:hover {
-    background: rgba(61, 220, 132, 0.2);
-  }
+  font-size: 0.8rem;
+  transition: all 0.2s;
 }
 
 .sort-subitems {
@@ -155,10 +151,9 @@
 
 .toggle-icon,
 .sort-icon {
-  transition: transform var(--transition-duration);
-  flex-shrink: 0;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
+  transition: transform 0.2s;
 }
 
 .toggle-icon {
@@ -195,8 +190,14 @@
 .sidebar-controls button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: rgba(61, 220, 132, 0.05) !important;
-  border-color: rgba(61, 220, 132, 0.3) !important;
+  background: rgba(61, 220, 132, 0.05);
+  border-color: rgba(61, 220, 132, 0.2);
+}
+
+.toggle-all:hover,
+.sort-subitems:hover {
+  background: rgba(61, 220, 132, 0.2);
+  transform: none;
 }
 
 .sidebar-controls button:disabled:hover {
