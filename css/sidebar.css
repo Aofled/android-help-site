@@ -191,3 +191,20 @@
 .main-container {
   position: relative;
 }
+
+.sidebar-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(61, 220, 132, 0.05) !important;
+  border-color: rgba(61, 220, 132, 0.3) !important;
+}
+
+.sidebar-controls button:disabled:hover {
+  background: rgba(61, 220, 132, 0.05) !important;
+  transform: none !important;
+}
+
+.sidebar-controls button:disabled .toggle-icon,
+.sidebar-controls button:disabled .sort-icon {
+  opacity: 0.5;
+}

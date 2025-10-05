@@ -35,22 +35,24 @@ export async function loadSidebarMenu(menuType) {
 }
 
 function renderSidebarMenu(menuType, menuData) {
+  const hasSubItems = menuData.menuItems.some(item => item.subItems && item.subItems.length > 0);
+
   sidebarEl.innerHTML = `
     <nav class="sidebar-menu">
-      <div class="sidebar-controls">
-        <button class="toggle-all">
-          <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M7 10l5 5 5-5z"/>
-          </svg>
-          <span class="toggle-text">Свернуть все</span>
-        </button>
-        <button class="sort-subitems" title="Сортировка подпунктов">
-          <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/>
-          </svg>
-          <span class="sort-text">A→Z</span>
-        </button>
-      </div>
+          <div class="sidebar-controls">
+            <button class="toggle-all" ${hasSubItems ? '' : 'disabled'}>
+              <svg class="toggle-icon" width="14" height="14" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M7 10l5 5 5-5z"/>
+              </svg>
+              <span class="toggle-text">Свернуть все</span>
+            </button>
+            <button class="sort-subitems" title="Сортировка подпунктов" ${hasSubItems ? '' : 'disabled'}>
+              <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/>
+              </svg>
+              <span class="sort-text">A→Z</span>
+            </button>
+          </div>
       <ul class="sidebar-main-list">
         ${menuData.menuItems.map(item => `
           <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
@@ -117,10 +119,16 @@ function setupSidebarListeners() {
 
 function setupSidebarControls() {
   const toggleBtn = sidebarEl.querySelector('.toggle-all');
-  if (!toggleBtn) return;
+  if (!toggleBtn || toggleBtn.disabled) return;
 
   const toggleHandler = () => {
     const allItems = document.querySelectorAll('.sidebar-item.has-submenu');
+
+    if (allItems.length === 0) {
+      toggleBtn.disabled = true;
+      return;
+    }
+
     const allCollapsed = Array.from(allItems).every(item => item.classList.contains('collapsed'));
 
     allItems.forEach(item => {
@@ -146,11 +154,17 @@ function setupSidebarControls() {
 
 function setupSorting() {
   const sortBtn = sidebarEl.querySelector('.sort-subitems');
-  if (!sortBtn) return;
+  if (!sortBtn || sortBtn.disabled) return;
 
   const sortHandler = () => {
     const allSubmenus = document.querySelectorAll('.submenu');
-    let isSorted = sortBtn.classList.contains('sorted');
+
+    if (allSubmenus.length === 0) {
+      sortBtn.disabled = true;
+      return;
+    }
+
+    const isSorted = sortBtn.classList.contains('sorted');
 
     allSubmenus.forEach(submenu => {
       const originalOrder = JSON.parse(submenu.dataset.originalOrder);
@@ -184,9 +198,8 @@ function setupSorting() {
       items.forEach(item => submenu.appendChild(item));
     });
 
-    isSorted = !isSorted;
-    sortBtn.classList.toggle('sorted', isSorted);
-    sortBtn.querySelector('.sort-text').textContent = isSorted ? 'Оригинал' : 'A→Z';
+    sortBtn.classList.toggle('sorted', !isSorted);
+    sortBtn.querySelector('.sort-text').textContent = isSorted ? 'A→Z' : 'Оригинал';
   };
 
   sortBtn.addEventListener('click', sortHandler);
