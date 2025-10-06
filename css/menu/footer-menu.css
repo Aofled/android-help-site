@@ -79,3 +79,11 @@
 .footer-menu .json-generator a:hover {
     background-color: #34495e;
 }
+
+[data-theme="light"] .footer-menu .json-generator a {
+    color: var(--android-light);
+}
+
+[data-theme="light"] .footer-menu .json-generator a:hover {
+    background-color: rgba(0,0,0,0.05);
+}

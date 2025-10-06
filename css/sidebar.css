@@ -248,3 +248,56 @@
 .sidebar-search::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
+
+[data-theme="light"] .sidebar {
+  background: #f5f5f5;
+  border-right-color: rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .sidebar-menu a {
+  color: #333;
+}
+
+[data-theme="light"] .sidebar-menu a:hover {
+  color: var(--android-green);
+  background: rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .sidebar-menu a.active {
+  color: var(--android-green);
+  background: rgba(61, 220, 132, 0.15);
+  border-left-color: var(--android-green);
+}
+
+[data-theme="light"] .sidebar-controls button {
+  background: rgba(61, 220, 132, 0.1);
+  color: #333;
+  border-color: var(--android-green);
+}
+
+[data-theme="light"] .sidebar-item {
+  border-bottom-color: rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .sidebar-controls {
+  border-bottom-color: rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .sidebar-search {
+  background: white;
+  color: #333;
+  border-color: rgba(0,0,0,0.2);
+}
+
+[data-theme="light"] .sidebar-bg {
+  background: #f5f5f5;
+  border-right-color: rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] {
+  --sidebar-bg: #f5f5f5;
+}
+
+[data-theme="light"] .sidebar-search::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
