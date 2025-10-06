@@ -1,0 +1,6 @@
+/* Мобильная версия footer */
+@media (max-width: 1023px) {
+    .footer {
+        padding: 15px 0;
+    }
+}

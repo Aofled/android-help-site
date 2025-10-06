@@ -1,0 +1,22 @@
+/* Мобильная версия sidebar */
+@media (max-width: 1023px) {
+    :root {
+        --sidebar-width: 100%;
+    }
+
+    .sidebar {
+        position: static;
+        height: auto;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid var(--android-green);
+    }
+
+    .sidebar-bg {
+        display: none;
+    }
+
+    [data-theme="light"] .sidebar {
+        border-bottom-color: rgba(0,0,0,0.1);
+    }
+}
