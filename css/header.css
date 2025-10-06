@@ -40,3 +40,61 @@
     display: flex;
     justify-content: flex-end;
 }
+
+/* Тoggle Theme */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+[data-theme="light"] {
+    --android-dark: #f8f9fa;
+    --android-light: #202124;
+    --sidebar-bg: #e0e0e0;
+}
+
+[data-theme="light"] body {
+    background: #f0f0f0;
+}
+
+[data-theme="light"] .header,
+[data-theme="light"] .footer {
+    background: var(--android-dark);
+    border-color: rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .header-menu li a,
+[data-theme="light"] .footer-menu li a {
+    color: var(--android-light);
+}
+
+[data-theme="light"] .header-menu li a:hover,
+[data-theme="light"] .footer-menu li a:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .header-menu li a.active,
+[data-theme="light"] .footer-menu li a.active {
+    background: #27ae60;
+    color: white;
+}
+
+[data-theme="light"] .theme-toggle {
+    color: var(--android-light);
+}
+
+[data-theme="light"] .json-generator a {
+    color: var(--android-light);
+}
