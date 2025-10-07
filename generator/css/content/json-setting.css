@@ -1,0 +1,9 @@
+.json-setting {
+    width: 50%;
+    background: var(--android-dark);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid var(--android-green);
+    overflow-y: auto; /* Если нужен скролл */
+}

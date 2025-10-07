@@ -1,0 +1,7 @@
+@media (max-width: 1023px) {
+    .json-setting {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--android-green);
+    }
+}

@@ -1,0 +1,12 @@
+.json-body {
+    width: 50%;
+    background: #f8f9fa;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+[data-theme="dark"] .json-body {
+    background: #202124;
+    color: white;
+}
