@@ -1,6 +1,39 @@
 @media (max-width: 1023px) {
     .json-body {
-        width: 100%;
+        width: 100% !important;
         padding: 15px;
+    }
+
+    .json-toolbar {
+        gap: 6px;
+        margin-bottom: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    .json-button {
+        padding: 5px 10px !important;
+        font-size: 0.75rem !important;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .main-container {
+        flex-direction: column !important;
+    }
+
+    .json-editor-container {
+        min-height: 300px;
+        padding: 0;
+    }
+
+    .json-toolbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .json-toolbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 }
