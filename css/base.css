@@ -31,8 +31,7 @@ body {
     display: flex;
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
     flex: 1;
-    max-width: var(--container-width);
-    width: 100%;
+    width: clamp(1200px, 60%, 1800px);
     margin: 0 auto;
     box-sizing: border-box;
 }

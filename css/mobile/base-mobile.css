@@ -14,4 +14,12 @@
         min-height: auto;
         padding: 15px;
     }
+
+    .header-menu,
+    .footer-menu,
+    .main-container {
+        width: 100%;
+        min-width: auto;
+        max-width: none;
+    }
 }
