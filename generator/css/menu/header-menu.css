@@ -1,0 +1,75 @@
+.header-menu {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.header-menu ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+}
+
+.header-menu li {
+    position: relative;
+    cursor: pointer;
+}
+
+.header-menu a {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.header-menu li a {
+    display: block;
+    font-weight: 500;
+    font-size: 1.2rem;
+    padding: 12px 20px;
+    border-radius: 6px;
+}
+
+.header-menu li a:hover {
+    color: var(--android-green);
+    background-color: #34495e;
+    transform: translateY(-2px);
+}
+
+.header-menu li a.active {
+    color: var(--android-green);
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-menu li a::after,
+.header-menu a.active::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    transition: transform 0.3s ease;
+}
+
+.header-menu li a::after {
+    bottom: 8px;
+    left: 20px;
+    width: calc(100% - 40px);
+    background-color: #27ae60;
+    transform: scaleX(0);
+}
+
+.header-menu a.active::after {
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    background: var(--android-green);
+    transform: scaleX(1);
+}
+
+.header-menu li a:hover::after {
+    transform: scaleX(1);
+}

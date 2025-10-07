@@ -1,0 +1,33 @@
+@media (max-width: 1023px) {
+    .footer-menu {
+        padding: 0 10px;
+    }
+
+    .footer-menu ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .footer-menu li a,
+    .footer-menu .json-generator a {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+
+    .footer-menu .json-generator {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    .footer-info {
+        margin-top: 10px;
+    }
+
+    .footer-year {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+}
