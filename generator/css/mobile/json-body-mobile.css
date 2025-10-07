@@ -1,7 +1,6 @@
 @media (max-width: 1023px) {
     .json-body {
         width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--android-green);
+        padding: 15px;
     }
 }
