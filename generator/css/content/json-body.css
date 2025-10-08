@@ -141,3 +141,7 @@
     color: #777;
     border-right-color: #444;
 }
+
+[data-theme="dark"] .status-error {
+    color: #ff6666 !important;
+}
