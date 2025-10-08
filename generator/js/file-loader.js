@@ -93,9 +93,11 @@ export function initFileLoader() {
     statusBar.className = 'json-status-bar ' + (type ? `status-${type}` : '');
   }
 
-    document.querySelector('[data-menu-item="save"]').addEventListener('click', (e) => {
-        e.preventDefault();
-        saveJsonFile();
+    document.querySelectorAll('[data-menu-item="save"]').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            saveJsonFile();
+        });
     });
 
     function saveJsonFile() {
