@@ -92,4 +92,45 @@ export function initFileLoader() {
     statusBar.textContent = message;
     statusBar.className = 'json-status-bar ' + (type ? `status-${type}` : '');
   }
+
+    document.querySelector('[data-menu-item="save"]').addEventListener('click', (e) => {
+        e.preventDefault();
+        saveJsonFile();
+    });
+
+    function saveJsonFile() {
+        const content = document.getElementById('json-input').value;
+
+        if (!content.trim()) {
+            updateStatus('Нет данных для сохранения', 'error');
+            return;
+        }
+
+        try {
+            JSON.parse(content);
+
+            const blob = new Blob([content], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = getDefaultFileName();
+            document.body.appendChild(a);
+            a.click();
+
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                updateStatus('Файл сохранен', 'success');
+            }, 100);
+
+        } catch (error) {
+            updateStatus('Ошибка: невалидный JSON', 'error');
+        }
+    }
+
+    function getDefaultFileName() {
+        const now = new Date();
+        return `json_data_${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}.json`;
+    }
 }
