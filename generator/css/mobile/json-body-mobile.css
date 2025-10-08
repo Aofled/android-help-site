@@ -53,5 +53,10 @@
 
     .json-textarea {
         padding: 10px;
+        word-break: break-all;
+    }
+
+    .current-line::after {
+        left: 30px !important;
     }
 }

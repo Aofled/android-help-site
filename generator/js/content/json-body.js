@@ -21,6 +21,10 @@ export function initJsonBody() {
             const parsed = JSON.parse(textarea.value);
             textarea.value = JSON.stringify(parsed);
             updateStatus('JSON минифицирован', 'success');
+            setTimeout(() => {
+                textarea.style.whiteSpace = 'pre';
+                textarea.style.whiteSpace = 'pre-wrap';
+            }, 0);
         } catch (e) {
             updateStatus('Ошибка: невалидный JSON', 'error');
         }
