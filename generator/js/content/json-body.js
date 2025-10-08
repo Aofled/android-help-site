@@ -1,5 +1,6 @@
 export function initJsonBody() {
     const textarea = document.getElementById('json-input');
+    const lineNumbers = document.querySelector('.line-numbers');
     const statusBar = document.getElementById('json-status');
     const formatBtn = document.getElementById('format-json');
     const minifyBtn = document.getElementById('minify-json');
@@ -56,4 +57,33 @@ export function initJsonBody() {
             }
         }, 500);
     }
+
+    textarea.addEventListener('scroll', function() {
+        lineNumbers.scrollTop = textarea.scrollTop;
+    });
+
+    updateLineNumbers();
+
+    textarea.addEventListener('input', () => {
+        updateLineNumbers();
+        debounceValidation();
+    });
+
+    textarea.addEventListener('scroll', () => {
+        lineNumbers.scrollTop = textarea.scrollTop;
+    });
+
+    function updateLineNumbers() {
+        const lines = textarea.value.split('\n').length || 1;
+        lineNumbers.innerHTML = Array(lines).fill()
+            .map((_, i) => `<div>${i + 1}</div>`)
+            .join('');
+    }
+    
+    window.updateLineNumbers = function() {
+        const lines = textarea.value.split('\n').length || 1;
+        lineNumbers.innerHTML = Array(lines).fill()
+            .map((_, i) => `<div>${i + 1}</div>`)
+            .join('');
+    };
 }

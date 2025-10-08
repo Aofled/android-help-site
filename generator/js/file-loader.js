@@ -39,15 +39,22 @@ export function initFileLoader() {
       }
     };
 
-    reader.onload = (event) => {
-      try {
-        const content = event.target.result;
-        const parsed = JSON.parse(content);
-        jsonTextarea.value = JSON.stringify(parsed, null, 2);
-        updateStatus(`Загружен файл: ${file.name}`, 'success');
-      } catch (error) {
-        updateStatus(`Ошибка парсинга: ${error.message}`, 'error');
-      }
+    reader.onload = (fileEvent) => {
+        try {
+            const content = fileEvent.target.result;
+            const parsed = JSON.parse(content);
+            jsonTextarea.value = JSON.stringify(parsed, null, 2);
+            updateStatus(`Загружен файл: ${file.name}`, 'success');
+
+            if (window.updateLineNumbers) {
+                window.updateLineNumbers();
+            }
+
+            const inputEvent = new Event('input', { bubbles: true });
+            jsonTextarea.dispatchEvent(inputEvent);
+        } catch (error) {
+            updateStatus(`Ошибка парсинга: ${error.message}`, 'error');
+        }
     };
 
     reader.onerror = () => {

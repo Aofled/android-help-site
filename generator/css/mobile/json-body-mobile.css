@@ -44,4 +44,14 @@
     .json-textarea.drag-over {
         border-width: 1px !important;
     }
+
+    .line-numbers {
+        width: 30px;
+        padding: 10px 3px;
+        font-size: 12px;
+    }
+
+    .json-textarea {
+        padding: 10px;
+    }
 }
