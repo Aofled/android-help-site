@@ -40,4 +40,8 @@
     #file-input {
         font-size: 0.8rem;
     }
+    
+    .json-textarea.drag-over {
+        border-width: 1px !important;
+    }
 }
