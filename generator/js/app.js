@@ -1,11 +1,13 @@
 import { setupFooter } from './modules/footer.js';
 import { initJsonSetting } from './content/json-setting.js';
 import { initJsonBody } from './content/json-body.js';
+import { initFileLoader } from './file-loader.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     setupFooter();
     initJsonSetting();
     initJsonBody();
+    initFileLoader();
 });
 
 document.querySelector('.theme-toggle').addEventListener('click', () => {

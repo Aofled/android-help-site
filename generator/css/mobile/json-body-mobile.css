@@ -36,4 +36,8 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    #file-input {
+        font-size: 0.8rem;
+    }
 }
