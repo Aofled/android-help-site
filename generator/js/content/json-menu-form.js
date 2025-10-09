@@ -18,7 +18,7 @@ export function initMenuForm() {
     }
 
     jsonTextarea.value = jsonString;
-    
+
     if (window.updateLineNumbers) {
       window.updateLineNumbers();
     }
@@ -68,7 +68,7 @@ export function initMenuForm() {
     if (window.updateLineNumbers) {
       window.updateLineNumbers();
     }
-    
+
     const newCursorPos = startPos + jsonText.length;
     jsonTextarea.setSelectionRange(newCursorPos, newCursorPos);
   }

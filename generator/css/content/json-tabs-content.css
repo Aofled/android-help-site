@@ -1,0 +1,15 @@
+.content-form {
+  padding: 15px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+}
+
+.content-init-button {
+  width: 100%;
+  background: var(--android-accent);
+  margin-bottom: 15px;
+}
+
+.content-init-button:hover {
+  background: #3367d6;
+}
