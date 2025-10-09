@@ -80,6 +80,22 @@
     margin-top: 10px;
 }
 
+.input-prefix {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.prefix-select {
+    padding: 8px;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
 .input-prefix, .input-suffix {
     display: flex;
     align-items: center;
@@ -96,6 +112,7 @@
 }
 
 .input-prefix .form-input {
+    flex: 1;
     border: none;
     border-left: 1px solid var(--border-color);
     border-radius: 0;
@@ -110,6 +127,68 @@
 [data-theme="dark"] .input-prefix .prefix,
 [data-theme="dark"] .input-suffix .suffix {
     background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .prefix-select {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.radio-group {
+    margin-bottom: 15px;
+}
+
+.radio-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.radio-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.radio-label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-custom {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid var(--android-green);
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+    background-color: var(--android-green);
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+}
+
+[data-theme="dark"] .radio-custom {
+    border-color: var(--android-green);
 }
 
 @media (min-width: 1024px) {

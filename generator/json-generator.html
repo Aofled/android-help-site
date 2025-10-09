@@ -58,25 +58,40 @@
             <div class="menu-form">
                 <div class="form-group">
                     <label>Title*:</label>
-                    <input type="text" id="menu-title" class="form-input" placeholder="Основы Android" required>
+                    <input type="text" id="menu-title" class="form-input" placeholder="Android coroutine" required>
                 </div>
                 <div class="form-group">
                     <label>URL:</label>
-                    <div class="input-prefix">
-                        <span class="prefix">#</span>
-                        <input type="text" id="menu-url" class="form-input" placeholder="android-basics">
-                    </div>
+                    <input type="text" id="menu-url" class="form-input" placeholder="coroutine">
                 </div>
-                <div class="form-group">
-                    <label>Content File:</label>
-                    <div class="input-suffix">
-                        <input type="text" id="menu-content-file" class="form-input" placeholder="basics">
-                        <span class="suffix">.json</span>
+                <div class="form-group radio-group">
+                    <label>Platform:</label>
+                    <div class="radio-options">
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="android" checked>
+                            <span class="radio-custom"></span>
+                            Android
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="kotlin">
+                            <span class="radio-custom"></span>
+                            Kotlin
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="java">
+                            <span class="radio-custom"></span>
+                            Java
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="android-studio">
+                            <span class="radio-custom"></span>
+                            Android Studio
+                        </label>
                     </div>
                 </div>
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="menu-has-subitems">
-                    <label for="menu-has-subitems">Добавить subItems</label>
+                    <label for="menu-has-subitems">Добавить </label>
                 </div>
                 <button id="add-to-json" class="json-button">Добавить в JSON</button>
             </div>
