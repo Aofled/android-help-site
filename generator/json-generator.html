@@ -22,7 +22,8 @@
     <link rel="stylesheet" href="css/mobile/header-mobile.css">
     <link rel="stylesheet" href="css/mobile/json-body-mobile.css">
     <link rel="stylesheet" href="css/mobile/json-setting-mobile.css">
-
+    <link rel="stylesheet" href="css/content/json-tabs.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-mobile.css">
 </head>
 <body>
 
@@ -47,10 +48,47 @@
 
 <div class="main-container">
     <div class="json-setting">
-        <!-- settings block -->
+        <!-- editor block -->
+        <div class="json-tabs">
+            <button class="json-tab active" data-tab="menu-tab">Меню</button>
+            <button class="json-tab" data-tab="content-tab">Контент</button>
+        </div>
+
+        <div id="menu-tab" class="json-tab-content active">
+            <div class="menu-form">
+                <div class="form-group">
+                    <label>Title*:</label>
+                    <input type="text" id="menu-title" class="form-input" placeholder="Основы Android" required>
+                </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <div class="input-prefix">
+                        <span class="prefix">#</span>
+                        <input type="text" id="menu-url" class="form-input" placeholder="android-basics">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Content File:</label>
+                    <div class="input-suffix">
+                        <input type="text" id="menu-content-file" class="form-input" placeholder="basics">
+                        <span class="suffix">.json</span>
+                    </div>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="menu-has-subitems">
+                    <label for="menu-has-subitems">Добавить subItems</label>
+                </div>
+                <button id="add-to-json" class="json-button">Добавить в JSON</button>
+            </div>
+        </div>
+
+        <div id="content-tab" class="json-tab-content">
+            <h3>Настройки контента</h3>
+            <p>Здесь будут настройки для отображения контента</p>
+        </div>
     </div>
     <div class="json-body">
-        <!-- main content -->
+        <!-- json block -->
         <div class="json-editor-container">
             <div class="json-toolbar">
                 <button class="json-button" id="format-json">Форматировать</button>
