@@ -2,6 +2,29 @@ export function initMenuForm() {
   const addButton = document.getElementById('add-to-json');
   const jsonTextarea = document.getElementById('json-input');
   const urlInput = document.getElementById('menu-url');
+  const initStructureButton = document.getElementById('init-json-structure');
+
+  initStructureButton.addEventListener('click', () => {
+    const baseStructure = {
+      menuItems: []
+    };
+
+    const jsonString = JSON.stringify(baseStructure, null, 2);
+
+    if (jsonTextarea.value.trim() !== '') {
+      if (!confirm('Текущее содержимое будет заменено. Продолжить?')) {
+        return;
+      }
+    }
+
+    jsonTextarea.value = jsonString;
+    
+    if (window.updateLineNumbers) {
+      window.updateLineNumbers();
+    }
+
+    updateStatus('Структура меню инициализирована', 'success');
+  });
 
   addButton.addEventListener('click', () => {
     const title = document.getElementById('menu-title').value.trim();
