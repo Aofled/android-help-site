@@ -58,18 +58,20 @@
     color: #666;
     font-size: 0.8rem;
     border-radius: 3px;
-}
-
-.json-status-bar {
-    transition: all 0.3s ease;
+    margin-top: 5px;
 }
 
 .status-success {
-    color: #3ddc84 !important;
+    color: #3ddc84;
 }
 
 .status-error {
-    color: #ff4444 !important;
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+}
+
+.status-info {
+    color: #4285f4;
 }
 
 [data-theme="dark"] .json-body {
@@ -143,5 +145,6 @@
 }
 
 [data-theme="dark"] .status-error {
-    color: #ff6666 !important;
+    color: #ff6666;
+    background: rgba(255, 102, 102, 0.15);
 }

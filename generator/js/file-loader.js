@@ -90,7 +90,13 @@ export function initFileLoader() {
 
   function updateStatus(message, type) {
     statusBar.textContent = message;
-    statusBar.className = 'json-status-bar ' + (type ? `status-${type}` : '');
+    statusBar.className = 'json-status-bar';
+    statusBar.style.color = '';
+    statusBar.style.backgroundColor = '';
+
+    if (type) {
+        statusBar.classList.add(`status-${type}`);
+    }
   }
 
     document.querySelectorAll('[data-menu-item="save"]').forEach(button => {

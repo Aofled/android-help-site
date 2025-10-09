@@ -41,8 +41,23 @@ export function initJsonBody() {
 
     function updateStatus(message, type) {
         statusBar.textContent = message;
-        statusBar.style.color = type === 'error' ? '#ff4444' :
-                              type === 'success' ? '#3ddc84' : '#888';
+
+        statusBar.className = 'json-status-bar';
+        statusBar.style.color = '';
+        statusBar.style.backgroundColor = '';
+
+        if (type) {
+            statusBar.classList.add(`status-${type}`);
+        }
+
+        if (type === 'success') {
+            setTimeout(() => {
+                if (statusBar.textContent === message) {
+                    statusBar.textContent = 'Готов к работе';
+                    statusBar.className = 'json-status-bar';
+                }
+            }, 3000);
+        }
     }
     
     let debounceTimer;
