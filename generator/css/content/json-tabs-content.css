@@ -2,6 +2,7 @@
   padding: 15px;
   background: var(--bg-secondary);
   border-radius: 6px;
+  margin-bottom: 20px;
 }
 
 .content-init-button {
@@ -12,4 +13,80 @@
 
 .content-init-button:hover {
   background: #3367d6;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.text-content {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.code-content {
+  min-height: 150px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.radio-custom {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 2px solid var(--android-green);
+  border-radius: 50%;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+  background-color: var(--android-green);
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
 }
