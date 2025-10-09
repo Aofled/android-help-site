@@ -1,9 +1,18 @@
+.json-tabs {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0 8px 4px;
+    margin-bottom: 10px;
+}
+
 .json-tab {
     box-sizing: border-box;
-    height: 32px;
+    height: var(--desktop-tab-height);
     padding: 6px 16px;
     min-width: 70px;
-    font-size: 0.85rem;
+    font-size: var(--desktop-tab-font-size);
     font-weight: 500;
     color: var(--text-color);
     white-space: nowrap;
@@ -16,10 +25,11 @@
     justify-content: center;
     position: relative;
     cursor: pointer;
-    transition: background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .json-tab:hover {
@@ -31,7 +41,7 @@
     background: var(--android-green);
     color: white !important;
     font-weight: 600;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .json-tab-content {
@@ -43,161 +53,3 @@
     display: block;
 }
 
-.json-tab.active::after {
-    height: 2px;
-    bottom: -1px;
-}
-
-.menu-form {
-    padding: 15px;
-    background: var(--bg-secondary);
-    border-radius: 6px;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 12px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background: var(--bg-color);
-    color: var(--text-color);
-    font-family: inherit;
-}
-
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#add-to-json {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.input-prefix {
-    display: flex;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.prefix-select {
-    padding: 8px;
-    border: none;
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-color);
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-.input-prefix, .input-suffix {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.input-prefix .prefix, .input-suffix .suffix {
-    padding: 0 8px;
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-.input-prefix .form-input {
-    flex: 1;
-    border: none;
-    border-left: 1px solid var(--border-color);
-    border-radius: 0;
-}
-
-.input-suffix .form-input {
-    border: none;
-    border-right: 1px solid var(--border-color);
-    border-radius: 0;
-}
-
-[data-theme="dark"] .input-prefix .prefix,
-[data-theme="dark"] .input-suffix .suffix {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-[data-theme="dark"] .prefix-select {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.radio-group {
-    margin-bottom: 15px;
-}
-
-.radio-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-}
-
-.radio-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.radio-label input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-}
-
-.radio-custom {
-    position: relative;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    border: 2px solid var(--android-green);
-    border-radius: 50%;
-    transition: all 0.2s;
-}
-
-.radio-label input[type="radio"]:checked + .radio-custom {
-    background-color: var(--android-green);
-}
-
-.radio-label input[type="radio"]:checked + .radio-custom::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-}
-
-[data-theme="dark"] .radio-custom {
-    border-color: var(--android-green);
-}
-
-@media (min-width: 1024px) {
-    .json-tabs {
-        justify-content: flex-start;
-    }
-
-    .json-tab {
-        padding: 12px 24px;
-        border-radius: 6px 6px 0 0;
-    }
-}
