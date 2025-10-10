@@ -75,7 +75,8 @@ function renderContentBlock(block) {
   try {
     switch(block.type) {
       case 'text':
-        return `<div class="text-block">${marked.parse(block.value)}</div>`;
+        const textWithBreaks = block.value.replace(/\n/g, '<br>');
+        return `<div class="text-block">${marked.parse(textWithBreaks)}</div>`;
       case 'image':
         return renderImageBlock(block);
       case 'code':
