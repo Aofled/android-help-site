@@ -1,0 +1,35 @@
+@media (max-width: 1023px) {
+    .content-form {
+        padding: 12px;
+    }
+
+    .content-init-button,
+    #add-content-to-json {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .radio-group {
+        gap: 8px;
+    }
+
+    .radio-label {
+        font-size: 0.85rem;
+    }
+
+    textarea.form-input {
+        min-height: 80px;
+    }
+
+    .text-content {
+        min-height: 80px;
+    }
+
+    .code-content {
+        min-height: 120px;
+    }
+}
