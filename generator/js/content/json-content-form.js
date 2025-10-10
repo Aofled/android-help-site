@@ -69,20 +69,24 @@ export function initContentForm() {
         break;
 
       case 'image':
-        const imageSrc = document.getElementById('image-src').value.trim();
-        if (!imageSrc) {
-          alert('Пожалуйста, укажите URL изображения');
-          return;
-        }
-        const alt = document.getElementById('image-alt').value.trim();
-        const caption = document.getElementById('image-caption').value.trim();
-        contentItem = {
-          type: "image",
-          src: imageSrc,
-          alt: alt || "Изображение",
-          ...(caption && { caption: caption })
-        };
-        break;
+        let imageSrc = document.getElementById('image-src').value.trim();
+          if (!imageSrc) {
+            alert('Пожалуйста, укажите URL изображения');
+            return;
+          }
+          
+          if (!imageSrc.startsWith('/images/')) {
+            imageSrc = '/images/' + imageSrc;
+          }
+          const alt = document.getElementById('image-alt').value.trim();
+          const caption = document.getElementById('image-caption').value.trim();
+          contentItem = {
+            type: "image",
+            src: imageSrc,
+            alt: alt || "Изображение",
+            ...(caption && { caption: caption })
+          };
+          break;
     }
 
     const jsonString = `,\n${JSON.stringify(contentItem, null, 2)}`;
