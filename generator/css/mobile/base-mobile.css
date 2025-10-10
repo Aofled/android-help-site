@@ -1,0 +1,24 @@
+@media (max-width: 1023px) {
+    :root {
+        --container-padding: 10px;
+        --header-height: 56px;
+        --footer-height: auto;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+    .content {
+        min-height: auto;
+        padding: 15px;
+    }
+
+    .header-menu,
+    .footer-menu,
+    .main-container {
+        width: 100%;
+        min-width: auto;
+        max-width: none;
+    }
+}

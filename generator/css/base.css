@@ -1,0 +1,74 @@
+:root {
+    --container-width: 1200px;
+    --container-padding: 20px;
+    --header-height: 64px;
+    --footer-height: 80px;
+    
+    --android-green: #3ddc84;
+    --android-dark: #202124;
+    --android-light: #f8f9fa;
+    --android-accent: #4285f4;
+
+    --tab-bg: rgba(255, 255, 255, 0.08);
+    --tab-hover-bg: rgba(61, 220, 132, 0.15);
+    --tab-active-bg: rgba(61, 220, 132, 0.2);
+    --border-color: rgba(255, 255, 255, 0.2);
+
+    --text-color: white;
+    --text-color-light: #202124;
+    --bg-color: var(--android-dark);
+    --border-color-light: rgba(0, 0, 0, 0.1);
+    --border-color-dark: rgba(255, 255, 255, 0.2);
+
+    --mobile-tab-height: 26px;
+    --desktop-tab-height: 32px;
+    --mobile-tab-font-size: 0.8rem;
+    --desktop-tab-font-size: 0.85rem;
+
+    --bg-secondary: rgba(255, 255, 255, 0.05);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #2c3e50;
+}
+
+.main-container {
+    display: flex;
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    width: clamp(1200px, 60%, 1800px);
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+[data-theme="light"] {
+    --tab-bg: rgba(0, 0, 0, 0.04);
+    --tab-hover-bg: rgba(61, 220, 132, 0.08);
+    --tab-active-bg: rgba(61, 220, 132, 0.1);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --text-color: #202124;
+    --bg-color: #f8f9fa;
+    --bg-secondary: rgba(0, 0, 0, 0.03);
+}
+
+@media (min-width: 1024px) {
+    .json-setting {
+        width: 50%;
+        border-right: 1px solid var(--android-green);
+    }
+
+    .json-body {
+        width: 50%;
+    }
+}

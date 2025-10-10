@@ -1,0 +1,9 @@
+@media (max-width: 1023px) {
+    .radio-options {
+        gap: 8px;
+    }
+
+    .radio-label {
+        font-size: 0.85rem;
+    }
+}

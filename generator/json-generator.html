@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Development Site</title>
+
+    <!-- Basic styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <!-- Component styles -->
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/menu/header-menu.css">
+    <link rel="stylesheet" href="css/menu/footer-menu.css">
+    <link rel="stylesheet" href="css/content/json-setting.css">
+    <link rel="stylesheet" href="css/content/json-body.css">
+    <link rel="stylesheet" href="css/content/json-tabs.css">
+    <link rel="stylesheet" href="css/content/json-tabs-menu.css">
+    <link rel="stylesheet" href="css/content/json-tabs-content.css">
+
+    <link rel="stylesheet" href="css/mobile/base-mobile.css">
+    <link rel="stylesheet" href="css/mobile/footer-menu-mobile.css">
+    <link rel="stylesheet" href="css/mobile/footer-mobile.css">
+    <link rel="stylesheet" href="css/mobile/header-menu-mobile.css">
+    <link rel="stylesheet" href="css/mobile/header-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-body-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-setting-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-menu-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-content-mobile.css">
+
+</head>
+<body>
+
+<header class="header">
+    <div class="header-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3ddc84" d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
+        </svg>
+    </div>
+    <nav class="header-menu">
+        <ul>
+            <li><a href="#" data-menu-item="load">Загрузить файл</a></li>
+            <li><a href="#" data-menu-item="save">Сохранить файл</a></li>
+        </ul>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24">
+            <path d="M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36c-0.98,1.37-2.58,2.26-4.4,2.26 c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/>
+        </svg>
+    </button>
+</header>
+
+<div class="main-container">
+    <div class="json-setting">
+        <!-- editor block -->
+        <div class="json-tabs">
+            <button class="json-tab active" data-tab="menu-tab">Меню</button>
+            <button class="json-tab" data-tab="content-tab">Контент</button>
+        </div>
+
+        <div id="menu-tab" class="json-tab-content active">
+            <div class="menu-form">
+                <button id="init-json-structure" class="json-button" style="margin-bottom: 15px;">
+                    Инициализировать структуру меню
+                </button>
+                <div class="form-group">
+                    <label>Title*:</label>
+                    <input type="text" id="menu-title" class="form-input" placeholder="Android example" required>
+                </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <input type="text" id="menu-url" class="form-input" placeholder="example">
+                </div>
+                <div class="form-group radio-group">
+                    <label>Platform:</label>
+                    <div class="radio-options">
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="android" checked>
+                            <span class="radio-custom"></span>
+                            Android
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="kotlin">
+                            <span class="radio-custom"></span>
+                            Kotlin
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="java">
+                            <span class="radio-custom"></span>
+                            Java
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="android-studio">
+                            <span class="radio-custom"></span>
+                            Android Studio
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="menu-has-subitems">
+                    <label for="menu-has-subitems">Добавить вложенное меню</label>
+                </div>
+                <button id="add-to-json" class="json-button">Добавить в JSON</button>
+            </div>
+        </div>
+
+        <div id="content-tab" class="json-tab-content">
+            <div class="content-form">
+                <button id="init-content-structure" class="json-button content-init-button">
+                    Инициализировать структуру контента
+                </button>
+
+                <div class="form-group">
+                    <label>Тип контента:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="content-type" value="text" checked>
+                            <span class="radio-custom"></span>
+                            Текст
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="content-type" value="code">
+                            <span class="radio-custom"></span>
+                            Код
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="content-type" value="image">
+                            <span class="radio-custom"></span>
+                            Картинка
+                        </label>
+                    </div>
+                </div>
+
+                <div id="content-input-container">
+                    <!-- Text block (displayed by default) -->
+                    <div id="text-input-group" class="form-group content-input-group">
+                        <label>Текст*:</label>
+                        <textarea id="text-value" class="form-input text-content" rows="8" required></textarea>
+                    </div>
+
+                    <!-- Code block (hidden by default) -->
+                    <div id="code-input-group" class="form-group content-input-group" style="display:none;">
+                        <label>Код*:</label>
+                        <textarea id="code-value" class="form-input code-content" rows="20" required></textarea>
+                        <div class="form-group">
+                            <label>Язык программирования:</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="code-language" value="kotlin" checked>
+                                    <span class="radio-custom"></span>
+                                    Kotlin
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="code-language" value="java">
+                                    <span class="radio-custom"></span>
+                                    Java
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="code-language" value="xml">
+                                    <span class="radio-custom"></span>
+                                    XML
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image block (hidden by default) -->
+                    <div id="image-input-group" class="form-group content-input-group" style="display:none;">
+                        <label>URL изображения*:</label>
+                        <input type="text" id="image-src" class="form-input" placeholder="android/image.png" required>
+                        <div class="form-group">
+                            <label>Alt текст:</label>
+                            <input type="text" id="image-alt" class="form-input" placeholder="Описание изображения">
+                        </div>
+                        <div class="form-group">
+                            <label>Подпись:</label>
+                            <input type="text" id="image-caption" class="form-input" placeholder="Подпись под изображением">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="add-content-to-json" class="json-button">Добавить в JSON</button>
+            </div>
+        </div>
+    </div>
+    <div class="json-body">
+        <!-- json block -->
+        <div class="json-editor-container">
+            <div class="json-toolbar">
+                <button class="json-button" id="format-json">Форматировать</button>
+                <button class="json-button" id="minify-json">Минифицировать</button>
+                <button class="json-button" id="clear-json">Очистить</button>
+            </div>
+            <div class="json-editor-wrapper">
+                <div class="line-numbers"></div>
+                <textarea class="json-textarea" id="json-input" placeholder='{ "title": "", "content": [] }'></textarea>
+            </div>
+            <div class="json-status-bar" id="json-status">Готов к работе</div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <nav class="footer-menu">
+        <ul>
+            <li><a href="#" data-menu-item="load">Загрузить файл</a></li>
+            <li><a href="#" data-menu-item="save">Сохранить файл</a></li>
+        </ul>
+        <div class="footer-info">
+            <div class="footer-year">Программирование на Android © <span id="currentYear"></span></div>
+        </div>
+    </nav>
+</footer>
+
+<!-- Component scripts -->
+<script type="module" src="js/app.js"></script>
+
+<!--
+<style>
+    * { outline: 1px solid red; } /* For debugging */
+</style>
+-->
+<script>
+    window.marked = window.marked || {
+      parse: function(text) { return text; }
+    };
+</script>
+<input type="file" id="file-input" accept=".json" style="display: none;">
+</body>
+</html>
