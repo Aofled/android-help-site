@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="css/menu/footer-menu.css">
     <link rel="stylesheet" href="css/content/json-setting.css">
     <link rel="stylesheet" href="css/content/json-body.css">
+    <link rel="stylesheet" href="css/content/json-tabs.css">
+    <link rel="stylesheet" href="css/content/json-tabs-menu.css">
+    <link rel="stylesheet" href="css/content/json-tabs-content.css">
 
     <link rel="stylesheet" href="css/mobile/base-mobile.css">
     <link rel="stylesheet" href="css/mobile/footer-menu-mobile.css">
@@ -22,6 +25,9 @@
     <link rel="stylesheet" href="css/mobile/header-mobile.css">
     <link rel="stylesheet" href="css/mobile/json-body-mobile.css">
     <link rel="stylesheet" href="css/mobile/json-setting-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-menu-mobile.css">
+    <link rel="stylesheet" href="css/mobile/json-tabs-content-mobile.css">
 
 </head>
 <body>
@@ -47,10 +53,139 @@
 
 <div class="main-container">
     <div class="json-setting">
-        <!-- settings block -->
+        <!-- editor block -->
+        <div class="json-tabs">
+            <button class="json-tab active" data-tab="menu-tab">Меню</button>
+            <button class="json-tab" data-tab="content-tab">Контент</button>
+        </div>
+
+        <div id="menu-tab" class="json-tab-content active">
+            <div class="menu-form">
+                <button id="init-json-structure" class="json-button" style="margin-bottom: 15px;">
+                    Инициализировать структуру меню
+                </button>
+                <div class="form-group">
+                    <label>Title*:</label>
+                    <input type="text" id="menu-title" class="form-input" placeholder="Android example" required>
+                </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <input type="text" id="menu-url" class="form-input" placeholder="example">
+                </div>
+                <div class="form-group radio-group">
+                    <label>Platform:</label>
+                    <div class="radio-options">
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="android" checked>
+                            <span class="radio-custom"></span>
+                            Android
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="kotlin">
+                            <span class="radio-custom"></span>
+                            Kotlin
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="java">
+                            <span class="radio-custom"></span>
+                            Java
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="platform" value="android-studio">
+                            <span class="radio-custom"></span>
+                            Android Studio
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="menu-has-subitems">
+                    <label for="menu-has-subitems">Добавить вложенное меню</label>
+                </div>
+                <button id="add-to-json" class="json-button">Добавить в JSON</button>
+            </div>
+        </div>
+
+        <div id="content-tab" class="json-tab-content">
+            <div class="content-form">
+                <button id="init-content-structure" class="json-button content-init-button">
+                    Инициализировать структуру контента
+                </button>
+
+                <div class="form-group">
+                    <label>Тип контента:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="content-type" value="text" checked>
+                            <span class="radio-custom"></span>
+                            Текст
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="content-type" value="code">
+                            <span class="radio-custom"></span>
+                            Код
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="content-type" value="image">
+                            <span class="radio-custom"></span>
+                            Картинка
+                        </label>
+                    </div>
+                </div>
+
+                <div id="content-input-container">
+                    <!-- Text block (displayed by default) -->
+                    <div id="text-input-group" class="form-group content-input-group">
+                        <label>Текст*:</label>
+                        <textarea id="text-value" class="form-input text-content" rows="8" required></textarea>
+                    </div>
+
+                    <!-- Code block (hidden by default) -->
+                    <div id="code-input-group" class="form-group content-input-group" style="display:none;">
+                        <label>Код*:</label>
+                        <textarea id="code-value" class="form-input code-content" rows="20" required></textarea>
+                        <div class="form-group">
+                            <label>Язык программирования:</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="code-language" value="kotlin" checked>
+                                    <span class="radio-custom"></span>
+                                    Kotlin
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="code-language" value="java">
+                                    <span class="radio-custom"></span>
+                                    Java
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="code-language" value="xml">
+                                    <span class="radio-custom"></span>
+                                    XML
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image block (hidden by default) -->
+                    <div id="image-input-group" class="form-group content-input-group" style="display:none;">
+                        <label>URL изображения*:</label>
+                        <input type="text" id="image-src" class="form-input" placeholder="android/image.png" required>
+                        <div class="form-group">
+                            <label>Alt текст:</label>
+                            <input type="text" id="image-alt" class="form-input" placeholder="Описание изображения">
+                        </div>
+                        <div class="form-group">
+                            <label>Подпись:</label>
+                            <input type="text" id="image-caption" class="form-input" placeholder="Подпись под изображением">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="add-content-to-json" class="json-button">Добавить в JSON</button>
+            </div>
+        </div>
     </div>
     <div class="json-body">
-        <!-- main content -->
+        <!-- json block -->
         <div class="json-editor-container">
             <div class="json-toolbar">
                 <button class="json-button" id="format-json">Форматировать</button>
@@ -59,7 +194,7 @@
             </div>
             <div class="json-editor-wrapper">
                 <div class="line-numbers"></div>
-                <textarea class="json-textarea" id="json-input" placeholder='{"example": "JSON data"}'></textarea>
+                <textarea class="json-textarea" id="json-input" placeholder='{ "title": "", "content": [] }'></textarea>
             </div>
             <div class="json-status-bar" id="json-status">Готов к работе</div>
         </div>
