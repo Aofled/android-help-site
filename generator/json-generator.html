@@ -225,6 +225,17 @@
     window.marked = window.marked || {
       parse: function(text) { return text; }
     };
+
+    // Connecting the color scheme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    document.querySelector('.theme-toggle').addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
 </script>
 <input type="file" id="file-input" accept=".json" style="display: none;">
 </body>
