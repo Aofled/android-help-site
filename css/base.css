@@ -3,7 +3,11 @@
     --container-padding: 20px;
     --header-height: 64px;
     --footer-height: 80px;
-
+    --sidebar-width: 240px;
+    --sidebar-bg: #2d2d2d;
+    --menu-item-padding: 8px 10px 8px 25px;
+    --submenu-item-padding: 6px 10px 6px 25px;
+    --transition-duration: 0.3s;
 
     --android-green: #3ddc84;
     --android-dark: #202124;
@@ -11,16 +15,10 @@
     --android-accent: #4285f4;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-
-body {
-    font-family: 'Roboto', sans-serif;
-}
-
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -34,10 +32,12 @@ body {
     width: clamp(1200px, 60%, 1800px);
     margin: 0 auto;
     box-sizing: border-box;
+    position: relative;
 }
 
 .content {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }

@@ -28,16 +28,6 @@
     transition: transform 0.3s;
 }
 
-.header-logo:hover svg {
-    transform: scale(1.1);
-}
-
-.header-menu {
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* Тoggle Theme */
 .theme-toggle {
     background: none;
     border: none;
@@ -55,10 +45,13 @@
     fill: currentColor;
 }
 
-[data-theme="light"] {
-    --android-dark: #f8f9fa;
-    --android-light: #202124;
-    --sidebar-bg: #e0e0e0;
+.header-logo:hover svg {
+    transform: scale(1.1);
+}
+
+.header-menu {
+    display: flex;
+    justify-content: flex-end;
 }
 
 [data-theme="light"] body {
@@ -66,6 +59,10 @@
 }
 
 [data-theme="light"] {
+    --android-dark: #f8f9fa;
+    --android-light: #202124;
+    --sidebar-bg: #e0e0e0;
+
     .header, .footer {
         background: var(--android-dark);
         border-color: rgba(0,0,0,0.1);

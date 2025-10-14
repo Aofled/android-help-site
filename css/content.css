@@ -2,6 +2,32 @@
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 
+.content-title {
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    color: var(--android-green);
+}
+
+.content h1 {
+    font-size: 2rem;
+    margin: 1.5rem 0 1rem 0;
+    line-height: 1.3;
+    color: var(--android-green);
+}
+
+.content h2 {
+    font-size: 1.7rem;
+    margin: 1.3rem 0 0.8rem 0;
+    line-height: 1.3;
+}
+
+.content h3 {
+    font-size: 1.4rem;
+    margin: 1.1rem 0 0.6rem 0;
+    line-height: 1.4;
+}
+
 .content-body {
     max-width: 100%;
     padding: 0 10px;
