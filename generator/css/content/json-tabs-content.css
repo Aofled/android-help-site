@@ -25,16 +25,6 @@
   font-weight: 500;
 }
 
-.form-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background: var(--bg-color);
-  color: var(--text-color);
-  font-family: inherit;
-}
-
 .text-content {
   min-height: 100px;
   resize: vertical;
