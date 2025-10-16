@@ -19,6 +19,12 @@ export async function loadSidebarMenu(menuType) {
       const firstItem = menuData.menuItems[0];
       await loadContent(menuType, firstItem.contentFile);
       updateUrl(firstItem.url);
+
+      const firstMenuItem = document.querySelector('.sidebar-menu a[data-content-file]');
+      if (firstMenuItem) {
+        document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+        firstMenuItem.classList.add('active');
+      }
     }
   } catch (error) {
     console.error("Ошибка загрузки меню:", error);
@@ -50,8 +56,7 @@ function renderSidebarMenu(menuType, menuData) {
           <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
             <a href="${item.url}"
                data-content-file="${item.contentFile}"
-               data-section="${menuType}"
-               ${window.location.hash === item.url ? 'class="active"' : ''}>
+               data-section="${menuType}">
               ${item.title}
               ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
             </a>
@@ -61,8 +66,7 @@ function renderSidebarMenu(menuType, menuData) {
                   <li>
                     <a href="${subItem.url}"
                        data-content-file="${subItem.contentFile}"
-                       data-section="${menuType}"
-                       ${window.location.hash === subItem.url ? 'class="active"' : ''}>
+                       data-section="${menuType}">
                       ${subItem.title}
                     </a>
                   </li>
