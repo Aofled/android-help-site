@@ -6,11 +6,36 @@ const contentEl = document.querySelector('.content');
 const marked = window.marked || {
   parse: (text) => {
     return text
+      // internet link
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+      // underlining
+      .replace(/\+\+(.*?)\+\+/g, '<u>$1</u>')
+
+      // headings
       .replace(/^# (.*$)/gm, '<h1>$1</h1>')
       .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+      .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+      .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
+      .replace(/^##### (.*$)/gm, '<h5>$1</h5>')
+      .replace(/^###### (.*$)/gm, '<h6>$1</h6>')
+
+      // bold text (2 options)
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/__(.*?)__/g, '<strong>$1</strong>')
+
+      // italics
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code>$1</code>');
+      .replace(/_(.*?)_/g, '<em>$1</em>')
+
+      // strikethrough
+      .replace(/~(.*?)~/g, '<del>$1</del>')
+
+      // selecting
+      .replace(/`(.*?)`/g, '<code>$1</code>')
+
+      // paragraphs
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/\n/g, '<br>');
   }
 };
 
@@ -75,8 +100,12 @@ function renderContentBlock(block) {
   try {
     switch(block.type) {
       case 'text':
-        const textWithBreaks = block.value.replace(/\n/g, '<br>');
-        return `<div class="text-block">${marked.parse(textWithBreaks)}</div>`;
+      const cleanText = block.value
+      .replace(/^"|"$/g, '')
+      .replace(/\\n/g, '\n')
+      .replace(/\\\+/g, '+');
+      const parsed = marked.parse(cleanText);
+      return `<div class="text-block">${parsed}</div>`;
       case 'image':
         return renderImageBlock(block);
       case 'code':
@@ -85,8 +114,8 @@ function renderContentBlock(block) {
         return `<div class="unknown-content-type">Неизвестный тип контента: ${block.type}</div>`;
     }
   } catch (e) {
-    console.error('Ошибка рендеринга блока:', e);
-    return `<div class="content-error">Ошибка отображения контента</div>`;
+      console.error('Ошибка рендеринга блока:', e);
+      return `<div class="content-error">Ошибка отображения контента</div>`;
   }
 }
 
