@@ -10,6 +10,69 @@ export function initContentForm() {
     image: document.getElementById('image-input-group')
   };
 
+    let buttonsContainer = inputGroups.text.querySelector('.text-format-buttons');
+
+    if (!buttonsContainer) {
+      buttonsContainer = document.createElement('div');
+      buttonsContainer.className = 'text-format-buttons';
+
+      const linkBtn = document.createElement('button');
+      linkBtn.className = 'format-button';
+      linkBtn.textContent = '[ссылка]';
+      linkBtn.title = 'Добавить ссылку (выделите текст)';
+
+      const boldBtn = document.createElement('button');
+      boldBtn.className = 'format-button';
+      boldBtn.textContent = '**B**';
+      boldBtn.title = 'Сделать текст жирным (выделите текст)';
+
+      buttonsContainer.appendChild(boldBtn);
+      buttonsContainer.appendChild(linkBtn);
+
+      const textarea = inputGroups.text.querySelector('textarea');
+      textarea.insertAdjacentElement('afterend', buttonsContainer);
+
+      boldBtn.addEventListener('click', () => {
+        const selectedText = textarea.value.substring(
+          textarea.selectionStart,
+          textarea.selectionEnd
+        );
+
+        if (!selectedText) {
+          alert('Выделите текст, который нужно сделать жирным');
+          return;
+        }
+
+        const beforeText = textarea.value.substring(0, textarea.selectionStart);
+        const afterText = textarea.value.substring(textarea.selectionEnd);
+        textarea.value = beforeText + `**${selectedText}**` + afterText;
+
+        textarea.focus();
+        const newPos = textarea.selectionStart + selectedText.length + 4;
+        textarea.setSelectionRange(newPos, newPos);
+      });
+
+      linkBtn.addEventListener('click', () => {
+        const selectedText = textarea.value.substring(
+          textarea.selectionStart,
+          textarea.selectionEnd
+        );
+
+        if (!selectedText) {
+          alert('Выделите текст для ссылки');
+          return;
+        }
+
+        const beforeText = textarea.value.substring(0, textarea.selectionStart);
+        const afterText = textarea.value.substring(textarea.selectionEnd);
+        textarea.value = beforeText + `[${selectedText}](https://)` + afterText;
+
+        textarea.focus();
+        const newPos = textarea.selectionStart + selectedText.length + 11;
+        textarea.setSelectionRange(newPos, newPos);
+      });
+    }
+
   initContentBtn.addEventListener('click', () => {
     const baseStructure = {
       title: "",

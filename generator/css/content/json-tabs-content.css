@@ -81,3 +81,45 @@
   background: white;
   border-radius: 50%;
 }
+
+.text-format-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.format-button {
+    background: var(--android-accent);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+
+.format-button:hover {
+    background: #3367d6;
+}
+
+.text-format-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.format-button {
+    background: var(--android-accent);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+
+.format-button:hover {
+    background: #3367d6;
+}

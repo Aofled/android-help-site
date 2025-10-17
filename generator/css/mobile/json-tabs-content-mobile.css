@@ -32,4 +32,9 @@
     .code-content {
         min-height: 120px;
     }
+
+    .format-button {
+        padding: 3px 6px;
+        font-size: 0.7rem;
+    }
 }
