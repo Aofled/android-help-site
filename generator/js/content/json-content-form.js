@@ -149,11 +149,13 @@ export function initContentForm() {
 
     switch (contentType) {
       case 'text':
-        const textValue = document.getElementById('text-value').value.trim();
+        let textValue = document.getElementById('text-value').value.trim();
         if (!textValue) {
           alert('Пожалуйста, введите текст');
           return;
         }
+
+        textValue = textValue.replace(/\n/g, '\n\n');
         contentItem = {
           type: "text",
           value: textValue
