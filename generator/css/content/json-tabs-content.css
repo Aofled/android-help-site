@@ -123,3 +123,15 @@
 .format-button:hover {
     background: #3367d6;
 }
+
+.text-format-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.buttons-row {
+    display: flex;
+    gap: 8px;
+}

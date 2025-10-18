@@ -12,66 +12,109 @@ export function initContentForm() {
 
     let buttonsContainer = inputGroups.text.querySelector('.text-format-buttons');
 
-    if (!buttonsContainer) {
-      buttonsContainer = document.createElement('div');
-      buttonsContainer.className = 'text-format-buttons';
+   if (!buttonsContainer) {
+     buttonsContainer = document.createElement('div');
+     buttonsContainer.className = 'text-format-buttons';
 
-      const linkBtn = document.createElement('button');
-      linkBtn.className = 'format-button';
-      linkBtn.textContent = '[ссылка]';
-      linkBtn.title = 'Добавить ссылку (выделите текст)';
+     const firstRow = document.createElement('div');
+     firstRow.className = 'buttons-row';
 
-      const boldBtn = document.createElement('button');
-      boldBtn.className = 'format-button';
-      boldBtn.textContent = '**B**';
-      boldBtn.title = 'Сделать текст жирным (выделите текст)';
+     const secondRow = document.createElement('div');
+     secondRow.className = 'buttons-row';
 
-      buttonsContainer.appendChild(boldBtn);
-      buttonsContainer.appendChild(linkBtn);
+     const boldBtn = document.createElement('button');
+     boldBtn.className = 'format-button';
+     boldBtn.textContent = '**B**';
+     boldBtn.title = 'Жирный текст';
 
-      const textarea = inputGroups.text.querySelector('textarea');
-      textarea.insertAdjacentElement('afterend', buttonsContainer);
+     const italicBtn = document.createElement('button');
+     italicBtn.className = 'format-button';
+     italicBtn.textContent = '*I*';
+     italicBtn.title = 'Курсивный текст';
 
-      boldBtn.addEventListener('click', () => {
-        const selectedText = textarea.value.substring(
-          textarea.selectionStart,
-          textarea.selectionEnd
-        );
+     const strikethroughBtn = document.createElement('button');
+     strikethroughBtn.className = 'format-button';
+     strikethroughBtn.textContent = '~~S~~';
+     strikethroughBtn.title = 'Зачеркнутый текст';
 
-        if (!selectedText) {
-          alert('Выделите текст, который нужно сделать жирным');
-          return;
-        }
+     const codeBtn = document.createElement('button');
+     codeBtn.className = 'format-button';
+     codeBtn.textContent = '`C`';
+     codeBtn.title = 'Код в строке';
 
-        const beforeText = textarea.value.substring(0, textarea.selectionStart);
-        const afterText = textarea.value.substring(textarea.selectionEnd);
-        textarea.value = beforeText + `**${selectedText}**` + afterText;
+     const linkBtn = document.createElement('button');
+     linkBtn.className = 'format-button';
+     linkBtn.textContent = '[ссылка]';
+     linkBtn.title = 'Добавить ссылку';
 
-        textarea.focus();
-        const newPos = textarea.selectionStart + selectedText.length + 4;
-        textarea.setSelectionRange(newPos, newPos);
-      });
+     // second row - header buttons
+     const h1Btn = document.createElement('button');
+     h1Btn.className = 'format-button';
+     h1Btn.textContent = 'H1';
+     h1Btn.title = 'Заголовок 1 уровня';
 
-      linkBtn.addEventListener('click', () => {
-        const selectedText = textarea.value.substring(
-          textarea.selectionStart,
-          textarea.selectionEnd
-        );
+     const h2Btn = document.createElement('button');
+     h2Btn.className = 'format-button';
+     h2Btn.textContent = 'H2';
+     h2Btn.title = 'Заголовок 2 уровня';
 
-        if (!selectedText) {
-          alert('Выделите текст для ссылки');
-          return;
-        }
+     const h3Btn = document.createElement('button');
+     h3Btn.className = 'format-button';
+     h3Btn.textContent = 'H3';
+     h3Btn.title = 'Заголовок 3 уровня';
 
-        const beforeText = textarea.value.substring(0, textarea.selectionStart);
-        const afterText = textarea.value.substring(textarea.selectionEnd);
-        textarea.value = beforeText + `[${selectedText}](https://)` + afterText;
+     const h4Btn = document.createElement('button');
+     h4Btn.className = 'format-button';
+     h4Btn.textContent = 'H4';
+     h4Btn.title = 'Заголовок 4 уровня';
 
-        textarea.focus();
-        const newPos = textarea.selectionStart + selectedText.length + 11;
-        textarea.setSelectionRange(newPos, newPos);
-      });
-    }
+     firstRow.appendChild(boldBtn);
+     firstRow.appendChild(italicBtn);
+     firstRow.appendChild(strikethroughBtn);
+     firstRow.appendChild(codeBtn);
+     firstRow.appendChild(linkBtn);
+
+     secondRow.appendChild(h1Btn);
+     secondRow.appendChild(h2Btn);
+     secondRow.appendChild(h3Btn);
+     secondRow.appendChild(h4Btn);
+
+     buttonsContainer.appendChild(firstRow);
+     buttonsContainer.appendChild(secondRow);
+
+     const textarea = inputGroups.text.querySelector('textarea');
+     textarea.insertAdjacentElement('afterend', buttonsContainer);
+
+     boldBtn.addEventListener('click', () => formatText(textarea, '**', 'Выделите текст для жирного начертания'));
+     italicBtn.addEventListener('click', () => formatText(textarea, '*', 'Выделите текст для курсива'));
+     strikethroughBtn.addEventListener('click', () => formatText(textarea, '~~', 'Выделите текст для зачеркивания'));
+     codeBtn.addEventListener('click', () => formatText(textarea, '`', 'Выделите текст для оформления как код'));
+
+     linkBtn.addEventListener('click', () => {
+       const selectedText = textarea.value.substring(
+         textarea.selectionStart,
+         textarea.selectionEnd
+       );
+
+       if (!selectedText) {
+         alert('Выделите текст для ссылки');
+         return;
+       }
+
+       const beforeText = textarea.value.substring(0, textarea.selectionStart);
+       const afterText = textarea.value.substring(textarea.selectionEnd);
+       textarea.value = beforeText + `[${selectedText}](https://)` + afterText;
+
+       textarea.focus();
+       const newPos = textarea.selectionStart + selectedText.length + 11;
+       textarea.setSelectionRange(newPos, newPos);
+     });
+
+     h1Btn.addEventListener('click', () => addHeaderPrefix(textarea, '# '));
+     h2Btn.addEventListener('click', () => addHeaderPrefix(textarea, '## '));
+     h3Btn.addEventListener('click', () => addHeaderPrefix(textarea, '### '));
+     h4Btn.addEventListener('click', () => addHeaderPrefix(textarea, '#### '));
+   }
 
   initContentBtn.addEventListener('click', () => {
     const baseStructure = {
@@ -168,4 +211,72 @@ export function initContentForm() {
     if (window.updateLineNumbers) window.updateLineNumbers();
     updateStatus('Контент добавлен', 'success');
   }
+
+    function formatBlockCode(textarea) {
+      const selectedText = textarea.value.substring(
+        textarea.selectionStart,
+        textarea.selectionEnd
+      );
+
+      if (!selectedText) {
+        alert('Выделите текст для оформления как блочный код');
+        return;
+      }
+
+      const beforeText = textarea.value.substring(0, textarea.selectionStart);
+      const afterText = textarea.value.substring(textarea.selectionEnd);
+
+      const formattedText = `\n\`\`\`\n${selectedText}\n\`\`\`\n`;
+      textarea.value = beforeText + formattedText + afterText;
+
+      textarea.focus();
+      const newPos = textarea.selectionStart + selectedText.length + 8; // 8 символов добавлено
+      textarea.setSelectionRange(newPos, newPos);
+    }
+
+    function addHeaderPrefix(textarea, prefix) {
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(startPos, endPos);
+
+      if (selectedText) {
+        const beforeText = textarea.value.substring(0, startPos);
+        const afterText = textarea.value.substring(endPos);
+        textarea.value = beforeText + prefix + selectedText + afterText;
+
+        textarea.focus();
+        const newPos = startPos + prefix.length;
+        textarea.setSelectionRange(newPos, newPos + selectedText.length);
+      }
+
+      else {
+        const beforeText = textarea.value.substring(0, startPos);
+        const afterText = textarea.value.substring(endPos);
+        textarea.value = beforeText + prefix + afterText;
+
+        textarea.focus();
+        const newPos = startPos + prefix.length;
+        textarea.setSelectionRange(newPos, newPos);
+      }
+    }
+
+    function formatText(textarea, wrapper, alertMessage) {
+      const selectedText = textarea.value.substring(
+        textarea.selectionStart,
+        textarea.selectionEnd
+      );
+
+      if (!selectedText) {
+        if (alertMessage) alert(alertMessage);
+        return;
+      }
+
+      const beforeText = textarea.value.substring(0, textarea.selectionStart);
+      const afterText = textarea.value.substring(textarea.selectionEnd);
+      textarea.value = beforeText + `${wrapper}${selectedText}${wrapper}` + afterText;
+
+      textarea.focus();
+      const newPos = textarea.selectionStart + selectedText.length + wrapper.length * 2;
+      textarea.setSelectionRange(newPos, newPos);
+    }
 }

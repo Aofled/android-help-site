@@ -37,4 +37,18 @@
         padding: 3px 6px;
         font-size: 0.7rem;
     }
+
+    .text-format-buttons {
+        gap: 6px;
+    }
+
+    .buttons-row {
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .format-button {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
 }
