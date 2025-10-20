@@ -1,0 +1,13 @@
+{
+  "title": "Базовые понятия",
+  "content": [
+    {
+      "type": "text",
+      "value": "Все классы в Java наследуются от Object. Все классы в Kotlin наследуются от Any"
+    },
+    {
+      "type": "text",
+      "value": "Unit в Kotlin аналог Void в Java. Если метод ничего не возвращает, то на самом деле в Java возвращается Void, а в Kotlin возвращается Unit."
+    }
+  ]
+}

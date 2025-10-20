@@ -1,7 +1,5 @@
 {
   "menuItems": [
-    {"title": "Java1", "url": "#Java1"},
-    {"title": "Java2", "url": "#Java2"},
-    {"title": "Java3", "url": "#Java3"}
+
   ]
 }

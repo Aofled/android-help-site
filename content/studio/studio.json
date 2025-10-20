@@ -1,7 +1,9 @@
 {
   "menuItems": [
-    {"title": "studio1", "url": "#studio1"},
-    {"title": "studio2", "url": "#studio2"},
-    {"title": "studio3", "url": "#studio3"}
+    {
+      "title": "Отображение типов данных",
+      "url": "#android-studio-displaying-data-types",
+      "contentFile": "android-studio-displaying-data-types.json"
+    }
   ]
 }

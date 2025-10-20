@@ -1,0 +1,94 @@
+{
+  "title": "Оператор выбора when",
+  "content": [
+    {
+      "type": "text",
+      "value": "В Kotlin оператор when — это замена switch-case из Java и цепочкам if-else."
+    },
+    {
+      "type": "text",
+      "value": "When в Kotlin может быть как оператором, так и выражением (возвращает значение)"
+    },
+    {
+      "type": "text",
+      "value": "Базовый синтаксис when"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "when (выражение) {\n    значение1 -> { /* код */ }\n    значение2 -> { /* код */ }\n    else -> { /* код, если ничего не совпало */ }\n}"
+    },
+    {
+      "type": "text",
+      "value": "when как выражение (возвращает значение)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = when (x) {\n    значение1 -> результат1\n    значение2 -> результат2\n    else -> результат_по_умолчанию\n}"
+    },
+    {
+      "type": "text",
+      "value": "Пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val grade = when (score) {\n    90..100 -> \"A\"\n    80..89 -> \"B\"\n    70..79 -> \"C\"\n    else -> \"F\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "Проверка нескольких значений\nМожно перечислять несколько значений через запятую:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "when (month) {\n    12, 1, 2 -> println(\"Зима\")\n    in 3..5 -> println(\"Весна\")  // Проверка диапазона\n    in 6..8 -> println(\"Лето\")\n    in 9..11 -> println(\"Осень\")\n    else -> println(\"Неправильные данные\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "when удобен для проверки типов (аналог instanceof в Java):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val obj: Any = \"Kotlin\"\nwhen (obj) {\n    is String -> println(\"Это строка: ${obj.length} символов\")\n    is Int -> println(\"Это число\")\n    else -> println(\"Неизвестный тип\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "Проверка условий без аргумента\nЕсли when используется без аргумента, он работает как цепочка if-else:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val x = 10\nwhen {\n    x < 0 -> println(\"Отрицательное\")\n    x == 0 -> println(\"Ноль\")\n    else -> println(\"Положительное\")  // Вывод: \"Положительное\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "when с функциями и сложными условиями\nВетки when могут содержать вызовы функций и сложные проверки:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "when {\n    user.isAdmin() -> println(\"Админ\")\n    user.name.startsWith(\"A\") -> println(\"Имя на 'A'\")\n    else -> println(\"Обычный пользователь\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "when для enum\nИдеально подходит для работы с перечислениями (enum):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "enum class Color { RED, GREEN, BLUE }\nval color = Color.GREEN\n\nwhen (color) {\n    Color.RED -> println(\"Красный\")\n    Color.GREEN -> println(\"Зелёный\")  // Вывод: \"Зелёный\"\n    Color.BLUE -> println(\"Синий\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "Smart Cast (умное приведение типов)\nКомпилятор Kotlin автоматически приводит тип после проверки в when:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val something: Any = 123\nwhen (something) {\n    is String -> println(something.uppercase())  // Smart Cast to String\n    is Int -> println(something.inc())  // Smart Cast to Int (124)\n}"
+    }
+  ]
+}

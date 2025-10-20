@@ -1,0 +1,70 @@
+{
+  "title": "Переменные",
+  "content": [
+    {
+      "type": "text",
+      "value": "Kotlin и Java строго типизированные языки. Это значит, что во время компиляции должно быть понятно какого типа переменная."
+    },
+    {
+      "type": "text",
+      "value": "В kotlin нет примитивных типов. Все типы в kotlin являются ссылочными (т.е. какими-то классами). В java есть примитивные типы и их ссылочные аналоги (оболочки типов)."
+    },
+    {
+      "type": "text",
+      "value": "В Kotlin переменные объявляются с помощью двух ключевых слов:\nval (от value) — неизменяемая переменная (аналог final в Java).\nvar (от variable) — изменяемая переменная."
+    },
+    {
+      "type": "text",
+      "value": "В Java (и многих других языках) любая переменная ссылочного типа может быть null, и попытка вызвать метод или обратиться к полю такого объекта приводит к NullPointerException.\n\nВ Kotlin такая ситуация предотвращается на этапе компиляции."
+    },
+    {
+      "type": "text",
+      "value": "Kotlin разделяет типы на:\n\nNon-Null (Type) — гарантированно не null.\n\nNullable (Type?) — может быть null."
+    },
+    {
+      "type": "text",
+      "value": "Как работать с Nullable-переменными?\na) Проверка на null (Smart Cast)\nKotlin автоматически приводит тип к non-null после проверки:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun printLength(text: String?) {\n    if (text != null) {\n        println(text.length)  // Smart Cast: text теперь String\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "б) Безопасный вызов (?. — Safe Call Operator)\nЕсли объект null, метод не выполняется, а возвращается null:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val name: String? = null\nprintln(name?.length)  // Выведет null (без NPE)"
+    },
+    {
+      "type": "text",
+      "value": "в) Оператор утверждения (!! — Not-Null Assertion)\nГарантирует, что объект не null (выбрасывает NPE, если это не так):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val name: String? = null\nprintln(name!!.length)  // NPE, если name == null"
+    },
+    {
+      "type": "text",
+      "value": "г) Элвис-оператор (?: — Elvis Operator)\nПозволяет задать значение по умолчанию, если объект null:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val name: String? = null\nval length = name?.length ?: 0  // Если name == null, то length = 0"
+    },
+    {
+      "type": "text",
+      "value": "д) Безопасное приведение (as? — Safe Cast)\nПытается привести тип, возвращает null при неудаче:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val obj: Any = \"Kotlin\"\nval num: Int? = obj as? Int  // null (не Int)"
+    }
+  ]
+}

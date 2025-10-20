@@ -1,0 +1,54 @@
+{
+  "title": "Оператор выбора If",
+  "content": [
+    {
+      "type": "text",
+      "value": "if в Kotlin может быть как оператором, так и выражением (возвращает значение - аналог тернарного оператора ? : в Java)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = if (условие) значение1 else значение2"
+    },
+    {
+      "type": "text",
+      "value": "Пример"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val age = 20\nval status = if (age >= 18) \"Взрослый\" else \"Ребёнок\"\nprintln(status) // Вывод: \"Взрослый\""
+    },
+    {
+      "type": "text",
+      "value": "Поддерживает else if для множественных проверок."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "if (условие1) {\n    // ...\n} else if (условие2) {\n    // ...\n} else {\n    // ...\n}"
+    },
+    {
+      "type": "text",
+      "value": "Может содержать сложные блоки кода, возвращая последнее выражение.\nЕсли внутри ветки if несколько строк, последнее выражение становится возвращаемым значением:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val number = 10\nval description = if (number > 0) {\n    println(\"Число положительное\")\n    \"Positive\" // это значение вернётся\n} else {\n    println(\"Число не положительное\")\n    \"Non-positive\"\n}\nprintln(description) // \"Positive\""
+    },
+    {
+      "type": "text",
+      "value": "Если присваивается значения разных типов, то неявно приводится это значение к родительскому типу «Any»."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val food: Any? = if(count > 500){\n\t“Пицца” //разные значения\n} else if (count > 300) {\n\t500 //разные значения\n} else {\n\tnull //разные значения\n}"
+    },
+    {
+      "type": "text",
+      "value": "Альтернатива для сложных условий — when."
+    }
+  ]
+}

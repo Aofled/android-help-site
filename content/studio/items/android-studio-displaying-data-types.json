@@ -1,0 +1,9 @@
+{
+  "title": "Отображение типов данных ",
+  "content": [
+    {
+      "type": "text",
+      "value": "В IntelliJ IDEA и Android Studio можно включить отображение типов данных (inline hints) в коде. Вот как это сделать:\n\nВключение подсказок с типами (Inline Parameter Hints)\nОткройте настройки:\n\n- Windows/Linux: File → Settings (или Ctrl + Alt + S)\n\nПерейдите в раздел:\n\n- Editor → Inlay Hints → Java/Kotlin\n\nВключите нужные подсказки:\n\n- Для переменных:\n\n-- Parameter types (показывает типы параметров методов)\n\n-- Local variable types (показывает типы локальных переменных)\n\n- Для выражений:\n\n-- Implicit types (показывает неявные типы, например, в val x = getValue())\n\n-- Lambda parameter types (показывает типы параметров в лямбдах)\n\nПримените изменения (Apply → OK)."
+    }
+  ]
+}

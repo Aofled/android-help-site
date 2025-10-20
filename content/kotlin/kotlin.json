@@ -1,8 +1,26 @@
 {
   "menuItems": [
-    {"title": "kotlin", "url": "#kotlin1"},
-    {"title": "kotlin2", "url": "#kotlin2"},
-    {"title": "kotlin3", "url": "#kotlin3"},
-    {"title": "kotlin4", "url": "#kotlin4"}
+    {
+      "title": "Базовые понятия",
+      "url": "#kotlin-basic-concepts",
+      "contentFile": "kotlin-basic-concepts.json",
+      "subItems": [
+        {
+          "title": "Переменные",
+          "url": "#kotlin-variables",
+          "contentFile": "kotlin-variables.json"
+        },
+        {
+          "title": "Оператор выбора If",
+          "url": "#kotlin-if-operator",
+          "contentFile": "kotlin-if-operator.json"
+        },
+        {
+          "title": "Оператор выбора when",
+          "url": "#kotlin-when-selection-operator",
+          "contentFile": "kotlin-when-selection-operator.json"
+        }
+      ]
+    }
   ]
 }
