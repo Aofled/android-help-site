@@ -284,22 +284,22 @@ export function initContentForm() {
     }
 
     function formatText(textarea, wrapper, alertMessage) {
-      const selectedText = textarea.value.substring(
-        textarea.selectionStart,
-        textarea.selectionEnd
-      );
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(startPos, endPos);
 
       if (!selectedText) {
         if (alertMessage) alert(alertMessage);
         return;
       }
 
-      const beforeText = textarea.value.substring(0, textarea.selectionStart);
-      const afterText = textarea.value.substring(textarea.selectionEnd);
+      const beforeText = textarea.value.substring(0, startPos);
+      const afterText = textarea.value.substring(endPos);
+
       textarea.value = beforeText + `${wrapper}${selectedText}${wrapper}` + afterText;
 
       textarea.focus();
-      const newPos = textarea.selectionStart + selectedText.length + wrapper.length * 2;
-      textarea.setSelectionRange(newPos, newPos);
+      const newCursorPos = startPos + wrapper.length + selectedText.length + wrapper.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
     }
 }
