@@ -1,3 +1,24 @@
+function updateStatus(message, type) {
+  const statusBar = document.getElementById('json-status');
+  if (!statusBar) return;
+
+  statusBar.textContent = message;
+  statusBar.className = 'json-status-bar';
+
+  if (type) {
+    statusBar.classList.add(`status-${type}`);
+  }
+
+  if (type === 'success') {
+    setTimeout(() => {
+      if (statusBar.textContent === message) {
+        statusBar.textContent = 'Готов к работе';
+        statusBar.className = 'json-status-bar';
+      }
+    }, 3000);
+  }
+}
+
 export function initContentForm() {
   const initContentBtn = document.getElementById('init-content-structure');
   const addContentBtn = document.getElementById('add-content-to-json');
