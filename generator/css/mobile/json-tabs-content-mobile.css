@@ -51,4 +51,12 @@
         padding: 4px 8px;
         font-size: 0.8rem;
     }
+
+    .formatting-hints {
+        font-size: 0.8rem;
+    }
+
+    .hint-row {
+        gap: 10px;
+    }
 }
