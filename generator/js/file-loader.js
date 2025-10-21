@@ -1,18 +1,18 @@
 export function initFileLoader() {
-  const fileInput = document.getElementById('file-input');
-  const jsonTextarea = document.getElementById('json-input');
-  const statusBar = document.getElementById('json-status');
+  const fileInput = document.getElementById("file-input");
+  const jsonTextarea = document.getElementById("json-input");
+  const statusBar = document.getElementById("json-status");
   const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
 
-  document.querySelectorAll('[data-menu-item="load"]').forEach(button => {
-    button.addEventListener('click', (e) => {
+  document.querySelectorAll('[data-menu-item="load"]').forEach((button) => {
+    button.addEventListener("click", (e) => {
       e.preventDefault();
-      fileInput.value = '';
+      fileInput.value = ""; // Reset value for repeated downloads
       fileInput.click();
     });
   });
 
-  fileInput.addEventListener('change', handleFileSelect);
+  fileInput.addEventListener("change", handleFileSelect);
 
   initDragAndDrop();
 
@@ -21,12 +21,15 @@ export function initFileLoader() {
     if (!file) return;
 
     if (file.size > MAX_FILE_SIZE) {
-      updateStatus(`Файл слишком большой (макс. ${MAX_FILE_SIZE/1024/1024}MB)`, 'error');
+      updateStatus(
+        `Файл слишком большой (макс. ${MAX_FILE_SIZE / 1024 / 1024}MB)`,
+        "error",
+      );
       return;
     }
 
-    if (!file.name.endsWith('.json')) {
-      updateStatus('Только .json файлы поддерживаются', 'error');
+    if (!file.name.endsWith(".json")) {
+      updateStatus("Только .json файлы поддерживаются", "error");
       return;
     }
 
@@ -35,54 +38,54 @@ export function initFileLoader() {
     reader.onprogress = (event) => {
       if (event.lengthComputable) {
         const percent = Math.round((event.loaded / event.total) * 100);
-        updateStatus(`Загрузка: ${percent}%`, 'info');
+        updateStatus(`Загрузка: ${percent}%`, "info");
       }
     };
 
     reader.onload = (fileEvent) => {
-        try {
-            const content = fileEvent.target.result;
-            const parsed = JSON.parse(content);
-            jsonTextarea.value = JSON.stringify(parsed, null, 2);
-            updateStatus(`Загружен файл: ${file.name}`, 'success');
+      try {
+        const content = fileEvent.target.result;
+        const parsed = JSON.parse(content);
+        jsonTextarea.value = JSON.stringify(parsed, null, 2);
+        updateStatus(`Загружен файл: ${file.name}`, "success");
 
-            if (window.updateLineNumbers) {
-                window.updateLineNumbers();
-            }
-
-            const inputEvent = new Event('input', { bubbles: true });
-            jsonTextarea.dispatchEvent(inputEvent);
-        } catch (error) {
-            updateStatus(`Ошибка парсинга: ${error.message}`, 'error');
+        if (window.updateLineNumbers) {
+          window.updateLineNumbers();
         }
+
+        const inputEvent = new Event("input", { bubbles: true });
+        jsonTextarea.dispatchEvent(inputEvent);
+      } catch (error) {
+        updateStatus(`Ошибка парсинга: ${error.message}`, "error");
+      }
     };
 
     reader.onerror = () => {
-      updateStatus('Ошибка чтения файла', 'error');
+      updateStatus("Ошибка чтения файла", "error");
     };
 
     reader.readAsText(file);
   }
 
   function initDragAndDrop() {
-    jsonTextarea.addEventListener('dragover', (e) => {
+    jsonTextarea.addEventListener("dragover", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      e.target.classList.add('drag-over');
+      e.target.classList.add("drag-over");
     });
 
-    ['dragleave', 'drop'].forEach(event => {
+    ["dragleave", "drop"].forEach((event) => {
       jsonTextarea.addEventListener(event, (e) => {
         e.preventDefault();
         e.stopPropagation();
-        e.target.classList.remove('drag-over');
+        e.target.classList.remove("drag-over");
       });
     });
 
-    jsonTextarea.addEventListener('drop', (e) => {
+    jsonTextarea.addEventListener("drop", (e) => {
       if (e.dataTransfer.files.length) {
         fileInput.files = e.dataTransfer.files;
-        const event = new Event('change');
+        const event = new Event("change");
         fileInput.dispatchEvent(event);
       }
     });
@@ -90,55 +93,54 @@ export function initFileLoader() {
 
   function updateStatus(message, type) {
     statusBar.textContent = message;
-    statusBar.className = 'json-status-bar';
-    statusBar.style.color = '';
-    statusBar.style.backgroundColor = '';
+    statusBar.className = "json-status-bar";
+    statusBar.style.color = "";
+    statusBar.style.backgroundColor = "";
 
     if (type) {
-        statusBar.classList.add(`status-${type}`);
+      statusBar.classList.add(`status-${type}`);
     }
   }
 
-    document.querySelectorAll('[data-menu-item="save"]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            saveJsonFile();
-        });
+  document.querySelectorAll('[data-menu-item="save"]').forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      saveJsonFile();
     });
+  });
 
-    function saveJsonFile() {
-        const content = document.getElementById('json-input').value;
+  function saveJsonFile() {
+    const content = document.getElementById("json-input").value;
 
-        if (!content.trim()) {
-            updateStatus('Нет данных для сохранения', 'error');
-            return;
-        }
-
-        try {
-            JSON.parse(content);
-
-            const blob = new Blob([content], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = getDefaultFileName();
-            document.body.appendChild(a);
-            a.click();
-
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-                updateStatus('Файл сохранен', 'success');
-            }, 100);
-
-        } catch (error) {
-            updateStatus('Ошибка: невалидный JSON', 'error');
-        }
+    if (!content.trim()) {
+      updateStatus("Нет данных для сохранения", "error");
+      return;
     }
 
-    function getDefaultFileName() {
-        const now = new Date();
-        return `json_data_${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}.json`;
+    try {
+      JSON.parse(content);
+
+      const blob = new Blob([content], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = getDefaultFileName();
+      document.body.appendChild(a);
+      a.click();
+
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        updateStatus("Файл сохранен", "success");
+      }, 100);
+    } catch (error) {
+      updateStatus("Ошибка: невалидный JSON", "error");
     }
+  }
+
+  function getDefaultFileName() {
+    const now = new Date();
+    return `json_data_${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}.json`;
+  }
 }
