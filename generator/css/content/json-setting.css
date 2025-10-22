@@ -5,5 +5,5 @@
     padding: 20px;
     box-sizing: border-box;
     border-right: 1px solid var(--android-green);
-    overflow-y: auto; /* Если нужен скролл */
+    overflow-y: auto;
 }

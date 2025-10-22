@@ -8,9 +8,9 @@
     background: var(--android-dark, #2c3e50);
     color: white;
     border-bottom: 2px solid var(--android-green, #27ae60);
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.2),
-                0 4px 5px 0 rgba(0,0,0,0.14),
-                0 1px 10px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
     position: relative;
     z-index: 10;
 }
@@ -65,24 +65,29 @@
 
     .header, .footer {
         background: var(--android-dark);
-        border-color: rgba(0,0,0,0.1);
+        border-color: rgba(0, 0, 0, 0.1);
     }
+
     .header-menu li a,
     .footer-menu li a {
         color: var(--android-light);
     }
+
     .header-menu li a:hover,
     .footer-menu li a:hover {
-        background: rgba(0,0,0,0.05);
+        background: rgba(0, 0, 0, 0.05);
     }
+
     .header-menu li a.active,
     .footer-menu li a.active {
         background: #27ae60;
         color: white;
     }
+
     .theme-toggle {
         color: var(--android-light);
     }
+
     .json-generator a {
         color: var(--android-light);
     }

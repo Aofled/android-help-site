@@ -1,41 +1,41 @@
-import { loadContent } from '../core/content-loader.js';
-import { updateUrl } from '../core/utilities.js';
-import { setupSidebarControls } from './sidebar-controls.js';
-import { sidebarEl, sidebarEventListeners, addEventListener, cleanupEventListeners } from './sidebar-core.js';
+import {loadContent} from '../core/content-loader.js';
+import {updateUrl} from '../core/utilities.js';
+import {setupSidebarControls} from './sidebar-controls.js';
+import {sidebarEl, sidebarEventListeners, addEventListener, cleanupEventListeners} from './sidebar-core.js';
 
 export async function loadSidebarMenu(menuType) {
-  if (!sidebarEl) return;
+    if (!sidebarEl) return;
 
-  try {
-    cleanupEventListeners();
+    try {
+        cleanupEventListeners();
 
-    const response = await fetch(`content/${menuType}/${menuType}.json?v=${Date.now()}`);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await fetch(`content/${menuType}/${menuType}.json?v=${Date.now()}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-    const menuData = await response.json();
-    renderSidebarMenu(menuType, menuData);
+        const menuData = await response.json();
+        renderSidebarMenu(menuType, menuData);
 
-    if (menuData.menuItems.length > 0) {
-      const firstItem = menuData.menuItems[0];
-      await loadContent(menuType, firstItem.contentFile);
-      updateUrl(firstItem.url);
+        if (menuData.menuItems.length > 0) {
+            const firstItem = menuData.menuItems[0];
+            await loadContent(menuType, firstItem.contentFile);
+            updateUrl(firstItem.url);
 
-      const firstMenuItem = document.querySelector('.sidebar-menu a[data-content-file]');
-      if (firstMenuItem) {
-        document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-        firstMenuItem.classList.add('active');
-      }
+            const firstMenuItem = document.querySelector('.sidebar-menu a[data-content-file]');
+            if (firstMenuItem) {
+                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+                firstMenuItem.classList.add('active');
+            }
+        }
+    } catch (error) {
+        console.error("Ошибка загрузки меню:", error);
+        sidebarEl.innerHTML = `<p>Ошибка загрузки меню: ${error.message}</p>`;
     }
-  } catch (error) {
-    console.error("Ошибка загрузки меню:", error);
-    sidebarEl.innerHTML = `<p>Ошибка загрузки меню: ${error.message}</p>`;
-  }
 }
 
 function renderSidebarMenu(menuType, menuData) {
-  const hasSubItems = menuData.menuItems.some(item => item.subItems && item.subItems.length > 0);
+    const hasSubItems = menuData.menuItems.some(item => item.subItems && item.subItems.length > 0);
 
-  sidebarEl.innerHTML = `
+    sidebarEl.innerHTML = `
     <nav class="sidebar-menu">
       <div class="sidebar-controls">
         <button class="toggle-all" ${hasSubItems ? '' : 'disabled'}>
@@ -79,46 +79,46 @@ function renderSidebarMenu(menuType, menuData) {
     </nav>
   `;
 
-  setupSidebarListeners();
-  setupSidebarControls(hasSubItems);
+    setupSidebarListeners();
+    setupSidebarControls(hasSubItems);
 }
 
 function setupSidebarListeners() {
-  const clickHandler = (e) => {
-    const toggle = e.target.closest('.submenu-toggle');
-    if (toggle) {
-      e.preventDefault();
-      const parentItem = toggle.closest('.sidebar-item');
-      parentItem.classList.toggle('collapsed');
-      return;
-    }
+    const clickHandler = (e) => {
+        const toggle = e.target.closest('.submenu-toggle');
+        if (toggle) {
+            e.preventDefault();
+            const parentItem = toggle.closest('.sidebar-item');
+            parentItem.classList.toggle('collapsed');
+            return;
+        }
 
-    const link = e.target.closest('a[data-content-file]');
-    if (!link) return;
+        const link = e.target.closest('a[data-content-file]');
+        if (!link) return;
 
-    e.preventDefault();
-    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-    link.classList.add('active');
+        e.preventDefault();
+        document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
 
-    loadContent(link.dataset.section, link.dataset.contentFile);
-    updateUrl(link.href);
-  };
+        loadContent(link.dataset.section, link.dataset.contentFile);
+        updateUrl(link.href);
+    };
 
-  addEventListener(sidebarEl, 'click', clickHandler);
+    addEventListener(sidebarEl, 'click', clickHandler);
 }
 
 export function setupHashChangeListener() {
-  const hashHandler = () => {
-    const hash = window.location.hash;
-    document.querySelectorAll('.sidebar-menu a').forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === hash);
-    });
-  };
+    const hashHandler = () => {
+        const hash = window.location.hash;
+        document.querySelectorAll('.sidebar-menu a').forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === hash);
+        });
+    };
 
-  window.addEventListener('hashchange', hashHandler);
-  sidebarEventListeners.push({
-    element: window,
-    type: 'hashchange',
-    listener: hashHandler
-  });
+    window.addEventListener('hashchange', hashHandler);
+    sidebarEventListeners.push({
+        element: window,
+        type: 'hashchange',
+        listener: hashHandler
+    });
 }

@@ -65,7 +65,7 @@
     color: #ecf0f1;
     display: inline-block;
     padding: 5px 10px;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
 }
 
@@ -73,7 +73,8 @@
     .footer-menu .json-generator a {
         color: var(--android-light);
     }
+
     .footer-menu .json-generator a:hover {
-        background-color: rgba(0,0,0,0.05);
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }

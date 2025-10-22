@@ -18,13 +18,15 @@
 [data-theme="light"] {
     .footer {
         background: var(--android-dark);
-        border-color: rgba(0,0,0,0.1);
+        border-color: rgba(0, 0, 0, 0.1);
     }
+
     .footer-menu li a {
         color: var(--android-light);
     }
+
     .footer-year {
         color: #333;
-        background-color: rgba(0,0,0,0.05);
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }

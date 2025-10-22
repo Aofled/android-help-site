@@ -42,7 +42,8 @@
 <header class="header">
     <div class="header-logo">
         <svg width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#3ddc84" d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
+            <path fill="#3ddc84"
+                  d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
         </svg>
     </div>
     <nav class="header-menu">
@@ -202,7 +203,8 @@
                         </div>
                         <div class="form-group">
                             <label>Подпись:</label>
-                            <input type="text" id="image-caption" class="form-input" placeholder="Подпись под изображением">
+                            <input type="text" id="image-caption" class="form-input"
+                                   placeholder="Подпись под изображением">
                         </div>
                     </div>
                 </div>
@@ -250,7 +252,9 @@
 -->
 <script>
     window.marked = window.marked || {
-      parse: function(text) { return text; }
+        parse: function (text) {
+            return text;
+        }
     };
 
     // Connecting the color scheme

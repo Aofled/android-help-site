@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Android Development Site</title>
-    
+
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -33,7 +33,8 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <!-- Syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/androidstudio.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/androidstudio.min.css">
 
     <!-- 1. include the main highlight.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -48,7 +49,8 @@
 <header class="header">
     <div class="header-logo">
         <svg width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#3ddc84" d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
+            <path fill="#3ddc84"
+                  d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
         </svg>
     </div>
     <nav class="header-menu">
@@ -103,7 +105,9 @@
 -->
 <script>
     window.marked = window.marked || {
-      parse: function(text) { return text; }
+        parse: function (text) {
+            return text;
+        }
     };
 
     // Connecting the color scheme
@@ -111,10 +115,10 @@
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     document.querySelector('.theme-toggle').addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
     });
 </script>
 </body>
