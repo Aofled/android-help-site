@@ -5,8 +5,8 @@
     --footer-height: 80px;
     --sidebar-width: 240px;
     --sidebar-bg: #2d2d2d;
-    --menu-item-padding: 8px 10px 8px 25px;
-    --submenu-item-padding: 6px 10px 6px 25px;
+    --menu-item-padding: 8px 10px 8px 12px;
+    --submenu-item-padding: 6px 10px 6px 22px;
     --transition-duration: 0.3s;
 
     --android-green: #3ddc84;
@@ -35,9 +35,3 @@ body {
     position: relative;
 }
 
-.content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    min-height: calc(100vh - var(--header-height) - var(--footer-height));
-}

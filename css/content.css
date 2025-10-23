@@ -2,6 +2,9 @@
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
     color: #e0e0e0;
     line-height: 1.6;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .content-body {

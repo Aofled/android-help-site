@@ -21,7 +21,7 @@ export function initJsonBody() {
             const parsed = JSON.parse(textarea.value);
             textarea.value = JSON.stringify(parsed);
             updateStatus("JSON минифицирован", "success");
-            // Форсируем обновление переноса строк
+            
             setTimeout(() => {
                 textarea.style.whiteSpace = "pre";
                 textarea.style.whiteSpace = "pre-wrap";
