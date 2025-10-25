@@ -1,0 +1,32 @@
+{
+  "title": "Функциональные циклы (без for и while)",
+  "content": [
+    {
+      "type": "text",
+      "value": "- `forEach` для коллекций"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "listOf(1, 2, 3).forEach { element ->\n    println(element)  // 1, 2, 3\n    //element — текущий элемент, но без индекса\n    //Нельзя изменить массив, так как element — это копия!\n}"
+    },
+    {
+      "type": "text",
+      "value": "- `forEachIndexed` (с индексом) для коллекций"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "listOf(\"Aaa\", \"Bbb\", \"Ccc\").forEachIndexed { index, value ->\n    println(\"$index: $value\")  // 0: Aaa, 1: Bbb, 2: Ccc\n    //функциональный аналог for ((index, value) in array.withIndex()).\n    //index — текущий индекс элемента (начинается с 0).\n    //value — значение элемента коллекции.\n\n}"
+    },
+    {
+      "type": "text",
+      "value": "- `repeat` для повторения действия"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "repeat(3) {\n    println(\"Hello!\")  // Выведется 3 раза\n}"
+    }
+  ]
+}

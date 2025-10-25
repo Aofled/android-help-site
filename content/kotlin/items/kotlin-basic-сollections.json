@@ -1,0 +1,75 @@
+{
+  "title": "Коллекции (Collections)",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Коллекции` - это контейнеры, которые используются для хранения данных.\n\nKotlin различает **изменяемые (mutable)** и **неизменяемые (immutable)** коллекции.\n\nВсе базовые классы коллекций, **List**, **Set**, **Map** являются **неизменяемыми**. Т.е. из них можно получить данные, можно пройтись по ним в цикле, но нельзя **добавить** новый элемент, **изменить** или **удалить** элемент. Если нужно изменять коллекции – то нужно использовать интерфейсы со словом **mutable** (в переводе изменяемый)."
+    },
+    {
+      "type": "text",
+      "value": "#### Списки (`List`)\n\n"
+    },
+    {
+      "type": "text",
+      "value": "- Неизменяемый `Immutable` (**List (listOf)**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fruits = listOf(\"Apple\", \"Banana\", \"Orange\")  // List<String>\nprintln(fruits[1])    // \"Banana\"\nprintln(fruits.get(1))    // Эквивалентно предыдущей строчке\n// fruits.add(\"Pear\") // Ошибка: список неизменяемый!"
+    },
+    {
+      "type": "text",
+      "value": "- Изменяемый `MutableList` (**mutableListOf, arrayListOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val mutableFruits = mutableListOf(\"Apple\", \"Banana\")\nmutableFruits.add(\"Orange\")       // [\"Apple\", \"Banana\", \"Orange\"] - добавление элемента\nmutableFruits.removeAt(0)         // [\"Banana\", \"Orange\"] - удаление элемента"
+    },
+    {
+      "type": "text",
+      "value": "#### Множества (`Set`). Хранят уникальные элементы (порядок не гарантируется)."
+    },
+    {
+      "type": "text",
+      "value": "- Неизменяемый `Set` (**setOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val uniqueNumbers = setOf(1, 2, 3, 3)  // {1, 2, 3} (дубли удаляются)"
+    },
+    {
+      "type": "text",
+      "value": "- Изменяемый `MutableSet` (**mutableSetOf**, **hashSetOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val mutableSet = mutableSetOf(1, 2, 3)\nmutableSet.add(4)     // {1, 2, 3, 4} - добавление элемента\nmutableSet.remove(2)  // {1, 3, 4} - удаление элемента"
+    },
+    {
+      "type": "text",
+      "value": "#### Ассоциативные массивы (`Map`). Хранят пары ключ-значение."
+    },
+    {
+      "type": "text",
+      "value": "- Неизменяемая `Map` (**mapOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val capitals = mapOf(\"Russia\" to \"Moscow\", \"France\" to \"Paris\")\nprintln(capitals[\"Russia\"])  // \"Moscow\""
+    },
+    {
+      "type": "text",
+      "value": "- Изменяемая `MutableMap` (**mutableMapOf**, **hashMapOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val mutableCapitals = mutableMapOf(\"Germany\" to \"Berlin\")\nmutableCapitals[\"USA\"] = \"Washington\"  // Добавление\nmutableCapitals.remove(\"Germany\")      // Удаление"
+    }
+  ]
+}

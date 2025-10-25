@@ -21,6 +21,60 @@
           "contentFile": "kotlin-when-selection-operator.json"
         }
       ]
+    },
+    {
+      "title": "Циклы",
+      "url": "#kotlin-cycles",
+      "contentFile": "kotlin-cycles.json",
+      "subItems": [
+        {
+          "title": "Цикл for",
+          "url": "#kotlin-cycles-for",
+          "contentFile": "kotlin-cycles-for.json"
+        },
+        {
+          "title": "Цикл forEach и repeat",
+          "url": "#kotlin-cycles-foreach-repeat",
+          "contentFile": "kotlin-cycles-foreach-repeat.json"
+        },
+        {
+          "title": "Цикл while",
+          "url": "#kotlin-cycles-while",
+          "contentFile": "kotlin-cycles-while.json"
+        }
+      ]
+    },
+    {
+      "title": "Коллекции и массивы (Collections and Array)",
+      "url": "#kotlin-basic-сollections",
+      "contentFile": "kotlin-basic-сollections-and-array.json",
+      "subItems": [
+        {
+          "title": "Массивы (Array)",
+          "url": "#kotlin-basic-array",
+          "contentFile": "kotlin-basic-array.json"
+        },
+        {
+          "title": "Коллекции (Collections)",
+          "url": "#kotlin-basic-сollections",
+          "contentFile": "kotlin-basic-сollections.json"
+        },
+        {
+          "title": "Списки (List)",
+          "url": "#kotlin-сollections-list",
+          "contentFile": "kotlin-сollections-list.json"
+        },
+        {
+          "title": "Множества (Set)",
+          "url": "#kotlin-сollections-set",
+          "contentFile": "kotlin-сollections-set.json"
+        },
+        {
+          "title": "Ассоциативные массивы (Map)",
+          "url": "#kotlin-сollections-map",
+          "contentFile": "kotlin-сollections-map.json"
+        }
+      ]
     }
   ]
 }

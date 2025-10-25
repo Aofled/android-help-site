@@ -1,0 +1,59 @@
+{
+  "title": "Массивы (Array)",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Массивы (Array)` в Kotlin — это **фиксированные по размеру** контейнеры для хранения элементов одного типа.\n\nТехнически `массивы(array)` не относятся к коллекциям, т.к. не наследуются от **Collection<T>**, в отличии от **List**, **Set**, **Map**. Хотя они могут быть преобразованы в коллекции, например через **array.toList()**."
+    },
+    {
+      "type": "text",
+      "value": "- Общий массив **(Array<T>)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = arrayOf(1, 2, 3)              // Array<Int>\nval names = arrayOf(\"Alice\", \"Bob\")         // Array<String>\nval mixed = arrayOf(1, \"Text\", true)        // Array<Any>\nval array = arrayOf(1, 2, 3, 4, 5, null)    // Массив, который может содержать Int и null (Array<Int?>)\nval array: Array<Int?> = arrayOfNulls(10)   // Если мы не решили, какие переменные будут. В круглых скобках размер массива, тип массива указывается обязательно.\nval array = arrayOfNulls<Int?>(10)          // Эквивалентно предыдущей записи"
+    },
+    {
+      "type": "text",
+      "value": "- **Специализированные массивы** (для примитивов)\n\nБолее эффективны, чем **Array<Int>**, так как хранят примитивы без боксинга (процесс автоматического преобразования примитивного типа)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Тип\tKotlin-массив\nInt\tIntArray\nLong\tLongArray\t\nDouble\tDoubleArray\t\nChar\tCharArray\nBoolean\tBooleanArray"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intArray = intArrayOf(1, 2, 3)      // IntArray\nval charArray = charArrayOf('a', 'b')   // CharArray    \n// String сюда не входит, только примитивные типы"
+    },
+    {
+      "type": "text",
+      "value": "- Создание через конструктор"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Array(size) { lambda }\nval squares = Array(5) { i -> (i + 1) * (i + 1) }  // [1, 4, 9, 16, 25]\nval zeros = IntArray(3) { 0 }"
+    },
+    {
+      "type": "text",
+      "value": "- Доступ и модификация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val arr = arrayOf(10, 20, 30)\n\n// Чтение\nprintln(arr[0])     // получить нулевой элемент массива\nprintln(arr.get(1)) // получить первый элемент массива\n\n// Запись\narr[0] = 100        // [100, 20, 30] - запись в нулевой эдемент массива\narr.set(2, 200)     // [100, 20, 200] - запись в первый элемент массива"
+    },
+    {
+      "type": "text",
+      "value": "- Основные операции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Операция\t             Пример\t                    Результат\nРазмер\t                     arr.siz                        3\nПроверка на элемент          20 in arr\t                    true\nИтерация\t             arr.forEach{ println(it) }\t    Вывод всех элементов\nПоиск индекса\t             arr.indexOf(20)\t            1\nПреобразование в коллекцию   array.toList().                Коллекция"
+    }
+  ]
+}

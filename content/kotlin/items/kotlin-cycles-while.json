@@ -1,0 +1,23 @@
+{
+  "title": "Цикл while и do-while",
+  "content": [
+    {
+      "type": "text",
+      "value": "- Цикл `while`\n\nВыполняется, пока условие истинно."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "var i = 1\nwhile (i <= 5) {\n    println(i)  // 1, 2, 3, 4, 5\n    i++\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Цикл `do-while`\n\nПроверяет условие **после** выполнения тела цикла (гарантирует хотя бы одну итерацию)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "var j = 1\ndo {\n    println(j)  // 1, 2, 3, 4, 5\n    j++\n} while (j <= 5)"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "title": "Цикл for",
+  "content": [
+    {
+      "type": "text",
+      "value": "Используется для перебора коллекций, массивов, диапазонов и других итерируемых объектов."
+    },
+    {
+      "type": "text",
+      "value": "- Перебор диапазона чисел и букв"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "for (i in 1..5) {\n    println(i)  // 1, 2, 3, 4, 5\n} \n\nfor (letter in 'A'..'D') {\n    println(letter)  // A, B, C, D\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Обратный перебор"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "for (i in 5 downTo 1) {\n    println(i)  // 5, 4, 3, 2, 1\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Перебор с шагом"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "for (i in 1..10 step 2) {\n    println(i)  // 1, 3, 5, 7, 9\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Перебор элементов массива"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val array: Array<Int> = arrayOf(10, 5, 32, 63, 17)\nfor (element in array){\n    println(element) //10, 5, 32, 63, 17\n    //что-то делаем с element, - элементом, index не доступен\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Перебор массива не включая верхнюю границу"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val array: Array<Int> = arrayOf(10, 15, 33, 61, 17)\nfor (index in 0 until array.size){\n    println(array[index]) //10, 15, 33, 61, 17\n    //что-то делаем с index – индексом, индексы 0 до array.size - 1 (аналог 0..array.lastIndex). , array[index] - элемент\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Перебор с индексом и элементом массива"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val array: Array<Int> = arrayOf(10, 15, 33, 61, 17)\nfor ((index, element) in array.withIndex()){\n    println(index)\n    println(element)\n    //аналог for (element in array)\n    //index — текущий индекс элемента (начинается с 0).\n    //element — значение элемента массива.\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Перебор элементов коллекции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fruits = listOf(\"Apple\", \"Banana\", \"Orange\")\nfor (fruit in fruits) {\n    println(fruit)  // Apple, Banana, Orange\n    //что-то делаем с fruit, - элементом, index не доступен\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Перебор с индексом и элементом массива"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "for ((index, fruit) in fruits.withIndex()) {\n    println(\"$index: $fruit\")  // 0: Apple, 1: Banana, 2: Orange\n}"
+    }
+  ]
+}
