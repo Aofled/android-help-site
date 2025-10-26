@@ -75,6 +75,12 @@
           "contentFile": "kotlin-сollections-map.json"
         }
       ]
+    },
+    {
+      "title": "Функции (fun)",
+      "url": "#kotlin-functions",
+      "contentFile": "kotlin-basic-functions.json",
+      "subItems": []
     }
   ]
 }

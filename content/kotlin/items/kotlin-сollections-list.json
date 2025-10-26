@@ -1,0 +1,137 @@
+{
+  "title": "Списки List",
+  "content": [
+    {
+      "type": "text",
+      "value": "`List (список)` — это упорядоченная коллекция элементов с возможностью доступа по индексу. В Kotlin он представлен двумя основными вариантами: **неизменяемый List** и **изменяемый MutableList.**"
+    },
+    {
+      "type": "text",
+      "value": "### Неизменяемый список (`List`)"
+    },
+    {
+      "type": "text",
+      "value": "- Создание и заполнение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// 1. Через listOf()\nval emptyList = listOf<String>()            // Пустой список\nval simpleList = listOf(1, 2, 3)            // List<Int>\nval colors = listOf(\"Red\", \"Green\", \"Blue\") // List<String>\nval nullableList = listOf(1, null, 3)       // List<Int?>\n\n// 2. Через List(size) { lambda }\nval generatedList = List(3) { it * 2 }      // [0, 2, 4] (it = индекс)\n\n// 3. Из массива\nval array = arrayOf(\"A\", \"B\")\nval listFromArray = array.toList()          // List<String> [\"A\", \"B\"]"
+    },
+    {
+      "type": "text",
+      "value": "### Изменяемый список (`MutableList`)"
+    },
+    {
+      "type": "text",
+      "value": "- Создание и заполнение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// 1. Через mutableListOf()\nval mutableColors = mutableListOf<String>()      // Пустой изменяемый список\nval mutableList1 = mutableListOf(1, 2, 3)        // MutableList<Int>\nmutableList1.add(4)                              // [1, 2, 3, 4]\nval items = mutableListOf<Any>(\"Text\", 42, true) // Явное указание типа\n\n// 2. Через ArrayList (аналог Java)\nval mutableList2 = ArrayList<String>()           // Пустой MutableList\nmutableList2.add(\"Kotlin\")                       // [\"Kotlin\"]\n\n// 3. Из неизменяемого списка\nval immutableList = listOf(\"A\", \"B\")\nval mutableCopy = immutableList.toMutableList()  // MutableList<String>\n\n// 4. Через конструктор MutableList\nval filledList = MutableList(3) { \"Item $it\" }   // [\"Item 0\", \"Item 1\", \"Item 2\"]"
+    },
+    {
+      "type": "text",
+      "value": "- Заполнение после создания"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val list = mutableListOf<Int>()\nlist.addAll(listOf(1, 2, 3))  // [1, 2, 3]\nlist += 4  // [1, 2, 3, 4] (перегруженный оператор)\nlist.remove(2)  // [1, 3, 4]"
+    },
+    {
+      "type": "text",
+      "value": "#### Доступ к элементам"
+    },
+    {
+      "type": "text",
+      "value": "- По индексу"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val list = listOf(\"A\", \"B\", \"C\")\nprintln(list[0])  // \"A\" (аналог list.get(0))"
+    },
+    {
+      "type": "text",
+      "value": "- Безопасные методы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val first = list.first()  // Первый элемент (или исключение, если список пуст)\nval last = list.last()    // Последний элемент\nval firstOrNull = list.firstOrNull()  // null, если список пуст"
+    },
+    {
+      "type": "text",
+      "value": "- Проверка содержимого"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "println(\"A\" in list)  // true (проверка наличия элемента)\nprintln(list.isEmpty())  // false"
+    },
+    {
+      "type": "text",
+      "value": "#### Операции с `List`"
+    },
+    {
+      "type": "text",
+      "value": "- Базовые операции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sizes = listOf(\"XXS\", \"XS\", \"S\", \"M\")\n\n// Размер списка\nprintln(sizes.size)  // 4\n\n// Подсписки\nprintln(sizes.subList(1, 3))  // [\"XS\", \"S\"]\n\n// Поиск индекса\nprintln(sizes.indexOf(\"S\"))  // 2"
+    },
+    {
+      "type": "text",
+      "value": "- Функциональные операции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(1, 2, 3, 4)\n\n// Преобразование\nval squares = numbers.map { it * it }  // [1, 4, 9, 16]\n\n// Фильтрация\nval evens = numbers.filter { it % 2 == 0 }  // [2, 4]\n\n// Сортировка\nval sorted = listOf(3, 1, 2).sorted()  // [1, 2, 3]"
+    },
+    {
+      "type": "text",
+      "value": "- Агрегация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "println(numbers.sum())      // 10\nprintln(numbers.average())  // 2.5\nprintln(numbers.maxOrNull()) // 4"
+    },
+    {
+      "type": "text",
+      "value": "#### Работа с `MutableList`"
+    },
+    {
+      "type": "text",
+      "value": "- Добавление элементов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val items = mutableListOf(\"A\", \"B\")\n\nitems.add(\"C\")          // [\"A\", \"B\", \"C\"]\nitems.add(0, \"X\")       // [\"X\", \"A\", \"B\", \"C\"]\nitems += \"D\"            // [\"X\", \"A\", \"B\", \"C\", \"D\"] (перегруженный оператор)"
+    },
+    {
+      "type": "text",
+      "value": "- Удаление элементов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "items.remove(\"A\")       // Удаляет первое вхождение \"A\"\nitems.removeAt(0)       // Удаляет элемент по индексу 0\nitems.clear()           // Очищает список"
+    },
+    {
+      "type": "text",
+      "value": "- Изменение элементов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "items[1] = \"Z\"  // Изменяет элемент по индексу"
+    }
+  ]
+}
