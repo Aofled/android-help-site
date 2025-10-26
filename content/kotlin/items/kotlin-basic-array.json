@@ -12,7 +12,16 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "val numbers = arrayOf(1, 2, 3)              // Array<Int>\nval names = arrayOf(\"Alice\", \"Bob\")         // Array<String>\nval mixed = arrayOf(1, \"Text\", true)        // Array<Any>\nval array = arrayOf(1, 2, 3, 4, 5, null)    // Массив, который может содержать Int и null (Array<Int?>)\nval array: Array<Int?> = arrayOfNulls(10)   // Если мы не решили, какие переменные будут. В круглых скобках размер массива, тип массива указывается обязательно.\nval array = arrayOfNulls<Int?>(10)          // Эквивалентно предыдущей записи"
+      "value": "val numbers = arrayOf(1, 2, 3)              // Array<Int>\nval names = arrayOf(\"Alice\", \"Bob\")         // Array<String>\nval mixed = arrayOf(1, \"Text\", true)        // Array<Any>\nval array = arrayOf(1, 2, 3, 4, 5, null)    // Массив, который может содержать Int и null (Array<Int?>)\nval array: Array<Int?> = arrayOfNulls(10)   // Если мы не решили, какие переменные будут. В круглых скобках размер массива, тип массива указывается обязательно.\nval array = arrayOfNulls<Int?>(10)          // Эквивалентно предыдущей записи\nval matrix = Array(3) { IntArray(3) { 0 } } // Двумерный массив 3x3, заполнен нулями"
+    },
+    {
+      "type": "text",
+      "value": "Создание через конструктор"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Через конструктор Array(size) { lambda }\nval squares = Array(5) { i -> (i + 1) * (i + 1) }  // [1, 4, 9, 16, 25]\nval nulls = Array(3) { null }  // [null, null, null]"
     },
     {
       "type": "text",
@@ -30,7 +39,7 @@
     },
     {
       "type": "text",
-      "value": "- Создание через конструктор"
+      "value": "Создание через конструктор"
     },
     {
       "type": "code",
@@ -44,7 +53,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "val arr = arrayOf(10, 20, 30)\n\n// Чтение\nprintln(arr[0])     // получить нулевой элемент массива\nprintln(arr.get(1)) // получить первый элемент массива\n\n// Запись\narr[0] = 100        // [100, 20, 30] - запись в нулевой эдемент массива\narr.set(2, 200)     // [100, 20, 200] - запись в первый элемент массива"
+      "value": "val arr = arrayOf(10, 20, 30)\n\n// Чтение\nprintln(arr[0])     // получить нулевой элемент массива\nprintln(arr.get(1)) // получить первый элемент массива\n\n// Запись\nval array = IntArray(3)  // [0, 0, 0]\narray.fill(5)  // [5, 5, 5]\narr[0] = 100        // [100, 5, 5] - запись в нулевой эдемент массива\narr.set(2, 200)     // [100, 5, 200] - запись во второй элемент массива"
     },
     {
       "type": "text",
@@ -53,7 +62,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "Операция\t             Пример\t                    Результат\nРазмер\t                     arr.siz                        3\nПроверка на элемент          20 in arr\t                    true\nИтерация\t             arr.forEach{ println(it) }\t    Вывод всех элементов\nПоиск индекса\t             arr.indexOf(20)\t            1\nПреобразование в коллекцию   array.toList().                Коллекция"
+      "value": "Операция\t             Пример\t                    Результат\nРазмер\t                     arr.size                       3\nПроверка на элемент          20 in arr\t                    true\nИтерация\t             arr.forEach{ println(it) }\t    Вывод всех элементов\nПоиск индекса\t             arr.indexOf(20)\t            1\nПреобразование в коллекцию   array.toList().                Коллекция"
     }
   ]
 }

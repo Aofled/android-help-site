@@ -57,7 +57,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "val array: Array<Int> = arrayOf(10, 15, 33, 61, 17)\nfor ((index, element) in array.withIndex()){\n    println(index)\n    println(element)\n    //аналог for (element in array)\n    //index — текущий индекс элемента (начинается с 0).\n    //element — значение элемента массива.\n}"
+      "value": "val array: Array<Int> = arrayOf(10, 15, 33, 61, 17)\nfor ((index, value) in array.withIndex()){\n    println(index)\n    println(value)\n    //аналог for (value in array)\n    //index — текущий индекс элемента (начинается с 0).\n    //value — значение элемента массива.\n}"
     },
     {
       "type": "text",

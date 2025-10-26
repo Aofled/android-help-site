@@ -8,6 +8,11 @@
     {
       "type": "code",
       "language": "kotlin",
+      "value": "Тип\t\tИнициализация\t\t\t\tИзменяемость\nArray\t\tarrayOf(), Array(size) { ... }\t\tЭлементы — да, размер — нет\nIntArray\tintArrayOf(), IntArray(size)\t\tЭлементы — да, размер — нет\nList\t\tlistOf(), List(size) { ... }\t\tНет\nMutableList\tmutableListOf(), ArrayList()\t\tДа"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
       "value": "Критерий\t    Массивы (Array)\t         Коллекции (List, Set, Map)\nРазмер\t            Фиксированный\t         Динамический (кроме List)\nИзменяемость\t    Да (элементы)\t         Зависит от типа (Mutable/не Mutable)\nПроизводительность  Быстрее (особенно IntArray)\t Гибче, но может быть медленнее\nNull-безопасность   Да (если Array<T?>)\t         Да (если List<T?>)"
     },
     {
@@ -35,7 +40,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "// Массив → Список\nval array = arrayOf(1, 2, 3)\nval list = array.toList()          // [1, 2, 3]\n\n// Список → Массив\nval newArray = list.toTypedArray() // Array<Int>"
+      "value": "// Array → List\nval array = arrayOf(1, 2, 3)\nval list = array.toList()          // [1, 2, 3]\n// IntArray → List\nval intArray = intArrayOf(1, 2, 3)\nval list = intArray.toList()       // List<Int>\n\n// List → Array\nval list = listOf(1, 2, 3)\nval array = list.toTypedArray()  // Array<Int>\n\n// Array → MutableList\nval array = arrayOf(\"A\", \"B\")\nval mutableList = array.toMutableList()  // MutableList<String>"
     },
     {
       "type": "text",
