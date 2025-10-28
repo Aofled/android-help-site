@@ -11,6 +11,11 @@
           "contentFile": "kotlin-variables.json"
         },
         {
+          "title": "Преобразование типов",
+          "url": "#kotlin-type-conversion",
+          "contentFile": "kotlin-type-conversion.json"
+        },
+        {
           "title": "Оператор выбора If",
           "url": "#kotlin-if-operator",
           "contentFile": "kotlin-if-operator.json"
@@ -80,7 +85,18 @@
       "title": "Функции (fun)",
       "url": "#kotlin-functions",
       "contentFile": "kotlin-basic-functions.json",
-      "subItems": []
+      "subItems": [
+        {
+        "title": "Лямбда выражения (Анонимные функции)",
+        "url": "#kotlin-lambda-expressions",
+        "contentFile": "kotlin-lambda-expressions.json"
+      }
+      ]
+    },
+    {
+      "title": "Исключения (Exeption)",
+      "url": "#kotlin-exeption",
+      "contentFile": "kotlin-exeption.json"
     }
   ]
 }

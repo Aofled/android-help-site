@@ -1,0 +1,84 @@
+{
+  "title": "Лямбда выражения (Анонимные методы) ",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### Лямбда-выражения"
+    },
+    {
+      "type": "text",
+      "value": "`Лямбды` и `анонимные функции` позволяют кратко описывать блоки кода, которые можно передавать как аргументы или сохранять в переменных. Они активно используются в **функциональном** стиле программирования."
+    },
+    {
+      "type": "text",
+      "value": "Заключается в фигурные скобки **{}**\n\nПараметры указываются слева от **->**\n\nТело выражения — справа от **->**\n\nТипы можно указывать явно"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sum = { a: Int, b: Int -> a + b }\nprintln(sum(2, 3)) // 5"
+    },
+    {
+      "type": "text",
+      "value": "Альтернативная (предпочитаемая запись функции)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sum: (Int, Int)-> Int = { a, b -> a + b }\nprintln(sum(2, 3)) // 5"
+    },
+    {
+      "type": "text",
+      "value": "Если функция ничего не возвращает, то указываем -> `Unit` – это аналог `void` в Java."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val writeName: (String) -> Unit = { Log.d(\"TAG\", \"$it\") }"
+    },
+    {
+      "type": "text",
+      "value": "#### Особенности лямбд в Kotlin"
+    },
+    {
+      "type": "text",
+      "value": "- Последний лямбда-аргумент. Если лямбда — последний параметр функции, её можно вынести за скобки:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Обычный вызов\nnumbers.fold(0, { acc, num -> acc + num })\n\n// Улучшенный синтаксис\nnumbers.fold(0) { acc, num -> acc + num }"
+    },
+    {
+      "type": "text",
+      "value": "- Лямбда без параметров"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sayHello = { println(\"Hello!\") }\nsayHello()"
+    },
+    {
+      "type": "text",
+      "value": "- Возврат из лямбды. По умолчанию возвращается последнее выражение:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val max = { a: Int, b: Int -> \n    if (a > b) a else b\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Анонимные функции"
+    },
+    {
+      "type": "text",
+      "value": "Альтернативный синтаксис, похожий на обычные функции:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val isEven = fun(num: Int): Boolean {\n    return num % 2 == 0\n}\nprintln(isEven(4)) // true"
+    }
+  ]
+}

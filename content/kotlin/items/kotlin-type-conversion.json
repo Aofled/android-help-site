@@ -1,0 +1,105 @@
+{
+  "title": "Преобразование типов",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Базовые преобразования"
+    },
+    {
+      "type": "text",
+      "value": "#### Числовые типы"
+    },
+    {
+      "type": "text",
+      "value": "Kotlin не поддерживает неявное преобразование чисел (например, из Int в Long). Все преобразования должны быть явными."
+    },
+    {
+      "type": "text",
+      "value": "Доступные методы для чисел:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": ".toByte()\n.toShort()\n.toInt()\n.toLong()\n.toFloat()\n.toDouble()\n.toChar()"
+    },
+    {
+      "type": "text",
+      "value": "#### Строки (String)"
+    },
+    {
+      "type": "text",
+      "value": "- Число → Строка"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val number = 42\nval text = number.toString()  // \"42\""
+    },
+    {
+      "type": "text",
+      "value": "- Строка → Число"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val text = \"123\"\nval number = text.toInt()  // 123\n\n// Безопасное преобразование (возвращает null при ошибке)\nval safeNumber = text.toIntOrNull()  // Int?"
+    },
+    {
+      "type": "text",
+      "value": "### Проверка и приведение типов"
+    },
+    {
+      "type": "text",
+      "value": "- Проверка типа (`is`)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val obj: Any = \"Kotlin\"\n\nif (obj is String) {\n    println(obj.length)  // Smart Cast: obj автоматически становится String\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Приведение типа (`as` и `as?`)"
+    },
+    {
+      "type": "text",
+      "value": "Опасное приведение (`as`). Выбрасывает исключение **ClassCastException**, если типы не совместимы."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val obj: Any = \"Hello\"\nval str = obj as String  // OK"
+    },
+    {
+      "type": "text",
+      "value": "Безопасное приведение (`as?`). Возвращает null при неудаче."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val obj: Any = 123\nval str = obj as? String  // null (без исключения)"
+    },
+    {
+      "type": "text",
+      "value": "### Работа с коллекциями"
+    },
+    {
+      "type": "text",
+      "value": "- Преобразование списков"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(1, 2, 3)\nval strings = numbers.map { it.toString() }  // [\"1\", \"2\", \"3\"]"
+    },
+    {
+      "type": "text",
+      "value": "- Приведение типов в коллекциях"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val mixedList: List<Any> = listOf(1, \"A\", true)\nval strings = mixedList.filterIsInstance<String>()  // [\"A\"]"
+    }
+  ]
+}

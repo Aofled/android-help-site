@@ -1,0 +1,69 @@
+{
+  "title": "Исключения (Exceptions)",
+  "content": [
+    {
+      "type": "text",
+      "value": "Исключения — это механизм обработки ошибок и нестандартных ситуаций в программе."
+    },
+    {
+      "type": "text",
+      "value": "В Kotlin так же можно создавать свои исключения."
+    },
+    {
+      "type": "text",
+      "value": "В Kotlin все исключения наследуются от класса `Throwable`. Два основных подтипа:"
+    },
+    {
+      "type": "text",
+      "value": "- `Exception`\t\"**Проверяемые\" (checked)** исключения (например, IOException). Обязательны к обработке. Если метод может выбросить проверяемое исключение, компилятор требует явно указать это в сигнатуре метода или обработать его в try-catch. Если не обработать, код **не скомпилируется**."
+    },
+    {
+      "type": "text",
+      "value": "Для ошибок, которые можно предвидеть и которые программа должна обработать (например, отсутствие файла, проблемы с сетью)"
+    },
+    {
+      "type": "text",
+      "value": "- `RuntimeException`\t\"**Непроверяемые\" (unchecked)** исключения (например, NullPointerException). Не требуют обязательной обработки. Компилятор не проверяет, поймали ли вы такое исключение"
+    },
+    {
+      "type": "text",
+      "value": "Для ошибок, которые возникают из-за логических ошибок в коде (некорректные аргументы, обращение к null и т.д.)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Иерархия:\nThrowable\n├── Exception\n│   ├── IOException\n│   └── ClassNotFoundException\n└── RuntimeException\n    ├── NullPointerException\n    └── IllegalArgumentException"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные исключения Kotlin"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "NullPointerException\t          При обращении к null\nIllegalArgumentException\t  Некорректный аргумент метода\nIllegalStateException\t          Некорректное состояние объекта\nIndexOutOfBoundsException\t  Выход за границы коллекции/массива\nUnsupportedOperationException\t  Вызов неподдерживаемой операции"
+    },
+    {
+      "type": "text",
+      "value": "#### Обработка исключений"
+    },
+    {
+      "type": "text",
+      "value": "- Блок `try-catch`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "try {\n    // Код, который может выбросить исключение\n    val result = 10 / 0\n} catch (e: ArithmeticException) {\n    // Обработка конкретного исключения\n    println(\"Деление на ноль: ${e.message}\")\n} catch (e: Exception) {\n    // Общий обработчик\n    println(\"Произошла ошибка: ${e.javaClass.simpleName}\")\n} finally {\n    // Блок, который выполнится в любом случае\n    println(\"Завершение операции\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Выражение `try-catch`. В Kotlin try-catch может возвращать значение:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val number = try {\n    \"123\".toInt()\n} catch (e: NumberFormatException) {\n    -1  // Значение по умолчанию при ошибке\n}\nprintln(number)  // 123 или -1"
+    }
+  ]
+}
