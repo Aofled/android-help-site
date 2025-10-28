@@ -9,6 +9,37 @@
       "type": "code",
       "language": "kotlin",
       "value": "// Пример с возвращаемым значением\nfun sum(a: Int, b: Int): Int {\n    return a + b\n}\n\n// Сокращенная форма (single-expression функции)\nfun sum(a: Int, b: Int) = a + b // Так же тут понятно, какой тип у возвращаемого значения, так что его можно не указывать"
+    },
+    {
+      "type": "text",
+      "value": "#### Особенности функций в Kotlin"
+    },
+    {
+      "type": "text",
+      "value": "- Аргументы по умолчанию"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "greet()          // Привет, Гость!\ngreet(\"Иван\")    // Привет, Иван!\n\nfun greet(name: String = \"Гость\") {\n    println(\"Привет, $name!\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Именованные аргументы. Позволяют передавать параметры в любом порядке."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "createUser(age = 25, name = \"Анна\")  // Порядок не важен\n\nfun createUser(name: String, age: Int, isActive: Boolean = true) {\n    println(\"Имя: $name, Возраст: $age, Активен: $isActive\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Переменное число аргументов (vararg)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "printAll(\"Привет\", \"Kotlin\", \"!\")  // Можно передать любое количество строк\n\nfun printAll(vararg messages: String) {\n    for (m in messages) println(m)\n}"
     }
   ]
 }
