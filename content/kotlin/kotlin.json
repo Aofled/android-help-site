@@ -83,14 +83,29 @@
     },
     {
       "title": "Функции (fun)",
-      "url": "#kotlin-functions",
+      "url": "#kotlin-basic-functions",
       "contentFile": "kotlin-basic-functions.json",
       "subItems": [
         {
-        "title": "Лямбда выражения (Анонимные функции)",
-        "url": "#kotlin-lambda-expressions",
-        "contentFile": "kotlin-lambda-expressions.json"
-      }
+          "title": "Лямбда выражения (Анонимные функции)",
+          "url": "#kotlin-lambda-expressions",
+          "contentFile": "kotlin-lambda-expressions.json"
+        },
+        {
+          "title": "Функция высшего порядка filter",
+          "url": "#kotlin-functions-filter",
+          "contentFile": "kotlin-functions-filter.json"
+        },
+        {
+          "title": "Функция высшего порядка map",
+          "url": "#kotlin-functions-map",
+          "contentFile": "kotlin-functions-map.json"
+        },
+        {
+          "title": "Функция сортировки sorted",
+          "url": "#kotlin-functions-sorted",
+          "contentFile": "kotlin-functions-sorted.json"
+        }
       ]
     },
     {

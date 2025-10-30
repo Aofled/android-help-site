@@ -1,0 +1,49 @@
+{
+  "title": "Функция высшего порядка map",
+  "content": [
+    {
+      "type": "text",
+      "value": "Метод `map` — это одна из самых часто используемых функций для работы с коллекциями в Kotlin. Он позволяет преобразовать каждый элемент коллекции по заданному правилу и вернуть новую коллекцию с результатами."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val newCollection = collection.map { элемент -> преобразование }"
+    },
+    {
+      "type": "text",
+      "value": "- Применяет лямбда-выражение к **каждому элементу** исходной коллекции.\n\n\n\n- Возвращает **новую коллекцию** (исходная не изменяется).\n\n\n\n- Тип элементов в новой коллекции может отличаться от исходного."
+    },
+    {
+      "type": "text",
+      "value": "#### Разновидности `map`"
+    },
+    {
+      "type": "text",
+      "value": "- **mapIndexed()** Преобразование с учётом индекса элемента:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = listOf(\"a\", \"b\", \"c\").mapIndexed { index, value -> \n    \"$index: $value\" \n}  // [\"0: a\", \"1: b\", \"2: c\"]"
+    },
+    {
+      "type": "text",
+      "value": "- **mapNotNull()** Игнорирует null-результаты преобразования:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(\"1\", \"two\", \"3\")\nval parsedNumbers = numbers.mapNotNull { it.toIntOrNull() }  // [1, 3]"
+    },
+    {
+      "type": "text",
+      "value": "- **mapTo()** Добавляет результаты в существующую коллекцию:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val targetList = mutableListOf<String>()\nlistOf(1, 2, 3).mapTo(targetList) { \"Number $it\" }  // targetList = [\"Number 1\", \"Number 2\", \"Number 3\"]"
+    }
+  ]
+}

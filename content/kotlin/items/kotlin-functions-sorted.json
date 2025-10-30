@@ -1,0 +1,53 @@
+{
+  "title": "Функция высшего порядка sorted",
+  "content": [
+    {
+      "type": "text",
+      "value": "Метод `sorted` используется для **сортировки элементов коллекции** в естественном порядке (по возрастанию). Он возвращает **новый список**, оставляя исходную коллекцию неизменной."
+    },
+    {
+      "type": "text",
+      "value": "Сортировка простых типов\n\nДля сортировки по убыванию используйте `sortedDescending()`."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(3, 1, 4, 2)\nval sortedNumbers = numbers.sorted()  // [1, 2, 3, 4]\n\nval letters = listOf(\"D\", \"A\", \"C\", \"B\")\nval sortedLetters = letters.sorted()  // [\"A\", \"B\", \"C\", \"D\"]"
+    },
+    {
+      "type": "text",
+      "value": "#### Сортировка сложных объектов"
+    },
+    {
+      "type": "text",
+      "value": "Если элементы не поддерживают `Comparable`, можно указать правило сортировки через `sortedBy` или `sortedWith`"
+    },
+    {
+      "type": "text",
+      "value": "- `sortedBy` (сортировка по полю)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Person(val name: String, val age: Int)\n\nval people = listOf(\n    Person(\"Alice\", 25),\n    Person(\"Bob\", 20),\n    Person(\"Charlie\", 30)\n)\n\n// Сортировка по возрасту (по возрастанию)\nval sortedByAge = people.sortedBy { it.age }  \n// [Person(\"Bob\", 20), Person(\"Alice\", 25), Person(\"Charlie\", 30)]"
+    },
+    {
+      "type": "text",
+      "value": "- `sortedByDescending` (сортировка по убыванию)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sortedByAgeDesc = people.sortedByDescending { it.age }  \n// [Person(\"Charlie\", 30), Person(\"Alice\", 25), Person(\"Bob\", 20)]"
+    },
+    {
+      "type": "text",
+      "value": "- `sortedWith` (кастомный компаратор)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Сначала по имени, затем по возрасту\nval customSorted = people.sortedWith(compareBy({ it.name }, { it.age }))"
+    }
+  ]
+}

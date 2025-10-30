@@ -1,0 +1,72 @@
+{
+  "title": "Функция высшего порядка filter",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Метод filter` — это стандартная функция-расширение для коллекций (списков, множеств, массивов и т.д.), которая позволяет отфильтровать элементы по заданному условию."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val filteredList = collection.filter { элемент -> условие }"
+    },
+    {
+      "type": "text",
+      "value": "- Возвращает **новую коллекцию** только с теми элементами, для которых условие вернуло true.\n\n- Исходная коллекция **не изменяется**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(1, 2, 3, 4, 5)\nval evenNumbers = numbers.filter { it % 2 == 0 }  // [2, 4]"
+    },
+    {
+      "type": "text",
+      "value": "#### Разновидности `filter`"
+    },
+    {
+      "type": "text",
+      "value": "- **filterTo()**. Фильтрует элементы и добавляет их в существующую коллекцию:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val targetList = mutableListOf<Int>()\nnumbers.filterTo(targetList) { it > 3 }  // targetList = [4, 5]"
+    },
+    {
+      "type": "text",
+      "value": "- **filterIndexed()**. Фильтрация с учётом индекса элемента:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = listOf(\"a\", \"b\", \"c\").filterIndexed { index, _ -> index % 2 == 0 }  // [\"a\", \"c\"]"
+    },
+    {
+      "type": "text",
+      "value": "- **filterNot()** Оставляет элементы, не удовлетворяющие условию:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val oddNumbers = numbers.filterNot { it % 2 == 0 }  // [1, 3, 5]"
+    },
+    {
+      "type": "text",
+      "value": "- **filterIsInstance()** Отбирает элементы определённого типа:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val mixedList = listOf(1, \"two\", 3, \"four\")\nval numbersOnly = mixedList.filterIsInstance<Int>()  // [1, 3]"
+    },
+    {
+      "type": "text",
+      "value": "- **filterNotNull()** Удаляет все null из коллекции:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val listWithNulls = listOf(1, null, 2, null)\nval withoutNulls = listWithNulls.filterNotNull()  // [1, 2]"
+    }
+  ]
+}
