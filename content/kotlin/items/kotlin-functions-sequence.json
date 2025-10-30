@@ -1,0 +1,84 @@
+{
+  "title": "Бесконечные последовательности (Sequence)",
+  "content": [
+    {
+      "type": "text",
+      "value": "Бесконечные последовательности (`Sequence`) — это **лениво вычисляемые** коллекции, которые могут генерировать элементы **без ограничения по размеру**. Они особенно полезны для работы с потенциально бесконечными потоками данных или ресурсоёмкими вычислениями."
+    },
+    {
+      "type": "text",
+      "value": "#### Создание бесконечных последовательностей"
+    },
+    {
+      "type": "text",
+      "value": "- Генерация с generateSequence"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Бесконечная последовательность чисел, начиная с 1\nval numbers = generateSequence(1) { it + 1 }\nprintln(numbers.take(5).toList()) // [1, 2, 3, 4, 5]"
+    },
+    {
+      "type": "text",
+      "value": "С условием остановки:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val limited = generateSequence(1) { if (it < 10) it + 1 else null }\nprintln(limited.toList()) // [1, 2, 3, ..., 10]"
+    },
+    {
+      "type": "text",
+      "value": "#### Особенности работы"
+    },
+    {
+      "type": "text",
+      "value": "- Ленивые вычисления. Элементы вычисляются **только при обращении**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val seq = generateSequence {\n    println(\"Генерация элемента\")\n    (1..100).random()\n}\n\n// Элементы ещё не созданы!\nval first = seq.take(3).toList() // Генерация происходит здесь"
+    },
+    {
+      "type": "text",
+      "value": "- Отсутствие размера"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val infinite = generateSequence(0) { it }\n// infinite.size // Ошибка! Последовательность бесконечна"
+    },
+    {
+      "type": "text",
+      "value": "- Оптимизация памяти. Не хранит все элементы в памяти, в отличие от списков:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Не вызовет OutOfMemoryError\nval hugeSequence = generateSequence(0) { it + 1 }\nhugeSequence.take(1_000_000).sum()"
+    },
+    {
+      "type": "text",
+      "value": "#### Практические примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Генерация случайных данных"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val randomNumbers = generateSequence { (0..100).random() }\nval top10 = randomNumbers.distinct().take(10).toList()"
+    },
+    {
+      "type": "text",
+      "value": "- Чтение файла построчно"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val lines = sequence {\n    File(\"data.txt\").useLines { lines ->\n        lines.forEach { yield(it) }\n    }\n}"
+    }
+  ]
+}

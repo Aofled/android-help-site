@@ -1,0 +1,40 @@
+{
+  "title": "Коллекция пар Pair",
+  "content": [
+    {
+      "type": "text",
+      "value": "Пары `(Pair)` — это простой способ хранить **два связанных значения** в одной структуре. Они часто используются для временного объединения данных, когда создавать отдельный класс избыточно."
+    },
+    {
+      "type": "text",
+      "value": "#### Создание пары"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Использование конструктора Pair()\nval pair = Pair(\"Иван\", 25)  // Pair<String, Int>\n\n// Инфиксная функция to\nval person = \"Иван\" to 25  // Эквивалентно Pair(\"Иван\", 25)\n\n// Явное указание типов\nval coordinates: Pair<Double, Double> = 12.5 to 34.8"
+    },
+    {
+      "type": "text",
+      "value": "#### Доступ к элементам"
+    },
+    {
+      "type": "text",
+      "value": "- Свойства **first** и **second**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "println(pair.first)   // \"Иван\"\nprintln(pair.second)  // 25"
+    },
+    {
+      "type": "text",
+      "value": "- Деструктуризация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val (name, age) = pair\nprintln(\"$name, $age лет\")  // \"Иван, 25 лет\""
+    }
+  ]
+}

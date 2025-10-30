@@ -1,0 +1,83 @@
+{
+  "title": "Функция zip и unzip",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Функция `zip`"
+    },
+    {
+      "type": "text",
+      "value": "Функция `zip` объединяет две коллекции в **пары элементов** (кортежи) по их позициям. Если коллекции разного размера, результирующая коллекция будет иметь длину **меньшей** из исходных коллекций."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = collection1.zip(collection2)"
+    },
+    {
+      "type": "text",
+      "value": "- Возвращает **List<Pair<T, R>>**, где **T** — тип элементов первой коллекции, R — второй.\n\n\n\n- Исходные коллекции **не изменяются**."
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Объединение списков"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val names = listOf(\"Алиса\", \"Боб\", \"Чарли\")\nval ages = listOf(25, 30, 22)\n\nval zipped = names.zip(ages)  \n// Результат: [(\"Алиса\", 25), (\"Боб\", 30), (\"Чарли\", 22)]"
+    },
+    {
+      "type": "text",
+      "value": "- Разные размеры коллекций"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val letters = listOf(\"A\", \"B\", \"C\")\nval numbers = listOf(1, 2)\n\nval result = letters.zip(numbers)  \n// Результат: [(\"A\", 1), (\"B\", 2)] (только 2 пары)"
+    },
+    {
+      "type": "text",
+      "value": "- Кастомное преобразование пар"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val names = listOf(\"Алиса\", \"Боб\")\nval ages = listOf(25, 30)\n\nval userDescriptions = names.zip(ages) { name, age -> \n    \"$name (возраст: $age)\" \n}\n// Результат: [\"Алиса (возраст: 25)\", \"Боб (возраст: 30)\"]"
+    },
+    {
+      "type": "text",
+      "value": "### Функция `unzip`"
+    },
+    {
+      "type": "text",
+      "value": "Функция `unzip` выполняет **обратное действие относительно zip**: она разбивает коллекцию пар (Pair) или кортежей на **две отдельные коллекции**, содержащие первые и вторые элементы каждой пары."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val (firstList, secondList) = collectionOfPairs.unzip()"
+    },
+    {
+      "type": "text",
+      "value": "- Принимает коллекцию типа **List<Pair<T, R>>** или **Iterable<Pair<T, R>>**.\n\n\n\n- Возвращает **Pair<List<T>**, **List<R>>**, где:\n\n\n\n     1) **firstList** — коллекция первых элементов всех пар.\n\n\n\n     2) **secondList** — коллекция вторых элементов всех пар."
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Разделение списка пар на два списка"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val pairs = listOf(\"a\" to 1, \"b\" to 2, \"c\" to 3)\nval (letters, numbers) = pairs.unzip()\n\nprintln(letters)  // [\"a\", \"b\", \"c\"]\nprintln(numbers)  // [1, 2, 3]"
+    }
+  ]
+}

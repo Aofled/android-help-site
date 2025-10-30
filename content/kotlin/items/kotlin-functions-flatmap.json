@@ -1,0 +1,79 @@
+{
+  "title": "Функция высшего порядка flatMap и flatten",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Разница между flatten() и flatMap()\n\n\n\n`flatten()`     Просто объединяет вложенные коллекции в одну.\t[1, 2, 3]\n\n`flatMap()`   Сначала преобразует каждый элемент (как map), затем объединяет (как flatten)."
+    },
+    {
+      "type": "text",
+      "value": "### Функция `flatMap`"
+    },
+    {
+      "type": "text",
+      "value": "Функция `flatMap` — это мощная функция для работы с коллекциями и последовательностями, которая сочетает в себе операции **map** (преобразование) и **flatten** (выравнивание). Он особенно полезен, когда каждый элемент коллекции преобразуется в несколько элементов или другую коллекцию."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = collection.flatMap { элемент -> преобразование_в_коллекцию }"
+    },
+    {
+      "type": "text",
+      "value": "- Принимает лямбда-выражение, которое **возвращает коллекцию** (Iterable, Sequence и т.д.).\n\n- **Объединяет все полученные коллекции** в одну результирующую.\n\n- Исходная коллекция **не изменяется**."
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Разделение строк на символы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val words = listOf(\"hello\", \"world\")\nval letters = words.flatMap { it.toList() }  // ['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']"
+    },
+    {
+      "type": "text",
+      "value": "- Работа с вложенными коллекциями"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val nestedLists = listOf(\n    listOf(1, 2),\n    listOf(3, 4)\n)\nval flatList = nestedLists.flatMap { it }  // [1, 2, 3, 4]"
+    },
+    {
+      "type": "text",
+      "value": "### Функция `flatten`"
+    },
+    {
+      "type": "text",
+      "value": "Функция `flatten()`+ используется для **\"выравнивания\" вложенных коллекций**, преобразуя коллекцию коллекций в единую плоскую коллекцию. Это особенно полезно, когда у вас есть структуры данных типа **List<List<T>>** и вам нужно получить простой **List<T>**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val nestedList: List<List<T>> = ...\nval flatList: List<T> = nestedList.flatten()"
+    },
+    {
+      "type": "text",
+      "value": "- Выравнивание списка списков:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val nestedNumbers = listOf(\n    listOf(1, 2),\n    listOf(3, 4),\n    listOf(5, 6)\n)\n\nval flatNumbers = nestedNumbers.flatten()  \n// Результат: [1, 2, 3, 4, 5, 6]"
+    },
+    {
+      "type": "text",
+      "value": "- Объединение данных из нескольких источников"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val ordersFromShops = listOf(\n    listOf(\"iPhone\", \"MacBook\"),\n    listOf(\"Samsung\", \"TV\"),\n    emptyList()\n)\n\nval allProducts = ordersFromShops.flatten()  \n// [\"iPhone\", \"MacBook\", \"Samsung\", \"TV\"]"
+    }
+  ]
+}

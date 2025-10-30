@@ -1,0 +1,110 @@
+{
+  "title": "Функции высшего порядка take и drop",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Метод take"
+    },
+    {
+      "type": "text",
+      "value": "Метод `take` используется для **выбора первых N элементов** из коллекции. Он возвращает новую коллекцию, содержащую указанное количество элементов, начиная с начала. Если элементов меньше, чем запрошено, возвращаются все доступные."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = collection.take(n)"
+    },
+    {
+      "type": "text",
+      "value": "- `n` — количество элементов, которые нужно взять.\n\n- Возвращает **новую коллекцию** (исходная не изменяется)."
+    },
+    {
+      "type": "text",
+      "value": "#### Разновидности `take`"
+    },
+    {
+      "type": "text",
+      "value": "- `takeLast()`. Берёт последние N элементов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val lastTwo = numbers.takeLast(2)  // [4, 5]"
+    },
+    {
+      "type": "text",
+      "value": "- `takeWhile()`. Берёт элементы пока условие истинно (прекращает проверку при первом false):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val list = listOf(1, 2, 3, -4, 5)\nval taken = list.takeWhile { it > 0 }  // [1, 2, 3] (остановился на -4)"
+    },
+    {
+      "type": "text",
+      "value": "- `takeLastWhile()`. Берёт элементы с конца пока условие истинно:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takenLast = listOf(5, -3, 2, 1).takeLastWhile { it > 0 }  // [2, 1]"
+    },
+    {
+      "type": "text",
+      "value": "- `takeIf()`. **Не относится к коллекциям!** Это функция-расширение для любого объекта:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val number = 42\nval result = number.takeIf { it % 2 == 0 }  // 42 (если условие true), иначе null"
+    },
+    {
+      "type": "text",
+      "value": "### Метод drop"
+    },
+    {
+      "type": "text",
+      "value": "Метод `drop` используется для **пропуска первых N элементов** коллекции и возврата оставшейся части. Это противоположность методу `take` — вместо выбора первых элементов, `drop` их отбрасывает."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = collection.drop(n)"
+    },
+    {
+      "type": "text",
+      "value": "- `n` — количество элементов, которые нужно пропустить.\n\n- Возвращает **новую коллекцию** (исходная остаётся неизменной).\n\n- Если `n` превышает размер коллекции, возвращается пустая коллекция."
+    },
+    {
+      "type": "text",
+      "value": "### Разновидности `drop`"
+    },
+    {
+      "type": "text",
+      "value": "- `dropLast()` Пропускает последние N элементов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val list = listOf(\"A\", \"B\", \"C\", \"D\")\nval result = list.dropLast(2)  // [\"A\", \"B\"] (пропущены \"C\" и \"D\")"
+    },
+    {
+      "type": "text",
+      "value": "- `dropWhile()` Пропускает элементы пока условие истинно (прекращает проверку при первом false):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(10, 20, 5, 30)\nval dropped = numbers.dropWhile { it > 15 }  // [5, 30] (пропущены 10 и 20)"
+    },
+    {
+      "type": "text",
+      "value": "- `dropLastWhile()` Пропускает элементы с конца пока условие истинно:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val data = listOf(5, 3, 8, 1, 0)\nval result = data.dropLastWhile { it < 4 }  // [5, 3, 8, 1] (пропущен 0)"
+    }
+  ]
+}

@@ -78,6 +78,16 @@
           "title": "Ассоциативные массивы (Map)",
           "url": "#kotlin-сollections-map",
           "contentFile": "kotlin-сollections-map.json"
+        },
+        {
+          "title": "Коллекция пар (Pair)",
+          "url": "#kotlin-сollections-pair",
+          "contentFile": "kotlin-сollections-pair.json"
+        },
+        {
+          "title": "Бесконечные последовательности (Sequence)",
+          "url": "#kotlin-functions-sequence",
+          "contentFile": "kotlin-functions-sequence.json"
         }
       ]
     },
@@ -92,19 +102,34 @@
           "contentFile": "kotlin-lambda-expressions.json"
         },
         {
-          "title": "Функция высшего порядка filter",
+          "title": "Функция filter",
           "url": "#kotlin-functions-filter",
           "contentFile": "kotlin-functions-filter.json"
         },
         {
-          "title": "Функция высшего порядка map",
+          "title": "Функция map",
           "url": "#kotlin-functions-map",
           "contentFile": "kotlin-functions-map.json"
+        },
+        {
+          "title": "Функция flatMap и flatten",
+          "url": "#kotlin-functions-flatmap",
+          "contentFile": "kotlin-functions-flatmap.json"
+        },
+        {
+          "title": "Функция zip и unzip",
+          "url": "#kotlin-functions-zip-unzip",
+          "contentFile": "kotlin-functions-zip-unzip.json"
         },
         {
           "title": "Функция сортировки sorted",
           "url": "#kotlin-functions-sorted",
           "contentFile": "kotlin-functions-sorted.json"
+        },
+        {
+          "title": "Функции take и drop",
+          "url": "#kotlin-functions-take-and-drop",
+          "contentFile": "kotlin-functions-take-and-drop.json"
         }
       ]
     },

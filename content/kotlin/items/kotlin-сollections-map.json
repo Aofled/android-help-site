@@ -1,0 +1,67 @@
+{
+  "title": "Ассоциативные массивы (Map)",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Map`** (словарь)** — это коллекция, которая хранит данные в виде пар **ключ-значение**. Каждый ключ уникален и соответствует одному значению. Kotlin предоставляет несколько реализаций Map, включая **изменяемые** и **неизменяемые** версии."
+    },
+    {
+      "type": "text",
+      "value": "#### Неизменяемая `Map` (**mapOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val capitals = mapOf(\n    \"Россия\" to \"Москва\",\n    \"Франция\" to \"Париж\",\n    \"Япония\" to \"Токио\"\n)"
+    },
+    {
+      "type": "text",
+      "value": "#### Изменяемая `Map` (**mutableMapOf**, **hashMapOf**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val countries = mutableMapOf(\n    \"USA\" to \"Washington\",\n    \"Germany\" to \"Berlin\"\n)\ncountries[\"Italy\"] = \"Rome\"  // Добавление элемента"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные операции"
+    },
+    {
+      "type": "text",
+      "value": "- Доступ к элементам"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val russiaCapital = capitals[\"Россия\"]  // \"Москва\"\nval japanCapital = capitals.getOrDefault(\"Япония\", \"Не найдено\")  // \"Токио\""
+    },
+    {
+      "type": "text",
+      "value": "- Добавление и изменение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val map = mutableMapOf(\"a\" to 1)\nmap[\"b\"] = 2          // Добавляет \"b\" -> 2\nmap.put(\"c\", 3)       // Классический способ\nmap += \"d\" to 4       // Перегруженный оператор"
+    },
+    {
+      "type": "text",
+      "value": "- Удаление"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "map.remove(\"a\")        // Удаляет по ключу\nmap.clear()            // Очищает Map"
+    },
+    {
+      "type": "text",
+      "value": "- Проверки"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "println(\"Россия\" in capitals)  // true (проверка ключа)\nprintln(capitals.containsValue(\"Берлин\"))  // false"
+    }
+  ]
+}
