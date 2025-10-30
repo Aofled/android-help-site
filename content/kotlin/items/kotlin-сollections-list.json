@@ -16,7 +16,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "// 1. Через listOf()\nval emptyList = listOf<String>()            // Пустой список\nval simpleList = listOf(1, 2, 3)            // List<Int>\nval colors = listOf(\"Red\", \"Green\", \"Blue\") // List<String>\nval nullableList = listOf(1, null, 3)       // List<Int?>\n\n// 2. Через List(size) { lambda }\nval generatedList = List(3) { it * 2 }      // [0, 2, 4] (it = индекс)\n\n// 3. Из массива\nval array = arrayOf(\"A\", \"B\")\nval listFromArray = array.toList()          // List<String> [\"A\", \"B\"]"
+      "value": "// 1. Через listOf()\nval emptyList = listOf<String>()            // Пустой список\nval simpleList = listOf(1, 2, 3)            // List<Int>\nval colors = listOf(\"Red\", \"Green\", \"Blue\") // List<String>\nval nullableList = listOf(1, null, 3)       // List<Int?>\n\n// 2. Через List(size) { lambda }\nval generatedList = List(3) { it * 2 }      // [0, 2, 4] (it = индекс)\n\n// 3. Из массива\nval array = arrayOf(\"A\", \"B\")\nval listFromArray = array.toList()          // List<String> [\"A\", \"B\"]\n\n// 3. На основе диапазона\nval numbers = (0..100).toList()"
     },
     {
       "type": "text",
