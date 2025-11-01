@@ -102,6 +102,13 @@ function setupSidebarListeners() {
 
         loadContent(link.dataset.section, link.dataset.contentFile);
         updateUrl(link.href);
+
+        if (window.matchMedia('(max-width: 1023px)').matches) {
+            const sidebar = document.querySelector('.sidebar');
+            const burger = document.querySelector('.burger-menu');
+            sidebar.classList.remove('mobile-visible');
+            burger?.classList.remove('active');
+        }
     };
 
     addEventListener(sidebarEl, 'click', clickHandler);

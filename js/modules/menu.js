@@ -1,6 +1,14 @@
 import {loadSidebarMenu} from './sidebar.js';
 
 export function setupMenu() {
+    const burgerMenu = document.querySelector('.burger-menu');
+    if (burgerMenu) {
+        burgerMenu.addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('mobile-visible');
+            burgerMenu.classList.toggle('active');
+        });
+    }
+
     const menuItems = document.querySelectorAll('[data-menu-item]');
 
     function setActiveMenuItem(activeItem) {
