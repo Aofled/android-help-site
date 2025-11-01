@@ -34,7 +34,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "val russiaCapital = capitals[\"Россия\"]  // \"Москва\"\nval japanCapital = capitals.getOrDefault(\"Япония\", \"Не найдено\")  // \"Токио\""
+      "value": "val russiaCapital = capitals[\"Россия\"]  // \"Москва\"\nval japanCapital = capitals.getOrDefault(\"Япония\", \"Не найдено\")  // \"Токио\"\n\n// Получаем все ключи\nval allCountries = capitals.keys //\"Россия\" \"Франция\" \"Япония\"\n\n// Получаем все значения\nval allCities = capitals.values //\"Москва\" \"Париж\" \"Токио\""
     },
     {
       "type": "text",
