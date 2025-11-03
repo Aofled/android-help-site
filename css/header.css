@@ -58,6 +58,12 @@
     background: #f0f0f0;
 }
 
+@media (min-width: 1024px) {
+    .burger-menu {
+        display: none;
+    }
+}
+
 [data-theme="light"] {
     --android-dark: #f8f9fa;
     --android-light: #202124;
