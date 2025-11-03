@@ -102,6 +102,26 @@
           "contentFile": "kotlin-lambda-expressions.json"
         },
         {
+          "title": "Функции высшего порядка, inline функции",
+          "url": "#kotlin-functions-higher-order",
+          "contentFile": "kotlin-functions-higher-order.json"
+        },
+        {
+          "title": "Extension функции",
+          "url": "#kotlin-functions-extension",
+          "contentFile": "kotlin-functions-extension.json"
+        },
+        {
+          "title": "Функция with",
+          "url": "#kotlin-functions-with",
+          "contentFile": "kotlin-functions-with.json"
+        },
+        {
+          "title": "Функция let",
+          "url": "#kotlin-functions-let",
+          "contentFile": "kotlin-functions-let.json"
+        },
+        {
           "title": "Функция filter",
           "url": "#kotlin-functions-filter",
           "contentFile": "kotlin-functions-filter.json"
@@ -137,6 +157,16 @@
       "title": "Исключения (Exeption)",
       "url": "#kotlin-exeption",
       "contentFile": "kotlin-exeption.json"
+    },
+    {
+      "title": "Базовые операции со строками",
+      "url": "#kotlin-basic-string",
+      "contentFile": "kotlin-basic-string.json"
+    },
+    {
+      "title": "Generics (обобщённые типы)",
+      "url": "#kotlin-basic-generics",
+      "contentFile": "kotlin-basic-generics.json"
     }
   ]
 }

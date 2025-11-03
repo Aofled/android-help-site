@@ -1,0 +1,32 @@
+{
+  "title": "Функция высшего порядка with",
+  "content": [
+    {
+      "type": "text",
+      "value": "Функция `with` — это стандартная функция-расширение Kotlin, которая позволяет выполнить **блок кода в контексте переданного объекта**, упрощая доступ к его свойствам и методам без постоянного повторения имени объекта."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "with(объект) {\n    // В этом блоке `this` — это переданный объект\n    // Можно обращаться к его свойствам и методам напрямую\n}"
+    },
+    {
+      "type": "text",
+      "value": "Пример"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(var name: String, var age: Int)\n\nval person = Person(\"Иван\", 30)\n\nwith(person) {\n    println(\"Имя: $name, Возраст: $age\")  // Доступ к свойствам без `person.`\n    age += 1                              // Изменение свойства\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Возвращаемое значение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val personInfo = with(person) {\n    \"Имя: $name, Возраст: $age\"  // Это строка будет возвращена\n}\nprintln(personInfo)  // \"Имя: Иван, Возраст: 31\""
+    }
+  ]
+}

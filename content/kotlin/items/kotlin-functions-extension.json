@@ -1,0 +1,49 @@
+{
+  "title": "Extension-функции (функции-расширения)",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Extension-функции` позволяют **добавлять новые методы** к существующим классам, даже если они из стандартной библиотеки или сторонних SDK. Это мощный инструмент для улучшения читаемости кода и организации логики."
+    },
+    {
+      "type": "text",
+      "value": "- Расширения **не модифицируют** оригинальный класс.\n\n- Работают как статические методы в Java, но вызываются через точку."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun Класс.имяФункции(параметры): ВозвращаемыйТип {\n    // `this` — ссылка на объект, для которого вызвана функция\n}"
+    },
+    {
+      "type": "text",
+      "value": "Пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Добавляем функцию `lastChar` к классу String\nfun String.lastChar(): Char = this[length - 1]\n\n// Использование\nval last = \"Kotlin\".lastChar()  // 'n'"
+    },
+    {
+      "type": "text",
+      "value": "Доступ к public-членам класса"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun String.printLength() {\n    println(\"Длина: ${this.length}\")  // Можно опустить `this`\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Практические примеры:"
+    },
+    {
+      "type": "text",
+      "value": "Упрощение работы с View (Android)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun View.show() {\n    visibility = View.VISIBLE\n}\n\nfun View.hide() {\n    visibility = View.GONE\n}\n\n// Использование\nbutton.show()\ntextView.hide()"
+    }
+  ]
+}

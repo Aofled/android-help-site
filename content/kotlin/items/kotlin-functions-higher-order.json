@@ -1,0 +1,78 @@
+{
+  "title": "Функции высшего порядка (Higher-Order Functions) и inline функции",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Функции высшего порядка"
+    },
+    {
+      "type": "text",
+      "value": "**Функция высшего порядка** — это функция, которая:\n\n\n\n- **Принимает другую функцию** в качестве параметра **или**\n\n\n\n- **Возвращает функцию** как результат.\n\n\n\nКаждая лямбда создает объект (для оптимизации используйте inline-функции)."
+    },
+    {
+      "type": "text",
+      "value": "- Функция, **принимающая лямбду**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun calculate(a: Int, b: Int, operation: (Int, Int) -> Int): Int {\n    return operation(a, b)\n}\n\n// Использование:\nval sum = calculate(5, 3) { x, y -> x + y }  // 8\nval mult = calculate(5, 3) { x, y -> x * y }  // 15"
+    },
+    {
+      "type": "text",
+      "value": "- Функция, **возвращающая лямбду**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun getMultiplier(factor: Int): (Int) -> Int {\n    return { number -> number * factor }\n}\n\n// Использование:\nval triple = getMultiplier(3)\nprintln(triple(5))  // 15"
+    },
+    {
+      "type": "text",
+      "value": "### Inline-функции"
+    },
+    {
+      "type": "text",
+      "value": "`Inline-функции` — это функции, которые Kotlin компилятор **подставляет напрямую в место вызова**, вместо генерации обычного вызова функции. Это позволяет избежать накладных расходов, связанных с созданием объектов для лямбда-выражений, и повышает производительность."
+    },
+    {
+      "type": "text",
+      "value": "`Inline-функции` **увеличивают размер скомпилированного кода**, так как тело функции копируется в каждое место вызова."
+    },
+    {
+      "type": "text",
+      "value": "Зачем нужны inline-функции?"
+    },
+    {
+      "type": "text",
+      "value": "- **Устранение накладных расходов**. Обычные лямбды в Kotlin создают анонимные классы, что может влиять на производительность, особенно при частых вызовах."
+    },
+    {
+      "type": "text",
+      "value": "**Без inline:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun doSomething(block: () -> Unit) {\n    block()\n}\n\n// При компиляции создается анонимный класс для лямбды\ndoSomething { println(\"Hello\") }"
+    },
+    {
+      "type": "text",
+      "value": "**С inline:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "inline fun doSomething(block: () -> Unit) {\n    block()\n}\n\n// Код подставляется напрямую, без создания объекта\ndoSomething { println(\"Hello\") }\n// После компиляции: println(\"Hello\")"
+    },
+    {
+      "type": "text",
+      "value": "- **Поддержка non-local returns**. В обычных лямбдах нельзя использовать **return** для выхода из внешней функции. Inline-функции позволяют это делать."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "inline fun forEach(list: List<Int>, action: (Int) -> Unit) {\n    for (item in list) action(item)\n}\n\nfun find(list: List<Int>, target: Int): Int? {\n    forEach(list) {\n        if (it == target) return it  // Возврат из find!\n    }\n    return null\n}"
+    }
+  ]
+}

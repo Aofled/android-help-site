@@ -1,0 +1,49 @@
+{
+  "title": "Функция высшего порядка let",
+  "content": [
+    {
+      "type": "text",
+      "value": "Функция `let` — это стандартная функция-расширение в Kotlin, которая позволяет выполнить операции над объектом в **безопасном и удобном контексте**. Она особенно полезна для обработки nullable-объектов и преобразования данных."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = объект?.let { \n    // Блок кода, где `it` — это объект\n    // Возвращает результат последнего выражения\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Если объект **null**, блок `let` **не выполняется** (**возвращается null**).\n\n\n\n- Внутри блока объект доступен через `it` (или можно задать имя)."
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Безопасная обработка **nullable** - объектов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val name: String? = \"Анна\"\n\nval length = name?.let { \n    println(\"Имя: $it\")  // \"Имя: Анна\"\n    it.length            // Возвращает 4\n}  // length: Int? = 4"
+    },
+    {
+      "type": "text",
+      "value": "- Возвращаемое значение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val modified = \"text\".let {\n    it.uppercase() + \"!\"  // Возвращает \"TEXT!\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Цепочка вызовов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val result = getUser()\n    ?.let { it.name }          // Получить имя\n    ?.let { it.uppercase() }   // Перевести в верхний регистр\n    ?.let { \"Имя: $it\" }       // Добавить префикс"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Generics (обобщённые типы)",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Generics (обобщённые типы)` — это механизм, который позволяет создавать классы, интерфейсы и функции, работающие с разными типами данных, сохраняя при этом **типобезопасность** на этапе компиляции."
+    },
+    {
+      "type": "text",
+      "value": "- Простые `generics`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Box<T>(val item: T)\n\nval intBox = Box(42)         // Box<Int>\nval stringBox = Box(\"Text\")  // Box<String>"
+    },
+    {
+      "type": "text",
+      "value": "- Функции с `generics`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun <T> printItem(item: T) {\n    println(item)\n}\n\nprintItem(\"Hello\")  // Выведет \"Hello\"\nprintItem(10)       // Выведет 10"
+    },
+    {
+      "type": "text",
+      "value": "- `Ограничения типов (Upper Bounds).` Можно указать, что `generic-тип` должен быть подтипом определённого класса/интерфейса:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun <T : Number> sum(a: T, b: T): Double {\n    return a.toDouble() + b.toDouble()\n}\n\nsum(5, 10)     // OK\nsum(3.14, 2.0) // OK\nsum(\"a\", \"b\")  // Ошибка: String не является Number"
+    },
+    {
+      "type": "text",
+      "value": "#### Вариантность (Variance)"
+    },
+    {
+      "type": "text",
+      "value": "- Инвариантность (**по умолчанию**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Box<T>\nval box: Box<Number> = Box<Int>() // Ошибка: Box<Int> != Box<Number>"
+    },
+    {
+      "type": "text",
+      "value": "- Ковариантность (**out**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Producer<out T>\nval producer: Producer<Number> = Producer<Int>() // OK"
+    },
+    {
+      "type": "text",
+      "value": "- Контравариантность (**in**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Consumer<in T>\nval consumer: Consumer<Int> = Consumer<Number>() // OK"
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры использования"
+    },
+    {
+      "type": "text",
+      "value": "- Обобщённые коллекции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val list: List<String> = listOf(\"a\", \"b\")\nval map: Map<Int, String> = mapOf(1 to \"one\")"
+    },
+    {
+      "type": "text",
+      "value": "- Кастомные generic-классы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Triple<A, B, C>(val first: A, val second: B, val third: C)"
+    },
+    {
+      "type": "text",
+      "value": "- Функции-расширения"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun <T> List<T>.secondOrNull(): T? = if (size >= 2) this[1] else null"
+    }
+  ]
+}

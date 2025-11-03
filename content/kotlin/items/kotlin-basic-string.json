@@ -1,0 +1,68 @@
+{
+  "title": "Базовые операции со строками",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### Доступ к символам"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val text = \"Kotlin\"\n\n// По индексу:\nval firstChar = text[0]     // 'K'\nval lastChar = text.last()  // 'n'\n\n// Итерация:\nfor (char in text) {\n    println(char)  // K, o, t, l, i, n\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные проверки"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val str = \"hello\"\n\nprintln(str.isEmpty())      // false\nprintln(str.isBlank())      // false (пробелы/табы не учитываются)\nprintln(\"123\".isNumeric())  // true (используя расширение)"
+    },
+    {
+      "type": "text",
+      "value": "#### Поиск и замена"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sentence = \"Кот любит молоко\"\n\n// Поиск подстроки:\nprintln(sentence.contains(\"любит\"))  // true\nprintln(\"кот\" in sentence)          // false (регистрозависимо)\n\n// Замена:\nval newSentence = sentence.replace(\"молоко\", \"рыбу\")  // \"Кот любит рыбу\"\n\n// Регулярные выражения:\nval cleanPhone = \"+7 (123) 456-78-90\".replace(\"\\\\D\".toRegex(), \"\")  // \"71234567890\"\n\n// Получить все ДО символа \"точка\".\nval str = str1.substringBefore(\".\") \n\n// Получить все ПОСЛЕ символа \"точка\".\nval str = str1.substringAfter (\".\")"
+    },
+    {
+      "type": "text",
+      "value": "#### Разделение и объединение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Разделение:\nval csv = \"яблоко,апельсин,банан\"\nval fruits = csv.split(\",\")  // [\"яблоко\", \"апельсин\", \"банан\"]\n\n// Объединение:\nval merged = fruits.joinToString(\"; \")  // \"яблоко; апельсин; банан\""
+    },
+    {
+      "type": "text",
+      "value": "#### Изменение регистра"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val mixedCase = \"KoTLiN\"\n\nprintln(mixedCase.lowercase())  // \"kotlin\"\nprintln(mixedCase.uppercase())  // \"KOTLIN\""
+    },
+    {
+      "type": "text",
+      "value": "#### Обрезка и подстроки"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val str = \"  Kotlin  \"\n\n// Удаление пробелов:\nprintln(str.trim())          // \"Kotlin\"\n\n// Подстроки:\nprintln(str.substring(2..5)) // \"otli\"\nprintln(str.take(3))         // \"  K\""
+    },
+    {
+      "type": "text",
+      "value": "#### Числовые преобразования"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numberStr = \"42\"\n\nval intValue = numberStr.toInt()         // 42\nval doubleValue = \"3.14\".toDouble()     // 3.14\n\n// Безопасное преобразование (возвращает null при ошибке):\nval safeInt = \"abc\".toIntOrNull()       // null"
+    }
+  ]
+}
