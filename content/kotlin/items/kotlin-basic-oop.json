@@ -1,0 +1,119 @@
+{
+  "title": "ООП в Kotlin: краткий обзор",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Kotlin** — **полностью объектно-ориентированный** язык, поддерживающий все основные принципы `ООП` с лаконичным синтаксисом. Вот ключевые концепции:"
+    },
+    {
+      "type": "text",
+      "value": "### Классы и объекты"
+    },
+    {
+      "type": "text",
+      "value": "####  Класс\n\n\n\n- Конструктор объявляется прямо в заголовке класса.\n\n- **val/var** в параметрах автоматически создают свойства."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(\n    val name: String,  // Свойство только для чтения (геттер)\n    var age: Int       // Изменяемое свойство (геттер + сеттер)\n) {\n    fun greet() = println(\"Привет, я $name!\")  // Метод\n}"
+    },
+    {
+      "type": "text",
+      "value": "####  Объект (синглтон)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object Database {\n    fun connect() = println(\"Connected!\")\n}\n// Использование\nDatabase.connect()"
+    },
+    {
+      "type": "text",
+      "value": "### Наследование и полиморфизм"
+    },
+    {
+      "type": "text",
+      "value": "- **Открытые классы** (по умолчанию классы **final**)\n\n**open** разрешает наследование/переопределение.\n\n**override** обязательно явно указывать."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Animal(val name: String) {\n    open fun makeSound() = println(\"Звук животного\")\n}\n\nclass Dog(name: String) : Animal(name) {\n    override fun makeSound() = println(\"Гав!\")  // Полиморфизм\n}\n\nval dog = Dog(\"Бобик\")\ndog.makeSound()  // \"Гав!\""
+    },
+    {
+      "type": "text",
+      "value": "### Инкапсуляция"
+    },
+    {
+      "type": "text",
+      "value": "Модификаторы доступа:\n\n\n\n- **public** (по умолчанию) — доступ везде.\n\n\n\n- **private** — только внутри класса.\n\n\n\n- **protected** — класс + наследники.\n\n\n\n- **internal** — модуль."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Wallet {\n    private var balance = 0\n\n    fun addMoney(amount: Int) {\n        if (amount > 0) balance += amount\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Абстракции"
+    },
+    {
+      "type": "text",
+      "value": "#### Абстрактные классы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "abstract class Shape {\n    abstract fun area(): Double\n}\n\nclass Circle(val radius: Double) : Shape() {\n    override fun area() = Math.PI * radius * radius\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Интерфейсы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface Drawable {\n    fun draw()  // Абстрактный метод\n    fun show() = println(\"Показываю\")  // Реализация по умолчанию\n}\n\nclass Line : Drawable {\n    override fun draw() = println(\"Рисую линию\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Дополнительные возможности"
+    },
+    {
+      "type": "text",
+      "value": "#### **Data-классы** (авто-генерация **equals**, **hashCode**, **toString**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class User(val name: String, val id: Int)\nval user = User(\"Анна\", 1)\nprintln(user)  // \"User(name=Анна, id=1)\""
+    },
+    {
+      "type": "text",
+      "value": "#### **Sealed-классы** (ограниченная иерархия)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "sealed class Result {\n    data class Success(val data: String) : Result()\n    data class Error(val message: String) : Result()\n}\n\nfun handle(result: Result) = when(result) {\n    is Result.Success -> println(result.data)\n    is Result.Error -> println(\"Ошибка: ${result.message}\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Делегирование"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface Engine {\n    fun start()\n}\n\nclass Car(private val engine: Engine) : Engine by engine  // Делегирование\n\nval car = Car(object : Engine {\n    override fun start() = println(\"Двигатель запущен\")\n})\ncar.start()"
+    },
+    {
+      "type": "text",
+      "value": "### **Companion object** (аналог `static`)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyClass {\n    companion object {\n        const val CONSTANT = 42\n        fun create() = MyClass()\n    }\n}\n\n// Использование\nMyClass.CONSTANT\nMyClass.create()"
+    }
+  ]
+}

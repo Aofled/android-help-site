@@ -1,0 +1,109 @@
+{
+  "title": "Конструкторы в Kotlin",
+  "content": [
+    {
+      "type": "text",
+      "value": "В Kotlin есть два типа конструкторов:\n\n\n\n- **Первичный конструктор** (объявляется в заголовке класса).\n\n\n\n- **Вторичные конструкторы** (через ключевое слово `constructor`)."
+    },
+    {
+      "type": "text",
+      "value": "### Первичный конструктор"
+    },
+    {
+      "type": "text",
+      "value": "Самый распространённый способ инициализации объекта. Объявляется прямо в заголовке класса."
+    },
+    {
+      "type": "text",
+      "value": "- Параметры `val/var` автоматически создают свойства класса.\n\n\n\n- Если не указать `val/var`, параметры будут доступны только в блоке **init**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(val name: String, var age: Int) {\n    // Тело класса\n}"
+    },
+    {
+      "type": "text",
+      "value": "Блок инициализации **init**. Выполняется при создании объекта (может быть несколько):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(name: String, var age: Int) {\n    val greeting: String\n\n    init {\n        greeting = \"Привет, $name!\"\n        println(\"Объект создан\")  // Выполнится при создании\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Вторичные конструкторы"
+    },
+    {
+      "type": "text",
+      "value": "Используются, если нужно несколько способов создания объекта.\n\n**Важно:** Должны вызывать первичный конструктор (если он есть) через **this**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class User(val name: String) {\n    var age: Int = 0\n\n    // Вторичный конструктор\n    constructor(name: String, age: Int) : this(name) {\n        this.age = age\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Конструкторы с параметрами по умолчанию"
+    },
+    {
+      "type": "text",
+      "value": "Kotlin позволяет задавать значения по умолчанию, избегая перегрузки методов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Animal(\n    val species: String,\n    val legs: Int = 4  // Параметр по умолчанию\n)\n\nval cat = Animal(\"Кот\")          // legs = 4\nval spider = Animal(\"Паук\", 8)   // legs = 8"
+    },
+    {
+      "type": "text",
+      "value": "### Приватные конструкторы"
+    },
+    {
+      "type": "text",
+      "value": "Для запрета создания объекта извне (например, для синглтонов):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Database private constructor() {\n    companion object {\n        fun create(): Database {\n            return Database()\n        }\n    }\n}\n\n// Использование\nval db = Database.create()  // ОК\n// val db2 = Database()     // Ошибка: конструктор приватный"
+    },
+    {
+      "type": "text",
+      "value": "### Наследование и конструкторы"
+    },
+    {
+      "type": "text",
+      "value": "- Если класс имеет первичный конструктор, родительский класс должен быть инициализирован в его заголовке:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Parent(val name: String)\n\nclass Child(name: String, val age: Int) : Parent(name)"
+    },
+    {
+      "type": "text",
+      "value": "- Если у класса только вторичные конструкторы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Parent {\n    constructor(name: String) { /*...*/ }\n}\n\nclass Child : Parent {\n    constructor(name: String) : super(name)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Data-классы и конструкторы"
+    },
+    {
+      "type": "text",
+      "value": "Для data-классов первичный конструктор обязателен:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Book(val title: String, val author: String)"
+    }
+  ]
+}

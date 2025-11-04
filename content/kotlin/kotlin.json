@@ -167,6 +167,23 @@
       "title": "Generics (обобщённые типы)",
       "url": "#kotlin-basic-generics",
       "contentFile": "kotlin-basic-generics.json"
+    },
+    {
+      "title": "ООП (Объектно-ориентированное программирование)",
+      "url": "#kotlin-basic-oop",
+      "contentFile": "kotlin-basic-oop.json",
+      "subItems": [
+        {
+          "title": "Getters and Setters",
+          "url": "#kotlin-oop-getters-setters",
+          "contentFile": "kotlin-oop-getters-setters.json"
+        },
+        {
+          "title": "Конструктор (Constructor)",
+          "url": "#kotlin-oop-constructor",
+          "contentFile": "kotlin-oop-constructor.json"
+        }
+      ]
     }
   ]
 }

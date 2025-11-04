@@ -1,0 +1,49 @@
+{
+  "title": "Геттеры(getters) и сеттеры(setters) в Kotlin",
+  "content": [
+    {
+      "type": "text",
+      "value": "В Kotlin `геттеры (getters)` и `сеттеры (setters)` **автоматически генерируются** для свойств (properties), но **их можно кастомизировать** для добавления дополнительной логики. В отличие от Java, где нужно явно писать методы getX() и setX(), в Kotlin работа со свойствами выглядит как обращение к полям, но под капотом вызываются методы доступа."
+    },
+    {
+      "type": "text",
+      "value": "- Автоматические геттеры и сеттеры. Для обычных свойств Kotlin генерирует стандартные `get()` и `set()`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person {\n    var name: String = \"Иван\"  // Автоматический геттер и сеттер\n    val age: Int = 25          // Только геттер (val — неизменяемое)\n}\n\n// Использование\nval person = Person()\nprintln(person.name)  // Вызывается name.get()\nperson.name = \"Петр\"  // Вызывается name.set(\"Петр\")"
+    },
+    {
+      "type": "text",
+      "value": "- Кастомные геттеры и сеттеры. Вы можете переопределить **геттеры** и **сеттеры**, чтобы добавить логику:"
+    },
+    {
+      "type": "text",
+      "value": "Кастомный геттер (**свойства объекта**)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Rectangle(val width: Int, val height: Int) {\n    val area: Int\n        get() = width * height  // Вычисляемое свойство\n}\n\nval rect = Rectangle(10, 20)\nprintln(rect.area)  // 200 (вычисляется при каждом новом обращении)"
+    },
+    {
+      "type": "text",
+      "value": "Кастомный сеттер"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class User {\n    var name: String = \"\"\n        set(value) {\n            if (value.isNotBlank()) {\n                field = value  // `field` — специальное поле для свойства\n            }\n        }\n}\n\nval user = User()\nuser.name = \"\"    // Игнорируется (условие не выполнено)\nuser.name = \"Анна\" // OK"
+    },
+    {
+      "type": "text",
+      "value": "- Модификаторы доступа. Вы можете ограничить видимость **геттеров** и **сеттеров**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class BankAccount {\n    var balance: Double = 0.0\n        private set  // Сеттер доступен только внутри класса\n\n    fun deposit(amount: Double) {\n        balance += amount\n    }\n}\n\nval account = BankAccount()\naccount.deposit(100.0)\n// account.balance = 200.0  // Ошибка: setter private"
+    }
+  ]
+}
