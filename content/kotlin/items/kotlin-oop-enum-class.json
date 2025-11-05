@@ -1,0 +1,46 @@
+{
+  "title": "Enum классы - перечисление",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Enum** (перечисление) — это специальный тип класса, который представляет собой фиксированный набор именованных констант. В Kotlin **enum-классы** мощнее, чем в Java, и поддерживают свойства, методы, анонимные классы и реализацию интерфейсов."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "enum class Direction {\n    NORTH, SOUTH, EAST, WEST\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Каждая константа — это **объект** (**синглтон**) своего enum-класса.\n\n- Константы перечисляются через запятую и пишутся в **UPPER_SNAKE_CASE**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val direction = Direction.NORTH\n\nwhen (direction) {\n    Direction.NORTH -> println(\"Север\")\n    Direction.SOUTH -> println(\"Юг\")\n    Direction.EAST -> println(\"Восток\")\n    Direction.WEST -> println(\"Запад\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "У каждой **enum-константы** есть стандартные свойства:\n\n\n\n- **name** — имя константы (\"NORTH\").\n\n\n\n- **ordinal** — порядковый номер (начиная с 0)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "println(Direction.NORTH.name)    // NORTH\nprintln(Direction.NORTH.ordinal) // 0"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Доступ ко всем константам:\nval allDirections = Direction.values() // [NORTH, SOUTH, EAST, WEST]\n\n// Или через enumValues<T>():\nenumValues<Direction>().forEach { println(it) }"
+    },
+    {
+      "type": "text",
+      "value": "#### **Enum** с параметрами\n\nКаждая константа может иметь свои свойства:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "enum class Color(val rgb: Int) {\n    RED(0xFF0000),\n    GREEN(0x00FF00),\n    BLUE(0x0000FF)\n}\n\nfun main() {\n    println(Color.RED.rgb) // 16711680 (0xFF0000 в десятичном)\n}"
+    }
+  ]
+}

@@ -1,5 +1,21 @@
 {
   "menuItems": [
-
+    {
+      "title": "Работа с классами",
+      "url": "#java-object-basics",
+      "contentFile": "java-object-basics.json",
+      "subItems": [
+        {
+          "title": "Метод equals()",
+          "url": "#java-object-equals",
+          "contentFile": "java-object-equals.json"
+        },
+        {
+          "title": "Метод hashCode()",
+          "url": "#java-object-hashcode",
+          "contentFile": "java-object-hashcode.json"
+        }
+      ]
+    }
   ]
 }

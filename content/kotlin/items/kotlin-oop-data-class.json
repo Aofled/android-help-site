@@ -1,0 +1,40 @@
+{
+  "title": "Data Class - Класс данных",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Data class** (**класс данных**) — это специальный тип класса в Kotlin, предназначенный для хранения данных. Он автоматически генерирует стандартные методы (**equals()**, **hashCode()**, **toString()**, **copy()** и **деструктуризацию (Destructuring Declarations)**), что сокращает boilerplate-код. В **Java аналогов data class нет,** но есть похожие решения (Lombok, Records)."
+    },
+    {
+      "type": "text",
+      "value": "Автоматически генерирует:\n\n- **equals()** / **hashCode()** – для сравнения объектов.\n\n- **toString()** – в формате \"User(name=John, age=30)\".\n\n- **copy()** – для создания копии с изменением части полей.\n\n- **componentN()** – функции для деструктуризации.\n\nТребования:\n\n- Должен иметь хотя бы один параметр в первичном конструкторе.\n\n- Не может быть **open**, **abstract**, **sealed** или **inner**."
+    },
+    {
+      "type": "text",
+      "value": "Пример"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class User(val name: String, val age: Int)\n\n// Автоматически доступны:\nval user1 = User(\"Анна\", 25)\nval user2 = user1.copy(age = 26)  // Копирование с изменением\nprintln(user1 == user2)  // false (сравнение через equals())\nprintln(user1)  // \"User(name=Анна, age=25)\" (toString())"
+    },
+    {
+      "type": "text",
+      "value": "Деструктуризация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val (name, age) = user1  // name = \"Анна\", age = 25"
+    },
+    {
+      "type": "text",
+      "value": "Если не использовать `data class`, то методы **equals()**, **hashCode()**, **toString()** и **copy()** нужно реализовать вручную:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Address(val city: String, val street: String, val house: String) {\n\n    // 1. Создание component для деструктуризации\n    operator fun component1() = this.city\n    operator fun component2() = this.city\n    operator fun component3() = this.city\n\n    // 2. Переопределение copy() для копирования объектов\n    fun copy(city: String = this.city, street: String = this.street, house: String = this.house) = Address(city, street, house)\n\n    // 3. Переопределение equals() для сравнения объектов\n    override fun equals(other: Any?): Boolean {\n        if (this === other) return true // проверка на ссылочное равенство\n        if (other !is Address) return false // проверка типа\n\n        return city == other.city &&\n                street == other.street &&\n                house == other.house\n    }\n\n    // 4. Переопределение hashCode() для корректной работы в HashMap/HashSet\n    override fun hashCode(): Int {\n        var result = city.hashCode()\n        result = 31 * result + street.hashCode()\n        result = 31 * result + house.hashCode()\n        return result\n    }\n\n    // 5. Переопределение toString() для удобного вывода\n    override fun toString(): String {\n        return \"Address(city='$city', street='$street', house='$house')\"\n    }\n\n}"
+    }
+  ]
+}

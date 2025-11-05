@@ -1,0 +1,80 @@
+{
+  "title": "Наследование",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Наследование** — это механизм, позволяющий создавать новые классы на основе существующих, переиспользуя и расширяя их функциональность. В Kotlin оно имеет несколько ключевых особенностей, отличающих его от других языков (например, все классы по умолчанию **final**)."
+    },
+    {
+      "type": "text",
+      "value": "- **Множественное наследование** запрещено (только один родительский класс), но можно реализовать несколько интерфейсов.\n\n\n\n- **Классы данных (data class)** не могут быть **open** (нельзя наследовать, если не обернуть в обычный **open** класс).\n\n\n\n- **super** — ключевое слово для вызова методов/конструктора родителя:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Child : Parent() {\n    override fun toString() = \"${super.toString()} + Child\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Базовые принципы"
+    },
+    {
+      "type": "text",
+      "value": "- Открытие класса для наследования.\n\nВ **Kotlin** все классы и методы по умолчанию **final** (нельзя наследовать/переопределять). Чтобы разрешить наследование, нужно использовать модификатор **open**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Animal(val name: String) // Теперь от Animal можно наследоваться"
+    },
+    {
+      "type": "text",
+      "value": "- Простое наследование.\n\nПодкласс указывает родительский класс после двоеточия `:`. Если у родителя есть конструктор, его нужно вызвать:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Dog(name: String, val breed: String) : Animal(name) // Наследование"
+    },
+    {
+      "type": "text",
+      "value": "- Переопределение методов.\n\nМетоды тоже должны быть помечены **open** в родительском классе. В подклассе используется **override**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Animal {\n    open fun makeSound() = println(\"Неизвестный звук\")\n}\n\nclass Cat : Animal() {\n    override fun makeSound() = println(\"Мяу!\") \n}"
+    },
+    {
+      "type": "text",
+      "value": "### Правила и особенности"
+    },
+    {
+      "type": "text",
+      "value": "- Вызов конструктора родителя.\n\nЕсли у родителя есть параметры, их нужно передать в конструкторе подкласса:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Person(val name: String)\n\nclass Student(name: String, val grade: Int) : Person(name)"
+    },
+    {
+      "type": "text",
+      "value": "- Инициализация порядка вызовов.\n\nПри создании объекта сначала выполняется конструктор родителя, потом подкласса:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Parent {\n    init { println(\"Родитель инициализирован\") }\n}\n\nclass Child : Parent() {\n    init { println(\"Ребёнок инициализирован\") }\n}\n\nfun main() {\n    Child() \n}\n\n// Родитель инициализирован\n// Ребёнок инициализирован"
+    },
+    {
+      "type": "text",
+      "value": "- Переопределение свойств\n\nСвойства (поля) тоже можно переопределять, если они **open**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Shape {\n    open val vertexCount: Int = 0\n}\n\nclass Triangle : Shape() {\n    override val vertexCount: Int = 3\n}"
+    }
+  ]
+}

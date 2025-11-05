@@ -1,0 +1,23 @@
+{
+  "title": "Деструктуризация (Destructuring Declarations)",
+  "content": [
+    {
+      "type": "text",
+      "value": "Позволяет \"разобрать\" объект на отдельные переменные. Для этого класс должен иметь функции **component1()**,** component2()**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(val name: String, val age: Int) {\n    operator fun component1() = name\n    operator fun component2() = age\n}\n\nfun main() {\n    val person = Person(\"Alice\", 25)\n    val (name, age) = person // деструктуризация\n    println(\"$name, $age years old\") // Alice, 25 years old\n}"
+    },
+    {
+      "type": "text",
+      "value": "Так работает, например, с `data` class, где методы **componentN()** генерируются автоматически:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class User(val login: String, val email: String)\n\nfun main() {\n    val user = User(\"admin\", \"admin@example.com\")\n    val (username, email) = user\n    println(\"$username: $email\") // admin: admin@example.com\n}"
+    }
+  ]
+}

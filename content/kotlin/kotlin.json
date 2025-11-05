@@ -11,6 +11,11 @@
           "contentFile": "kotlin-variables.json"
         },
         {
+          "title": "Константы",
+          "url": "#kotlin-constants",
+          "contentFile": "kotlin-constants.json"
+        },
+        {
           "title": "Преобразование типов",
           "url": "#kotlin-type-conversion",
           "contentFile": "kotlin-type-conversion.json"
@@ -174,6 +179,11 @@
       "contentFile": "kotlin-basic-oop.json",
       "subItems": [
         {
+          "title": "Наследование",
+          "url": "#kotlin-oop-inheritance",
+          "contentFile": "kotlin-oop-inheritance.json"
+        },
+        {
           "title": "Getters and Setters",
           "url": "#kotlin-oop-getters-setters",
           "contentFile": "kotlin-oop-getters-setters.json"
@@ -182,6 +192,21 @@
           "title": "Конструктор (Constructor)",
           "url": "#kotlin-oop-constructor",
           "contentFile": "kotlin-oop-constructor.json"
+        },
+        {
+          "title": "Деструктуризация  (Destructuring Declarations)",
+          "url": "#kotlin-oop-destructuring",
+          "contentFile": "kotlin-oop-destructuring.json"
+        },
+        {
+          "title": "Data class (класс данных)",
+          "url": "#kotlin-oop-data-class",
+          "contentFile": "kotlin-oop-data-class.json"
+        },
+        {
+          "title": "Enum class (перечисление)",
+          "url": "#kotlin-oop-enum-class",
+          "contentFile": "kotlin-oop-enum-class.json"
         }
       ]
     }

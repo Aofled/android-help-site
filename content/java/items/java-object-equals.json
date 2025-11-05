@@ -1,0 +1,22 @@
+{
+  "title": "Методы equals(): сравнение объектов",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### Основные правила:"
+    },
+    {
+      "type": "text",
+      "value": "1. `Сравнение ссылок`: По умолчанию **equals()** в **Object** работает как == (сравнивает адреса в памяти).\n\n2. `Переопределение`: Чтобы сравнивать **содержимое объектов**, метод нужно переопределять."
+    },
+    {
+      "type": "text",
+      "value": "Всегда переопределяйте **hashCode()**, если переопределяете **equals()** (иначе будут проблемы с HashMap, HashSet)."
+    },
+    {
+      "type": "code",
+      "language": "java",
+      "value": "class Person {\n    private String name;\n    private int age;\n\n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;  // Проверка ссылки\n        if (o == null || getClass() != o.getClass()) return false;  // Проверка типа\n        Person person = (Person) o;\n        return age == person.age && Objects.equals(name, person.name);  // Сравнение полей\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hash(name, age);  // Обязательно переопределять вместе с equals()!\n    }\n}\n\n// Использование\nPerson p1 = new Person(\"Анна\", 25);\nPerson p2 = new Person(\"Анна\", 25);\nSystem.out.println(p1.equals(p2));  // true (сравниваются поля)"
+    }
+  ]
+}
