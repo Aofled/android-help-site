@@ -51,8 +51,8 @@
     },
     {
       "title": "Коллекции и массивы (Collections and Array)",
-      "url": "#kotlin-basic-сollections",
-      "contentFile": "kotlin-basic-сollections-and-array.json",
+      "url": "#kotlin-basic-collections-and-array",
+      "contentFile": "kotlin-basic-collections-and-array.json",
       "subItems": [
         {
           "title": "Массивы (Array)",
@@ -61,28 +61,28 @@
         },
         {
           "title": "Коллекции (Collections)",
-          "url": "#kotlin-basic-сollections",
-          "contentFile": "kotlin-basic-сollections.json"
+          "url": "#kotlin-basic-collections",
+          "contentFile": "kotlin-basic-collections.json"
         },
         {
           "title": "Списки (List)",
-          "url": "#kotlin-сollections-list",
-          "contentFile": "kotlin-сollections-list.json"
+          "url": "#kotlin-collections-list",
+          "contentFile": "kotlin-collections-list.json"
         },
         {
           "title": "Множества (Set)",
-          "url": "#kotlin-сollections-set",
-          "contentFile": "kotlin-сollections-set.json"
+          "url": "#kotlin-collections-set",
+          "contentFile": "kotlin-collections-set.json"
         },
         {
           "title": "Ассоциативные массивы (Map)",
-          "url": "#kotlin-сollections-map",
-          "contentFile": "kotlin-сollections-map.json"
+          "url": "#kotlin-collections-map",
+          "contentFile": "kotlin-collections-map.json"
         },
         {
           "title": "Коллекция пар (Pair)",
-          "url": "#kotlin-сollections-pair",
-          "contentFile": "kotlin-сollections-pair.json"
+          "url": "#kotlin-collections-pair",
+          "contentFile": "kotlin-collections-pair.json"
         },
         {
           "title": "Бесконечные последовательности (Sequence)",
