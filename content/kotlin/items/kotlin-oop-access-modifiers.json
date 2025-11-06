@@ -1,0 +1,68 @@
+{
+  "title": "Модификаторы доступа в Kotlin",
+  "content": [
+    {
+      "type": "text",
+      "value": "Модификаторы доступа определяют, где можно использовать классы, функции, свойства и другие элементы. В Kotlin есть четыре основных модификатора:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Модификатор\tДоступность\t                          Пример\npublic\t        Виден везде (по умолчанию)\t          fun foo() { ... }\nprivate\t        Только внутри текущего файла или класса\t  private val x = 10\nprotected\tТолько внутри класса и его наследников\t  protected fun bar() { }\ninternal\tВиден в рамках одного модуля (проекта)\t  internal class MyClass"
+    },
+    {
+      "type": "text",
+      "value": "- `public` (по умолчанию).\n\nЕсли модификатор не указан, элемент считается **public**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Car {\n    val model = \"Tesla\"  // public по умолчанию\n}\n\nfun main() {\n    val car = Car()\n    println(car.model)  // Можно обратиться\n}"
+    },
+    {
+      "type": "text",
+      "value": "- `private`\n\nОграничивает видимость **в пределах файла или класса**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Файл utils.kt\nprivate fun secretHelper() {  // Видна только в этом файле\n    println(\"Секретная операция\")\n}\n\nfun publicHelper() {  // Видна везде\n    secretHelper()  // Можно вызвать\n}"
+    },
+    {
+      "type": "text",
+      "value": "- `protected`\n\nДоступен **только внутри класса и его подклассов**."
+    },
+    {
+      "type": "text",
+      "value": "В Kotlin `protected` недоступен извне, даже если класс открыт (**open**)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "open class Animal {\n    protected fun sleep() {  // Только для Animal и наследников\n        println(\"Zzz\")\n    }\n}\n\nclass Cat : Animal() {\n    fun meow() {\n        sleep()  // Можно, т.к. Cat — наследник Animal\n    }\n}\n\nfun main() {\n    val cat = Cat()\n    cat.meow()  \n    // cat.sleep()  // Ошибка: sleep() protected\n}"
+    },
+    {
+      "type": "text",
+      "value": "- `internal`\n\nВиден **всем внутри одного модуля** (модуль = проект, библиотека, Gradle-модуль)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Модуль 1\ninternal class Logger {  // Виден только в этом модуле\n    fun log(message: String) = println(message)\n}\n\n// Другой файл в том же модуле\nfun main() {\n    val logger = Logger()  // Можно\n    logger.log(\"Test\")\n}"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Модуль 2 (не увидит Logger)\nfun test() {\n    // val logger = Logger()  // Ошибка: Logger не виден\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Применение модификаторов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Элемент\t        Доступные модификаторы\nКласс\t        public, private, protected, internal, open, abstract, interface, data, enum\nФункция\t        public, private, protected, internal\nСвойство        (val/var)\tpublic, private, protected, internal\nКонструктор\tМожно сделать private (синглтон) или internal"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "title": "Анонимные классы",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Анонимные классы** — это классы без явного имени, которые создаются \"на лету\" для реализации интерфейсов или абстрактных классов. Они полезны, когда нужно переопределить методы объекта в одном месте без создания отдельного подкласса."
+    },
+    {
+      "type": "text",
+      "value": "#### Зачем они нужны?"
+    },
+    {
+      "type": "text",
+      "value": "Пример - Обработка клика на кнопке:\n\nДопустим, у нас есть интерфейс **OnClickListener**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface OnClickListener {\n    fun onClick()\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Без анонимного класса** пришлось бы создавать отдельный класс:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyClickListener : OnClickListener {\n    override fun onClick() {\n        println(\"Кнопка нажата!\")\n    }\n}\n\n// Где-то в коде:\nval listener = MyClickListener()\nbutton.setOnClickListener(listener)"
+    },
+    {
+      "type": "text",
+      "value": "**С анонимным классом** это делается короче и сразу в месте использования:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "button.setOnClickListener(object : OnClickListener {\n    override fun onClick() {\n        println(\"Кнопка нажата!\")\n    }\n})"
+    },
+    {
+      "type": "text",
+      "value": "В Kotlin анонимные классы создаются через объектные выражения (`object :`):"
+    },
+    {
+      "type": "text",
+      "value": "Отличие от object:\n\n- **object** — синглтон (объявляется на уровне класса/файла).\n\n- **Анонимный класс** — создаётся каждый раз заново (локально)."
+    },
+    {
+      "type": "text",
+      "value": "Пример - реализация **интерфейса**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface ClickListener {\n    fun onClick()\n}\n\nfun main() {\n    val button = object : ClickListener {\n        override fun onClick() {\n            println(\"Кнопка нажата!\")\n        }\n    }\n    \n    button.onClick()  // Выведет: \"Кнопка нажата!\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "Пример -  наследование от **абстрактного класса**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "abstract class Animal {\n    abstract fun makeSound()\n}\n\nfun main() {\n    val cat = object : Animal() {\n        override fun makeSound() {\n            println(\"Мяу!\")\n        }\n    }\n    \n    cat.makeSound()  // Выведет: \"Мяу!\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "Можно создать объект **без реализации интерфейсов/наследования**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun main() {\n    val obj = object {\n        val x = 10\n        val y = 20\n        fun sum() = x + y\n    }\n    \n    println(obj.sum())  // 30\n}"
+    },
+    {
+      "type": "text",
+      "value": "Анонимный класс может реализовывать несколько интерфейсов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface A { fun a() }\ninterface B { fun b() }\n\nfun main() {\n    val obj = object : A, B {\n        override fun a() = println(\"Метод A\")\n        override fun b() = println(\"Метод B\")\n    }\n    \n    obj.a()  // Метод A\n    obj.b()  // Метод B\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Применение на практике"
+    },
+    {
+      "type": "text",
+      "value": "- **Слушатели событий** (**Listeners**).\n\nЧасто используются в Android-разработке:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "button.setOnClickListener(object : View.OnClickListener {\n    override fun onClick(view: View) {\n        showToast(\"Клик!\")\n    }\n})"
+    },
+    {
+      "type": "text",
+      "value": "С Kotlin это можно сократить до лямбды (если интерфейс — SAM):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "button.setOnClickListener { showToast(\"Клик!\") }"
+    }
+  ]
+}

@@ -184,6 +184,21 @@
           "contentFile": "kotlin-oop-inheritance.json"
         },
         {
+          "title": "Модификаторы доступа",
+          "url": "#kotlin-oop-access-modifiers",
+          "contentFile": "kotlin-oop-access-modifiers.json"
+        },
+        {
+          "title": "Абстрактные классы и интерфейсы",
+          "url": "#kotlin-oop-abstract-and-interfaces",
+          "contentFile": "kotlin-oop-abstract-and-interfaces.json"
+        },
+        {
+          "title": "Анонимные классы",
+          "url": "#kotlin-oop-anonymous-classes",
+          "contentFile": "kotlin-oop-anonymous-classes.json"
+        },
+        {
           "title": "Getters and Setters",
           "url": "#kotlin-oop-getters-setters",
           "contentFile": "kotlin-oop-getters-setters.json"
@@ -197,6 +212,11 @@
           "title": "Деструктуризация  (Destructuring Declarations)",
           "url": "#kotlin-oop-destructuring",
           "contentFile": "kotlin-oop-destructuring.json"
+        },
+        {
+          "title": "Приведение типа  (Smart Cast)",
+          "url": "#kotlin-oop-smart-cast",
+          "contentFile": "kotlin-oop-smart-cast.json"
         },
         {
           "title": "Data class (класс данных)",

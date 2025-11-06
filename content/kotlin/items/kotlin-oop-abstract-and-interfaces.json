@@ -1,0 +1,56 @@
+{
+  "title": "Абстрактные классы и интерфейсы",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Абстрактные классы** и **интерфейсы** используются для абстракции и определения контрактов, но с разными целями и возможностями."
+    },
+    {
+      "type": "text",
+      "value": "### Абстрактные классы (abstract class)"
+    },
+    {
+      "type": "text",
+      "value": "`Абстрактный класс` — это класс, который **нельзя создать напрямую**, но можно наследовать. Он может содержать:"
+    },
+    {
+      "type": "text",
+      "value": "- **абстрактные методы** (без реализации),\n\n\n\n- **обычные методы** (с реализацией),\n\n\n\n- **свойства** (с val/var),\n\n\n\n- **конструкторы**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "abstract class Animal(val name: String) {\n    abstract fun makeSound()  // Абстрактный метод (без тела)\n\n    fun eat() {              // Обычный метод\n        println(\"$name ест\")\n    }\n}\n\nclass Dog(name: String) : Animal(name) {\n    override fun makeSound() = println(\"$name гавкает\")  // Обязательная реализация\n}\n\nfun main() {\n    val dog = Dog(\"Бобик\")\n    dog.makeSound()  // Бобик гавкает\n    dog.eat()       // Бобик ест\n}"
+    },
+    {
+      "type": "text",
+      "value": "Используется:\n\n\n\n- Если нужно **общее поведение** для группы классов (например, **Animal** с методом **eat()**).\n\n\n\n- Для создания **иерархии \"is-a\"** (например, **Dog** — это **Animal**).\n\n\n\n- Если требуется **хранить состояние** (свойства с значениями)."
+    },
+    {
+      "type": "text",
+      "value": "### Интерфейсы (interface)"
+    },
+    {
+      "type": "text",
+      "value": "`Интерфейс` — это **контракт**, который класс **обязуется выполнить**. Он может содержать:\n\n\n\n- **абстрактные методы**,\n\n\n\n- **методы с реализацией** (по умолчанию),\n\n\n\n- **свойства** (но без backing field)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface Drawable {\n    fun draw()                // Абстрактный метод\n    fun highlight() {         // Метод с реализацией\n        println(\"Объект подсвечен\")\n    }\n}\n\nclass Circle : Drawable {\n    override fun draw() = println(\"Рисуем круг\")  // Обязательная реализация\n}\n\nfun main() {\n    val circle = Circle()\n    circle.draw()      // Рисуем круг\n    circle.highlight() // Объект подсвечен (используется реализация по умолчанию)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Используется:\n\n\n\n- Для определения **множественного поведения** (например, класс **Robot** может реализовывать **Drawable** и **Movable**).\n\n\n\n- Если нужно **разделять логику** между несвязанными классами.\n\n\n\n- Для создания **плагинов** или расширяемых систем."
+    },
+    {
+      "type": "text",
+      "value": "#### Общий пример"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Абстрактный класс для транспорта\nabstract class Transport(val maxSpeed: Int) {\n    abstract fun move()\n}\n\n// Интерфейс для зарядки\ninterface Chargable {\n    fun charge()\n}\n\n// Класс электромобиля\nclass ElectricCar(maxSpeed: Int) : Transport(maxSpeed), Chargable {\n    override fun move() = println(\"Едет со скоростью $maxSpeed км/ч\")\n    override fun charge() = println(\"Заряжается\")\n}\n\nfun main() {\n    val tesla = ElectricCar(250)\n    tesla.move()   // Едет со скоростью 250 км/ч\n    tesla.charge() // Заряжается\n}"
+    }
+  ]
+}
