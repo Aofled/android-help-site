@@ -1,0 +1,70 @@
+{
+  "title": "Поздняя инициализация (lateinit)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**lateinit** (от англ. late initialization — «**поздняя инициализация**») — это модификатор, который позволяет отложить инициализацию **не-null** переменной до момента её первого использования."
+    },
+    {
+      "type": "text",
+      "value": "Простыми словами:\n\n- Обещание компилятору: «Я проинициализирую эту переменную позже, но она точно не будет **null**».\n\n\n\n- Избавляет от необходимости сразу присваивать значение или использовать **var nullable: Type? = null**."
+    },
+    {
+      "type": "text",
+      "value": "При попытке **доступа к неинициализированной** переменной — UninitializedPropertyAccessException:"
+    },
+    {
+      "type": "text",
+      "value": "**lateinit** применяется:\n\n- **Только var **(не **val**).\n\n\n\n- **Только не-null типы** (не** String?**, а **String**).\n\n\n\n- **Только внутри классов** (не для локальных переменных).\n\n\n\n- **Не для примитивов** (**Int**, **Boolean **и т.д. — для них используйте **by lazy**)."
+    },
+    {
+      "type": "text",
+      "value": "Для поверки, инициализирована ли **lateinit-переменная** используется `::property.isInitialized`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "if (::userName.isInitialized) {\n    println(userName)\n} else {\n    println(\"Ещё не готово\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyApp {\n    lateinit var userName: String  // Не инициализируем сразу\n\n    fun initUser(name: String) {\n        userName = name  // Инициализация позже\n    }\n\n    fun greet() {\n        if (::userName.isInitialized) {  // Проверка инициализации\n            println(\"Привет, $userName!\")\n        } else {\n            println(\"Имя ещё не задано\")\n        }\n    }\n}\n\nfun main() {\n    val app = MyApp()\n    app.greet()  // Имя ещё не задано\n    app.initUser(\"Анна\")\n    app.greet()  // Привет, Анна!\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Когда использовать lateinit?"
+    },
+    {
+      "type": "text",
+      "value": "####  Android: инициализация в onCreate()"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    lateinit var recyclerView: RecyclerView  // Нельзя проинициализировать сразу\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        recyclerView = findViewById(R.id.recycler_view)  // Инициализация здесь\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "####  DI (Dependency Injection)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserService {\n    lateinit var userRepository: UserRepository  // Будет внедрён через Dagger/Hilt\n}"
+    },
+    {
+      "type": "text",
+      "value": "####  Юнит-тесты (Mock-объекты)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyTest {\n    lateinit var mockDatabase: Database  // Проинициализируется в @Before\n\n    @Before\n    fun setup() {\n        mockDatabase = MockDatabase()\n    }\n}"
+    }
+  ]
+}

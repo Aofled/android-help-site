@@ -31,6 +31,22 @@
           "contentFile": "kotlin-when-selection-operator.json"
         }
       ]
+    },{
+      "title": "Поздняя инициализация (by lazy, lateinit)",
+      "url": "#kotlin-late-initialization",
+      "contentFile": "kotlin-late-initialization.json",
+      "subItems": [
+        {
+          "title": "Поздняя инициализация (lateinit)",
+          "url": "#kotlin-late-initialization-lateinit",
+          "contentFile": "kotlin-late-initialization-lateinit.json"
+        },
+        {
+          "title": "Ленивая инициализация (by lazy)",
+          "url": "#kotlin-late-initialization-by-lazy",
+          "contentFile": "kotlin-late-initialization-by-lazy.json"
+        }
+      ]
     },
     {
       "title": "Циклы",
@@ -227,6 +243,16 @@
           "title": "Enum class (перечисление)",
           "url": "#kotlin-oop-enum-class",
           "contentFile": "kotlin-oop-enum-class.json"
+        },
+        {
+          "title": "Companion Object (спутник-объект)",
+          "url": "#kotlin-oop-companion-object",
+          "contentFile": "kotlin-oop-companion-object.json"
+        },
+        {
+          "title": "Singleton (Синглтон )",
+          "url": "#kotlin-oop-singleton",
+          "contentFile": "kotlin-oop-singleton.json"
         }
       ]
     }

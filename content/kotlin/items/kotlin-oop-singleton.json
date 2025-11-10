@@ -1,0 +1,96 @@
+{
+  "title": "Singleton (Синглтон)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Синглтон** — это паттерн проектирования, который гарантирует, что у класса будет только **один экземпляр** (`объект`) во время работы программы. В Kotlin он реализуется очень просто благодаря ключевому слову `object`."
+    },
+    {
+      "type": "text",
+      "value": "- **Объект создаётся лениво** (при первом обращении).\n\n\n\n- **Потокобезопасность** гарантируется языком (не нужно synchronized)."
+    },
+    {
+      "type": "text",
+      "value": "#### Используется:\n\n- **Общие ресурсы**: кэш, подключения к БД, настройки.\n\n\n\n- **Сервисы**: логгеры, аналитика, API-клиенты.\n\n\n\n- **Фабрики**: если фабрика не хранит состояние."
+    },
+    {
+      "type": "text",
+      "value": "#### Ограничения\n\n- **Нельзя передавать параметры в конструктор** (для **object**).\n\n\n\n- **Сложно тестировать** (из-за глобального состояния)."
+    },
+    {
+      "type": "text",
+      "value": "В Kotlin для создания синглтона используется `object`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object Singleton {\n    init {\n        println(\"Синглтон создан\")  // Выполнится один раз при первом обращении\n    }\n\n    fun doWork() {\n        println(\"Работает!\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Вызов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun main() {\n    Singleton.doWork()  // Синглтон создан → Работает!\n    Singleton.doWork()  // Работает! (объект уже создан)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Примеры использования"
+    },
+    {
+      "type": "text",
+      "value": "- Логгер:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object Logger {\n    fun log(message: String) {\n        println(\"[LOG] $message\")\n    }\n}\n\nLogger.log(\"Ошибка!\")  // [LOG] Ошибка!"
+    },
+    {
+      "type": "text",
+      "value": "- Настройки приложения:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object AppSettings {\n    var isDarkMode = false\n    const val VERSION = \"1.0\"\n}\n\nfun main() {\n    println(AppSettings.VERSION)  // 1.0\n    AppSettings.isDarkMode = true\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Подключение к базе данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object Database {\n    init {\n        println(\"Подключение к БД...\")\n    }\n\n    fun query(sql: String) {\n        println(\"Выполняем запрос: $sql\")\n    }\n}\n\nDatabase.query(\"SELECT * FROM users\")  // Подключение к БД... → Выполняем запрос..."
+    },
+    {
+      "type": "text",
+      "value": "#### Синглтон с параметрами"
+    },
+    {
+      "type": "text",
+      "value": "Если нужно передать **параметры** в синглтон, используют **ленивую инициализацию** (by lazy):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Singleton private constructor(val config: String) {\n    companion object {\n        private var instance: Singleton? = null\n\n        fun getInstance(config: String): Singleton {\n            if (instance == null) {\n                instance = Singleton(config)\n            }\n            return instance!!\n        }\n    }\n}\n\n// Использование\nval singleton = Singleton.getInstance(\"config.xml\")"
+    },
+    {
+      "type": "text",
+      "value": "#### Синглтон в многопоточной среде"
+    },
+    {
+      "type": "text",
+      "value": "Kotlin автоматически обеспечивает потокобезопасность для **object**, но если вы реализуете синглтон вручную, используйте `@Synchronized`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "companion object {\n    @Volatile private var instance: Singleton? = null\n\n    @Synchronized\n    fun getInstance(): Singleton {\n        if (instance == null) {\n            instance = Singleton()\n        }\n        return instance!!\n    }\n}"
+    }
+  ]
+}

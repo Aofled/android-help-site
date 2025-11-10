@@ -1,0 +1,40 @@
+{
+  "title": "Поздняя инициализация переменных: by lazy и lateinit",
+  "content": [
+    {
+      "type": "text",
+      "value": "Оба механизма (`by lazy` и `lateinit`) позволяют отложить инициализацию переменных, но у них разные сценарии применения. Вот основные правила:"
+    },
+    {
+      "type": "text",
+      "value": "#### `by lazy` (ленивая инициализация)\n\nИспользуйте, когда:\n\n- **Свойство** val (неизменяемое).\n\n- **Объект тяжёлый** (ресурсоёмкий) и нужен не сразу.\n\n- **Инициализация зависит от внешних данных**, но должна происходить один раз.\n\n- **Нужна потокобезопасность** (по умолчанию **lazy** синхронизирован)."
+    },
+    {
+      "type": "text",
+      "value": "#### `lateinit var` (поздняя инициализация)\n\nИспользуйте, когда:\n\n- **Переменная var** (изменяемая).\n\n- **Точно знаете, что инициализируете её до использования** (иначе UninitializedPropertyAccessException).\n\n- **Инициализация происходит в другом месте** (например, в **onCreate()** в Android).\n\n- **Не подходит by lazy** (например, для var или не-val)."
+    },
+    {
+      "type": "text",
+      "value": "### Сравнительная таблица"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Критерий\t         by lazy\t                   lateinit var\nТип переменной\t         val (неизменяемая)\t           var (изменяемая)\nNullability\t         Не-null (можно с ?, но не нужно)  Только не-null (String, не String?)\nКогда инициализируется?\t При первом обращении (лениво)\t   Вручную (в любом месте кода)\nПотокобезопасность\t Да (по умолчанию)\t           Нет (если не синхронизировать)\nПроверка инициализации\t Не нужна (автоматическая)\t   ::variable.isInitialized\nИспользование\t         Для \"тяжёлых\" объектов, кэша\t   Для DI, Android-компонентов, тестов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Ситуация\t                                Что выбрать?\nЛенивая загрузка(Bitmap, ViewModel)\t        by lazy\nDI, Android-компоненты (Activity, Fragment)\tlateinit var\nКэширование результатов\t                        by lazy\nТесты (Mock-объекты)\t                        lateinit var\nПотокобезопасность\t                        by lazy"
+    },
+    {
+      "type": "text",
+      "value": "Пример итогового решения:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyApp {  \n    // Для тяжёлых ресурсов  \n    val imageLoader by lazy { ImageLoader() }  \n\n    // Для DI или компонентов  \n    lateinit var analytics: AnalyticsService  \n\n    fun init(analytics: AnalyticsService) {  \n        this.analytics = analytics  \n    }  \n}"
+    }
+  ]
+}

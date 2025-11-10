@@ -1,0 +1,40 @@
+{
+  "title": "Companion Object (спутник-объект)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Companion Object** (**спутник-объект**) — это специальный **объект**, связанный с классом, который позволяет эмулировать **статические методы и свойства** (которые есть в Java, но в Kotlin их нет в чистом виде)."
+    },
+    {
+      "type": "text",
+      "value": "Это **\"блок статики\"** внутри класса, где можно хранить общие для всех экземпляров данные и методы."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyClass {\n    companion object {\n        const val TAG = \"MyApp\"  // Аналог static final в Java\n        fun randomInt(startInt: Int, endInt: Int ) = Random.nextInt(startInt, endInt)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Вызов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun main() {\n    val numbers = MyRandom.randomInt(1, 7)  // Вызов функции\n    println(MyClass.TAG)                    // Доступ к константе\n}"
+    },
+    {
+      "type": "text",
+      "value": "1. **Companion Object** — замена **static** из Java.\n\n\n\n2. Используется для:\n\n\n\n- **Констант** (const val).\n\n\n\n- **Фабричных методов** (create()).\n\n\n\n- **Общих ресурсов** (кэш, подключения).\n\n\n\n3. Может:\n\n\n\n- **Иметь имя** (но не обязательно).\n\n\n\n- **Реализовывать интерфейсы**.\n\n\n\n- Быть оптимизирован под Java через @JvmStatic."
+    },
+    {
+      "type": "text",
+      "value": "Пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MathUtils {\n    companion object {\n        fun add(a: Int, b: Int) = a + b\n    }\n}\n\nfun main() {\n    println(MathUtils.add(2, 3))  // 5\n}"
+    }
+  ]
+}
