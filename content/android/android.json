@@ -1,5 +1,9 @@
 {
   "menuItems": [
-
+    {
+      "title": "View Binding",
+      "url": "#android-view-binding",
+      "contentFile": "android-view-binding.json"
+    }
   ]
 }

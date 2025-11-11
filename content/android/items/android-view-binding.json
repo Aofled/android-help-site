@@ -1,0 +1,88 @@
+{
+  "title": "View Binding",
+  "content": [
+    {
+      "type": "text",
+      "value": "**View Binding** - это функция Android, которая позволяет проще и безопаснее взаимодействовать с представлениями (`views`) в вашем коде по сравнению с традиционным **findViewById()**."
+    },
+    {
+      "type": "text",
+      "value": "**View Binding** - это механизм, который генерирует класс **binding** для каждого XML-файла макета. Этот класс содержит прямые ссылки на все views с идентификаторами в соответствующем макете, что обеспечивает:\n\n\n\n- **Безопасность типов** (type safety)\n\n\n\n- **Нулевую безопасность** (null safety)\n\n\n\n- **Улучшенную производительность** по сравнению с findViewById()"
+    },
+    {
+      "type": "text",
+      "value": "#### Подключение:"
+    },
+    {
+      "type": "text",
+      "value": "В файле **build.gradle** (модуль уровня app):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    ...\n    viewBinding {\n        enabled = true\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- В `Activity`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    private lateinit var binding: ActivityMainBinding\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        \n        // Инициализация binding\n        binding = ActivityMainBinding.inflate(layoutInflater)\n        \n        // Установка content view\n        setContentView(binding.root)\n        \n        // Доступ к views\n        binding.textView.text = \"Hello, View Binding!\"\n        binding.button.setOnClickListener {\n            // Обработка клика\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Во `Fragment`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ExampleFragment : Fragment() {\n    private var _binding: FragmentExampleBinding? = null\n    private val binding get() = _binding!!\n\n    override fun onCreateView(\n        inflater: LayoutInflater,\n        container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View {\n        _binding = FragmentExampleBinding.inflate(inflater, container, false)\n        return binding.root\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        \n        binding.textView.text = \"Fragment with View Binding\"\n    }\n\n    override fun onDestroyView() {\n        super.onDestroyView()\n        _binding = null  // Важно для избежания утечек памяти\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- В `RecyclerView.ViewHolder`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {\n    fun bind(user: User) {\n        binding.name.text = user.name\n        binding.age.text = user.age.toString()\n    }\n}\n\n// В адаптере:\noverride fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {\n    val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)\n    return UserViewHolder(binding)\n}"
+    },
+    {
+      "type": "text",
+      "value": "- В `Dialog`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val dialogBinding = DialogCustomBinding.inflate(LayoutInflater.from(context))\nAlertDialog.Builder(context)\n    .setView(dialogBinding.root)\n    .setPositiveButton(\"OK\") { _, _ -> }\n    .show()\n\ndialogBinding.title.text = \"Custom Dialog\""
+    },
+    {
+      "type": "text",
+      "value": "- В `Merge-макетах`. Для **merge-макетов** (**<merge>**), **View Binding** создает специальный класс:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- merge_layout.xml -->\n<merge xmlns:android=\"http://schemas.android.com/apk/res/android\">\n    <TextView android:id=\"@+id/textView\" ... />\n</merge>"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val binding = MergeLayoutBinding.inflate(layoutInflater)\nval textView = binding.textView"
+    },
+    {
+      "type": "text",
+      "value": "#### Преимущества View Binding\n\n- **Безопасность типов** - не нужно приводить типы вручную\n\n\n\n- **Null безопасность** - binding всегда соответствует макету\n\n\n\n- **Производительность** - один проход по иерархии views (в отличие от **findViewById()**)\n\n\n\n- **Читаемость кода** - явные ссылки на views\n\n\n\n- **Поддержка IDE** - автодополнение кода и навигация"
+    },
+    {
+      "type": "text",
+      "value": "#### Ограничения View Binding\n\n- **Не поддерживает** двухстороннюю привязку данных (как Data Binding)\n\n\n\n- **Не может** использоваться для макетов с **динамическими ID** views\n\n\n\n- **Требует явной инициализации** (немного больше кода, чем Kotlin Synthetics)"
+    },
+    {
+      "type": "text",
+      "value": "#### Best Practices\n\n- **Всегда обнуляйте binding** в `onDestroyView()` фрагмента\n\n\n\n- **Используйте** `lateinit var` для binding в Activity\n\n\n\n- **Для фрагментов используйте** `nullable binding` с проверкой (!!)\n\n\n\n- **Не храните ссылки** на `views `вне класса binding\n\n\n\n- **Используйте методы расширения** для повторяющейся логики"
+    }
+  ]
+}

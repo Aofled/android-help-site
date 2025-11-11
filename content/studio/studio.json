@@ -1,6 +1,11 @@
 {
   "menuItems": [
     {
+      "title": "Примеры подключения зависимостей",
+      "url": "#studio-examples-connecting-dependencies",
+      "contentFile": "studio-examples-connecting-dependencies.json"
+    },
+    {
       "title": "Отображение типов данных",
       "url": "#studio-displaying-data-types",
       "contentFile": "studio-displaying-data-types.json"
