@@ -2,13 +2,13 @@
   "menuItems": [
     {
       "title": "Отображение типов данных",
-      "url": "#android-studio-displaying-data-types",
-      "contentFile": "android-studio-displaying-data-types.json"
+      "url": "#studio-displaying-data-types",
+      "contentFile": "studio-displaying-data-types.json"
     },
     {
       "title": "Горячие клавиши",
-      "url": "#android-hotkey",
-      "contentFile": "android-hotkey.json"
+      "url": "#studio-hotkey",
+      "contentFile": "studio-hotkey.json"
     }
   ]
 }
