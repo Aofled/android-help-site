@@ -3,20 +3,42 @@
   "content": [
     {
       "type": "text",
-      "value": "`Generics (обобщённые типы)` — это механизм, который позволяет создавать классы, интерфейсы и функции, работающие с разными типами данных, сохраняя при этом **типобезопасность** на этапе компиляции."
+      "value": "`Generics (обобщённые типы)` — это механизм, который позволяет создавать классы, интерфейсы и функции, работающие с **разными типами данных**, сохраняя при этом **типобезопасность** на этапе компиляции."
     },
     {
       "type": "text",
-      "value": "- Простые `generics`"
+      "value": "#### Простые Generics:"
+    },
+    {
+      "type": "text",
+      "value": "- Обобщённый класс"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "class Box<T>(val item: T)\n\nval intBox = Box(42)         // Box<Int>\nval stringBox = Box(\"Text\")  // Box<String>"
+      "value": "class Box<T>(private var item: T) {\n    fun getItem(): T = item\n    fun setItem(newItem: T) { item = newItem }\n}\n\nval intBox = Box(42)          // Box<Int>\nval stringBox = Box(\"Kotlin\") // Box<String>"
     },
     {
       "type": "text",
-      "value": "- Функции с `generics`"
+      "value": "- Интерфейсы могут быть параметризованы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface Repository<T> {\n    fun add(item: T)\n    fun get(id: Int): T?\n}\n\nclass UserRepository : Repository<User> {\n    private val users = mutableListOf<User>()\n    override fun add(item: User) { users.add(item) }\n    override fun get(id: Int): User? = users.find { it.id == id }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Generics в коллекциях:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers: List<Int> = listOf(1, 2, 3)\nval names: MutableList<String> = mutableListOf(\"Alice\", \"Bob\")\n\n// Функции с generics:\nfun <T> filterList(list: List<T>, predicate: (T) -> Boolean): List<T> {\n    return list.filter(predicate)\n}\n\nval evenNumbers = filterList(numbers) { it % 2 == 0 }"
+    },
+    {
+      "type": "text",
+      "value": "- Обобщённая функция"
     },
     {
       "type": "code",
@@ -25,7 +47,25 @@
     },
     {
       "type": "text",
-      "value": "- `Ограничения типов (Upper Bounds).` Можно указать, что `generic-тип` должен быть подтипом определённого класса/интерфейса:"
+      "value": "- Функция высшего порядка, аналогия **with**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "inline fun<T> myWith(obj: T, operation: T.()-> Unit) {\n    return obj.operation()\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Wildcards (* — звёздочка)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun printItems(items: List<*>) {\n    items.forEach { println(it) }\n}\n\nprintItems(listOf(1, 2, 3))       // List<Int>\nprintItems(listOf(\"A\", \"B\", \"C\")) // List<String>"
+    },
+    {
+      "type": "text",
+      "value": "#### Ограничения типов (Upper Bounds).\n\nМожно указать, что `generic-тип` должен быть подтипом определённого класса/интерфейса:"
     },
     {
       "type": "code",
@@ -93,6 +133,15 @@
       "type": "code",
       "language": "kotlin",
       "value": "fun <T> List<T>.secondOrNull(): T? = if (size >= 2) this[1] else null"
+    },
+    {
+      "type": "text",
+      "value": "#### Общий пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "abstract class DataSource<T> {\n    abstract fun loadData(): List<T>\n}\n\nclass StringDataSource : DataSource<String>() {\n    override fun loadData(): List<String> = listOf(\"A\", \"B\", \"C\")\n}\n\nfun <T : Comparable<T>> findMax(items: List<T>): T? = items.maxOrNull()\n\nfun main() {\n    val dataSource = StringDataSource()\n    val items = dataSource.loadData()\n    println(findMax(items))  // \"C\"\n}"
     }
   ]
 }
