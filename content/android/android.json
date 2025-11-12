@@ -1,9 +1,34 @@
 {
   "menuItems": [
     {
+      "title": "View, экранные плотности",
+      "url": "#android-view",
+      "contentFile": "android-view.json"
+    },
+    {
       "title": "View Binding",
       "url": "#android-view-binding",
       "contentFile": "android-view-binding.json"
+    },{
+      "title": "Форматирование строк (String Format)",
+      "url": "#android-string-format",
+      "contentFile": "android-string-format.json"
+    },
+    {
+      "title": "Архитектуры проекта",
+      "url": "#android-project-architectures",
+      "contentFile": "android-project-architectures.json",
+      "subItems": [
+        {
+          "title": "MVC (Model-View-Controller)",
+          "url": "#android-project-architectures-mvc",
+          "contentFile": "android-project-architectures-mvc.json"
+        }
+      ]
+    },{
+      "title": "Жизненный цикл Activity (Activity lifecycle)",
+      "url": "#android-activity-lifecycle",
+      "contentFile": "android-activity-lifecycle.json"
     }
   ]
 }

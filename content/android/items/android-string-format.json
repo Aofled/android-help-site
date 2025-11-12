@@ -1,0 +1,107 @@
+{
+  "title": "Форматирование строк (String Format)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**String Format** (форматирование строк) в Android позволяет создавать динамические строки с подстановкой значений, локализацией и специальным форматированием."
+    },
+    {
+      "type": "text",
+      "value": "#### Основы `String Format`"
+    },
+    {
+      "type": "text",
+      "value": "В файлах **res/values/strings.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<string name=\"welcome_message\">Hello, %s! You have %d new messages.</string>\n<string name=\"progress\">Progress: %d%%</string>"
+    },
+    {
+      "type": "text",
+      "value": "В коде:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Получение форматированной строки из ресурсов\nval formatted = getString(R.string.welcome_message, \"Alex\", 5)\n\n// Форматирование строки напрямую\nval price = String.format(\"Price: %.2f\", 19.99) // \"Price: 19.99\""
+    },
+    {
+      "type": "text",
+      "value": "Символы формата:\n\n\n\n- **%s** - строка (String)\n\n\n\n- **%d** - целое число (decimal)\n\n\n\n- **%f** - число с плавающей точкой (float)\n\n\n\n- **%%** - символ процента (экранирование)"
+    },
+    {
+      "type": "text",
+      "value": "### Спецификаторы формата\n\n- #### Числовые форматы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Целые числа\nString.format(\"%d\", 42)        // \"42\"\nString.format(\"%05d\", 42)      // \"00042\" (5 цифр с ведущими нулями)\n\n// Дробные числа\nString.format(\"%.2f\", 3.14159) // \"3.14\" (2 знака после запятой)\nString.format(\"%,.2f\", 1000.5) // \"1,000.50\" (с разделителем тысяч)\n\n// Научная нотация\nString.format(\"%.2e\", 12345.67) // \"1.23e+04\""
+    },
+    {
+      "type": "text",
+      "value": "- #### Строковые форматы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "String.format(\"%s\", \"Hello\")    // \"Hello\"\nString.format(\"%20s\", \"Hello\")  // \"               Hello\" (20 символов)\nString.format(\"%-20s\", \"Hello\") // \"Hello               \" (выравнивание влево)\nString.format(\"%.3s\", \"Hello\")  // \"Hel\" (первые 3 символа)"
+    },
+    {
+      "type": "text",
+      "value": "- #### Даты и время:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "import java.util.*\n\nval now = Calendar.getInstance()\nString.format(\"%tH:%tM\", now, now)  // \"14:30\" (часы:минуты)\nString.format(\"%tF\", now)           // \"2023-05-15\" (дата в формате ISO)\nString.format(\"%tc\", now)           // \"Mon May 15 14:30:45 CEST 2023\" (полная дата)"
+    },
+    {
+      "type": "text",
+      "value": "- #### Позиция аргументов. Можно указывать порядок аргументов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "String.format(\"%2$s %1$s\", \"A\", \"B\")  // \"B A\""
+    },
+    {
+      "type": "text",
+      "value": "- #### Форматирование валют:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "import java.util.*\n\nval locale = Locale.US\nString.format(locale, \"$%,.2f\", 1234.56)  // \"$1,234.56\"\n\nval germanLocale = Locale.GERMANY\nString.format(germanLocale, \"%,.2f €\", 1234.56)  // \"1.234,56 €\""
+    },
+    {
+      "type": "text",
+      "value": "### Форматирование в TextView.\n\n- #### HTML форматирование:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "textView.text = HtmlCompat.fromHtml(\n    \"<b>Bold</b> and <i>italic</i>\",\n    HtmlCompat.FROM_HTML_MODE_LEGACY\n)"
+    },
+    {
+      "type": "text",
+      "value": "- #### Spannable строки:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val spannable = SpannableString(\"Colored text\")\nspannable.setSpan(\n    ForegroundColorSpan(Color.RED), \n    0, 7, \n    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE\n)\ntextView.text = spannable"
+    },
+    {
+      "type": "text",
+      "value": "- #### Форматирование дат с учетом локали:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "import java.text.DateFormat\n\nval dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault())\nval dateString = dateFormat.format(Date())\n// Для US: \"May 15, 2023\"\n// Для RU: \"15 мая 2023 г.\""
+    }
+  ]
+}

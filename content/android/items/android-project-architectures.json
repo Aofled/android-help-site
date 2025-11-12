@@ -1,0 +1,70 @@
+{
+  "title": "Архитектуры Android-приложений",
+  "content": [
+    {
+      "type": "text",
+      "value": "Выбор архитектуры зависит от проекта, но сегодня **MVVM** с элементами **Clean Architecture** - **самый популярный** выбор для Android-разработки."
+    },
+    {
+      "type": "text",
+      "value": "Современный подход (2023-2024)\n\nСейчас Google рекомендует:\n\n- **UI Layer**: ViewModel + Compose/Views\n\n- **Domain Layer**: Use Cases\n\n- **Data Layer**: Repository pattern"
+    },
+    {
+      "type": "text",
+      "value": "#### Рекомендации по выбору:\n\n`Маленькие проекты`: **MVP** или простой **MVVM**\n\n`Средние проекты`: **MVVM** с **Clean Architecture**\n\n`Крупные проекты`: **Clean Architecture** + **MVVM/MVI**\n\n`Сложные UI с множеством состояний`: **MVI**\n\n`Командная разработка`: **VIPER** или **Clean Architecture**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Архитектура:\t  Тестируемость:      Сложность:        Поддержка Google:     Подходит для:\nMVC\t          Низкая\t      Низкая\t        Нет\t              Маленькие проекты\nMVP\t          Средняя\t      Средняя\t        Нет\t              Средние проекты\nMVVM\t          Высокая\t      Средняя\t        Да\t              Любые проекты\nClean Arch\t  Очень высокая\t      Высокая\t        Да\t              Крупные проекты\nMVI\t          Высокая\t      Высокая\t        Частично              Сложные UI\nVIPER\t          Очень высокая\t      Очень высокая     Нет\t              Очень крупные проекты"
+    },
+    {
+      "type": "text",
+      "value": "### 1. MVC (Model-View-Controller)"
+    },
+    {
+      "type": "text",
+      "value": "**Структура**:\n\n\n\n- **Model** - данные и бизнес-логика\n\n\n\n- **View - UI** (XML-разметка)\n\n\n\n- **Controller** - Activity/Fragment (обработка событий)\n\n\n\n**Плюсы**:\n\n\n\n- Простота понимания\n\n\n\n- Быстрый старт для маленьких проектов\n\n\n\n**Минусы**:\n\n\n\n- Activity/Fragment становятся \"God-objects\"\n\n\n\n- Сложность тестирования\n\n\n\n- Плохая масштабируемость"
+    },
+    {
+      "type": "text",
+      "value": "### 2. MVP (Model-View-Presenter)"
+    },
+    {
+      "type": "text",
+      "value": "**Структура**:\n\n\n\n- **Model** - данные и бизнес-логика\n\n\n\n- **View** - интерфейс (Activity/Fragment реализуют View-интерфейс)\n\n\n\n- **Presenter** - посредник между Model и View\n\n\n\n**Плюсы**:\n\n\n\n- Лучшая разделение ответственностей\n\n\n\n- Легче тестировать (Presenter не зависит от Android SDK)\n\n\n\n- Уменьшение размера Activity/Fragment\n\n\n\n**Минусы**:\n\n\n\n- Ручное управление жизненным циклом\n\n\n\n- Много шаблонного кода"
+    },
+    {
+      "type": "text",
+      "value": "### 3. MVVM (Model-View-ViewModel)"
+    },
+    {
+      "type": "text",
+      "value": "**Структура**:\n\n\n\n- **Model** - данные и бизнес-логика\n\n\n\n- **View - UI** (Activity/Fragment)\n\n\n\n- **ViewModel** - хранит и обрабатывает данные для UI\n\n\n\n**Особенности**:\n\n\n\n- Использует Data Binding** и **LiveData/Flow\n\n\n\n- Поддержка Android Architecture Components\n\n\n\n**Плюсы**:\n\n\n\n- Автоматическая привязка данных\n\n\n\n- Выживание при повороте экрана\n\n\n\n- Минимум кода в Activity/Fragment\n\n\n\n**Минусы**:\n\n\n\n- Сложнее отлаживать Data Binding\n\n\n\n- Больше абстракций"
+    },
+    {
+      "type": "text",
+      "value": "### 4. Clean Architecture"
+    },
+    {
+      "type": "text",
+      "value": "**Слои**:\n\n\n\n- **Presentation** (UI: Activity/Fragment/ViewModel)\n\n\n\n- **Domain** (бизнес-логика и Use Cases)\n\n\n\n- **Data** (репозитории, источники данных)\n\n\n\n**Принципы**:\n\n\n\n- Зависимости направлены внутрь (от внешних слоев к ядру)\n\n\n\n- Каждый слой имеет четкие обязанности\n\n\n\n- Легкая замена компонентов\n\n\n\n**Плюсы**:\n\n\n\n- Максимальная тестируемость\n\n\n\n- Независимость от фреймворков\n\n\n\n- Гибкость и масштабируемость\n\n\n\n**Минусы**:\n\n\n\n- Большой объем кода\n\n\n\n- Сложность для маленьких проектов"
+    },
+    {
+      "type": "text",
+      "value": "### 5. MVI (Model-View-Intent)"
+    },
+    {
+      "type": "text",
+      "value": "**Структура**:\n\n\n\n- **Model** - неизменяемое состояние\n\n\n\n- **View** - отображает состояние\n\n\n\n- **Intent** - пользовательские действия\n\n\n\n**Особенности**:\n\n\n\n- Однопоточность данных\n\n\n\n- Предсказуемое состояние\n\n\n\n- Использует RxJava/Coroutines Flow\n\n\n\n**Плюсы**:\n\n\n\n- Четкое управление состоянием\n\n\n\n- Легко отслеживать изменения\n\n\n\n- Хорошо для сложных UI\n\n\n\n**Минусы**:\n\n\n\n- Больше шаблонного кода\n\n\n\n- Крутая кривая обучения"
+    },
+    {
+      "type": "text",
+      "value": "### 6. VIPER (View-Interactor-Presenter-Entity-Router)"
+    },
+    {
+      "type": "text",
+      "value": "**Структура**:\n\n\n\n- **View** - отображение\n\n\n\n- **Interactor** - бизнес-логика\n\n\n\n- **Presenter** - посредник\n\n\n\n- **Entity** - модели данных\n\n\n\n- **Router** - навигация\n\n\n\n**Плюсы**:\n\n\n\n- Максимальное разделение\n\n\n\n- Подходит для больших команд\n\n\n\n**Минусы**:\n\n\n\n- Очень много компонентов\n\n\n\n- Избыточно для маленьких проектов"
+    }
+  ]
+}

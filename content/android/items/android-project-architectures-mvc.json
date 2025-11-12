@@ -1,0 +1,64 @@
+{
+  "title": "MVC (Model-View-Controller)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**MVC (Model-View-Controller)** — одна из самых старых и простых архитектурных паттернов, которая разделяет приложение на три основных компонента: **Model**, **View** и **Controller**. Несмотря на свою простоту, в Android она имеет особенности реализации."
+    },
+    {
+      "type": "text",
+      "value": "#### Когда использовать MVC?\n\n- **Маленькие приложения** (например, учебные проекты).\n\n\n\n- **Прототипирование** — когда нужно быстро сделать работающий вариант.\n\n\n\n- **Устаревшие проекты**, где сложно внедрить MVVM/MVI."
+    },
+    {
+      "type": "text",
+      "value": "### Компоненты MVC"
+    },
+    {
+      "type": "text",
+      "value": "#### Model (Модель)"
+    },
+    {
+      "type": "text",
+      "value": "Что делает: Отвечает за данные и бизнес-логику приложения.\n\n\n\n- Работа с базой данных (Room, SQLite)\n\n\n\n- Сетевые запросы (Retrofit, Volley)\n\n\n\n- Обработка данных (фильтрация, сортировка)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserModel {\n    private val users = mutableListOf<String>()\n\n    fun addUser(name: String) {\n        users.add(name)\n    }\n\n    fun getUsers(): List<String> {\n        return users\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### View (Представление)"
+    },
+    {
+      "type": "text",
+      "value": "Что делает: Отображает UI и получает пользовательский ввод.\n\n\n\n- XML-разметка (activity_main.xml, фрагменты)\n\n\n\n- Отображение данных (без логики!)\n\n\n\n- Передача событий в **Controller**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- activity_main.xml -->\n<LinearLayout>\n    <EditText android:id=\"@+id/etUsername\" />\n    <Button android:id=\"@+id/btnAddUser\" android:text=\"Add User\" />\n    <ListView android:id=\"@+id/lvUsers\" />\n</LinearLayout>"
+    },
+    {
+      "type": "text",
+      "value": "#### Controller (Контроллер)"
+    },
+    {
+      "type": "text",
+      "value": "Что делает: Связывает **Model** и **View**, обрабатывает логику.\n\n\n\n- Обработка нажатий кнопок\n\n\n\n- Обновление **View** на основе данных из **Model**\n\n\n\n- В Android эту роль часто выполняет **Activity/Fragment**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    private lateinit var model: UserModel\n    private lateinit var listView: ListView\n    private lateinit var editText: EditText\n    private lateinit var button: Button\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        model = UserModel()\n        listView = findViewById(R.id.lvUsers)\n        editText = findViewById(R.id.etUsername)\n        button = findViewById(R.id.btnAddUser)\n\n        button.setOnClickListener {\n            val username = editText.text.toString()\n            if (username.isNotEmpty()) {\n                model.addUser(username)  // Обновляем Model\n                updateListView()         // Обновляем View\n            }\n        }\n    }\n\n    private fun updateListView() {\n        val users = model.getUsers()\n        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, users)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Плюсы и Минусы MVC в Android\n\nПреимущества:\n\n- **Простота** — легко понять и начать использовать.\n\n\n\n- **Быстрый старт** — подходит для маленьких проектов и прототипов.\n\n\n\n- **Четкое разделение** — Model не зависит от View.\n\n\n\nНедостатки:\n\n- **Activity/Fragment как \"God Object\"** — вся логика собирается в одном месте.\n\n\n\n- **Сложность тестирования** — Controller зависит от Android-контекста.\n\n\n\n- **Проблемы с масштабированием** — в больших проектах код становится запутанным."
+    },
+    {
+      "type": "text",
+      "value": "#### Проблемы MVC в Android\n\n**1. Нарушение Single Responsibility Principle (SRP)**\n\n- **Activity/Fragment** становятся слишком большими:\n\n\n\nа) Обработка жизненного цикла\n\n\n\nб) Работа с View\n\n\n\nв) Бизнес-логика\n\n\n\nг) Работа с данными\n\n\n\n**2. Сложность тестирования**\n\n- Тесты требуют эмуляции Android-компонентов (Robolectric, Instrumentation Tests).\n\n\n\n- Логика смешана с UI-кодом.\n\n\n\n**3. Плохая поддержка изменений**\n\n- При изменении UI или логики приходится переписывать большие куски кода."
+    }
+  ]
+}
