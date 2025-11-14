@@ -1,0 +1,26 @@
+{
+  "title": "AndroidManifest.xml",
+  "content": [
+    {
+      "type": "text",
+      "value": "**AndroidManifest.xml** — это фундаментальный файл в каждом Android-приложении, который содержит **критически важную информацию** о приложении для операционной системы Android."
+    },
+    {
+      "type": "text",
+      "value": "#### Назначение AndroidManifest.xml\n\n**Этот XML-файл выполняет несколько ключевых функций:**\n\n- Объявляет компоненты приложения (Activity, Service, BroadcastReceiver, ContentProvider)\n\n- Определяет разрешения (permissions)\n\n- Указывает минимальную и целевую версии Android\n\n- Содержит метаданные приложения\n\n- Определяет аппаратные и программные требования"
+    },
+    {
+      "type": "text",
+      "value": "**AndroidManifest.xml — это \"паспорт\" вашего приложения, который:**\n\n\n\n- Определяет структуру приложения\n\n\n\n- Управляет разрешениями\n\n\n\n- Задаёт требования к системе\n\n\n\n- Контролирует взаимодействие с другими приложениями\n\n\n\n**Правильная настройка манифеста критически важна для:**\n\n\n\n- Безопасности приложения\n\n\n\n- Совместимости с разными устройствами\n\n\n\n- Корректной работы всех компонентов"
+    },
+    {
+      "type": "text",
+      "value": "#### Базовая структура файла"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.example.myapp\">\n\n    <!-- Базовые настройки приложения -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    \n    <application\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        \n        <!-- Компоненты приложения -->\n        <activity android:name=\".MainActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n        \n    </application>\n</manifest>"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "title": "SavedStateHandle",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### SavedStateHandle — это современный механизм для сохранения и восстановления UI-состояний в ViewModel, который решает ключевые проблемы традиционного onSaveInstanceState()."
+    },
+    {
+      "type": "text",
+      "value": "**Что такое SavedStateHandle?**\n\nЭто компонент Android Architecture Components, который:\n\n- Позволяет ViewModel сохранять данные при уничтожении процесса\n\n\n\n- Автоматически восстанавливает данные при воссоздании Activity/Fragment\n\n\n\n- Работает в паре с ViewModel через специальный аргумент в конструкторе"
+    },
+    {
+      "type": "text",
+      "value": "**Ключевые преимущества:**\n\n- Автоматическое сохранение — не нужно вручную обрабатывать Bundle\n\n- Типобезопасность — generics вместо getString()/getInt()\n\n- Реактивные возможности — встроенная поддержка LiveData/StateFlow\n\n- Интеграция с ViewModel — данные живут столько же, сколько ViewModel"
+    },
+    {
+      "type": "text",
+      "value": "**Ограничения и подводные камни:**\n\n- Размер данных — те же ограничения, что и у **Bundle** (~**500KB)**\n\n- Типы данных — только **Parcelable/Serializable** и примитивы\n\n- Не для всех случаев — постоянные данные лучше хранить в **Repository**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "Критерий\t   SavedStateHandle\t    onSaveInstanceState\nМесто хранения\t   В ViewModel\t            В Activity/Fragment\nТип данных\t   Любые (LiveData/Flow)    Только Bundle\nАвтоматизация\t   Полная                   Ручная обработка\nСрок жизни\t   Пока жива ViewModel      До завершения процесса"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные возможности:"
+    },
+    {
+      "type": "text",
+      "value": "- Сохранение простых данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {\n    init {\n        savedStateHandle.set(\"KEY\", \"Значение\")  // Сохранение\n        val value = savedStateHandle.get<String>(\"KEY\")  // Получение\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- LiveData интеграция:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val liveData: LiveData<String> = savedStateHandle.getLiveData(\"LIVE_KEY\", \"Дефолтное значение\")"
+    },
+    {
+      "type": "text",
+      "value": "- Потоковая работа с Flow:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val stateFlow: StateFlow<String> = savedStateHandle.getStateFlow(\"FLOW_KEY\", \"Начальное значение\")"
+    },
+    {
+      "type": "text",
+      "value": "#### Как использовать SavedStateHandle:"
+    },
+    {
+      "type": "text",
+      "value": "- Подключение зависимостей:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "implementation \"androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1\""
+    },
+    {
+      "type": "text",
+      "value": "- Базовое использование в ViewModel:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserViewModel(\n    private val savedStateHandle: SavedStateHandle\n) : ViewModel() {\n    \n    // Сохранение значения\n    fun saveUserId(userId: String) {\n        savedStateHandle[\"USER_ID\"] = userId\n    }\n    \n    // Получение значения с дефолтом\n    val userId: String? \n        get() = savedStateHandle.get<String>(\"USER_ID\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Использование с LiveData:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class SearchViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {\n    val query = savedStateHandle.getLiveData(\"SEARCH_QUERY\", \"\")\n    \n    fun updateQuery(newQuery: String) {\n        query.value = newQuery\n        // Автоматически сохраняется!\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример реального использования:"
+    },
+    {
+      "type": "text",
+      "value": "Сохранение состояния поиска"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@HiltViewModel\nclass SearchViewModel @Inject constructor(\n    savedStateHandle: SavedStateHandle\n) : ViewModel() {\n    \n    private val _searchQuery = savedStateHandle.getLiveData(\"query\", \"\")\n    val searchQuery: LiveData<String> = _searchQuery\n    \n    fun setQuery(query: String) {\n        _searchQuery.value = query\n    }\n    \n    fun clearQuery() {\n        _searchQuery.value = \"\"\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "В Fragment/Activity:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val viewModel: SearchViewModel by viewModels()\nviewModel.searchQuery.observe(viewLifecycleOwner) { query ->\n    searchView.setQuery(query, false)\n}"
+    }
+  ]
+}

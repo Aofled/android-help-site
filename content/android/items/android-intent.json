@@ -1,0 +1,195 @@
+{
+  "title": "Intent",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Intent (намерение)** — это фундаментальный механизм в Android для взаимодействия между компонентами приложения и между разными приложениями. Это мощный инструмент, который обеспечивает гибкость и модульность Android-приложений."
+    },
+    {
+      "type": "text",
+      "value": "**Intent — это объект-сообщение, который используется для:**\n\n- Запуска Activity\n\n- Запуска и остановки Service\n\n- Передачи Broadcast'ов\n\n- Запуска других приложений\n\n- Передачи данных между компонентами"
+    },
+    {
+      "type": "text",
+      "value": "### Типы Intent:"
+    },
+    {
+      "type": "text",
+      "value": "#### Явные (Explicit) Intent:"
+    },
+    {
+      "type": "text",
+      "value": "Используются для запуска конкретного компонента **внутри вашего приложения**."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Запуск конкретной Activity\nval intent = Intent(this, SecondActivity::class.java)\nstartActivity(intent)\n\n// Запуск Service\nval serviceIntent = Intent(this, MyService::class.java)\nstartService(serviceIntent)"
+    },
+    {
+      "type": "text",
+      "value": "#### Неявные (Implicit) Intent:"
+    },
+    {
+      "type": "text",
+      "value": "Описывают **тип действия**, которое нужно выполнить, и система сама находит подходящий компонент."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Открытие URL в браузере\nval browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(\"https://google.com\"))\nstartActivity(browserIntent)\n\n// Отправка email\nval emailIntent = Intent(Intent.ACTION_SEND).apply {\n    type = \"text/plain\"\n    putExtra(Intent.EXTRA_EMAIL, arrayOf(\"recipient@example.com\"))\n    putExtra(Intent.EXTRA_SUBJECT, \"Subject\")\n    putExtra(Intent.EXTRA_TEXT, \"Message body\")\n}\nstartActivity(Intent.createChooser(emailIntent, \"Send email...\"))"
+    },
+    {
+      "type": "text",
+      "value": "### Основные компоненты Intent:"
+    },
+    {
+      "type": "text",
+      "value": "#### Action (Действие):"
+    },
+    {
+      "type": "text",
+      "value": "**Определяет что нужно сделать. Стандартные действия:**\n\n- **Intent.ACTION_VIEW** — просмотр данных\n\n- **Intent.ACTION_SEND** — отправка данных\n\n- **Intent.ACTION_DIAL** — набрать номер\n\n- **Intent.ACTION_EDIT** — редактирование данных"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Позвонить по номеру\nval callIntent = Intent(Intent.ACTION_DIAL, Uri.parse(\"tel:123456789\"))\nstartActivity(callIntent)"
+    },
+    {
+      "type": "text",
+      "value": "#### Data (Данные):"
+    },
+    {
+      "type": "text",
+      "value": "URI, с которым нужно выполнить действие."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Показать карту\nval mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(\"geo:0,0?q=1600+Amphitheatre+Parkway\"))\nstartActivity(mapIntent)"
+    },
+    {
+      "type": "text",
+      "value": "#### Category (Категория):"
+    },
+    {
+      "type": "text",
+      "value": "Дополнительная информация о компоненте, который должен обработать Intent."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Главная Activity (Launcher)\nintent.addCategory(Intent.CATEGORY_LAUNCHER)"
+    },
+    {
+      "type": "text",
+      "value": "#### Extras (Дополнительные данные):"
+    },
+    {
+      "type": "text",
+      "value": "Передача дополнительных параметров через Bundle."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Передача данных в Activity\nval intent = Intent(this, DetailActivity::class.java)\nintent.putExtra(\"item_id\", 123)\nintent.putExtra(\"item_name\", \"Example\")\nstartActivity(intent)\n\n// Получение данных\nval itemId = intent.getIntExtra(\"item_id\", 0)\nval itemName = intent.getStringExtra(\"item_name\")"
+    },
+    {
+      "type": "text",
+      "value": "#### Flags (Флаги):"
+    },
+    {
+      "type": "text",
+      "value": "Управление поведением Activity."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Запуск Activity в новой задаче\nintent.flags = Intent.FLAG_ACTIVITY_NEW_TASK\n\n// Очистка стека Activity\nintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK"
+    },
+    {
+      "type": "text",
+      "value": "### Intent Filters"
+    },
+    {
+      "type": "text",
+      "value": "Для обработки неявных Intent компоненты объявляют **<intent-filter>** в манифесте."
+    },
+    {
+      "type": "text",
+      "value": "- Пример для Activity:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity android:name=\".MyActivity\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.VIEW\" />\n        <category android:name=\"android.intent.category.DEFAULT\" />\n        <data android:scheme=\"http\" \n              android:host=\"example.com\" />\n    </intent-filter>\n</activity>"
+    },
+    {
+      "type": "text",
+      "value": "- Пример для BroadcastReceiver:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<receiver android:name=\".MyReceiver\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.BOOT_COMPLETED\" />\n        <action android:name=\"android.intent.action.AIRPLANE_MODE\" />\n    </intent-filter>\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "### PendingIntent:"
+    },
+    {
+      "type": "text",
+      "value": "Специальный Intent, который можно выполнить от имени вашего приложения в будущем."
+    },
+    {
+      "type": "text",
+      "value": "Создание PendingIntent:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Для Activity\nval pendingIntent = PendingIntent.getActivity(\n    this,\n    0,\n    intent,\n    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE\n)\n\n// Для Broadcast\nval pendingIntent = PendingIntent.getBroadcast(\n    context,\n    requestCode,\n    intent,\n    PendingIntent.FLAG_IMMUTABLE\n)"
+    },
+    {
+      "type": "text",
+      "value": "Использование в уведомлениях:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val notification = NotificationCompat.Builder(this, CHANNEL_ID)\n    .setContentTitle(\"Title\")\n    .setContentText(\"Message\")\n    .setSmallIcon(R.drawable.ic_notification)\n    .setContentIntent(pendingIntent)  // Открытие при клике\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "#### Особые виды Intent:"
+    },
+    {
+      "type": "text",
+      "value": "- Intent для Share (Поделиться):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val shareIntent = Intent(Intent.ACTION_SEND).apply {\n    type = \"text/plain\"\n    putExtra(Intent.EXTRA_TEXT, \"Check this out: https://example.com\")\n}\nstartActivity(Intent.createChooser(shareIntent, \"Share via\"))"
+    },
+    {
+      "type": "text",
+      "value": "- Intent для камеры:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)\nif (takePictureIntent.resolveActivity(packageManager) != null) {\n    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Intent для выбора файла:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(Intent.ACTION_GET_CONTENT).apply {\n    type = \"image/*\"\n}\nstartActivityForResult(intent, PICK_IMAGE_REQUEST)"
+    }
+  ]
+}

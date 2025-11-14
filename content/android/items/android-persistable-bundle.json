@@ -1,0 +1,79 @@
+{
+  "title": "PersistableBundle",
+  "content": [
+    {
+      "type": "text",
+      "value": "**PersistableBundle** — это специализированная версия Bundle, предназначенная для **долговременного сохранения данных** даже после перезапуска устройства."
+    },
+    {
+      "type": "text",
+      "value": "**Ключевые особенности:**\n\n- Наследуется от **BaseBundle** (как и обычный Bundle)\n\n- Поддерживает **автоматическое сохранение** при перезапуске системы\n\n- Используется в системных компонентах Android:\n\nJobScheduler\n\nAppWidgets\n\nWorkManager\n\nСистемные broadcast'ы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Характеристика\t   PersistableBundle\t      Обычный Bundle\nСрок хранения\t   Переживает перезагрузку    Только до смерти процесса\nИспользование\t   Системные компоненты\t      Активности/Фрагменты\nТипы данных\t   Ограниченный набор         Более широкий набор"
+    },
+    {
+      "type": "text",
+      "value": "**PersistableBundle может содержать:**\n\n- Примитивы: int, long, double, boolean\n\n- Массивы примитивов\n\n- String и массивы String\n\n- Другие PersistableBundle (вложенные)\n\n**Не поддерживает:**\n\n- Parcelable объекты\n\n- Serializable объекты\n\n- Пользовательские классы"
+    },
+    {
+      "type": "text",
+      "value": "**Не для произвольных данных:**\n\n- Только для системных компонентов\n\n- Не заменяет SharedPreferences или Room\n\n**Размер ограничений:**\n\n- Обычно до ~1MB (зависит от версии Android)\n\n**Безопасность:**\n\n- Данные сохраняются в непривилегированном хранилище\n\n- Не подходит для конфиденциальной информации"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные методы работы:"
+    },
+    {
+      "type": "text",
+      "value": "Запись данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "PersistableBundle bundle = new PersistableBundle();\nbundle.putInt(\"count\", 42);\nbundle.putString(\"status\", \"active\");\nbundle.putBoolean(\"isPremium\", true);\n\n// Вложенный Bundle\nPersistableBundle nested = new PersistableBundle();\nnested.putDouble(\"price\", 9.99);\nbundle.putPersistableBundle(\"nested\", nested);"
+    },
+    {
+      "type": "text",
+      "value": "Чтение данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "int count = bundle.getInt(\"count\");\nString status = bundle.getString(\"status\");\nboolean isPremium = bundle.getBoolean(\"isPremium\");\n\nPersistableBundle nested = bundle.getPersistableBundle(\"nested\");\nif (nested != null) {\n    double price = nested.getDouble(\"price\");\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные сценарии использования:"
+    },
+    {
+      "type": "text",
+      "value": "#### JobScheduler. При создании периодических задач:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "ComponentName serviceComponent = new ComponentName(context, MyJobService.class);\nJobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceComponent);\n\nPersistableBundle extras = new PersistableBundle();\nextras.putString(\"sync_key\", \"user_data\");\n\nbuilder.setExtras(extras)\n       .setPeriodic(15 * 60 * 1000); // 15 минут\n\nJobScheduler scheduler = context.getSystemService(JobScheduler.class);\nscheduler.schedule(builder.build());"
+    },
+    {
+      "type": "text",
+      "value": "#### App Widgets. При обновлении виджетов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "AppWidgetManager manager = AppWidgetManager.getInstance(context);\nRemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);\n\nPersistableBundle config = new PersistableBundle();\nconfig.putInt(\"widget_theme\", 2);\n\nmanager.updateAppWidgetOptions(widgetId, config);"
+    },
+    {
+      "type": "text",
+      "value": "#### WorkManager. При создании рабочих задач:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val constraints = Constraints.Builder()\n    .setRequiredNetworkType(NetworkType.CONNECTED)\n    .build()\n\nval data = workDataOf(\n    \"KEY_URL\" to \"https://api.example.com\",\n    \"KEY_RETRIES\" to 3\n)\n\nval request = OneTimeWorkRequestBuilder<MyWorker>()\n    .setInputData(data)\n    .setConstraints(constraints)\n    .build()\n\nWorkManager.getInstance(context).enqueue(request)"
+    }
+  ]
+}

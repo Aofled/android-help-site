@@ -1,0 +1,86 @@
+{
+  "title": "onSaveInstanceState в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**onSaveInstanceState() **— это важный механизм сохранения временных данных Activity или Fragment при их уничтожении и последующем воссоздании системой Android. Давайте разберём этот метод максимально подробно."
+    },
+    {
+      "type": "text",
+      "value": "#### Когда вызывается onSaveInstanceState()?"
+    },
+    {
+      "type": "text",
+      "value": "Метод вызывается в следующих случаях:\n\n\n\n- При повороте экрана (изменении конфигурации)\n\n\n\n- Когда система убивает процесс приложения для освобождения памяти\n\n\n\n- При переходе в фоновый режим (начиная с Android 8.0)\n\n\n\n- При переключении на другую Activity (но не при явном вызове finish())"
+    },
+    {
+      "type": "text",
+      "value": "#### Что сохранять в Bundle?"
+    },
+    {
+      "type": "text",
+      "value": "**Рекомендуется сохранять:**\n\n- Временные UI-состояния (позиция прокрутки, текст в полях ввода)\n\n- Состояния чекбоксов, переключателей\n\n- Простые данные: строки, числа, boolean-значения\n\n- Parcelable и Serializable объекты\n\n**Не сохранять:**\n\n- Крупные объекты (Bitmap, Drawable)\n\n- Ссылки на View или Activity\n\n- Данные, которые уже хранятся в БД/Repository"
+    },
+    {
+      "type": "text",
+      "value": "#### Отличия от ViewModel:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "Характеристика\t        onSaveInstanceState\t        ViewModel\nСрок хранения\t        До завершения процесса\t        До уничтожения Activity\nТип данных\t        Примитивы, Parcelable\t        Любые объекты\nПроизводительность\tСериализация/десериализация\tРабота в памяти"
+    },
+    {
+      "type": "text",
+      "value": "#### Особенности работы:"
+    },
+    {
+      "type": "text",
+      "value": "**Размер ограничений:**\n\n- Максимальный размер **Bundle** — около **500KB** (зависит от устройства)\n\n\n\n- При превышении лимита — TransactionTooLargeException"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример реализации:"
+    },
+    {
+      "type": "text",
+      "value": "В Activity:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onSaveInstanceState(outState: Bundle) {\n    super.onSaveInstanceState(outState)\n    outState.putString(\"EDIT_TEXT_VALUE\", editText.text.toString())\n    outState.putInt(\"SCROLL_POSITION\", recyclerView.computeVerticalScrollOffset())\n    outState.putBoolean(\"IS_CHECKED\", checkBox.isChecked)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Восстановление в onCreate():"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_main)\n    \n    if (savedInstanceState != null) {\n        val text = savedInstanceState.getString(\"EDIT_TEXT_VALUE\")\n        val position = savedInstanceState.getInt(\"SCROLL_POSITION\")\n        val isChecked = savedInstanceState.getBoolean(\"IS_CHECKED\")\n        \n        editText.setText(text)\n        recyclerView.scrollTo(0, position)\n        checkBox.isChecked = isChecked\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример полной реализации"
+    },
+    {
+      "type": "text",
+      "value": "Activity:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    private lateinit var editText: EditText\n    private lateinit var switch: Switch\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        \n        editText = findViewById(R.id.editText)\n        switch = findViewById(R.id.switch)\n        \n        if (savedInstanceState != null) {\n            restoreState(savedInstanceState)\n        }\n    }\n    \n    private fun restoreState(state: Bundle) {\n        editText.setText(state.getString(\"TEXT\"))\n        switch.isChecked = state.getBoolean(\"SWITCH_STATE\")\n    }\n    \n    override fun onSaveInstanceState(outState: Bundle) {\n        super.onSaveInstanceState(outState)\n        saveState(outState)\n    }\n    \n    private fun saveState(outState: Bundle) {\n        outState.putString(\"TEXT\", editText.text.toString())\n        outState.putBoolean(\"SWITCH_STATE\", switch.isChecked)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Fragment:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyFragment : Fragment() {\n    private var scrollPosition = 0\n    \n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        \n        if (savedInstanceState != null) {\n            scrollPosition = savedInstanceState.getInt(\"SCROLL_POS\")\n        }\n    }\n    \n    override fun onSaveInstanceState(outState: Bundle) {\n        super.onSaveInstanceState(outState)\n        outState.putInt(\"SCROLL_POS\", scrollPosition)\n    }\n}"
+    }
+  ]
+}

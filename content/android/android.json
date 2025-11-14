@@ -29,6 +29,34 @@
       "title": "Жизненный цикл Activity (Activity lifecycle)",
       "url": "#android-activity-lifecycle",
       "contentFile": "android-activity-lifecycle.json"
+    },{
+      "title": "ViewModel",
+      "url": "#android-view-model",
+      "contentFile": "android-view-model.json"
+    },{
+      "title": "onSaveInstanceState ",
+      "url": "#android-on-save-instance-state ",
+      "contentFile": "android-on-save-instance-state.json"
+    },{
+      "title": "SavedStateHandle",
+      "url": "#android-saved-state-handle",
+      "contentFile": "android-saved-state-handle.json"
+    },{
+      "title": "PersistableBundle",
+      "url": "#android-persistable-bundle",
+      "contentFile": "android-persistable-bundle.json"
+    },{
+      "title": "AndroidManifest",
+      "url": "#android-android-manifest",
+      "contentFile": "android-android-manifest.json"
+    },{
+      "title": "Intent (намерение)",
+      "url": "#android-intent",
+      "contentFile": "android-intent.json"
+    },{
+      "title": "Логи в Android",
+      "url": "#android-log",
+      "contentFile": "android-log.json"
     }
   ]
 }

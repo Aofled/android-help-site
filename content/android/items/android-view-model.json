@@ -1,0 +1,244 @@
+{
+  "title": "ViewModel",
+  "content": [
+    {
+      "type": "text",
+      "value": "**ViewModel** — это один из ключевых компонентов Android Architecture Components, предназначенный для **хранения и управления UI-данными** с учетом жизненного цикла."
+    },
+    {
+      "type": "text",
+      "value": "### Основное предназначение ViewModel:\n\n- **Сохранение данных при повороте экрана**. ViewModel автоматически сохраняется при изменении конфигурации (например, повороте), в отличие от Activity/Fragment.\n\n\n\n- **Разделение ответственности**. UI-логика выносится из Activity/Fragment в отдельный класс.\n\n\n\n- **Предотвращение утечек памяти**. ViewModel не содержит ссылок на View, что делает ее безопасной.\n\n\n\n- **Обмен данными между Fragmentами.** Одна ViewModel может использоваться несколькими Fragmentами в пределах одного Activity."
+    },
+    {
+      "type": "text",
+      "value": "#### Отличия от других подходов:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "Характеристика\t  ViewModel\t            onSaveInstanceState\t         Singleton\nСрок хранения\t  До уничтожения Activity   До завершения процесса\t Всегда\nТип данных\t  Сложные объекты\t    Примитивы, Parcelable\t Любые\nИспользование\t  UI-данные\t            Временные состояния\t         Глобальные данные"
+    },
+    {
+      "type": "text",
+      "value": "### Жизненный цикл ViewModel"
+    },
+    {
+      "type": "image",
+      "src": "/images/android/android_activity_viewmodel.png",
+      "alt": "Жизненный цикл ViewModel в Activity",
+      "caption": "Жизненный цикл ViewModel в Activity"
+    },
+    {
+      "type": "image",
+      "src": "/images/android/android_fragment_view_model.png",
+      "alt": "Жизненный цикл ViewModel во Fragmen",
+      "caption": "Жизненный цикл ViewModel в Fragmen"
+    },
+    {
+      "type": "text",
+      "value": "1) ViewModel создается при первом запросе (**ViewModelProvider(this).get(...)**)\n\n\n\n2) Живет дольше, чем связанная Activity/Fragment (но не бесконечно)\n\n\n\n3) Уничтожается, когда:\n\n\n\n- Activity завершена (вызван **finish()**)\n\n\n\n- Fragment отсоединен (для Fragment-scoped ViewModel)\n\n\n\n4) Метод **onCleared()** вызывается перед уничтожением"
+    },
+    {
+      "type": "text",
+      "value": "#### Как ViewModel переживает поворот экрана?"
+    },
+    {
+      "type": "text",
+      "value": "- При повороте Activity уничтожается и создается заново\n\n\n\n- ViewModel сохраняется в специальном хранилище (**ViewModelStore**)\n\n\n\n- Новая Activity получает существующий экземпляр ViewModel"
+    },
+    {
+      "type": "text",
+      "value": "**Не храните ссылки на:**\n\n- Context (используйте AndroidViewModel если нужно)\n\n- View или Activity\n\n- LifecycleOwner\n\n**Не для всех данных:**\n\n- Для постоянного хранения используйте Repository + базу данных\n\n- Для временных состояний - SavedStateHandle\n\n**Не заменяет:**\n\n- onSaveInstanceState для временных UI-состояний\n\n- Базы данных для постоянного хранения"
+    },
+    {
+      "type": "text",
+      "value": "**Размер ViewModel:**\n\n- Держите ViewModel компактными (разделяйте по функционалу)\n\n**Именование:**\n\n- UserProfileViewModel вместо ProfileVM\n\n**Тестируемость:**\n\n- Выносите бизнес-логику в отдельные классы\n\n- Используйте интерфейсы для зависимостей"
+    },
+    {
+      "type": "text",
+      "value": "### Подключение ViewModel в Android"
+    },
+    {
+      "type": "text",
+      "value": "Для чистого Android (без Jetpack Compose)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "dependencies {\n    // Основная зависимость ViewModel\n    implementation \"androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2\"\n    \n    // Для сохранения состояния при повороте экрана (SavedStateHandle)\n    implementation \"androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2\"\n    \n    // Если используете LiveData\n    implementation \"androidx.lifecycle:lifecycle-livedata-ktx:2.6.2\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "Если используете Hilt (Dependency Injection)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "dependencies {\n    // Для @HiltViewModel\n    implementation \"androidx.hilt:hilt-lifecycle-viewmodel:1.0.0\"\n    kapt \"androidx.hilt:hilt-compiler:1.0.0\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "Если проект на Java (без Kotlin)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "dependencies {\n    implementation \"androidx.lifecycle:lifecycle-viewmodel:2.6.2\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "Для AndroidX Activity/Fragment"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "dependencies {\n    // Для получения ViewModel через requireActivity()\n    implementation \"androidx.activity:activity-ktx:1.7.2\"\n    implementation \"androidx.fragment:fragment-ktx:1.6.1\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Базовый пример (Kotlin)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewModel : ViewModel() {\n    private val _data = MutableLiveData<String>()\n    val data: LiveData<String> = _data\n\n    fun loadData() {\n        _data.value = \"Hello from ViewModel!\"\n    }\n\n    override fun onCleared() {\n        // Освобождение ресурсов\n        super.onCleared()\n    }\n}\n\n// Использование в Activity\nclass MainActivity : AppCompatActivity() {\n    private lateinit var viewModel: MyViewModel\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        viewModel = ViewModelProvider(this).get(MyViewModel::class.java)\n        \n        viewModel.data.observe(this) { value ->\n            textView.text = value\n        }\n        \n        button.setOnClickListener {\n            viewModel.loadData()\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Фабрика ViewModel с параметрами"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserViewModel(private val userId: String) : ViewModel() { /*...*/ }\n\nclass UserViewModelFactory(private val userId: String) : ViewModelProvider.Factory {\n    override fun <T : ViewModel> create(modelClass: Class<T>): T {\n        return UserViewModel(userId) as T\n    }\n}\n\n// Использование\nval factory = UserViewModelFactory(\"user123\")\nviewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)"
+    },
+    {
+      "type": "text",
+      "value": "#### ViewModel + LiveData"
+    },
+    {
+      "type": "text",
+      "value": "- Инкапсуляция данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "private val _items = MutableLiveData<List<Item>>()\nval items: LiveData<List<Item>> = _items"
+    },
+    {
+      "type": "text",
+      "value": "- Преобразование данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val itemCount: LiveData<Int> = Transformations.map(items) { it.size }"
+    },
+    {
+      "type": "text",
+      "value": "- Комбинирование данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val userData = MediatorLiveData<Pair<User, List<Post>>>().apply {\n    addSource(userLiveData) { user -> value = user to postsLiveData.value }\n    addSource(postsLiveData) { posts -> value = userLiveData.value to posts }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Обработка ошибок"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "sealed class Result<out T> {\n    data class Success<out T>(val data: T) : Result<T>()\n    data class Error(val exception: Exception) : Result<Nothing>()\n    object Loading : Result<Nothing>()\n}\n\nclass MyViewModel : ViewModel() {\n    private val _result = MutableLiveData<Result<String>>()\n    val result: LiveData<Result<String>> = _result\n\n    fun fetchData() {\n        _result.value = Result.Loading\n        viewModelScope.launch {\n            try {\n                val data = repository.loadData()\n                _result.value = Result.Success(data)\n            } catch (e: Exception) {\n                _result.value = Result.Error(e)\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### ViewModel и корутины"
+    },
+    {
+      "type": "text",
+      "value": "Использование viewModelScope:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewModel : ViewModel() {\n    fun fetchData() {\n        viewModelScope.launch {\n            // Основной поток\n            val data = withContext(Dispatchers.IO) {\n                // Фоновая работа\n                repository.loadData()\n            }\n            // Обновление UI\n            _data.value = data\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Все корутины в viewModelScope автоматически отменяются в onCleared()\n\nДля ручного управления:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "private val job = Job()\nprivate val customScope = CoroutineScope(Dispatchers.Main + job)\n\noverride fun onCleared() {\n    job.cancel()\n    super.onCleared()\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### SavedStateHandle"
+    },
+    {
+      "type": "text",
+      "value": "Для сохранения состояния при убийстве процесса:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewModel(private val state: SavedStateHandle) : ViewModel() {\n    companion object {\n        private const val KEY_COUNTER = \"counter\"\n    }\n    \n    val counter: LiveData<Int> = state.getLiveData(KEY_COUNTER, 0)\n    \n    fun increment() {\n        state[KEY_COUNTER] = (counter.value ?: 0) + 1\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### ViewModel в Fragmentах"
+    },
+    {
+      "type": "text",
+      "value": "Общая ViewModel для нескольких Fragmentов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// В Fragmentах\nval sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)"
+    },
+    {
+      "type": "text",
+      "value": "#### Тестирование ViewModel:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewModelTest {\n    @Test\n    fun `test data loading`() = runBlockingTest {\n        val testDispatcher = StandardTestDispatcher()\n        Dispatchers.setMain(testDispatcher)\n        \n        val mockRepo = MockRepository()\n        val viewModel = MyViewModel(mockRepo)\n        \n        viewModel.loadData()\n        testDispatcher.scheduler.advanceUntilIdle()\n        \n        assertEquals(\"expected_data\", viewModel.data.value)\n        \n        Dispatchers.resetMain()\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Взаимодействие с другими компонентами:"
+    },
+    {
+      "type": "text",
+      "value": "ViewModel + Room:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Dao\ninterface UserDao {\n    @Query(\"SELECT * FROM users\")\n    fun getUsers(): LiveData<List<User>>\n}\n\nclass UserViewModel(application: Application) : AndroidViewModel(application) {\n    private val dao = UserDatabase.get(application).userDao()\n    val users: LiveData<List<User>> = dao.getUsers()\n}"
+    },
+    {
+      "type": "text",
+      "value": "ViewModel + Hilt (Dependency Injection):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@HiltViewModel\nclass MyViewModel @Inject constructor(\n    private val repository: MyRepository\n) : ViewModel() { /*...*/ }"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример полной ViewModel"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@HiltViewModel\nclass ArticleViewModel @Inject constructor(\n    private val repository: ArticleRepository,\n    private val savedStateHandle: SavedStateHandle\n) : ViewModel() {\n    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)\n    val uiState: StateFlow<UiState> = _uiState\n\n    private val articleId: String = savedStateHandle[\"articleId\"]!!\n\n    init {\n        loadArticle()\n    }\n\n    fun loadArticle() {\n        viewModelScope.launch {\n            _uiState.value = UiState.Loading\n            try {\n                val article = repository.getArticle(articleId)\n                _uiState.value = UiState.Success(article)\n            } catch (e: Exception) {\n                _uiState.value = UiState.Error(e.message)\n            }\n        }\n    }\n\n    fun bookmarkArticle() {\n        viewModelScope.launch {\n            repository.bookmarkArticle(articleId)\n        }\n    }\n\n    override fun onCleared() {\n        repository.cancelPendingRequests()\n        super.onCleared()\n    }\n\n    sealed class UiState {\n        object Loading : UiState()\n        data class Success(val article: Article) : UiState()\n        data class Error(val message: String?) : UiState()\n    }\n}"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Логи в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "Android предоставляет класс **android.util.Log** для работы с логами. Основные методы:"
+    },
+    {
+      "type": "text",
+      "value": "Log.**v**(TAG, \"Verbose message\")   **VERBOSE** - самый низкий уровень\n\nLog.**d**(TAG, \"Debug message\")   **DEBUG** - для отладочной информации\n\nLog.**i**(TAG, \"Info message\")   **INFO** - важная информация \n\nLog.**w**(TAG, \"Warning message\")   **WARN** - предупреждения\n\nLog.**e**(TAG, \"Error message\")   **ERROR** - ошибки\n\nLog.**wtf**(TAG, \"Assert message\")   **ASSERT/WTF** - критические ошибки"
+    },
+    {
+      "type": "text",
+      "value": "Правильное использование тегов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "private const val TAG = \"MainActivity\"\n// Или с именем класса:\nprivate val TAG = this::class.java.simpleName"
+    }
+  ]
+}
