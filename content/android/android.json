@@ -26,9 +26,16 @@
         }
       ]
     },{
-      "title": "Жизненный цикл Activity (Activity lifecycle)",
-      "url": "#android-activity-lifecycle",
-      "contentFile": "android-activity-lifecycle.json"
+      "title": "Activity",
+      "url": "#android-activity",
+      "contentFile": "android-activity.json",
+      "subItems": [
+        {
+          "title": "Жизненный цикл Activity (Activity lifecycle)",
+          "url": "#android-activity-lifecycle",
+          "contentFile": "android-activity-lifecycle.json"
+        }
+      ]
     },{
       "title": "ViewModel",
       "url": "#android-view-model",

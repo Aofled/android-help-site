@@ -2,10 +2,6 @@
   "title": "Жизненный цикл Activity (Activity lifecycle)",
   "content": [
     {
-      "type": "text",
-      "value": "**Activity** — это ключевой компонент Android-приложений, представляющий собой один экран с пользовательским интерфейсом.\n\n**Activity** проходит через несколько состояний, управляемых системой:"
-    },
-    {
       "type": "image",
       "src": "/images/android/android_activity_lifecycle.png",
       "alt": "Жизненный цикл Activity",
@@ -21,120 +17,116 @@
     },
     {
       "type": "text",
-      "value": "#### onCreate() — Создание Activity"
+      "value": "**onCreate()**"
     },
     {
       "type": "text",
-      "value": "Вызывается **первым** при создании Activity.\n\n\n\nЗдесь инициализируются:\n\n\n\n- UI (setContentView())\n\n\n\n- Данные\n\n\n\n- ViewModel\n\n\n\n- Подписки (но не долгоживущие!)"
+      "value": "**Вызывается** при первом создании Activity\n\n\n\n**Обязательный метод**: здесь задается layout через **setContentView()**\n\n\n\n**Идеальное место** для:\n\n\n\n- Инициализации UI\n\n\n\n- Настройки ViewModel\n\n\n\n- Восстановления состояния"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_main)\n    \n    // Восстановление данных после поворота экрана\n    val username = savedInstanceState?.getString(\"USERNAME\") ?: \"\"\n}"
+      "value": "override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_main)\n    \n    // Восстановление состояния после поворота экрана\n    val savedText = savedInstanceState?.getString(\"KEY_TEXT\")\n    // Инициализация UI компонентов\n    button.setOnClickListener { /* ... */ }\n}"
     },
     {
       "type": "text",
-      "value": "#### onStart() — Старт видимости"
+      "value": "**onRestart()**"
     },
     {
       "type": "text",
-      "value": "Activity **становится видимой**, но ещё не взаимодействует с пользователем.\n\n\n\nЧасто используют для:\n\n\n\n-  Запуска анимаций\n\n\n\n- Подключения к сервисам"
+      "value": "Специальный метод, вызываемый перед **onStart()**, если Activity возвращается из stopped состояния"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onStart() {\n    super.onStart()\n    // Например, запуск анимации\n    imageView.startAnimation(animation)\n}"
+      "value": "override fun onRestart() {\n    super.onRestart()\n    // Обновление данных, которые могли измениться, пока Activity была неактивна\n    updateUserStatus()\n}"
     },
     {
       "type": "text",
-      "value": "#### onResume() — Активность на переднем плане"
+      "value": "**onStart()**"
     },
     {
       "type": "text",
-      "value": "Activity теперь в **фокусе** и готова к взаимодействию.\n\n\n\nЗдесь:\n\n\n\n- Запускают камеру, GPS\n\n\n\n- Возобновляют анимации\n\n\n\n- Обновляют данные (если изменились за время onPause)"
+      "value": "Activity становится видимой, но еще не в фокусе\n\nПодходящее место для:\n\n- Регистрации BroadcastReceiver\n\n- Запуска анимаций"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onResume() {\n    super.onResume()\n    // Обновление данных с сервера\n    viewModel.loadFreshData()\n}"
+      "value": "override fun onStart() {\n    super.onStart()\n    // Регистрация слушателей, которые должны работать, когда Activity видима\n    sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)\n}"
     },
     {
       "type": "text",
-      "value": "#### onPause() — Частичное скрытие"
+      "value": "**onResume()**"
     },
     {
       "type": "text",
-      "value": "Вызывается, когда Activity **теряет фокус** (но ещё частично видна).\n\n\n\nЗдесь:\n\n\n\n- Сохраняют данные\n\n\n\n- Останавливают тяжёлые операции\n\n\n\n- Освобождают ресурсы (камеру, сенсоры)"
+      "value": "Activity выходит на передний план и готова к взаимодействию\n\nЗдесь активируют:\n\n- Камеру\n\n- Анимации\n\n- Обновление данных (если они могли устареть)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onPause() {\n    super.onPause()\n    // Сохранение данных в SharedPreferences\n    pref.edit().putInt(\"SCORE\", score).apply()\n}"
+      "value": "override fun onResume() {\n    super.onResume()\n    // Возобновление анимации\n    animation.start()\n    // Обновление данных\n    viewModel.refreshData()\n}"
     },
     {
       "type": "text",
-      "value": "#### onStop() — Полное скрытие"
+      "value": "**onPause()**"
     },
     {
       "type": "text",
-      "value": "Activity больше **не видна** (например, пользователь перешёл в другое приложение).\n\n\n\nЗдесь:\n\n\n\n- Отписываются от событий\n\n\n\n- Останавливают фоновые задачи"
+      "value": "Вызывается при частичном закрытии Activity (например, появлении диалога)\n\n**Важно**: не выполняйте долгие операции — это замедлит переход!\n\nЗдесь следует:\n\n- Сохранять данные\n\n- Освобождать ресурсы (камеру)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onStop() {\n    super.onStop()\n    // Отмена подписки на обновления местоположения\n    locationManager.removeUpdates(locationListener)\n}"
+      "value": "override fun onPause() {\n    super.onPause()\n    // Сохранение данных\n    preferences.edit().putString(\"AUTO_SAVE\", editText.text.toString()).apply()\n    // Приостановка анимации\n    animation.pause()\n}"
     },
     {
       "type": "text",
-      "value": "#### onDestroy() — Уничтожение Activity"
+      "value": "**onStop()**"
     },
     {
       "type": "text",
-      "value": "Вызывается перед уничтожением Activity.\n\n\n\nПричины:\n\n\n\n- Явный вызов finish()\n\n\n\n- Система убивает процесс (например, при нехватке памяти)"
+      "value": "Activity больше не видна\n\nМесто для:\n\n- Отмены сетевых запросов\n\n- Отписки от событий"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onDestroy() {\n    super.onDestroy()\n    // Очистка ресурсов (например, закрытие базы данных)\n    database.close()\n}"
+      "value": "override fun onStop() {\n    super.onStop()\n    // Отмена работы с сенсорами\n    sensorManager.unregisterListener(this)\n    // Отписка от LiveData\n    liveData.removeObservers(this)\n}"
     },
     {
       "type": "text",
-      "value": "#### onRestart() — Перед повторным запуском"
+      "value": "**onDestroy()**"
     },
     {
       "type": "text",
-      "value": "Вызывается, если Activity возвращается из состояния Stopped (но не Destroyed)."
+      "value": "Финал жизненного цикла\n\nВызывается:\n\n- При явном вызове **finish()**\n\n- При уничтожении системой (например, нехватка памяти)\n\nОчистка всех ресурсов"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onRestart() {\n    super.onRestart()\n    // Обновление данных, если приложение было свёрнуто\n    refreshData()\n}"
+      "value": "override fun onDestroy() {\n    super.onDestroy()\n    // Освобождение ресурсов\n    camera.release()\n    // Отмена корутин\n    viewModel.cancelJobs()\n}"
     },
     {
       "type": "text",
-      "value": "#### onSaveInstanceState() — Сохранение состояния"
+      "value": "#### Сохранение состояния Activity:"
     },
     {
       "type": "text",
-      "value": "Вызывается перед **onStop()**, если система может убить процесс.\n\n\n\n- Сохраняет временные данные (например, текст в EditText)."
+      "value": "**onSaveInstanceState()**\n\nВызывается перед возможным уничтожением (поворот экрана, выход из приложения):"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onSaveInstanceState(outState: Bundle) {\n    super.onSaveInstanceState(outState)\n    outState.putString(\"EDIT_TEXT\", editText.text.toString())\n}"
+      "value": "override fun onSaveInstanceState(outState: Bundle) {\n    super.onSaveInstanceState(outState)\n    outState.putString(\"SAVED_TEXT\", editText.text.toString())\n    outState.putInt(\"SCROLL_POSITION\", recyclerView.computeVerticalScrollOffset())\n}"
     },
     {
       "type": "text",
-      "value": "#### onRestoreInstanceState() — Восстановление состояния"
-    },
-    {
-      "type": "text",
-      "value": "Вызывается после **onStart()**, если Activity воссоздаётся (например, после поворота экрана)."
+      "value": "**Восстановление состояния:**"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "override fun onRestoreInstanceState(savedInstanceState: Bundle) {\n    super.onRestoreInstanceState(savedInstanceState)\n    val text = savedInstanceState.getString(\"EDIT_TEXT\")\n    editText.setText(text)\n}"
+      "value": "override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_main)\n    \n    if (savedInstanceState != null) {\n        val text = savedInstanceState.getString(\"SAVED_TEXT\")\n        val scrollPos = savedInstanceState.getInt(\"SCROLL_POSITION\")\n        editText.setText(text)\n        recyclerView.scrollTo(0, scrollPos)\n    }\n}"
     }
   ]
 }
