@@ -1,0 +1,218 @@
+{
+  "title": "Жизненный цикл Fragment",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Жизненный цикл Fragment** тесно связан с жизненным циклом Activity, но имеет свои важные особенности. Понимание этих состояний и методов критически важно для правильной работы вашего приложения."
+    },
+    {
+      "type": "text",
+      "value": "Важным отличием жизненного цикла фрагментов от activity является что функции жизненного цикла activity вызываются операционной системой, а функции жизненного цикла фрагментов -  диспетчером хоста(activity). Операционная система ничего не знает о фрагментах."
+    },
+    {
+      "type": "text",
+      "value": "#### Основные состояния Fragment:\n\nФрагмент проходит через несколько состояний:\n\n\n\n**Состояние:**\t               **Описание:**\n\n**INITIALIZED**\t       Фрагмент создан, но не привязан к FragmentManager\n\n**CREATED**\t               Вызван onCreate(), но View ещё не создана\n\n**VIEW_CREATED**\tView создана (onCreateView() и onViewCreated() вызваны)\n\n**STARTED**\t               Фрагмент видим, но не в фокусе\n\n**RESUMED**\t       Фрагмент активен и взаимодействует с пользователем\n\n**DESTROYED**           Фрагмент полностью уничтожен"
+    },
+    {
+      "type": "image",
+      "src": "/images/android/android_fragment_lifecycle.png",
+      "alt": "Жизненный цикл Fragmen",
+      "caption": "Жизненный цикл Fragmen"
+    },
+    {
+      "type": "text",
+      "value": "#### Детальное описание методов:"
+    },
+    {
+      "type": "text",
+      "value": "**onAttach(Context)**"
+    },
+    {
+      "type": "text",
+      "value": "- **Вызывается первым**, когда фрагмент привязывается к Activity\n\n\n\n- Здесь можно получить ссылку на Activity\n\n\n\n- Контекст становится доступным"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onAttach(context: Context) {\n    super.onAttach(context)\n    // Инициализация зависимостей, требующих Context\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onCreate(Bundle?)**"
+    },
+    {
+      "type": "text",
+      "value": "- Вызывается после **onAttach()**\n\n- View ещё не создана\n\n- Место для инициализации данных (но не UI!)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    // Восстановление состояния\n    val savedData = savedInstanceState?.getString(\"key\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onCreateView()**"
+    },
+    {
+      "type": "text",
+      "value": "- Создание View фрагмента\n\n- **Всегда возвращает View** (или null, если фрагмент не имеет UI)\n\n- Используйте LayoutInflater для создания View"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onCreateView(\n    inflater: LayoutInflater,\n    container: ViewGroup?,\n    savedInstanceState: Bundle?\n): View? {\n    return inflater.inflate(R.layout.fragment_my, container, false)\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onViewCreated()**"
+    },
+    {
+      "type": "text",
+      "value": "- Вызывается сразу после **onCreateView()**\n\n- View гарантированно создана\n\n- Лучшее место для настройки UI"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n    super.onViewCreated(view, savedInstanceState)\n    button.setOnClickListener { /* ... */ }\n    // Инициализация RecyclerView, ViewModel и т.д.\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onStart()**"
+    },
+    {
+      "type": "text",
+      "value": "- Фрагмент становится видимым\n\n- Аналогичен **onStart()** в Activity"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onStart() {\n    super.onStart()\n    // Регистрация BroadcastReceiver и т.д.\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onResume()**"
+    },
+    {
+      "type": "text",
+      "value": "- Фрагмент в фокусе и готов к взаимодействию\n\n- Запуск анимаций, обновление данных"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onResume() {\n    super.onResume()\n    // Возобновление анимаций, подписка на LiveData\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onPause()**"
+    },
+    {
+      "type": "text",
+      "value": "- Фрагмент теряет фокус\n\n- Сохранение данных, остановка ресурсоёмких операций"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onPause() {\n    super.onPause()\n    // Сохранение данных в SharedPreferences\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onStop()**"
+    },
+    {
+      "type": "text",
+      "value": "- Фрагмент больше не виден\n\n- Отмена сетевых запросов, освобождение ресурсов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onStop() {\n    super.onStop()\n    // Отписка от событий\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onDestroyView()**"
+    },
+    {
+      "type": "text",
+      "value": "- View фрагмента уничтожается\n\n- **Важно**: очищайте ссылки на View здесь!"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onDestroyView() {\n    super.onDestroyView()\n    _binding = null // Очистка View Binding\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onDestroy()**"
+    },
+    {
+      "type": "text",
+      "value": "- Вызывается перед уничтожением фрагмента\n\n\n\n- Очистка оставшихся ресурсов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onDestroy() {\n    super.onDestroy()\n    // Отмена корутин, освобождение ресурсов\n}"
+    },
+    {
+      "type": "text",
+      "value": "**onDetach()**"
+    },
+    {
+      "type": "text",
+      "value": "- Фрагмент открепляется от Activity\n\n- Последний метод в жизненном цикле\n\n- Очистка ссылок на Activity"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onDetach() {\n    super.onDetach()\n    // Очистка ссылок на Activity\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Особенности жизненного цикла:"
+    },
+    {
+      "type": "text",
+      "value": "Сохранение состояния - **onSaveInstanceState()** для временных данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onSaveInstanceState(outState: Bundle) {\n    super.onSaveInstanceState(outState)\n    outState.putString(\"edit_text_value\", editText.text.toString())\n}"
+    },
+    {
+      "type": "text",
+      "value": "Восстановление состояния:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n    val savedText = savedInstanceState?.getString(\"edit_text_value\")\n    editText.setText(savedText)\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Разница между onDestroyView() и onDestroy()**\n\n- **onDestroyView():** View уничтожена, но фрагмент жив\n\n- **onDestroy():** фрагмент будет уничтожен"
+    },
+    {
+      "type": "text",
+      "value": "#### Взаимодействие с Activity\n\n**Жизненный цикл фрагмента зависит от Activity:\n\n**\n\n- Если Activity остановлена, все её фрагменты тоже остановлены\n\n\n\n- При повороте экрана фрагмент пересоздаётся вместе с Activity"
+    },
+    {
+      "type": "text",
+      "value": "**View Lifecycle.**\n\n- Для подписки на LiveData используется viewLifecycleOwner:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "viewModel.data.observe(viewLifecycleOwner) { data ->\n    // Обновление UI\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример полной реализации:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyFragment : Fragment() {\n    private var _binding: FragmentMyBinding? = null\n    private val binding get() = _binding!!\n    private lateinit var viewModel: MyViewModel\n\n    override fun onAttach(context: Context) {\n        super.onAttach(context)\n        // Инициализация зависимостей\n    }\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        viewModel = ViewModelProvider(this).get(MyViewModel::class.java)\n    }\n\n    override fun onCreateView(\n        inflater: LayoutInflater,\n        container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View {\n        _binding = FragmentMyBinding.inflate(inflater, container, false)\n        return binding.root\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        \n        // Восстановление состояния\n        val savedText = savedInstanceState?.getString(\"text\")\n        binding.editText.setText(savedText)\n        \n        // Настройка UI\n        viewModel.data.observe(viewLifecycleOwner) { data ->\n            binding.textView.text = data\n        }\n    }\n\n    override fun onSaveInstanceState(outState: Bundle) {\n        super.onSaveInstanceState(outState)\n        outState.putString(\"text\", binding.editText.text.toString())\n    }\n\n    override fun onDestroyView() {\n        super.onDestroyView()\n        _binding = null // Очистка binding\n    }\n}"
+    }
+  ]
+}

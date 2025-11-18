@@ -1,0 +1,30 @@
+{
+  "title": "Версии Android SDK и совместимость",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### Актуальные SDK в процентах:"
+    },
+    {
+      "type": "text",
+      "value": "[https://www.composables.com/tools/distribution-chart](https://www.composables.com/tools/distribution-chart)"
+    },
+    {
+      "type": "text",
+      "value": "[https://apilevels.com/](https://apilevels.com/)"
+    },
+    {
+      "type": "text",
+      "value": "- `compileSdk 33` – указывает, какая версия SDK будет **использоваться при сборке кода**. Лучше всего выбрать новейший уровень SDK.\n\n- `minSdk 24` – **нижняя граница** SDK для Android. На телефонах с версией андроида ниже приложения устанавливаться не будут. \n\n- `targetSdk 33` – **для какого уровня SDK** проектируется приложение.\n\n**Build.VERSION.SDK_INT** – получить версию SDK устройства\n\n**Build.VERSION_CODES.P** – получить версию P (Android 9.0 - Pie)"
+    },
+    {
+      "type": "text",
+      "value": "Предварительная проверка версии Android на устройстве:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){\n   //                \n}"
+    }
+  ]
+}

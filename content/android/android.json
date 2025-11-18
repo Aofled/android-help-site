@@ -37,6 +37,25 @@
         }
       ]
     },{
+      "title": "Fragment",
+      "url": "#android-fragment ",
+      "contentFile": "android-fragment.json",
+      "subItems": [
+        {
+          "title": "Жизненный цикл Fragment",
+          "url": "#android-fragment-lifecycle",
+          "contentFile": "android-fragment-lifecycle.json"
+        },{
+          "title": "FragmentManager ",
+          "url": "#android-fragment-manager",
+          "contentFile": "android-fragment-manager.json"
+        },{
+          "title": "Аргументы Fragment",
+          "url": "#android-fragment-argument",
+          "contentFile": "android-fragment-argument.json"
+        }
+      ]
+    },{
       "title": "ViewModel",
       "url": "#android-view-model",
       "contentFile": "android-view-model.json"
@@ -64,6 +83,10 @@
       "title": "Логи в Android",
       "url": "#android-log",
       "contentFile": "android-log.json"
+    },{
+      "title": "Версии Android SDK",
+      "url": "#android-android-sdk",
+      "contentFile": "android-android-sdk.json"
     }
   ]
 }

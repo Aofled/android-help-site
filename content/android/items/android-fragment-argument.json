@@ -1,0 +1,120 @@
+{
+  "title": "Аргументы Fragment в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Аргументы Fragment** — это механизм передачи данных во фрагмент при его создании. Это основной способ безопасной передачи начальных параметров, который гарантирует сохранность данных при пересоздании фрагмента (например, при повороте экрана)."
+    },
+    {
+      "type": "text",
+      "value": "#### Особенности работы с аргументами:\n\n**Сохранение состояния:**\n\n- Аргументы автоматически сохраняются и восстанавливаются системой:\n\n- При повороте экрана\n\n- При убийстве процесса\n\n- При навигации назад\n\n**Изменение аргументов**\n\n- Аргументы нельзя изменить после создания фрагмента. Для передачи новых данных:\n\n- Создайте новый экземпляр фрагмента\n\n- Используйте ViewModel для динамических данных\n\n- Определите публичные методы во фрагменте"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные способы передачи аргументов:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "Критерий\t        Bundle\t                Safe Args\nТипобезопасность\tНет\t                Да\nПоддержка IDE\t        Базовая\t                Автодополнение\nСложные типы\t        Ручная сериализация\tАвтоматическая\nNull-безопасность\tНет\t                Да\nМинимальная версия\tЛюбая\t                Android Gradle Plugin 7.0+"
+    },
+    {
+      "type": "text",
+      "value": "### Классический способ (Bundle):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Создание метода newInstance (рекомендуемый паттерн)\nclass DetailFragment : Fragment() {\n    companion object {\n        private const val ARG_ITEM_ID = \"item_id\"\n        \n        fun newInstance(itemId: String): DetailFragment {\n            val args = Bundle().apply {\n                putString(ARG_ITEM_ID, itemId)\n            }\n            val fragment = DetailFragment()\n            fragment.arguments = args\n            return fragment\n        }\n    }\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        val itemId = arguments?.getString(ARG_ITEM_ID)\n        // Используем itemId\n    }\n}\n\n// Использование в Activity/Fragment\nval fragment = DetailFragment.newInstance(\"123\")\nsupportFragmentManager.beginTransaction()\n    .replace(R.id.container, fragment)\n    .commit()"
+    },
+    {
+      "type": "text",
+      "value": "### Современный способ (Safe Args):"
+    },
+    {
+      "type": "text",
+      "value": "Safe Args — это плагин Gradle, генерирующий типобезопасные классы для передачи данных."
+    },
+    {
+      "type": "text",
+      "value": "Добавить в **build.gradle** (project):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n    id \"androidx.navigation.safeargs.kotlin\" version \"2.7.7\" // Актуальная версия\n}"
+    },
+    {
+      "type": "text",
+      "value": "В **build.gradle** (module):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n    id 'androidx.navigation.safeargs.kotlin'\n}"
+    },
+    {
+      "type": "text",
+      "value": "Определение аргументов в navigation.xml:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<fragment android:id=\"@+id/detailFragment\"\n          android:name=\"com.example.DetailFragment\"\n          android:label=\"Detail\">\n    <argument\n        android:name=\"itemId\"\n        app:argType=\"string\" />\n    <argument\n        android:name=\"showToolbar\"\n        app:argType=\"boolean\"\n        android:defaultValue=\"true\" />\n</fragment>"
+    },
+    {
+      "type": "text",
+      "value": "Передача аргументов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Из Activity/Fragment\nval action = HomeFragmentDirections.actionHomeToDetail(\n    itemId = \"123\",\n    showToolbar = false\n)\nfindNavController().navigate(action)\n\n// В целевом фрагменте\nprivate val args: DetailFragmentArgs by navArgs()\n\noverride fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n    val itemId = args.itemId\n    val showToolbar = args.showToolbar\n    // ...\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Safe Args поддерживает:**\n\n\n\n- Примитивы: **integer**, **float**, **boolean**, **string**\n\n\n\n- Ресурсы: **reference**\n\n\n\n- Пользовательские **Parcelable** и **Serializable** объекты\n\n\n\n- Массивы и списки\n\n\n\nДля пользовательских типов:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<argument\n    android:name=\"user\"\n    app:argType=\"com.example.models.User\" />"
+    },
+    {
+      "type": "text",
+      "value": "#### Передача сложных объектов:"
+    },
+    {
+      "type": "text",
+      "value": "Создается класс Parcelable:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Parcelize\ndata class Product(\n    val id: String,\n    val name: String,\n    val price: Double\n) : Parcelable"
+    },
+    {
+      "type": "text",
+      "value": "Указывается тип в navigation.xml:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<argument\n    android:name=\"product\"\n    app:argType=\"com.example.models.Product\" />"
+    },
+    {
+      "type": "text",
+      "value": "#### Передача enum:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "enum class SortType { ASC, DESC }"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<argument\n    android:name=\"sortType\"\n    app:argType=\"com.example.models.SortType\" />"
+    }
+  ]
+}

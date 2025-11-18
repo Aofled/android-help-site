@@ -1,0 +1,79 @@
+{
+  "title": "Activity в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Activity** — это ключевой компонент Android-приложений, представляющий собой один экран с пользовательским интерфейсом.\\n\\n**Activity** проходит через несколько состояний, управляемых системой."
+    },
+    {
+      "type": "text",
+      "value": "**Что такое Activity?**\n\n- **Один экран** в приложении с пользовательским интерфейсом\n\n- **Основная точка взаимодействия** с пользователем\n\n- **Независимый компонент**, который можно запускать из других приложений\n\n- **Контейнер для фрагментов** (но может работать и без них)"
+    },
+    {
+      "type": "text",
+      "value": "**Activity — это фундаментальный компонент Android, который:**\n\n- Предоставляет пользовательский интерфейс\n\n- Управляет жизненным циклом экрана\n\n- Обрабатывает пользовательский ввод\n\n- Координирует работу других компонентов"
+    },
+    {
+      "type": "text",
+      "value": "#### Режимы запуска (launchMode)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Режим\t        Описание\nstandard\tСоздает новый экземпляр (по умолчанию)\nsingleTop\tЕсли Activity уже на вершине стека, не создает новый экземпляр\nsingleTask\tСоздает новую задачу (task) или использует существующий экземпляр\nsingleInstance\tТолько одна Activity в отдельной задаче"
+    },
+    {
+      "type": "text",
+      "value": "#### Запуск Activity и передача данных:"
+    },
+    {
+      "type": "text",
+      "value": "**Явный запуск:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(this, SecondActivity::class.java)\nintent.putExtra(\"KEY_NAME\", \"John Doe\")\nstartActivity(intent)"
+    },
+    {
+      "type": "text",
+      "value": "**Неявный запуск (через действие):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val shareIntent = Intent(Intent.ACTION_SEND)\nshareIntent.type = \"text/plain\"\nshareIntent.putExtra(Intent.EXTRA_TEXT, \"Check this out!\")\nstartActivity(Intent.createChooser(shareIntent, \"Share via\"))"
+    },
+    {
+      "type": "text",
+      "value": "**Получение результата:**"
+    },
+    {
+      "type": "text",
+      "value": "- Запуск:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(this, PhotoPickerActivity::class.java)\nstartActivityForResult(intent, REQUEST_CODE_PHOTO)"
+    },
+    {
+      "type": "text",
+      "value": "- Обработка:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    super.onActivityResult(requestCode, resultCode, data)\n    if (requestCode == REQUEST_CODE_PHOTO && resultCode == RESULT_OK) {\n        val uri = data?.data\n        imageView.setImageURI(uri)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Полный пример Activity:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    private lateinit var binding: ActivityMainBinding\n    private val viewModel: MainViewModel by viewModels()\n    private lateinit var sensorManager: SensorManager\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        binding = ActivityMainBinding.inflate(layoutInflater)\n        setContentView(binding.root)\n        \n        // Восстановление состояния\n        val savedText = savedInstanceState?.getString(\"TEXT\")\n        binding.editText.setText(savedText)\n        \n        // Настройка UI\n        binding.button.setOnClickListener {\n            viewModel.loadData()\n        }\n        \n        // Подписка на LiveData\n        viewModel.data.observe(this) { data ->\n            binding.textView.text = data\n        }\n        \n        // Инициализация сервисов\n        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager\n    }\n    \n    override fun onStart() {\n        super.onStart()\n        val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)\n        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)\n    }\n    \n    override fun onStop() {\n        super.onStop()\n        sensorManager.unregisterListener(this)\n    }\n    \n    override fun onSaveInstanceState(outState: Bundle) {\n        super.onSaveInstanceState(outState)\n        outState.putString(\"TEXT\", binding.editText.text.toString())\n    }\n    \n    override fun onDestroy() {\n        super.onDestroy()\n        binding = null\n    }\n}"
+    }
+  ]
+}

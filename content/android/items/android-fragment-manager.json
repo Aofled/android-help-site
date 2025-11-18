@@ -1,0 +1,124 @@
+{
+  "title": "FragmentManager",
+  "content": [
+    {
+      "type": "text",
+      "value": "**FragmentManager** — это ключевой компонент системы Android, отвечающий за управление фрагментами в приложении."
+    },
+    {
+      "type": "text",
+      "value": "#### Что такое FragmentManager?\n\n**Это класс, который:**\n\n- Управляет **жизненным циклом** фрагментов\n\n- Обрабатывает **транзакции** (добавление, замена, удаление)\n\n- Поддерживает **стек возврата** (back stack)\n\n- Обеспечивает **поиск** фрагментов"
+    },
+    {
+      "type": "text",
+      "value": "#### Как получить FragmentManager?"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// В Activity\nsupportFragmentManager // из AppCompatActivity\n\n// В Fragment\nparentFragmentManager // Управление фрагментами уровня Activity\nchildFragmentManager  // Управление вложенными фрагментами"
+    },
+    {
+      "type": "text",
+      "value": "#### FragmentTransaction:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Метод\t                Описание\nadd()\t                Добавить новый фрагмент\nreplace()\t        Заменить существующий\nremove()\t        Удалить фрагмент\nhide()/show()\t        Скрыть/показать без уничтожения\ndetach()/attach()\tВременно убрать/вернуть из UI\nsetCustomAnimations()\tАнимации перехода"
+    },
+    {
+      "type": "text",
+      "value": "###  Основные операции:"
+    },
+    {
+      "type": "text",
+      "value": "- **Добавление фрагмента:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "supportFragmentManager.commit {\n    add(R.id.container, MyFragment()) // Добавление\n    setReorderingAllowed(true) // Оптимизация для анимаций\n    addToBackStack(\"my_fragment\") // Добавление в стек\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Замена фрагмента:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "supportFragmentManager.commit {\n    replace(R.id.container, DetailFragment())\n    addToBackStack(null) // Добавляем в стек без имени\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Удаление фрагмента:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fragment = supportFragmentManager.findFragmentById(R.id.container)\nfragment?.let {\n    supportFragmentManager.commit {\n        remove(it)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Работа со стеком возврата:"
+    },
+    {
+      "type": "text",
+      "value": "- **Добавление в стек:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "supportFragmentManager.commit {\n    replace(R.id.container, NewFragment())\n    addToBackStack(\"transaction_name\") // Имя для идентификации\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Навигация назад:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Программный возврат\nsupportFragmentManager.popBackStack()\n\n// Возврат к конкретной транзакции\nsupportFragmentManager.popBackStack(\"transaction_name\", 0)\n\n// Полная очистка стека\nsupportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)"
+    },
+    {
+      "type": "text",
+      "value": "- **Слушатель изменений в стеке:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "supportFragmentManager.addOnBackStackChangedListener {\n    // Реакция на изменения стека\n    val count = supportFragmentManager.backStackEntryCount\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Поиск фрагментов:"
+    },
+    {
+      "type": "text",
+      "value": "- **По ID контейнера**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fragment = supportFragmentManager.findFragmentById(R.id.container)"
+    },
+    {
+      "type": "text",
+      "value": "- **По тегу**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// При добавлении\nsupportFragmentManager.commit {\n    add(R.id.container, MyFragment(), \"my_fragment_tag\")\n}\n\n// При поиске\nval fragment = supportFragmentManager.findFragmentByTag(\"my_fragment_tag\")"
+    },
+    {
+      "type": "text",
+      "value": "- **Получение всех фрагментов**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fragments = supportFragmentManager.fragments"
+    }
+  ]
+}

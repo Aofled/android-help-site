@@ -1,0 +1,66 @@
+{
+  "title": "Fragment в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Fragment (фрагмент)** — это модульный компонент пользовательского интерфейса, который представляет собой часть Activity. Фрагменты позволяют создавать гибкие, адаптируемые интерфейсы, особенно полезные для планшетов и устройств с большими экранами."
+    },
+    {
+      "type": "text",
+      "value": "**Что такое Fragment?**\n\n- Переиспользуемый компонент интерфейса\n\n- Имеет собственный жизненный цикл\n\n- Может добавляться/удаляться во время работы приложения\n\n- Позволяет создавать адаптивные макеты (разное отображение на телефонах и планшетах)\n\n**Зачем использовать Fragment?**\n\n- **Модульность**: Разделение UI на независимые части\n\n- **Адаптивность**: Разные компоновки для разных размеров экрана\n\n- **Повторное использование**: Один фрагмент в нескольких Activity\n\n- **Навигация**: Упрощение перехода между экранами (через Navigation Component)"
+    },
+    {
+      "type": "text",
+      "value": "#### Базовый пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyFragment : Fragment() {\n\n    override fun onCreateView(\n        inflater: LayoutInflater,\n        container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View? {\n        // Создаем View из XML-разметки\n        return inflater.inflate(R.layout.fragment_my, container, false)\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        // Инициализация UI компонентов\n        val button = view.findViewById<Button>(R.id.my_button)\n        button.setOnClickListener {\n            // Обработка клика\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Добавление Fragment в Activity:"
+    },
+    {
+      "type": "text",
+      "value": "- Статическое добавление (через XML):"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- activity_main.xml -->\n<fragment\n    android:id=\"@+id/my_fragment\"\n    android:name=\"com.example.MyFragment\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\" />"
+    },
+    {
+      "type": "text",
+      "value": "- Динамическое добавление (в runtime):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "supportFragmentManager.commit {\n    replace(R.id.fragment_container, MyFragment())\n    addToBackStack(\"my_fragment_tag\") // Для возврата по кнопке \"Назад\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Взаимодействие между Fragment и Activity:"
+    },
+    {
+      "type": "text",
+      "value": "- Fragment → Activity (через интерфейс)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyFragment : Fragment() {\n\n    interface OnButtonClickListener {\n        fun onButtonClick()\n    }\n\n    private var listener: OnButtonClickListener? = null\n\n    override fun onAttach(context: Context) {\n        super.onAttach(context)\n        listener = context as? OnButtonClickListener\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        button.setOnClickListener {\n            listener?.onButtonClick()\n        }\n    }\n}\n\n// В Activity:\nclass MainActivity : AppCompatActivity(), MyFragment.OnButtonClickListener {\n    override fun onButtonClick() {\n        // Обработка события\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Activity → Fragment (через методы)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// В Activity:\nval fragment = supportFragmentManager.findFragmentById(R.id.my_fragment) as? MyFragment\nfragment?.updateData(newData)\n\n// В Fragment:\nfun updateData(data: String) {\n    // Обновление UI\n}"
+    }
+  ]
+}
