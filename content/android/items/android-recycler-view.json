@@ -1,0 +1,185 @@
+{
+  "title": "RecyclerView",
+  "content": [
+    {
+      "type": "text",
+      "value": "**RecyclerView** — это продвинутый и гибкий компонент для отображения больших наборов данных в виде прокручиваемых списков или сеток. Он является усовершенствованной заменой старого ListView и GridView."
+    },
+    {
+      "type": "text",
+      "value": "**RecyclerView состоит из нескольких ключевых компонентов:**"
+    },
+    {
+      "type": "text",
+      "value": "- **RecyclerView** Контейнер для отображения элементов\n\n- **Adapter** Связывает данные с элементами списка\n\n- **ViewHolder** Хранит ссылки на View элемента списка\n\n- **LayoutManager** Управляет расположением элементов (линейный, сетка, staggered grid)\n\n- **ItemDecoration** Добавляет разделители и украшения между элементами\n\n- **ItemAnimator** Обеспечивает анимации при добавлении, удалении и изменении элементов"
+    },
+    {
+      "type": "text",
+      "value": "**Рекомендуемый стек для сложных списков:**\n\n- RecyclerView + View Binding\n\n- DiffUtil для обновлений\n\n- ViewModel + LiveData\n\n- Paging Library 3 для пагинации"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка RecyclerView:"
+    },
+    {
+      "type": "text",
+      "value": "В build.gradle (Module):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation \"androidx.recyclerview:recyclerview:1.3.2\""
+    },
+    {
+      "type": "text",
+      "value": "Добавление в разметку"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<androidx.recyclerview.widget.RecyclerView\n    android:id=\"@+id/recyclerView\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    app:layoutManager=\"androidx.recyclerview.widget.LinearLayoutManager\" />"
+    },
+    {
+      "type": "text",
+      "value": "Базовый Adapter:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyAdapter(\n    private val items: List<String>,\n    private val onClick: (String) -> Unit\n) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {\n\n    // 1. Создание ViewHolder\n    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {\n        val textView: TextView = itemView.findViewById(R.id.item_text)\n    }\n\n    // 2. Создание макета элемента\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {\n        val view = LayoutInflater.from(parent.context)\n            .inflate(R.layout.item_list, parent, false)\n        return MyViewHolder(view)\n    }\n\n    // 3. Привязка данных к ViewHolder\n    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {\n        val item = items[position]\n        holder.textView.text = item\n        holder.itemView.setOnClickListener { onClick(item) }\n    }\n\n    // 4. Количество элементов\n    override fun getItemCount(): Int = items.size\n}"
+    },
+    {
+      "type": "text",
+      "value": "Разметка элемента списка (item_list.xml):"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<TextView xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:id=\"@+id/item_text\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\"\n    android:padding=\"16dp\"\n    android:textSize=\"18sp\" />"
+    },
+    {
+      "type": "text",
+      "value": "Использование RecyclerView в Activity/Fragment:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)\n        \n        // Данные для списка\n        val items = listOf(\"Item 1\", \"Item 2\", \"Item 3\", \"...\")\n        \n        // Создание и настройка адаптера\n        val adapter = MyAdapter(items) { item ->\n            // Обработка клика\n            Toast.makeText(this, \"Clicked: $item\", Toast.LENGTH_SHORT).show()\n        }\n        \n        recyclerView.adapter = adapter\n        \n        // Опционально: добавление разделителя\n        recyclerView.addItemDecoration(\n            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)\n        )\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Различные LayoutManager:"
+    },
+    {
+      "type": "text",
+      "value": "RecyclerView поддерживает разные способы расположения элементов:"
+    },
+    {
+      "type": "text",
+      "value": "- **LinearLayoutManager (линейный список):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "recyclerView.layoutManager = LinearLayoutManager(this)\n// Вертикальный (по умолчанию)\nrecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)\n// Горизонтальный\nrecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)"
+    },
+    {
+      "type": "text",
+      "value": "- **GridLayoutManager (сетка)**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// 2 колонки\nrecyclerView.layoutManager = GridLayoutManager(this, 2)"
+    },
+    {
+      "type": "text",
+      "value": "- **StaggeredGridLayoutManager (каскадная сетка)**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// 2 колонки с разной высотой элементов\nrecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)"
+    },
+    {
+      "type": "text",
+      "value": "### Оптимизация RecyclerView:"
+    },
+    {
+      "type": "text",
+      "value": "Использование View Binding в ViewHolder:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewHolder(private val binding: ItemListBinding) : \n    RecyclerView.ViewHolder(binding.root) {\n    \n    fun bind(item: String) {\n        binding.itemText.text = item\n    }\n}\n\n// В Adapter:\noverride fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {\n    val binding = ItemListBinding.inflate(\n        LayoutInflater.from(parent.context), \n        parent, \n        false\n    )\n    return MyViewHolder(binding)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Несколько типов элементов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun getItemViewType(position: Int): Int {\n    return when {\n        items[position].startsWith(\"Header\") -> TYPE_HEADER\n        else -> TYPE_ITEM\n    }\n}\n\noverride fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {\n    return when (viewType) {\n        TYPE_HEADER -> HeaderViewHolder(...)\n        else -> ItemViewHolder(...)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Кастомные анимации:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "recyclerView.itemAnimator = DefaultItemAnimator().apply {\n    addDuration = 200\n    removeDuration = 200\n}"
+    },
+    {
+      "type": "text",
+      "value": "Бесконечная прокрутка (Pagination):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {\n    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {\n        super.onScrolled(recyclerView, dx, dy)\n        \n        val layoutManager = recyclerView.layoutManager as LinearLayoutManager\n        val visibleItemCount = layoutManager.childCount\n        val totalItemCount = layoutManager.itemCount\n        val firstVisibleItem = layoutManager.findFirstVisibleItemPosition()\n        \n        if (visibleItemCount + firstVisibleItem >= totalItemCount - 5) {\n            // Загрузка новых данных\n        }\n    }\n})"
+    },
+    {
+      "type": "text",
+      "value": "#### DiffUtil для эффективных обновлений:"
+    },
+    {
+      "type": "text",
+      "value": "Adapter:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ProductAdapter : RecyclerView.Adapter<ProductHolder>() {\n\n    private var products : List<Product> = emptyList()\n\n    fun setData(newProduct: List<Product>) {\n        val productDiffCall = ProductDiffUtilCallback(products, newProduct)\n        val productDiffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(productDiffCall)\n        productDiffResult.dispatchUpdatesTo(this)\n        products = newProduct\n    }\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHolder {\n        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)\n        return ProductHolder(view)\n    }\n\n    override fun onBindViewHolder(holder: ProductHolder, position: Int) {\n        val product = products[position]\n        holder.bind(product)\n    }\n\n    override fun getItemCount(): Int {\n        return products.size\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Holder:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ProductHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {\n    private val tvId : TextView = itemView.findViewById(R.id.tv_id)\n    private val tvName : TextView = itemView.findViewById(R.id.tv_name)\n    private val tvQuantity : TextView = itemView.findViewById(R.id.tv_quantity)\n\n     fun bind(product: Product) {\n        tvId.text = product.id.toString()\n        tvName.text = product.name\n        tvQuantity.text = product.quantity.toString()\n    }\n\n}"
+    },
+    {
+      "type": "text",
+      "value": "DiffUtilCallback:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ProductDiffUtilCallback(\n    private val oldList: List<Product>,\n    private val newList: List<Product>,\n) :\n    DiffUtil.Callback() {\n\n    override fun getOldListSize(): Int {\n        return oldList.size\n    }\n\n    override fun getNewListSize(): Int {\n        return newList.size\n    }\n\n    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {\n        val oldProduct = oldList[oldItemPosition]\n        val newProduct = newList[newItemPosition]\n        return oldProduct.id == newProduct.id\n    }\n\n    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {\n        val oldProduct = oldList[oldItemPosition]\n        val newProduct = newList[newItemPosition]\n\n        return (oldProduct.name == newProduct.name\n                && oldProduct.quantity == newProduct.quantity)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "В Activity/Fragment:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        rvProduct = findViewById(R.id.rv_product)\n        btnAdd = findViewById(R.id.btn_add)\n        btnChange = findViewById(R.id.btn_change)\n\n        productAdapter = ProductAdapter()\n        rvProduct.layoutManager = LinearLayoutManager(this)\n        rvProduct.adapter = productAdapter\n\n        productAdapter.setData(productList)\n\n        btnAdd.setOnClickListener {\n            productAdapter.setData(newAddProductList)\n        }\n\n        btnChange.setOnClickListener {\n            productAdapter.setData(newProductList)\n        }\n    }"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "title": "Room Library",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Room** — это мощная библиотека для работы с базами данных SQLite в Android, которая является частью Android Jetpack. Она предоставляет абстракцию над SQLite, упрощая работу с данными и обеспечивая проверку на этапе компиляции."
+    },
+    {
+      "type": "text",
+      "value": "**Room состоит из трех ключевых компонентов:**\n\n- **Entity** Класс, представляющий таблицу в базе данных\n\n- **DAO** (Data Access Object) Интерфейс или абстрактный класс для доступа к данным\n\n- **Database** Абстрактный класс, который служит точкой входа для работы с базой данных"
+    },
+    {
+      "type": "text",
+      "value": "**Room предоставляет:**\n\n- Проверку SQL на этапе компиляции.\n\n- Интеграцию с Kotlin Coroutines и Flow.\n\n- Простое объявление Entity и DAO.\n\n- Безопасные миграции данных.\n\n**Рекомендуемый стек:**\n\n- Room + Kotlin Coroutines/Flow\n\n- ViewModel для управления данными\n\n- Repository-слой для абстракции источника данных"
+    },
+    {
+      "type": "text",
+      "value": "**Room поддерживает:**\n\n- **suspend** функции для корутин\n\n- **Flow** для реактивных обновлений\n\n- **LiveData** (если нужно)"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка Room:"
+    },
+    {
+      "type": "text",
+      "value": "В файле **build.gradle** (Module):"
+    },
+    {
+      "type": "text",
+      "value": "- Для Java используйте annotationProcessor вместо kapt."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n    id 'kotlin-kapt'\n}\n\ndependencies {\n    def room_version = \"2.6.1\" // Актуальная версия на 2024 год\n    \n    implementation \"androidx.room:room-runtime:$room_version\"\n    kapt \"androidx.room:room-compiler:$room_version\" // Для Kotlin\n    implementation \"androidx.room:room-ktx:$room_version\" // Корутины поддержка\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Создание Entity:**\n\n**Entity** — это класс, который представляет таблицу в базе данных. Каждое поле — это столбец таблицы."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Entity(tableName = \"users\")\ndata class User(\n    @PrimaryKey(autoGenerate = true) val id: Int = 0,\n    @ColumnInfo(name = \"user_name\") val name: String,\n    @ColumnInfo(name = \"user_age\") val age: Int,\n    @ColumnInfo(name = \"registration_date\") val regDate: Long = System.currentTimeMillis()\n)"
+    },
+    {
+      "type": "text",
+      "value": "**Аннотации Entity:**\n\n**@Entity** Помечает класс как таблицу\n\n**@PrimaryKey**  Указывает первичный ключ (autoGenerate = true для автоинкремента)\n\n**@ColumnInfo**  Настраивает имя столбца и другие параметры\n\n**@Ignore**  Поле не будет сохранено в БД\n\n**@Embedded**  Вложенный объект (разбирается на отдельные колонки)"
+    },
+    {
+      "type": "text",
+      "value": "Пример:  One-to-Many (1 ко многим)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Entity\ndata class User(@PrimaryKey val id: Int, val name: String)\n\n@Entity\ndata class Book(\n    @PrimaryKey val id: Int,\n    val title: String,\n    val userId: Int, // Внешний ключ\n    @ForeignKey(\n        entity = User::class,\n        parentColumns = [\"id\"],\n        childColumns = [\"userId\"],\n        onDelete = ForeignKey.CASCADE\n    )\n)"
+    },
+    {
+      "type": "text",
+      "value": "**Создание DAO (Data Access Object)**\n\nDAO содержит методы для доступа к данным. Room автоматически генерирует реализацию."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Dao\ninterface UserDao {\n    @Insert\n    suspend fun insert(user: User) // Вставка\n\n    @Update\n    suspend fun update(user: User) // Обновление\n\n    @Delete\n    suspend fun delete(user: User) // Удаление\n\n    @Query(\"SELECT * FROM users\")\n    fun getAllUsers(): Flow<List<User>> // Получение всех пользователей (Reactive Streams)\n\n    @Query(\"SELECT * FROM users WHERE id = :userId\")\n    suspend fun getUserById(userId: Int): User? // Поиск по ID\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Поддержка Kotlin Coroutines и Flow:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Query(\"SELECT * FROM users WHERE age > :minAge\")\nfun getUsersOlderThan(minAge: Int): Flow<List<User>>"
+    },
+    {
+      "type": "text",
+      "value": "- Комплексные запросы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Query(\"\"\"\n    SELECT * FROM users \n    WHERE name LIKE :searchQuery \n    ORDER BY regDate DESC\n    LIMIT :limit\n\"\"\")\nfun searchUsers(searchQuery: String, limit: Int): Flow<List<User>>"
+    },
+    {
+      "type": "text",
+      "value": "**Создание Database:**\n\nDatabase — это абстрактный класс, который наследуется от RoomDatabase."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Database(\n    entities = [User::class, Book::class], // Список Entity\n    version = 1, // Версия БД\n    exportSchema = false // Отключаем экспорт схемы (опционально)\n)\nabstract class AppDatabase : RoomDatabase() {\n    abstract fun userDao(): UserDao\n    abstract fun bookDao(): BookDao\n\n    companion object {\n        @Volatile\n        private var INSTANCE: AppDatabase? = null\n\n        fun getDatabase(context: Context): AppDatabase {\n            return INSTANCE ?: synchronized(this) {\n                val instance = Room.databaseBuilder(\n                    context.applicationContext,\n                    AppDatabase::class.java,\n                    \"app_database\" // Имя файла БД\n                ).build()\n                INSTANCE = instance\n                instance\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Конфигурация Builder:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Room.databaseBuilder(...)\n    .addCallback(object : RoomDatabase.Callback() {\n        override fun onCreate(db: SupportSQLiteDatabase) {\n            // Действия при первом создании БД\n        }\n    })\n    .addMigrations(MIGRATION_1_2) // Миграции\n    .fallbackToDestructiveMigration() // Удаляет БД при несовместимости (только для разработки!)\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "### Использование Room в приложении:"
+    },
+    {
+      "type": "text",
+      "value": "**Инициализация:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val db = AppDatabase.getDatabase(applicationContext)\nval userDao = db.userDao()"
+    },
+    {
+      "type": "text",
+      "value": "**Вставка данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "viewModelScope.launch {\n    val user = User(name = \"Alice\", age = 25)\n    userDao.insert(user)\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Получение данных (с Flow):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val users: Flow<List<User>> = userDao.getAllUsers()\n\n// В Activity/Fragment:\nusers.collect { userList ->\n    adapter.submitList(userList)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Миграции базы данных:"
+    },
+    {
+      "type": "text",
+      "value": "При изменении схемы БД (например, добавлении таблицы или поля) нужно увеличить версию и определить миграцию."
+    },
+    {
+      "type": "text",
+      "value": "Пример миграции:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val MIGRATION_1_2 = object : Migration(1, 2) {\n    override fun migrate(database: SupportSQLiteDatabase) {\n        database.execSQL(\"ALTER TABLE users ADD COLUMN email TEXT\")\n    }\n}\n\n// Добавление в Builder:\nRoom.databaseBuilder(...)\n    .addMigrations(MIGRATION_1_2)\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "Автоматические миграции (Room 2.4.0+):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Database(\n    version = 2,\n    autoMigrations = [\n        AutoMigration (from = 1, to = 2)\n    ]\n)"
+    },
+    {
+      "type": "text",
+      "value": "### Type Converters:\n\nДля сохранения сложных типов (например, Date или List<String>):"
+    },
+    {
+      "type": "text",
+      "value": "Создание конвертера:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Converters {\n    @TypeConverter\n    fun fromTimestamp(value: Long?): Date? = value?.let { Date(it) }\n\n    @TypeConverter\n    fun dateToTimestamp(date: Date?): Long? = date?.time\n}"
+    },
+    {
+      "type": "text",
+      "value": "Подключение к Database:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Database(..., version = 1)\n@TypeConverters(Converters::class)\nabstract class AppDatabase : RoomDatabase()"
+    },
+    {
+      "type": "text",
+      "value": "Теперь можно использовать Date в Entity:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Entity\ndata class Event(\n    @PrimaryKey val id: Int,\n    val date: Date // Автоматически конвертируется\n)"
+    },
+    {
+      "type": "text",
+      "value": "### Отладка Room:"
+    },
+    {
+      "type": "text",
+      "value": "**Просмотр SQL-запросов:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Room.databaseBuilder(...)\n    .setQueryCallback({ sql, bindings ->\n        Log.d(\"ROOM\", \"SQL: $sql, Args: $bindings\")\n    }, Executors.newSingleThreadExecutor())\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "**Экспорт схемы БД (для анализа структуры):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "defaultConfig {\n    javaCompileOptions {\n        annotationProcessorOptions {\n            arguments += [\"room.schemaLocation\": \"$projectDir/schemas\".toString()]\n        }\n    }\n}"
+    }
+  ]
+}

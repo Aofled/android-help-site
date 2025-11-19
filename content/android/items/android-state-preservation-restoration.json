@@ -1,0 +1,30 @@
+{
+  "title": "Сохранение и восстановление состояния (State Preservation & Restoration)",
+  "content": [
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Механизм\t        Область применения\t                        Типы данных\t                                Срок хранения\nonSaveInstanceState\tActivity/Fragment\t                        Примитивы, Parcelable, Serializable\t        До завершения процесса\nSavedStateHandle\tViewModel\t                                Примитивы, Parcelable\t                        До уничтожения ViewModel\nPersistableBundle\tСистемные компоненты (JobScheduler и др.)\tОграниченные типы (без объектов)\t        Сохраняется после перезагрузки устройства"
+    },
+    {
+      "type": "text",
+      "value": "#### Ключевые отличия:"
+    },
+    {
+      "type": "text",
+      "value": "**onSaveInstanceState:**\n\n- Работает с **Bundle**.\n\n- Используется в **Activity/Fragment**.\n\n- Пример: сохранение текста в **EditText** при повороте экрана.\n\n**SavedStateHandle**\n\n- Встроен в **ViewModel**.\n\n- Автоматически сохраняет данные при изменении конфигурации.\n\n- Пример: сохранение ID текущего элемента списка.\n\n**PersistableBundle:**\n\n- Для системных задач (например, параметры **JobScheduler**).\n\n- Сохраняется даже после перезагрузки устройства.\n\n- Пример: настройки периодической синхронизации."
+    },
+    {
+      "type": "text",
+      "value": "#### Когда что использовать?"
+    },
+    {
+      "type": "text",
+      "value": "- **Для UI-состояния (чекбоксы, прокрутка)** → **onSaveInstanceState**.\n\n\n\n- **Для данных в ViewModel** → **SavedStateHandle**.\n\n\n\n- **Для системных задач** → **PersistableBundle**."
+    },
+    {
+      "type": "text",
+      "value": "#### Современные рекомендации\n\nДля новых проектов предпочитайте **SavedStateHandle** в сочетании с **ViewModel** (избегая прямого использования **onSaveInstanceState**).\n\n**PersistableBundle** применяйте только для системных API (не для UI)."
+    }
+  ]
+}

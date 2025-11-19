@@ -9,6 +9,16 @@
           "title": "Экранные плотности",
           "url": "#android-screen-densities",
           "contentFile": "android-screen-densities.json"
+        },
+        {
+          "title": "View Binding",
+          "url": "#android-view-binding",
+          "contentFile": "android-view-binding.json"
+        },
+        {
+          "title": "RecyclerView",
+          "url": "#android-recycler-view",
+          "contentFile": "android-recycler-view.json"
         }
       ]
     },{
@@ -65,10 +75,28 @@
         }
       ]
     },
+    {
+      "title": "Архитектуры проекта",
+      "url": "#android-project-architectures",
+      "contentFile": "android-project-architectures.json",
+      "subItems": [
+        {
+          "title": "MVC (Model-View-Controller)",
+          "url": "#android-project-architectures-mvc",
+          "contentFile": "android-project-architectures-mvc.json"
+        }
+      ]
     },{
-      "title": "PersistableBundle",
-      "url": "#android-persistable-bundle",
-      "contentFile": "android-persistable-bundle.json"
+      "title": "Android Jetpack",
+      "url": "#android-android-jetpack",
+      "contentFile": "android-android-jetpack.json",
+      "subItems": [
+        {
+          "title": "Architecture: Room Library",
+          "url": "#android-architecture-room-library",
+          "contentFile": "android-architecture-room-library.json"
+        }
+      ]
     },{
       "title": "AndroidManifest",
       "url": "#android-android-manifest",
@@ -77,6 +105,10 @@
       "title": "Intent (намерение)",
       "url": "#android-intent",
       "contentFile": "android-intent.json"
+    },{
+      "title": "Форматирование строк (String Format)",
+      "url": "#android-string-format",
+      "contentFile": "android-string-format.json"
     },{
       "title": "Логи в Android",
       "url": "#android-log",
