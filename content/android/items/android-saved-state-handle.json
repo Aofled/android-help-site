@@ -7,7 +7,7 @@
     },
     {
       "type": "text",
-      "value": "**Что такое SavedStateHandle?**\n\nЭто компонент Android Architecture Components, который:\n\n- Позволяет ViewModel сохранять данные при уничтожении процесса\n\n\n\n- Автоматически восстанавливает данные при воссоздании Activity/Fragment\n\n\n\n- Работает в паре с ViewModel через специальный аргумент в конструкторе"
+      "value": "**Что такое SavedStateHandle?**\n\n**Это компонент Android Architecture Components, который:**\n\n- Позволяет ViewModel сохранять данные при уничтожении процесса\n\n\n\n- Автоматически восстанавливает данные при воссоздании Activity/Fragment\n\n\n\n- Работает в паре с ViewModel через специальный аргумент в конструкторе"
     },
     {
       "type": "text",

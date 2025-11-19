@@ -1,28 +1,14 @@
 {
   "menuItems": [
     {
-      "title": "View, экранные плотности",
+      "title": "View",
       "url": "#android-view",
-      "contentFile": "android-view.json"
-    },
-    {
-      "title": "View Binding",
-      "url": "#android-view-binding",
-      "contentFile": "android-view-binding.json"
-    },{
-      "title": "Форматирование строк (String Format)",
-      "url": "#android-string-format",
-      "contentFile": "android-string-format.json"
-    },
-    {
-      "title": "Архитектуры проекта",
-      "url": "#android-project-architectures",
-      "contentFile": "android-project-architectures.json",
+      "contentFile": "android-view.json",
       "subItems": [
         {
-          "title": "MVC (Model-View-Controller)",
-          "url": "#android-project-architectures-mvc",
-          "contentFile": "android-project-architectures-mvc.json"
+          "title": "Экранные плотности",
+          "url": "#android-screen-densities",
+          "contentFile": "android-screen-densities.json"
         }
       ]
     },{
@@ -38,7 +24,7 @@
       ]
     },{
       "title": "Fragment",
-      "url": "#android-fragment ",
+      "url": "#android-fragment",
       "contentFile": "android-fragment.json",
       "subItems": [
         {
@@ -46,7 +32,7 @@
           "url": "#android-fragment-lifecycle",
           "contentFile": "android-fragment-lifecycle.json"
         },{
-          "title": "FragmentManager ",
+          "title": "FragmentManager",
           "url": "#android-fragment-manager",
           "contentFile": "android-fragment-manager.json"
         },{
@@ -60,13 +46,25 @@
       "url": "#android-view-model",
       "contentFile": "android-view-model.json"
     },{
-      "title": "onSaveInstanceState ",
-      "url": "#android-on-save-instance-state ",
-      "contentFile": "android-on-save-instance-state.json"
-    },{
-      "title": "SavedStateHandle",
-      "url": "#android-saved-state-handle",
-      "contentFile": "android-saved-state-handle.json"
+      "title": "Сохранение и восстановление состояния",
+      "url": "#android-state-preservation-restoration",
+      "contentFile": "android-state-preservation-restoration.json",
+      "subItems": [
+        {
+          "title": "onSaveInstanceState ",
+          "url": "#android-on-save-instance-state ",
+          "contentFile": "android-on-save-instance-state.json"
+        },{
+          "title": "SavedStateHandle",
+          "url": "#android-saved-state-handle",
+          "contentFile": "android-saved-state-handle.json"
+        },{
+          "title": "PersistableBundle",
+          "url": "#android-persistable-bundle",
+          "contentFile": "android-persistable-bundle.json"
+        }
+      ]
+    },
     },{
       "title": "PersistableBundle",
       "url": "#android-persistable-bundle",
