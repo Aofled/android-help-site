@@ -1,0 +1,95 @@
+{
+  "title": "Диалоговые окна: AlertDialog, DialogFragment, BottomSheetDialog, DatePickerDialog и TimePickerDialog",
+  "content": [
+    {
+      "type": "text",
+      "value": "Диалоговые окна в Android — это всплывающие элементы интерфейса, которые позволяют взаимодействовать с пользователем, запрашивать подтверждение действий, ввод данных или отображать важные сообщения."
+    },
+    {
+      "type": "text",
+      "value": "#### AlertDialog\n\nСтандартный диалог для вывода сообщений, подтверждений или выбора вариантов."
+    },
+    {
+      "type": "text",
+      "value": "- Можно добавлять кастомные макеты через **.setView()**.\n\n- Поддерживает списки (через **.setItems()**, **.setSingleChoiceItems()**, **.setMultiChoiceItems()**)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "AlertDialog.Builder(context)\n    .setTitle(\"Подтверждение\")\n    .setMessage(\"Вы уверены, что хотите удалить этот элемент?\")\n    .setPositiveButton(\"Да\") { dialog, _ ->\n        // Действие при нажатии \"Да\"\n        dialog.dismiss()\n    }\n    .setNegativeButton(\"Нет\") { dialog, _ ->\n        // Действие при нажатии \"Нет\"\n        dialog.dismiss()\n    }\n    .setNeutralButton(\"Отмена\") { dialog, _ ->\n        dialog.dismiss()\n    }\n    .create()\n    .show()"
+    },
+    {
+      "type": "text",
+      "value": "#### DialogFragment\n\nРекомендуемый способ работы с диалогами, так как он сохраняет состояние при повороте экрана и лучше интегрируется с жизненным циклом Activity/Fragment."
+    },
+    {
+      "type": "text",
+      "value": "**Преимущества:**\n\n- Управление жизненным циклом.\n\n- Возможность переиспользования.\n\n- Поддержка поворота экрана."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyDialogFragment : DialogFragment() {\n    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {\n        return AlertDialog.Builder(requireContext())\n            .setTitle(\"Диалог во Fragment\")\n            .setMessage(\"Это диалог, созданный через DialogFragment\")\n            .setPositiveButton(\"OK\", null)\n            .create()\n    }\n}\n\n// Показать диалог из Activity/Fragment\nMyDialogFragment().show(supportFragmentManager, \"my_dialog\")"
+    },
+    {
+      "type": "text",
+      "value": "#### BottomSheetDialog\n\nДиалог, выезжающий снизу (как в Material Design)."
+    },
+    {
+      "type": "text",
+      "value": "**Особенности:**\n\n- Можно сделать модальным или не модальным.\n\n- Поддерживает различные состояния (развернутый, свернутый, скрытый)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val dialog = BottomSheetDialog(context)\nval view = layoutInflater.inflate(R.layout.custom_bottom_sheet, null)\ndialog.setContentView(view)\ndialog.show()"
+    },
+    {
+      "type": "text",
+      "value": "#### DatePickerDialog и TimePickerDialog\n\nСтандартные диалоги для выбора даты и времени."
+    },
+    {
+      "type": "text",
+      "value": "- Пример DatePickerDialog:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val datePicker = DatePickerDialog(context, { _, year, month, day ->\n    // Обработка выбранной даты\n}, 2023, 0, 1)\ndatePicker.show()"
+    },
+    {
+      "type": "text",
+      "value": "- Пример TimePickerDialog:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val timePicker = TimePickerDialog(context, { _, hour, minute ->\n    // Обработка выбранного времени\n}, 12, 0, true)\ntimePicker.show()"
+    },
+    {
+      "type": "text",
+      "value": "### Кастомные диалоги:"
+    },
+    {
+      "type": "text",
+      "value": "Можно создать полностью свой дизайн через **XML** и **DialogFragment**."
+    },
+    {
+      "type": "text",
+      "value": "**Плюсы кастомных диалогов:**\n\n- Полная свобода дизайна.\n\n- Можно добавлять любые элементы (EditText, RecyclerView и т. д.)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class CustomDialogFragment : DialogFragment() {\n    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {\n        return inflater.inflate(R.layout.custom_dialog, container, false)\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        view.findViewById<Button>(R.id.btn_ok).setOnClickListener {\n            dismiss()\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Material Dialogs (библиотеки)"
+    },
+    {
+      "type": "text",
+      "value": "**Для более удобной работы можно использовать сторонние библиотеки:**\n\n- Material Components for Android (официальная от Google).\n\n- AlertDialog из Material 3 (новый дизайн)."
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "title": "Navigation",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Jetpack Navigation** — это современный фреймворк для организации навигации в Android-приложениях, который упрощает переходы между экранами (фрагментами, Activity и др.) и управление стеком навигации."
+    },
+    {
+      "type": "text",
+      "value": "**Лучшие практики:**\n\n- **Один NavHost на Activity** (но можно несколько графов).\n\n- **Используйте Safe Args** для типобезопасной передачи данных.\n\n- **Избегайте прямых ссылок** на фрагменты — работайте через ID действий.\n\n- **Для сложной логики** используйте **NavController.addOnDestinationChangedListener.**\n\n- **Тестируйте** поведение при повороте экрана и deep links."
+    },
+    {
+      "type": "text",
+      "value": "**NavGraph (Граф навигации):**\n\nXML-файл, определяющий все \"пункты назначения\" (destinations) и связи между ними."
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- res/navigation/nav_graph.xml -->\n<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    app:startDestination=\"@id/homeFragment\">\n\n    <fragment\n        android:id=\"@+id/homeFragment\"\n        android:name=\"com.example.HomeFragment\"\n        android:label=\"Home\">\n        <action\n            android:id=\"@+id/action_to_details\"\n            app:destination=\"@id/detailsFragment\" />\n    </fragment>\n\n    <fragment\n        android:id=\"@+id/detailsFragment\"\n        android:name=\"com.example.DetailsFragment\"\n        android:label=\"Details\">\n        <argument\n            android:name=\"itemId\"\n            app:argType=\"integer\" />\n    </fragment>\n</navigation>"
+    },
+    {
+      "type": "text",
+      "value": "**NavHost:**\n\nКонтейнер для отображения фрагментов. Обычно добавляется в Activity:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<androidx.fragment.app.FragmentContainerView\n    android:id=\"@+id/nav_host_fragment\"\n    android:name=\"androidx.navigation.fragment.NavHostFragment\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    app:defaultNavHost=\"true\"\n    app:navGraph=\"@navigation/nav_graph\" />"
+    },
+    {
+      "type": "text",
+      "value": "*NavController:**\n\nУправляет навигацией внутри NavHost. Получается одним из способов:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "// Во фрагменте\nval navController = findNavController()\n\n// В Activity\nval navController = Navigation.findNavController(this, R.id.nav_host_fragment)"
+    },
+    {
+      "type": "text",
+      "value": "### Основные операции навигации"
+    },
+    {
+      "type": "text",
+      "value": "- Простой переход:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "navController.navigate(R.id.action_to_details)"
+    },
+    {
+      "type": "text",
+      "value": "- Передача данных (Safe Args):"
+    },
+    {
+      "type": "text",
+      "value": "- Генерирует типобезопасные классы для аргументов.\n\n\n\n- Требует плагин в build.gradle:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n    id \"androidx.navigation.safeargs.kotlin\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Отправка данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val action = HomeFragmentDirections.actionToDetails(itemId = 123)\nnavController.navigate(action)"
+    },
+    {
+      "type": "text",
+      "value": "- Получение данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val args by navArgs<DetailsFragmentArgs>()\nval itemId = args.itemId"
+    },
+    {
+      "type": "text",
+      "value": "#### Глобальные действия:"
+    },
+    {
+      "type": "text",
+      "value": "Можно определить общие действия в графе:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "<action\n    android:id=\"@+id/action_global_settings\"\n    app:destination=\"@id/settingsFragment\"\n    app:popUpTo=\"@id/main_graph\"\n    app:popUpToInclusive=\"true\" />"
+    },
+    {
+      "type": "text",
+      "value": "- Использование:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "navController.navigate(R.id.action_global_settings)"
+    },
+    {
+      "type": "text",
+      "value": "### Управление стеком навигации"
+    },
+    {
+      "type": "text",
+      "value": "- **Pop (Возврат):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "navController.popBackStack() // Аналог back button\nnavController.popBackStack(R.id.homeFragment, false) // Возврат к конкретному пункту"
+    },
+    {
+      "type": "text",
+      "value": "- **PopUpTo**:\n\nУдаляет фрагменты из стека до указанного destination:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<action\n    android:id=\"@+id/action_to_checkout\"\n    app:destination=\"@id/checkoutFragment\"\n    app:popUpTo=\"@id/homeFragment\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Анимации переходов"
+    },
+    {
+      "type": "text",
+      "value": "**Глобальные анимации**\n\nВ nav_graph.xml:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<action\n    android:id=\"@+id/action_to_details\"\n    app:destination=\"@id/detailsFragment\"\n    app:enterAnim=\"@anim/slide_in_right\"\n    app:exitAnim=\"@anim/slide_out_left\"\n    app:popEnterAnim=\"@anim/slide_in_left\"\n    app:popExitAnim=\"@anim/slide_out_right\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Расширенные возможности"
+    },
+    {
+      "type": "text",
+      "value": "**Вложенные графы**\n\nДля модульности:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<navigation android:id=\"@+id/nested_graph\" app:startDestination=\"@id/nestedFragment\">\n    <!-- ... -->\n</navigation>\n\n<!-- В основном графе -->\n<include app:graph=\"@navigation/nested_graph\" />"
+    },
+    {
+      "type": "text",
+      "value": "**Deeplinks**\n\nПоддержка ссылок вида **example.com/details/123**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<fragment android:id=\"@+id/detailsFragment\">\n    <deepLink app:uri=\"example.com/details/{itemId}\" />\n</fragment>"
+    },
+    {
+      "type": "text",
+      "value": "Обработка в AndroidManifest:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity ...>\n    <nav-graph android:value=\"@navigation/nav_graph\" />\n</activity>"
+    },
+    {
+      "type": "text",
+      "value": "**Навигация с BottomNavigationView:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val navController = findNavController(R.id.nav_host_fragment)\nval bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)\nbottomNav.setupWithNavController(navController)"
+    },
+    {
+      "type": "text",
+      "value": "### Навигация между Activity"
+    },
+    {
+      "type": "text",
+      "value": "Определите Activity в графе:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity\n    android:id=\"@+id/profileActivity\"\n    android:name=\"com.example.ProfileActivity\"\n    android:label=\"Profile\">\n    <argument android:name=\"userId\" app:argType=\"string\" />\n</activity>"
+    },
+    {
+      "type": "text",
+      "value": "Переход::"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val action = NavGraphDirections.actionGlobalProfileActivity(userId = \"123\")\nnavController.navigate(action)"
+    },
+    {
+      "type": "text",
+      "value": "### Полный пример:"
+    },
+    {
+      "type": "text",
+      "value": "**Граф (nav_graph.xml)**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    app:startDestination=\"@id/homeFragment\">\n\n    <fragment\n        android:id=\"@+id/homeFragment\"\n        android:name=\"com.example.HomeFragment\"\n        android:label=\"Home\">\n        <action\n            android:id=\"@+id/action_to_details\"\n            app:destination=\"@id/detailsFragment\" />\n    </fragment>\n\n    <fragment\n        android:id=\"@+id/detailsFragment\"\n        android:name=\"com.example.DetailsFragment\"\n        android:label=\"Details\">\n        <argument\n            android:name=\"itemId\"\n            app:argType=\"integer\" />\n        <deepLink app:uri=\"example.com/details/{itemId}\" />\n    </fragment>\n</navigation>"
+    },
+    {
+      "type": "text",
+      "value": "**Activity**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val navController = findNavController(R.id.nav_host_fragment)\n        setupBottomNav(navController)\n    }\n\n    private fun setupBottomNav(navController: NavController) {\n        findViewById<BottomNavigationView>(R.id.bottom_nav).setupWithNavController(navController)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Переход между фрагментами**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "// В HomeFragment\nbutton.setOnClickListener {\n    val action = HomeFragmentDirections.actionToDetails(itemId = 42)\n    findNavController().navigate(action)\n}\n\n// В DetailsFragment\nval args by navArgs<DetailsFragmentArgs>()\nval itemId = args.itemId // 42"
+    }
+  ]
+}

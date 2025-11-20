@@ -1,0 +1,113 @@
+{
+  "title": "Неявные интенты (Implicit Intents)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Неявные интенты (Implicit Intents)** используются, когда нужно выполнить действие, но без указания конкретного приложения или активности. Система Android сама определяет, какие компоненты (активности, сервисы и т. д.) могут обработать такой интент, и предлагает пользователю выбор (если подходит несколько вариантов)."
+    },
+    {
+      "type": "text",
+      "value": "**Основные сценарии использования:**\n\n- Открытие ссылки в браузере.\n\n- Запуск камеры для съемки фото.\n\n- Отправка письма через почтовое приложение.\n\n- Просмотр карты по координатам.\n\n- Совместное использование данных (Share)."
+    },
+    {
+      "type": "text",
+      "value": "**Особенности и лучшие практики:**\n\n- **Всегда проверяйте resolveActivity()**, чтобы избежать ActivityNotFoundException.\n\n- **Используйте Intent.createChooser()**, если нужно дать пользователю выбор приложения.\n\n- **Указывайте MIME-тип**, если данные имеют специфический формат (image/*, text/plain).\n\n- **Для Android 11+ (API 30+)** могут потребоваться **<queries>** в **AndroidManifest.xml**, если интент обращается к другим приложениям."
+    },
+    {
+      "type": "text",
+      "value": "### Создание неявного интента\n\n**Для создания неявного интента нужно указать:**\n\n\n\n**Действие (action)** – например, **Intent.ACTION_VIEW**.\n\n\n\n**Данные (data)** – URI (ссылка, номер телефона и т. д.).\n\n\n\n**Тип данных (type)** – MIME-тип (например, **text/plain**).\n\n\n\n**Дополнительные флаги и параметры (extras)**."
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры"
+    },
+    {
+      "type": "text",
+      "value": "Открытие ссылки в браузере:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(Intent.ACTION_VIEW, Uri.parse(\"https://google.com\"))\nstartActivity(intent)"
+    },
+    {
+      "type": "text",
+      "value": "Открытие карты (Google Maps) по координатам:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val gmmIntentUri = Uri.parse(\"geo:55.754283,37.62002?z=16\") // z - zoom\nval mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)\nmapIntent.setPackage(\"com.google.android.apps.maps\") // опционально, если нужно строго Google Maps\nstartActivity(mapIntent)"
+    },
+    {
+      "type": "text",
+      "value": "Отправка email:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val emailIntent = Intent(Intent.ACTION_SEND).apply {\n    type = \"text/plain\"\n    putExtra(Intent.EXTRA_EMAIL, arrayOf(\"example@mail.com\"))\n    putExtra(Intent.EXTRA_SUBJECT, \"Тема письма\")\n    putExtra(Intent.EXTRA_TEXT, \"Текст письма\")\n}\nstartActivity(Intent.createChooser(emailIntent, \"Выберите почтовое приложение\"))"
+    },
+    {
+      "type": "text",
+      "value": "Совместное использование текста (Share):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val shareIntent = Intent(Intent.ACTION_SEND).apply {\n    type = \"text/plain\"\n    putExtra(Intent.EXTRA_TEXT, \"Посмотрите это: https://example.com\")\n}\nstartActivity(Intent.createChooser(shareIntent, \"Поделиться через\"))"
+    },
+    {
+      "type": "text",
+      "value": "Открытие камеры для съемки фото:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)\nif (takePictureIntent.resolveActivity(packageManager) != null) {\n    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Проверка наличия приложений для обработки интента:"
+    },
+    {
+      "type": "text",
+      "value": "Перед вызовом startActivity() стоит проверить, есть ли приложения, способные обработать интент:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(Intent.ACTION_VIEW, Uri.parse(\"https://google.com\"))\nif (intent.resolveActivity(packageManager) != null) {\n    startActivity(intent)\n} else {\n    Toast.makeText(this, \"Нет подходящего приложения\", Toast.LENGTH_SHORT).show()\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Intent Filters в манифесте"
+    },
+    {
+      "type": "text",
+      "value": "Чтобы ваше приложение могло реагировать на неявные интенты, нужно объявить **<intent-filter>** в **AndroidManifest.xml**."
+    },
+    {
+      "type": "text",
+      "value": "Пример: приложение обрабатывает ссылки на ваш сайт:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity android:name=\".MainActivity\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.VIEW\" />\n        <category android:name=\"android.intent.category.DEFAULT\" />\n        <category android:name=\"android.intent.category.BROWSABLE\" />\n        <data android:scheme=\"https\" android:host=\"yourwebsite.com\" />\n    </intent-filter>\n</activity>"
+    },
+    {
+      "type": "text",
+      "value": "Теперь при открытии https://yourwebsite.com система предложит ваше приложение как вариант."
+    },
+    {
+      "type": "text",
+      "value": "### Пример с несколькими действиями:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Позвонить по номеру\nval callIntent = Intent(Intent.ACTION_DIAL, Uri.parse(\"tel:+79991234567\"))\n\n// Открыть PDF файл (если есть приложение для просмотра)\nval pdfIntent = Intent(Intent.ACTION_VIEW).apply {\n    data = Uri.fromFile(File(\"/sdcard/document.pdf\"))\n    type = \"application/pdf\"\n    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION\n}\n\n// Запуск интента с проверкой\nif (pdfIntent.resolveActivity(packageManager) != null) {\n    startActivity(pdfIntent)\n}"
+    }
+  ]
+}

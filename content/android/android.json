@@ -95,16 +95,36 @@
           "title": "Architecture: Room Library",
           "url": "#android-architecture-room-library",
           "contentFile": "android-architecture-room-library.json"
+        },{
+          "title": "Architecture: Navigation",
+          "url": "#android-architecture-navigation",
+          "contentFile": "android-architecture-navigation.json"
         }
       ]
+    },{
+      "title": "Диалоговые окна",
+      "url": "#android-dialog-boxes",
+      "contentFile": "android-dialog-boxes.json"
+    },{
+      "title": "Панель приложения (Toolbar)",
+      "url": "#android-toolbar",
+      "contentFile": "android-toolbar.json"
     },{
       "title": "AndroidManifest",
       "url": "#android-android-manifest",
       "contentFile": "android-android-manifest.json"
     },{
-      "title": "Intent (намерение)",
+      "title": "Intent (Намерение)",
       "url": "#android-intent",
       "contentFile": "android-intent.json"
+    },{
+      "title": "Implicit Intents (Неявные интенты)",
+      "url": "#android-implicit-intents",
+      "contentFile": "android-implicit-intents.json"
+    },{
+      "title": "Parcelable и Serializable",
+      "url": "#android-parcelable-serializable",
+      "contentFile": "android-parcelable-serializable.json"
     },{
       "title": "Форматирование строк (String Format)",
       "url": "#android-string-format",

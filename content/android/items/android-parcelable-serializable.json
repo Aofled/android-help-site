@@ -1,0 +1,71 @@
+{
+  "title": "Сериализация: Parcelable и Serializable",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Сериализация** — это процесс преобразования объекта или структуры данных в формат, который можно сохранить (в файл, базу данных) или передать (по сети, между процессами/компонентами), а затем восстановить обратно в объект.\n\n**Сериализация** — это \"упаковка\" объекта в последовательность байтов, а десериализация — его \"распаковка\"."
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "Производительность: тесты\nРеальные замеры (на среднем классе устройств):\n\nОперация\t                Serializable (мс)\tParcelable (мс)\nСериализация 1000 объектов\t120\t                8\nДесериализация\t                95\t                6"
+    },
+    {
+      "type": "text",
+      "value": "### Serializable (стандартный Java-механизм)\n\n**Основные характеристики:**\n\n- **Из коробки**: требует только реализации интерфейса\n\n- **Рефлексия**: использует механизм reflection для сериализации\n\n- **Гибкость**: автоматически обрабатывает сложные объектные графы"
+    },
+    {
+      "type": "code",
+      "language": "java",
+      "value": "public class User implements Serializable {\n    private String name;\n    private int age;\n\n    // Обязательно объявите serialVersionUID для контроля версий\n    private static final long serialVersionUID = 1L; \n\n    // Геттеры/сеттеры\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Когда использовать?**\n\n- Простота важнее производительности\n\n- Сложные объектные графы (автоматическая обработка вложенных объектов)\n\n- Совместимость с обычными Java-приложениями\n\n**Проблемы Serializable**\n\n- Медленная работа: в 10-50 раз медленнее Parcelable\n\n- Большой размер данных: избыточная информация в потоке\n\n- Нет контроля над процессом сериализации"
+    },
+    {
+      "type": "text",
+      "value": "### Parcelable (оптимизирован для Android)\n\n**Основные характеристики**\n\n- **Ручная реализация**: нужно явно описать процесс упаковки/распаковки\n\n- **Минимализм**: только необходимые данные\n\n- **Высокая скорость**: в ~10 раз быстрее Serializable"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Parcelize // Аннотация для автоматической генерации (не требует ручной реализации)\ndata class User(\n    val name: String,\n    val age: Int\n) : Parcelable\n\n// Без @Parcelize (ручная реализация):\nclass User(val name: String, val age: Int) : Parcelable {\n    constructor(parcel: Parcel) : this(\n        parcel.readString()!!,\n        parcel.readInt()\n    )\n\n    override fun writeToParcel(parcel: Parcel, flags: Int) {\n        parcel.writeString(name)\n        parcel.writeInt(age)\n    }\n\n    override fun describeContents(): Int = 0\n\n    companion object CREATOR : Parcelable.Creator<User> {\n        override fun createFromParcel(parcel: Parcel): User = User(parcel)\n        override fun newArray(size: Int): Array<User?> = arrayOfNulls(size)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Когда использовать?**\n\n- Высокая производительность критична\n\n- Частая передача между компонентами (Intent, Bundle)\n\n- Android-специфичный код\n\n**Плюсы Parcelable**\n\n- Быстрая сериализация/десериализация\n\n- Минимальный объём данных\n\n- Полный контроль над процессом"
+    },
+    {
+      "type": "text",
+      "value": "### Практическое использование:"
+    },
+    {
+      "type": "text",
+      "value": "**Передача через Intent:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Serializable\nval intent = Intent(this, DetailActivity::class.java)\nintent.putExtra(\"user\", user as Serializable)\n\n// Parcelable (тот же метод)\nintent.putExtra(\"user\", user as Parcelable)"
+    },
+    {
+      "type": "text",
+      "value": "**Сохранение в Bundle:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Оба варианта работают одинаково\nval bundle = Bundle()\nbundle.putSerializable(\"user_serializable\", user)\nbundle.putParcelable(\"user_parcelable\", user)"
+    },
+    {
+      "type": "text",
+      "value": "**В Room Database:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Entity\ndata class User(\n    @PrimaryKey val id: Int,\n    val data: DataEntity // Должен быть либо Serializable, либо Parcelable\n)\n\n// Для Room лучше использовать TypeConverters"
+    }
+  ]
+}

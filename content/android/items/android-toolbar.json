@@ -1,0 +1,123 @@
+{
+  "title": "Панель приложения (Toolbar)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Панель приложения (Toolbar)** в Android — это гибкий и настраиваемый элемент интерфейса, который заменяет стандартный ActionBar и предоставляет больше возможностей для кастомизации."
+    },
+    {
+      "type": "text",
+      "value": "#### Основные особенности Toolbar\n\n1. Заменяет ActionBar (начиная с Android 5.0 Lollipop).\n\n2. Поддерживает Material Design (можно использовать с MaterialComponents).\n\n3. Позволяет добавлять:\n\n- Заголовок и подзаголовок.\n\n- Иконку навигации (например, \"бургер\" для DrawerLayout).\n\n- Кнопки меню (через Menu и MenuItem).\n\n- Кастомные вью (например, SearchView).\n\n4. Может размещаться в любом месте макета (не только вверху экрана)."
+    },
+    {
+      "type": "text",
+      "value": "### Добавление Toolbar в макет:"
+    },
+    {
+      "type": "text",
+      "value": "Подключение зависимости (Material Components) в  **build.gradle (Module: app)**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    implementation 'com.google.android.material:material:1.11.0' // актуальная версия\n}"
+    },
+    {
+      "type": "text",
+      "value": "XML-разметка с Toolbar:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<androidx.appcompat.widget.Toolbar\n    android:id=\"@+id/toolbar\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"?attr/actionBarSize\"\n    android:background=\"?attr/colorPrimary\"\n    android:elevation=\"4dp\"\n    app:title=\"Мое приложение\"\n    app:subtitle=\"Добро пожаловать\"\n    app:navigationIcon=\"@drawable/ic_menu\" />"
+    },
+    {
+      "type": "text",
+      "value": "Настройка Toolbar в Activity:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val toolbar = findViewById<Toolbar>(R.id.toolbar)\n        setSupportActionBar(toolbar) // Устанавливаем Toolbar вместо ActionBar\n\n        // Настройка кнопки \"назад\" (если нужно)\n        supportActionBar?.setDisplayHomeAsUpEnabled(true)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Добавление меню в Toolbar:"
+    },
+    {
+      "type": "text",
+      "value": "Создание файла меню (**res/menu/toolbar_menu.xml**)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<menu xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\">\n\n    <item\n        android:id=\"@+id/action_search\"\n        android:icon=\"@drawable/ic_search\"\n        android:title=\"Поиск\"\n        app:showAsAction=\"ifRoom\" />\n\n    <item\n        android:id=\"@+id/action_settings\"\n        android:title=\"Настройки\"\n        app:showAsAction=\"never\" />\n</menu>"
+    },
+    {
+      "type": "text",
+      "value": "Подключение меню в Activity"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onCreateOptionsMenu(menu: Menu): Boolean {\n    menuInflater.inflate(R.menu.toolbar_menu, menu)\n    return true\n}\n\noverride fun onOptionsItemSelected(item: MenuItem): Boolean {\n    return when (item.itemId) {\n        R.id.action_search -> {\n            // Действие при нажатии на поиск\n            true\n        }\n        R.id.action_settings -> {\n            // Действие при нажатии на настройки\n            true\n        }\n        android.R.id.home -> { // Обработка кнопки \"назад\" в Toolbar\n            onBackPressed()\n            true\n        }\n        else -> super.onOptionsItemSelected(item)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Кастомизация Toolbar"
+    },
+    {
+      "type": "text",
+      "value": "Изменение цвета, шрифта и стиля в **styles.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"AppTheme\" parent=\"Theme.Material3.Light.NoActionBar\">\n    <item name=\"colorPrimary\">@color/purple_500</item>\n    <item name=\"toolbarStyle\">@style/MyToolbarStyle</item>\n</style>\n\n<style name=\"MyToolbarStyle\" parent=\"Widget.Material3.Toolbar\">\n    <item name=\"android:background\">@color/teal_200</item>\n    <item name=\"titleTextAppearance\">@style/MyTitleTextAppearance</item>\n</style>\n\n<style name=\"MyTitleTextAppearance\" parent=\"TextAppearance.Material3.TitleMedium\">\n    <item name=\"android:textColor\">@color/white</item>\n    <item name=\"android:textSize\">20sp</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "Добавление SearchView в Toolbar в **menu/toolbar_menu.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<item\n    android:id=\"@+id/action_search\"\n    android:title=\"Поиск\"\n    app:actionViewClass=\"androidx.appcompat.widget.SearchView\"\n    app:showAsAction=\"always|collapseActionView\" />"
+    },
+    {
+      "type": "text",
+      "value": "В коде:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onCreateOptionsMenu(menu: Menu): Boolean {\n    menuInflater.inflate(R.menu.toolbar_menu, menu)\n    val searchItem = menu.findItem(R.id.action_search)\n    val searchView = searchItem.actionView as SearchView\n\n    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {\n        override fun onQueryTextSubmit(query: String?): Boolean {\n            // Поиск при нажатии Enter\n            return true\n        }\n\n        override fun onQueryTextChange(newText: String?): Boolean {\n            // Поиск при изменении текста\n            return true\n        }\n    })\n    return true\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Использование с Navigation Drawer"
+    },
+    {
+      "type": "text",
+      "value": "Если Toolbar используется вместе с **DrawerLayout**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)\nval toolbar = findViewById<Toolbar>(R.id.toolbar)\nsetSupportActionBar(toolbar)\n\nval toggle = ActionBarDrawerToggle(\n    this,\n    drawerLayout,\n    toolbar,\n    R.string.navigation_drawer_open,\n    R.string.navigation_drawer_close\n)\ndrawerLayout.addDrawerListener(toggle)\ntoggle.syncState()"
+    },
+    {
+      "type": "text",
+      "value": "### Material Toolbar (Material 3)"
+    },
+    {
+      "type": "text",
+      "value": "В **Material Components 3** можно использовать **MaterialToolbar**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<com.google.android.material.appbar.MaterialToolbar\n    android:id=\"@+id/toolbar\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"?attr/actionBarSize\"\n    android:background=\"@color/surface\"\n    app:title=\"Material 3 Toolbar\"\n    app:menu=\"@menu/toolbar_menu\" />"
+    }
+  ]
+}
