@@ -1,0 +1,106 @@
+{
+  "title": "MMKV: высокопроизводительное хранилище ключ-значение",
+  "content": [
+    {
+      "type": "text",
+      "value": "**MMKV** — это легковесная, высокопроизводительная библиотека для хранения пар ключ-значение, разработанная WeChat. Она решает проблемы производительности стандартного **SharedPreferences** и предоставляет дополнительные возможности."
+    },
+    {
+      "type": "text",
+      "value": "**Основные преимущества MMKV**\n\n- **Высокая производительность:** в 100-1000 раз быстрее SharedPreferences\n\n- **Многопроцессорность:** безопасный доступ из нескольких процессов\n\n- **Поддержка шифрования:** AES-CFB (128/256-bit)\n\n- **Автосохранение:** не требует вызова apply()/commit()\n\n- **Поддержка больших данных:** эффективная работа с бинарными данными"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка проекта:"
+    },
+    {
+      "type": "text",
+      "value": "Добавление зависимости в **build.gradle (Module: app):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    implementation 'com.tencent:mmkv:1.3.2'\n}"
+    },
+    {
+      "type": "text",
+      "value": "Инициализация в Application классе:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyApp : Application() {\n    override fun onCreate() {\n        super.onCreate()\n        val rootDir = MMKV.initialize(this)\n        println(\"MMKV root dir: $rootDir\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Основное использование:"
+    },
+    {
+      "type": "text",
+      "value": "**Получение экземпляра:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Получить экземпляр по умолчанию\nval mmkv = MMKV.defaultMMKV()\n\n// Или с конкретным ID\nval mmkv = MMKV.mmkvWithID(\"my_storage\")\n\n// С режимом многопроцессорности\nval mmkv = MMKV.mmkvWithID(\"interprocess_storage\", MMKV.MULTI_PROCESS_MODE)"
+    },
+    {
+      "type": "text",
+      "value": "**Запись данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Примитивные типы\nmmkv.encode(\"bool_key\", true)\nmmkv.encode(\"int_key\", 42)\nmmkv.encode(\"string_key\", \"Hello MMKV\")\n\n// Массивы и объекты\nval bytes = byteArrayOf(1, 2, 3)\nmmkv.encode(\"bytes_key\", bytes)\n\n// С пользовательскими объектами (через сериализацию)\nval user = User(name = \"John\", age = 30)\nmmkv.encode(\"user_key\", user.toJson())"
+    },
+    {
+      "type": "text",
+      "value": "**Чтение данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val boolValue = mmkv.decodeBool(\"bool_key\", false)\nval intValue = mmkv.decodeInt(\"int_key\", 0)\nval stringValue = mmkv.decodeString(\"string_key\", \"default\")\n\nval bytes = mmkv.decodeBytes(\"bytes_key\")\nval userJson = mmkv.decodeString(\"user_key\")\nval user = userJson?.let { User.fromJson(it) }"
+    },
+    {
+      "type": "text",
+      "value": "**Удаление данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "mmkv.removeValueForKey(\"key_to_remove\")\nmmkv.removeValuesForKeys(arrayOf(\"key1\", \"key2\"))\nmmkv.clearAll() // Очистить все данные"
+    },
+    {
+      "type": "text",
+      "value": "### Расширенные возможности:"
+    },
+    {
+      "type": "text",
+      "value": "**Шифрование:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val cryptKey = \"my_secret_key_123\".toByteArray()\nval encryptedMMKV = MMKV.mmkvWithID(\"encrypted_storage\", MMKV.SINGLE_PROCESS_MODE, cryptKey)"
+    },
+    {
+      "type": "text",
+      "value": "**Поддержка SharedPreferences**\n\n- MMKV может заменить стандартный SharedPreferences:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// В Application.onCreate()\nMMKV.initialize(this)\nval mmkv = MMKV.defaultMMKV()\nSharedPreferencesInjector.inject(mmkv, \"pref_name\")\n\n// Теперь Context.getSharedPreferences() вернет MMKV\nval prefs = getSharedPreferences(\"pref_name\", MODE_PRIVATE)"
+    },
+    {
+      "type": "text",
+      "value": "**Наблюдатель изменений:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "mmkv.registerOnSharedPreferenceChangeListener { mmkv, key ->\n    when (key) {\n        \"theme_pref\" -> updateTheme(mmkv.decodeString(key))\n    }\n})"
+    }
+  ]
+}

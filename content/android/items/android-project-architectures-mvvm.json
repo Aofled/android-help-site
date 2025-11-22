@@ -1,0 +1,158 @@
+{
+  "title": "MVVM (Model-View-ViewModel)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**MVVM (Model-View-ViewModel)** — это современная архитектурная модель, рекомендованная Google для Android-разработки. Она обеспечивает четкое разделение ответственности, упрощает тестирование и повышает стабильность приложений."
+    },
+    {
+      "type": "text",
+      "value": "**Преимущества MVVM**\n\n- **Тестируемость**: ViewModel можно тестировать без View\n\n- **Сохранение состояния**: ViewModel переживает поворот экрана\n\n- **Чистый код**: Четкое разделение логики\n\n- **Реактивность**: LiveData/Flow автоматически обновляют UI\n\n- **Гибкость**: Легкая замена компонентов"
+    },
+    {
+      "type": "text",
+      "value": "**Распространенные ошибки:**\n\n- Размещение логики во View\n\n- **Решение:** Переносить всю логику в ViewModel\n\n\n\n- Использование Context в ViewModel\n\n- **Решение:** Использовать AndroidViewModel или DI\n\n\n\n- Прямые вызовы между компонентами\n\n- **Решение:** Использовать Observer pattern"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные компоненты MVVM:"
+    },
+    {
+      "type": "text",
+      "value": "#### Model (Модель)\n\n- **Представляет данные и бизнес-логику**\n\n- Не зависит от View и ViewModel\n\n- Источники данных:\n\n-Локальные (Room, SharedPreferences)\n\n-Удаленные (Retrofit, Firebase)\n\n-In-memory кэш"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Пример модели данных\ndata class User(\n    val id: Int,\n    val name: String,\n    val email: String\n)"
+    },
+    {
+      "type": "text",
+      "value": "#### View (Представление)\n\n- **Отвечает за отображение UI и обработку пользовательских действий**\n\n- Активности, фрагменты, XML-разметка\n\n- **Не должна содержать бизнес-логику**\n\n- Общается с ViewModel через наблюдение за данными"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    private lateinit var viewModel: MainViewModel\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)\n        \n        // Наблюдаем за изменениями данных\n        viewModel.users.observe(this) { users ->\n            updateUI(users)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### ViewModel\n\n- Посредник между View и Model\n\n- Содержит UI-логику и состояние экрана\n\n- Переживает изменения конфигурации (поворот экрана)\n\n- Не содержит ссылок на View (во избежание утечек памяти)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainViewModel(application: Application) : AndroidViewModel(application) {\n    private val repository = UserRepository(application)\n    \n    // LiveData для наблюдения\n    val users: LiveData<List<User>> = repository.getAllUsers()\n    \n    fun refreshData() {\n        repository.refreshUsers()\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Ключевые принципы MVVM:"
+    },
+    {
+      "type": "text",
+      "value": "#### Разделение ответственности\n\n- **View**: Только отображение и жесты\n\n- **ViewModel**: Подготовка данных для View\n\n- **Model**: Работа с данными"
+    },
+    {
+      "type": "text",
+      "value": "**Наблюдаемый паттерн (Observable)**\n\nИспользование LiveData, StateFlow или RxJava:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// ViewModel\nprivate val _loadingState = MutableLiveData<Boolean>()\nval loadingState: LiveData<Boolean> = _loadingState\n\n// View\nviewModel.loadingState.observe(this) { isLoading ->\n    progressBar.isVisible = isLoading\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Однонаправленный поток данных**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "View → ViewModel → Model → ViewModel → View"
+    },
+    {
+      "type": "text",
+      "value": "### Полный пример реализации MVVM"
+    },
+    {
+      "type": "text",
+      "value": "**Структура проекта:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "com.example.app/\n├── data/\n│   ├── local/      # Room, SharedPrefs\n│   ├── remote/     # Retrofit\n│   └── repository/ # Репозитории\n├── di/             # Dependency Injection\n├── ui/\n│   ├── view/       # Activity, Fragment\n│   └── viewmodel/  # ViewModels\n└── model/          # Data classes"
+    },
+    {
+      "type": "text",
+      "value": "Репозиторий (соединяет Model и ViewModel)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserRepository(context: Context) {\n    private val localDataSource: UserLocalDataSource\n    private val remoteDataSource: UserRemoteDataSource\n    \n    fun getUsers(): LiveData<List<User>> {\n        // Проверяем кэш, затем сеть\n        return localDataSource.getUsers().switchMap { localUsers ->\n            if (localUsers.isEmpty()) {\n                remoteDataSource.fetchUsers()\n            } else {\n                MutableLiveData(localUsers)\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "ViewModel с корутинами"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserViewModel(application: Application) : AndroidViewModel(application) {\n    private val repository = UserRepository(application)\n    private val _users = MutableLiveData<List<User>>()\n    val users: LiveData<List<User>> = _users\n    \n    init {\n        loadUsers()\n    }\n    \n    private fun loadUsers() {\n        viewModelScope.launch {\n            try {\n                _users.value = repository.getUsers()\n            } catch (e: Exception) {\n                // Обработка ошибок\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "View с Data Binding"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "<layout>\n    <data>\n        <variable name=\"viewModel\" type=\"com.example.ui.viewmodel.UserViewModel\"/>\n    </data>\n    \n    <ListView\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:adapter=\"@{viewModel.users}\"/>\n</layout>"
+    },
+    {
+      "type": "text",
+      "value": "### Дополнительные технологии для MVVM"
+    },
+    {
+      "type": "text",
+      "value": "**Jetpack Components**\n\n- **ViewModel**: Хранение UI-данных\n\n- **LiveData**: Наблюдаемые данные\n\n- **Room**: Локальная база данных\n\n- **Data Binding**: Связывание UI с данными\n\n- **Navigation**: Управление переходами\n\n**Асинхронная работа**\n\n- **Kotlin Coroutines**: Для фоновых задач\n\n- **Flow**: Потоки данных\n\n- **RxJava**: Альтернатива корутинам\n\n**Dependency Injection**\n\n- **Dagger Hilt**: Упрощенный DI от Google\n\n- **Koin**: Легковесная альтернатива"
+    },
+    {
+      "type": "text",
+      "value": "### Пример с Retrofit и Room:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// ViewModel\n@HiltViewModel\nclass NewsViewModel @Inject constructor(\n    private val newsRepository: NewsRepository\n) : ViewModel() {\n    val newsArticles: LiveData<List<Article>> = newsRepository.newsArticles\n    \n    fun refreshNews() {\n        viewModelScope.launch {\n            newsRepository.refreshArticles()\n        }\n    }\n}"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Repository\nclass NewsRepository(\n    private val newsApi: NewsApi,\n    private val articleDao: ArticleDao\n) {\n    val newsArticles: LiveData<List<Article>> = articleDao.getArticles()\n    \n    suspend fun refreshArticles() {\n        try {\n            val networkArticles = newsApi.getTopHeadlines()\n            articleDao.insertAll(networkArticles)\n        } catch (e: Exception) {\n            // Обработка ошибок\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Тестирование MVVM:"
+    },
+    {
+      "type": "text",
+      "value": "- Тест ViewModel:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Test\nfun `when refresh called, should update live data`() = runTest {\n    val mockRepo = MockNewsRepository()\n    val viewModel = NewsViewModel(mockRepo)\n    \n    viewModel.refreshNews()\n    \n    assertEquals(3, viewModel.newsArticles.value?.size)\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Тест Repository:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Test\nfun `repository should return cached data first`() {\n    val localDataSource = FakeLocalDataSource()\n    val remoteDataSource = FakeRemoteDataSource()\n    val repo = NewsRepository(remoteDataSource, localDataSource)\n    \n    val articles = repo.newsArticles.value\n    \n    assertTrue(articles?.isNotEmpty() == true)\n}"
+    }
+  ]
+}

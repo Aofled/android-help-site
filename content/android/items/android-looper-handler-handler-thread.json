@@ -1,0 +1,113 @@
+{
+  "title": "Looper, Handler, HandlerThread в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Looper, Handler, HandlerThread** - эти компоненты составляют основу системы обработки сообщений в Android и критически важны для работы с потоками и обновления UI."
+    },
+    {
+      "type": "text",
+      "value": "#### Взаимодействие компонентов:"
+    },
+    {
+      "type": "text",
+      "value": "`[Thread A] --(Message)--> [MessageQueue] --> [Looper] --> [Handler (Thread B)]`\n\n- **Поток A** создаёт сообщение и отправляет через **Handler**\n\n- Сообщение попадает в **MessageQueue** **потока B**\n\n- **Looper потока B** извлекает сообщение\n\n- **Handler потока B** обрабатывает сообщение"
+    },
+    {
+      "type": "text",
+      "value": "**Looper-Handler** — это фундаментальный механизм Android для:\n\n- Межпоточной коммуникации\n\n- Отложенного выполнения задач\n\n- Создания очередей обработки\n\nХотя современные разработчики часто используют корутины, понимание этих компонентов необходимо для:\n\n- Оптимизации производительности\n\n- Отладки сложных проблем\n\n- Работы с legacy-кодом\n\nПример из реальной жизни: **View.post()** внутри использует **Handler** главного потока для обновления UI."
+    },
+    {
+      "type": "text",
+      "value": "- **Looper**\t                Бесконечный цикл, обрабатывающий очередь сообщений\n\n- **Handler**\t                Отправляет и обрабатывает сообщения/Runnable\n\n- **HandlerThread**\tПоток с готовым Looper для фоновых задач"
+    },
+    {
+      "type": "text",
+      "value": "### Looper (Цикл обработки сообщений)\n\n**Как работает Looper**\n\n- Создаёт очередь сообщений (**MessageQueue**)\n\n- Входит в бесконечный цикл (**loop()**)\n\n- Извлекает сообщения из очереди и передаёт их Handler"
+    },
+    {
+      "type": "text",
+      "value": "Основные методы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Подготовка потока к работе с Looper\nLooper.prepare(); // Создаёт Looper для текущего потока\n\n// Запуск цикла обработки сообщений\nLooper.loop(); // Блокирующий вызов!\n\n// Завершение работы\nLooper.myLooper().quit(); // Немедленно\nLooper.myLooper().quitSafely(); // После обработки текущих"
+    },
+    {
+      "type": "text",
+      "value": "Пример создания потока с Looper:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyThread : Thread() {\n    lateinit var handler: Handler\n    \n    override fun run() {\n        // 1. Инициализация Looper\n        Looper.prepare()\n        \n        // 2. Создание Handler, привязанного к Looper этого потока\n        handler = Handler(Looper.myLooper()!!) { msg ->\n            // Обработка сообщений\n            when (msg.what) {\n                1 -> println(\"Получено сообщение: ${msg.obj}\")\n            }\n            true\n        }\n        \n        // 3. Запуск цикла\n        Looper.loop()\n    }\n}\n\n// Использование\nval thread = MyThread()\nthread.start()\nthread.handler.sendMessage(Message.obtain().apply {\n    what = 1\n    obj = \"Hello!\"\n})"
+    },
+    {
+      "type": "text",
+      "value": "### Handler (Обработчик сообщений)\n\n**Основные функции Handler**\n\n- Отправка сообщений (sendMessage())\n\n- Публикация Runnable (post())\n\n- Обработка сообщений (handleMessage())"
+    },
+    {
+      "type": "text",
+      "value": "Создание Handler:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Handler для главного потока\nval mainHandler = Handler(Looper.getMainLooper())\n\n// Handler для текущего потока (должен быть Looper!)\nval localHandler = Handler(Looper.myLooper()!!)"
+    },
+    {
+      "type": "text",
+      "value": "Отправка сообщений:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// 1. Через Message\nval msg = Message.obtain().apply {\n    what = MSG_TYPE_UPDATE\n    arg1 = 42\n    obj = \"Данные\"\n}\nhandler.sendMessage(msg)\n\n// 2. Через Runnable\nhandler.post {\n    // Код для выполнения\n}\n\n// 3. С задержкой\nhandler.postDelayed({ /* код */ }, 1000) // Через 1 сек\nhandler.sendEmptyMessageDelayed(MSG_TYPE_UPDATE, 1000)"
+    },
+    {
+      "type": "text",
+      "value": "Обработка сообщений:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val handler = object : Handler(Looper.getMainLooper()) {\n    override fun handleMessage(msg: Message) {\n        when (msg.what) {\n            MSG_UPDATE_UI -> updateUI(msg.obj as String)\n            else -> super.handleMessage(msg)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### HandlerThread (Готовое решение)\n\n**Что это?**\n\n- Поток (**Thread**), который уже содержит **Looper**\n\n- Избавляет от ручного управления **Looper.prepare()** и **Looper.loop()**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Создание\nval handlerThread = HandlerThread(\"MyBackgroundThread\").apply {\n    start() // Важно не забыть!\n}\n\n// Получение Handler\nval handler = Handler(handlerThread.looper)\n\n// Отправка задачи\nhandler.post {\n    // Выполнится в фоновом потоке\n    val result = doLongOperation()\n    \n    // Переключение на главный поток\n    Handler(Looper.getMainLooper()).post {\n        textView.text = result\n    }\n}\n\n// Завершение\nhandlerThread.quitSafely()"
+    },
+    {
+      "type": "text",
+      "value": "**Типичные сценарии:**\n\n- Фоновые вычисления\n\n- Постепенная загрузка данных\n\n- Очередь задач с приоритетами"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры:"
+    },
+    {
+      "type": "text",
+      "value": "Обновление UI из фонового потока:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Thread {\n    // Фоновая работа\n    val data = fetchDataFromNetwork()\n    \n    // Обновление UI через Handler\n    Handler(Looper.getMainLooper()).post {\n        textView.text = data\n    }\n}.start()"
+    },
+    {
+      "type": "text",
+      "value": "Создание очереди задач:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val workerThread = HandlerThread(\"WorkerThread\").apply { start() }\nval workerHandler = Handler(workerThread.looper)\n\n// Добавление задач в очередь\nworkerHandler.post { task1() }\nworkerHandler.post { task2() }\nworkerHandler.postDelayed({ task3() }, 1000)"
+    }
+  ]
+}

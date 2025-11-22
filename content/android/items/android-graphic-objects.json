@@ -1,0 +1,93 @@
+{
+  "title": "Создание графических объектов",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Селекторы (StateListDrawable)** и **атрибуты** — мощные инструменты для создания адаптивных графических элементов без написания кода. Рассмотрим подробно, как их использовать."
+    },
+    {
+      "type": "text",
+      "value": "### Лучшие практики\n\n- **Используйте тематические атрибуты (?attr/colorPrimary)** для поддержки светлой/тёмной темы\n\n- **Оптимизируйте селекторы** - порядок элементов важен (Android использует первое совпадение)\n\n- **Избегайте вложенных селекторов** - это может снизить производительность\n\n- **Для сложных состояний** используйте **mergeDrawableStates()**\n\n- **Тестируйте на разных версиях Android** - некоторые состояния (например, **state_activated**) работают по-разному"
+    },
+    {
+      "type": "text",
+      "value": "### Создание StateListDrawable (селекторов)\n\nФайл для селекторов: **res/drawable/button_selector.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<selector xmlns:android=\"http://schemas.android.com/apk/res/android\">\n    <!-- Нажатое состояние -->\n    <item android:state_pressed=\"true\">\n        <shape android:shape=\"rectangle\">\n            <solid android:color=\"@color/primary_dark\" />\n            <corners android:radius=\"8dp\" />\n        </shape>\n    </item>\n    \n    <!-- Неактивное состояние -->\n    <item android:state_enabled=\"false\">\n        <shape android:shape=\"rectangle\">\n            <solid android:color=\"@color/gray\" />\n            <corners android:radius=\"8dp\" />\n        </shape>\n    </item>\n    \n    <!-- Состояние по умолчанию -->\n    <item>\n        <shape android:shape=\"rectangle\">\n            <solid android:color=\"@color/primary\" />\n            <corners android:radius=\"8dp\" />\n        </shape>\n    </item>\n</selector>"
+    },
+    {
+      "type": "text",
+      "value": "Применение:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<Button\n    android:background=\"@drawable/button_selector\"\n    android:textColor=\"@color/white\"\n    android:layout_width=\"wrap_content\"\n    android:layout_height=\"wrap_content\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Кастомные атрибуты для графических объектов"
+    },
+    {
+      "type": "text",
+      "value": "Создайте **res/values/attrs.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<resources>\n    <declare-styleable name=\"CustomImageView\">\n        <attr name=\"activeDrawable\" format=\"reference\" />\n        <attr name=\"inactiveDrawable\" format=\"reference\" />\n        <attr name=\"cornerRadius\" format=\"dimension\" />\n    </declare-styleable>\n</resources>"
+    },
+    {
+      "type": "text",
+      "value": "Использование в кастомном View:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class CustomImageView @JvmOverloads constructor(\n    context: Context,\n    attrs: AttributeSet? = null,\n    defStyleAttr: Int = 0\n) : AppCompatImageView(context, attrs, defStyleAttr) {\n\n    private var activeDrawable: Drawable? = null\n    private var inactiveDrawable: Drawable? = null\n    private var cornerRadius: Float = 0f\n\n    init {\n        context.obtainStyledAttributes(\n            attrs,\n            R.styleable.CustomImageView,\n            defStyleAttr,\n            0\n        ).apply {\n            try {\n                activeDrawable = getDrawable(R.styleable.CustomImageView_activeDrawable)\n                inactiveDrawable = getDrawable(R.styleable.CustomImageView_inactiveDrawable)\n                cornerRadius = getDimension(R.styleable.CustomImageView_cornerRadius, 0f)\n            } finally {\n                recycle()\n            }\n        }\n        \n        updateDrawable()\n    }\n\n    private fun updateDrawable() {\n        setImageDrawable(if (isSelected) activeDrawable else inactiveDrawable)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Применение в XML:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<com.example.app.CustomImageView\n    android:layout_width=\"48dp\"\n    android:layout_height=\"48dp\"\n    app:activeDrawable=\"@drawable/ic_heart_filled\"\n    app:inactiveDrawable=\"@drawable/ic_heart_outline\"\n    app:cornerRadius=\"24dp\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Комбинирование селекторов и атрибутов"
+    },
+    {
+      "type": "text",
+      "value": "Динамический селектор через атрибуты: **res/drawable/dynamic_selector.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<selector xmlns:android=\"http://schemas.android.com/apk/res/android\">\n    <item android:state_checked=\"true\">\n        <shape android:shape=\"oval\">\n            <solid android:color=\"?attr/colorPrimary\" />\n        </shape>\n    </item>\n    <item>\n        <shape android:shape=\"oval\">\n            <solid android:color=\"?attr/colorSecondary\" />\n        </shape>\n    </item>\n</selector>"
+    },
+    {
+      "type": "text",
+      "value": "Кастомный CheckBox с атрибутами:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<declare-styleable name=\"CustomCheckBox\">\n    <attr name=\"checkMarkDrawable\" format=\"reference\" />\n    <attr name=\"uncheckedColor\" format=\"color\" />\n    <attr name=\"checkedColor\" format=\"color\" />\n</declare-styleable>"
+    },
+    {
+      "type": "text",
+      "value": "Реализация:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class CustomCheckBox : AppCompatCheckBox {\n    // Чтение атрибутов аналогично предыдущему примеру\n    \n    override fun onCreateDrawableState(extraSpace: Int): IntArray {\n        val drawableState = super.onCreateDrawableState(extraSpace + 1)\n        if (isChecked) {\n            mergeDrawableStates(drawableState, CHECKED_STATE_SET)\n        }\n        return drawableState\n    }\n    \n    companion object {\n        private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)\n    }\n}"
+    }
+  ]
+}

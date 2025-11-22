@@ -1,0 +1,138 @@
+{
+  "title": "Retrofit",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Retrofit 2** — это мощная и гибкая HTTP-библиотека для Android и Java, разработанная Square. Она превращает ваш REST API в интерфейс на Java/Kotlin, упрощая сетевые запросы."
+    },
+    {
+      "type": "text",
+      "value": "#### Лучшие практики\n\n- **Инкапсулируйте API-клиент** в отдельный класс-репозиторий\n\n\n\n- **Используйте корутины** вместо Callback\n\n\n\n- **Добавляйте таймауты** в OkHttpClient\n\n\n\n- **Обрабатывайте ошибки** централизованно\n\n\n\n- **Логируйте запросы** в debug-сборках\n\n\n\n- **Кэшируйте частые запросы**\n\n\n\n- **Обновляйте токены авторизации** через интерсепторы"
+    },
+    {
+      "type": "text",
+      "value": "#### Ключевые особенности\n\n- **Аннотации** для описания API-запросов\n\n\n\n- **Конвертеры** для сериализации/десериализации (GSON, Moshi, Jackson)\n\n\n\n- **Поддержка корутин**, RxJava и Callback\n\n\n\n- **Интерсепторы** для модификации запросов\n\n\n\n- **Поддержка мультипарт-загрузок**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Библиотека\tПреимущества\t                        Недостатки\nRetrofit\tВысокий уровень абстракции, простота\tТребует дополнительных зависимостей\nVolley\t        Встроена в Android, кэширование\t        Менее гибкая, устаревшая\nOkHttp\t        Низкоуровневый контроль\t                Больше boilerplate-кода\nKtor\t        Мультиплатформенность\t                Менее зрелая экосистема"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка Retrofit 2:\n\nДобавление зависимостей в **build.gradle (Module: app)**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    // Основная библиотека\n    implementation 'com.squareup.retrofit2:retrofit:2.9.0'\n    \n    // Конвертер GSON\n    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'\n    \n    // Поддержка корутин\n    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'\n    \n    // Логирование запросов\n    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'\n}"
+    },
+    {
+      "type": "text",
+      "value": "Создание клиента Retrofit:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val retrofit = Retrofit.Builder()\n    .baseUrl(\"https://api.example.com/\") // Базовый URL\n    .addConverterFactory(GsonConverterFactory.create()) // Конвертер\n    .client(\n        OkHttpClient.Builder()\n            .addInterceptor(HttpLoggingInterceptor().apply {\n                level = HttpLoggingInterceptor.Level.BODY\n            })\n            .build()\n    )\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "Определение API-интерфейса:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "interface ApiService {\n    @GET(\"users/{id}\")\n    suspend fun getUser(@Path(\"id\") userId: Int): User\n    \n    @POST(\"users\")\n    suspend fun createUser(@Body user: User): Response<User>\n    \n    @GET(\"users\")\n    suspend fun getUsersByCompany(\n        @Query(\"company\") companyName: String,\n        @Query(\"sort\") sortOrder: String = \"asc\"\n    ): List<User>\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные аннотации:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Аннотация\t                Описание\t        Пример\n@GET @POST @PUT @DELETE @PATCH\tHTTP-метод\t        @GET(\"users\")\n@Path\t                        Замена в URL\t        @Path(\"id\")\n@Query\t                        Параметры запроса\t@Query(\"page\")\n@Body\t                        Тело запроса\t        @Body user: User\n@Header\t                        Заголовки\t        @Header(\"Authorization\")\n@Multipart\t                Загрузка файлов\t        @Multipart\n@FormUrlEncoded\t                Форма с полями\t        @FormUrlEncoded"
+    },
+    {
+      "type": "text",
+      "value": "Синхронные и асинхронные вызовы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Синхронный (не использовать в UI-потоке!)\n@GET(\"users\")\nfun getUsersSync(): Call<List<User>>\n\n// Асинхронный с Callback\n@GET(\"users\")\nfun getUsersAsync(callback: Callback<List<User>>)\n\n// С корутинами (рекомендуется)\n@GET(\"users\")\nsuspend fun getUsersCoroutine(): List<User>\n\n// С RxJava\n@GET(\"users\")\nfun getUsersRx(): Observable<List<User>>"
+    },
+    {
+      "type": "text",
+      "value": "Обработка ответов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Полный контроль над ответом\n@GET(\"users/{id}\")\nsuspend fun getUser(@Path(\"id\") id: Int): Response<User>\n\n// Автоматическая десериализация\n@GET(\"users/{id}\")\nsuspend fun getUser(@Path(\"id\") id: Int): User\n\n// Обработка ошибок\ntry {\n    val user = api.getUser(1)\n} catch (e: HttpException) {\n    // Ошибка 4xx/5xx\n} catch (e: IOException) {\n    // Проблемы сети\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Расширенные возможности:"
+    },
+    {
+      "type": "text",
+      "value": "Логирующий интерсептор:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val logging = HttpLoggingInterceptor().apply {\n    level = HttpLoggingInterceptor.Level.BODY\n}\n\nval client = OkHttpClient.Builder()\n    .addInterceptor(logging)\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "Авторизация:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val authInterceptor = Interceptor { chain ->\n    val request = chain.request().newBuilder()\n        .addHeader(\"Authorization\", \"Bearer $token\")\n        .build()\n    chain.proceed(request)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Обработка ошибок:"
+    },
+    {
+      "type": "text",
+      "value": "Кастомный обработчик:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val client = OkHttpClient.Builder()\n    .addInterceptor { chain ->\n        val request = chain.request()\n        val response = chain.proceed(request)\n        if (!response.isSuccessful) {\n            throw when (response.code()) {\n                401 -> UnauthorizedException()\n                404 -> NotFoundException()\n                else -> ApiException(response.code(), response.message())\n            }\n        }\n        response\n    }\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "Обёртка для ответа:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "sealed class ApiResult<out T> {\n    data class Success<out T>(val data: T) : ApiResult<T>()\n    data class Error(val exception: Exception) : ApiResult<Nothing>()\n}\n\nsuspend fun <T> safeApiCall(block: suspend () -> T): ApiResult<T> {\n    return try {\n        ApiResult.Success(block())\n    } catch (e: Exception) {\n        ApiResult.Error(e)\n    }\n}\n\n// Использование\nval result = safeApiCall { api.getUser(1) }\nwhen (result) {\n    is ApiResult.Success -> showUser(result.data)\n    is ApiResult.Error -> showError(result.exception)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Кэширование:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val cacheSize = 10 * 1024 * 1024 // 10 MB\nval cache = Cache(File(context.cacheDir, \"http_cache\"), cacheSize)\n\nval client = OkHttpClient.Builder()\n    .cache(cache)\n    .addInterceptor { chain ->\n        val request = chain.request()\n        val forceCache = request.header(\"Force-Cache\") == \"true\"\n        val newRequest = if (forceCache) {\n            request.newBuilder()\n                .cacheControl(CacheControl.FORCE_CACHE)\n                .build()\n        } else request\n        chain.proceed(newRequest)\n    }\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "### Полный пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object ApiClient {\n    private const val BASE_URL = \"https://api.example.com/\"\n    \n    private val okHttpClient = OkHttpClient.Builder()\n        .addInterceptor(HttpLoggingInterceptor().apply {\n            level = if (BuildConfig.DEBUG) BODY else NONE\n        })\n        .addInterceptor(AuthInterceptor())\n        .connectTimeout(30, TimeUnit.SECONDS)\n        .build()\n    \n    private val retrofit = Retrofit.Builder()\n        .baseUrl(BASE_URL)\n        .client(okHttpClient)\n        .addConverterFactory(GsonConverterFactory.create())\n        .build()\n    \n    val service: ApiService = retrofit.create(ApiService::class.java)\n}\n\ninterface ApiService {\n    @GET(\"users/{id}\")\n    suspend fun getUser(@Path(\"id\") id: Int): Response<User>\n    \n    @POST(\"users\")\n    suspend fun createUser(@Body user: User): User\n    \n    @GET(\"users\")\n    suspend fun getUsers(@Query(\"page\") page: Int): List<User>\n}\n\nclass UserRepository {\n    suspend fun getUser(id: Int): ApiResult<User> {\n        return safeApiCall {\n            ApiClient.service.getUser(id).body() ?: throw NullPointerException()\n        }\n    }\n}"
+    }
+  ]
+}

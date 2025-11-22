@@ -1,0 +1,130 @@
+{
+  "title": "Стили и темы",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Стили (Styles)** и **темы (Themes)** — это мощные инструменты для единообразного оформления Android-приложений. Они позволяют централизованно управлять внешним видом UI-компонентов и легко изменять дизайн всего приложения."
+    },
+    {
+      "type": "text",
+      "value": "#### Стиль (Style)\n\n- Набор атрибутов, определяющих внешний вид **одного вида View**\n\n- Применяется явно к конкретным элементам\n\n- Пример: стиль кнопки, текста, поля ввода\n\n#### Тема (Theme)\n\n- Коллекция стилей, определяющая оформление **всего приложения или Activity**\n\n- Наследуется всеми View, если не переопределено явно\n\n- Пример: светлая/тёмная тема, цветовая схема"
+    },
+    {
+      "type": "text",
+      "value": "### Создание и применение стилей"
+    },
+    {
+      "type": "text",
+      "value": "Определение стиля в **res/values/styles.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"GreenButton\">\n    <item name=\"android:background\">@drawable/bg_green_button</item>\n    <item name=\"android:textColor\">@color/white</item>\n    <item name=\"android:textSize\">16sp</item>\n    <item name=\"android:padding\">12dp</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "Применение стиля к View в разметке:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<Button\n    style=\"@style/GreenButton\"\n    android:text=\"Подтвердить\" />"
+    },
+    {
+      "type": "text",
+      "value": "**Важно:** Для стилей используется атрибут style без префикса android:"
+    },
+    {
+      "type": "text",
+      "value": "### Наследование стилей"
+    },
+    {
+      "type": "text",
+      "value": "Наследование от родительского стиля:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"GreenButton.Bold\">\n    <item name=\"android:textStyle\">bold</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "Наследование от системных стилей:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"MyTextAppearance\" parent=\"@android:style/TextAppearance.Medium\">\n    <item name=\"android:textColor\">@color/primary</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "### Работа с темами"
+    },
+    {
+      "type": "text",
+      "value": "Определение темы в **res/values/themes.xml** (Android Studio создаёт этот файл автоматически):"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <!-- Основные цвета -->\n    <item name=\"colorPrimary\">@color/purple_500</item>\n    <item name=\"colorOnPrimary\">@color/white</item>\n    <item name=\"colorSecondary\">@color/teal_200</item>\n    \n    <!-- Стиль текста по умолчанию -->\n    <item name=\"textAppearanceBodyMedium\">\n        @style/TextAppearance.MyApp.Body\n    </item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "Применение темы в **AndroidManifest.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<application\n    android:theme=\"@style/Theme.MyApp\">\n    ...\n</application>"
+    },
+    {
+      "type": "text",
+      "value": "Или для конкретной Activity:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity\n    android:name=\".MainActivity\"\n    android:theme=\"@style/Theme.MyApp.Light\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Material Design 3 темы"
+    },
+    {
+      "type": "text",
+      "value": "Современные приложения используют Material 3. Базовая настройка:"
+    },
+    {
+      "type": "text",
+      "value": "- Цветовая схема:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <item name=\"colorPrimary\">@color/md_theme_light_primary</item>\n    <item name=\"colorOnPrimary\">@color/md_theme_light_onPrimary</item>\n    <item name=\"colorPrimaryContainer\">@color/md_theme_light_primaryContainer</item>\n    <item name=\"colorOnPrimaryContainer\">@color/md_theme_light_onPrimaryContainer</item>\n    <!-- и другие цветовые атрибуты -->\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "**Генерация цветов**\n\nОфициальный инструмент:\n\n- [Material Theme Builder](https://material-foundation.github.io/material-theme-builder/)\n\n\n\n- Или плагин Android Studio: File → New → Material Design 3 Theme"
+    },
+    {
+      "type": "text",
+      "value": "### Ночная тема (Dark Mode)"
+    },
+    {
+      "type": "text",
+      "value": "- res/values-night/themes.xml — для тёмной темы\n\n- res/values/themes.xml — для светлой"
+    },
+    {
+      "type": "text",
+      "value": "### Проверка темы в коде"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {\n    Configuration.UI_MODE_NIGHT_YES -> { /* Тёмная тема */ }\n    Configuration.UI_MODE_NIGHT_NO -> { /* Светлая тема */ }\n}"
+    }
+  ]
+}

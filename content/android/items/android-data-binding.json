@@ -1,0 +1,164 @@
+{
+  "title": "Data Binding в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Data Binding** — это мощная библиотека Android, которая позволяет связывать компоненты UI напрямую с источниками данных в вашем приложении, минимизируя boilerplate-код и упрощая разработку."
+    },
+    {
+      "type": "text",
+      "value": "**Основные преимущества Data Binding**\n\n- **Сокращение кода:** Уменьшает количество findViewById и ручных обновлений UI\n\n- **Безопасность типов:** Ошибки связывания обнаруживаются на этапе компиляции\n\n- **Поддержка двустороннего связывания:** Автоматическое обновление UI при изменении данных и наоборот\n\n- **Интеграция с LiveData и ViewModel:** Идеально подходит для архитектуры MVVM"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка Data Binding"
+    },
+    {
+      "type": "text",
+      "value": "**Отладка Data Binding: Добавьте в gradle.properties:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "android.databinding.enableV2=true"
+    },
+    {
+      "type": "text",
+      "value": "Добавление зависимости в файле **build.gradle (Module: app)**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    ...\n    buildFeatures {\n        dataBinding true\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Преобразование layout-файла. Любой XML-файл можно преобразовать для Data Binding, обернув корневой элемент в **<layout>**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<layout xmlns:android=\"http://schemas.android.com/apk/res/android\">\n    <data>\n        <!-- Объявление переменных -->\n    </data>\n    \n    <!-- Оригинальная разметка -->\n    <LinearLayout>\n        ...\n    </LinearLayout>\n</layout>"
+    },
+    {
+      "type": "text",
+      "value": "После этого Android Studio автоматически сгенерирует binding-класс (например, **ActivityMainBinding** для **activity_main.xml**)."
+    },
+    {
+      "type": "text",
+      "value": "### Основные возможности Data Binding"
+    },
+    {
+      "type": "text",
+      "value": "**Одностороннее связывание (One-Way Binding). Связывание данных из кода в UI:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<data>\n    <variable \n        name=\"user\" \n        type=\"com.example.User\" />\n</data>\n\n<TextView\n    android:text=\"@{user.name}\"\n    android:layout_width=\"wrap_content\"\n    android:layout_height=\"wrap_content\" />"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val binding: ActivityMainBinding = \n    DataBindingUtil.setContentView(this, R.layout.activity_main)\n\nbinding.user = User(\"Иван\", \"Иванов\")"
+    },
+    {
+      "type": "text",
+      "value": "**Двустороннее связывание (Two-Way Binding). Автоматическое обновление в обе стороны (UI ↔ данные):**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<EditText\n    android:text=\"@={user.name}\"  <!-- Обратите внимание на \"=\"@=\"\" -->\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\" />"
+    },
+    {
+      "type": "text",
+      "value": "**Работа с событиями:**\n\n- Можно привязывать обработчики событий:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "<Button\n    android:onClick=\"@{() -> handler.onButtonClick()}\"\n    android:text=\"Кнопка\" />"
+    },
+    {
+      "type": "text",
+      "value": "- Или передавать параметры:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "<Button\n    android:onClick=\"@{(view) -> handler.onButtonClick(view)}\"\n    android:text=\"Кнопка\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Продвинутые техники"
+    },
+    {
+      "type": "text",
+      "value": "**Использование выражений**\n\nВ Data Binding поддерживаются выражения языка Java:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<TextView\n    android:text=\"@{user.age > 18 ? @string/adult : @string/child}\"\n    android:visibility=\"@{user.isActive ? View.VISIBLE : View.GONE}\" />"
+    },
+    {
+      "type": "text",
+      "value": "**Кастомные Binding Adapters**\n\nСоздание своих атрибутов для сложных привязок:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@BindingAdapter(\"imageUrl\")\nfun loadImage(view: ImageView, url: String?) {\n    Glide.with(view.context)\n        .load(url)\n        .into(view)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Использование в XML:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<ImageView\n    app:imageUrl=\"@{user.avatarUrl}\" />"
+    },
+    {
+      "type": "text",
+      "value": "**Работа с коллекциями:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<data>\n    <import type=\"android.util.SparseArray\"/>\n    <import type=\"java.util.Map\"/>\n    <variable name=\"list\" type=\"List&lt;String>\"/>\n    <variable name=\"sparse\" type=\"SparseArray&lt;String>\"/>\n    <variable name=\"map\" type=\"Map&lt;String, String>\"/>\n</data>\n\n<TextView android:text=\"@{list[0]}\" />\n<TextView android:text=\"@{sparse[0]}\" />\n<TextView android:text=\"@{map[`key`]}\" />"
+    },
+    {
+      "type": "text",
+      "value": "### Интеграция с архитектурными компонентами"
+    },
+    {
+      "type": "text",
+      "value": "**Использование с ViewModel**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)\nbinding.viewModel = viewModel\nbinding.lifecycleOwner = this  // Для LiveData"
+    },
+    {
+      "type": "text",
+      "value": "**Работа с LiveData**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<TextView\n    android:text=\"@{viewModel.userName}\" />"
+    },
+    {
+      "type": "text",
+      "value": "Не забудьте установить lifecycleOwner:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "binding.lifecycleOwner = this"
+    }
+  ]
+}

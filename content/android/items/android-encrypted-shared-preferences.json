@@ -1,0 +1,92 @@
+{
+  "title": "Encrypted SharedPreferences",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Encrypted SharedPreferences** (или **EncryptedPrefs**) — это защищённая версия стандартного **SharedPreferences**, которая автоматически шифрует ключи и значения перед сохранением. Это часть **Android Jetpack Security (Security Crypto)**."
+    },
+    {
+      "type": "text",
+      "value": "**Основные возможности:**\n\n- **Шифрование \"из коробки\":** AES-256 для ключей и значений\n\n- **Совместимость:** API 23+ (Android 6.0 и выше)\n\n- **Простота использования:** аналогичен обычному SharedPreferences\n\n- **Безопасное хранение:** ключи шифрования защищены Android KeyStore"
+    },
+    {
+      "type": "text",
+      "value": "### Особенности работы\n\n**Шифрование:**\n\n- Ключи: шифруются по схеме AES256-SIV\n\n- Значения: шифруются по схеме AES256-GCM\n\n- Ключи шифрования хранятся в Android KeyStore\n\n**Производительность:**\n\n- Замедление на ~20-30% по сравнению с обычным SharedPreferences\n\n- Не рекомендуется для частых операций записи/чтения\n\n**Ограничения:**\n\n- Минимальная версия Android: 6.0 (API 23)\n\n- Не поддерживает Set<String> (в отличие от обычного SharedPreferences)\n\n- Размер ключа не должен превышать 120 байт"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка проекта:"
+    },
+    {
+      "type": "text",
+      "value": "Добавление зависимостей в **build.gradle (Module: app):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    implementation \"androidx.security:security-crypto:1.1.0-alpha03\"\n    \n    // Для использования EncryptedSharedPreferences в Java\n    implementation \"androidx.security:security-crypto-ktx:1.1.0-alpha03\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Инициализация MasterKey:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val masterKey = MasterKey.Builder(context)\n    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)\n    .build()"
+    },
+    {
+      "type": "text",
+      "value": "**Доступные схемы шифрования:**\n\n- **AES256_GCM** (рекомендуется)\n\n- **AES256_SIV** (для ключей)"
+    },
+    {
+      "type": "text",
+      "value": "**Создание экземпляра EncryptedSharedPreferences**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val sharedPrefs = EncryptedSharedPreferences.create(\n    context,\n    \"secret_preferences\", // Имя файла\n    masterKey,           // Главный ключ\n    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,  // Шифрование ключей\n    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM // Шифрование значений\n)"
+    },
+    {
+      "type": "text",
+      "value": "### Использование:"
+    },
+    {
+      "type": "text",
+      "value": "**Запись данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "sharedPrefs.edit()\n    .putString(\"api_token\", \"s3cr3t_t0k3n\")\n    .putBoolean(\"is_authenticated\", true)\n    .apply() // или commit()"
+    },
+    {
+      "type": "text",
+      "value": "**Чтение данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val token = sharedPrefs.getString(\"api_token\", null)\nval isAuth = sharedPrefs.getBoolean(\"is_authenticated\", false)"
+    },
+    {
+      "type": "text",
+      "value": "**Удаление данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "sharedPrefs.edit()\n    .remove(\"api_token\")\n    .apply()"
+    },
+    {
+      "type": "text",
+      "value": "### Пример: безопасное хранение токена:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class AuthTokenManager(context: Context) {\n    private val sharedPrefs by lazy {\n        val masterKey = MasterKey.Builder(context)\n            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)\n            .build()\n        \n        EncryptedSharedPreferences.create(\n            context,\n            \"auth_prefs\",\n            masterKey,\n            PrefKeyEncryptionScheme.AES256_SIV,\n            PrefValueEncryptionScheme.AES256_GCM\n        )\n    }\n    \n    fun saveToken(token: String) {\n        sharedPrefs.edit()\n            .putString(\"auth_token\", token)\n            .apply()\n    }\n    \n    fun getToken(): String? {\n        return sharedPrefs.getString(\"auth_token\", null)\n    }\n    \n    fun clear() {\n        sharedPrefs.edit().clear().apply()\n    }\n}"
+    }
+  ]
+}

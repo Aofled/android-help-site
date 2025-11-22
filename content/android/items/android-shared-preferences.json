@@ -1,0 +1,66 @@
+{
+  "title": "SharedPreferences",
+  "content": [
+    {
+      "type": "text",
+      "value": "**SharedPreferences** — это встроенный механизм Android для хранения простых данных в формате ключ-значение. Рассмотрим его подробно и сравним с современными альтернативами."
+    },
+    {
+      "type": "text",
+      "value": "**Основные возможности:**\n\n- Хранение примитивов: **Int, String, Boolean, Float, Long, Set<String>**\n\n- Данные сохраняются после перезапуска приложения\n\n- Простота использования\n\n- Данные хранятся в XML-файлах (**/data/data/your.package/shared_prefs/**)"
+    },
+    {
+      "type": "text",
+      "value": "**Ограничения:**\n\n- **Не подходит для сложных структур данных**\n\n- **Нет потокобезопасности** (используйте **apply()** вместо **commit()**)\n\n- **Нет поддержки миграций**\n\n- **Медленная работа с большими данными**\n\n- **Нет поддержки Observable** (LiveData и т.д.)"
+    },
+    {
+      "type": "text",
+      "value": "### Использование:"
+    },
+    {
+      "type": "text",
+      "value": "**Получение экземпляра:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Режимы доступа (устарели с API 29):\n// MODE_PRIVATE - только ваше приложение\n// MODE_WORLD_READABLE - deprecated\n// MODE_WORLD_WRITEABLE - deprecated\n\nval prefs = context.getSharedPreferences(\"my_prefs\", Context.MODE_PRIVATE)\n\n// Или через делегат (требуется dependency androidx.preference)\nval prefs by preference(\"my_prefs\")"
+    },
+    {
+      "type": "text",
+      "value": "**Запись данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Способ 1: Стандартный\nprefs.edit()\n    .putString(\"username\", \"JohnDoe\")\n    .putInt(\"user_age\", 25)\n    .putBoolean(\"is_premium\", true)\n    .apply() // Асинхронное сохранение\n    // .commit() - синхронное (возвращает boolean)\n\n// Способ 2: Kotlin-extension\nprefs.edit { \n    putString(\"username\", \"JohnDoe\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Чтение данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val username = prefs.getString(\"username\", \"default_value\")\nval age = prefs.getInt(\"user_age\", 0)\nval isPremium = prefs.getBoolean(\"is_premium\", false)"
+    },
+    {
+      "type": "text",
+      "value": "**Удаление данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "prefs.edit().remove(\"username\").apply()\nprefs.edit().clear().apply() // Очистка всех данных"
+    },
+    {
+      "type": "text",
+      "value": "### Расширение с LiveData:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun SharedPreferences.getLiveData(\n    key: String,\n    defValue: String\n): LiveData<String> = SharedPreferencesLiveData(this, key, defValue)\n\nclass SharedPreferencesLiveData(\n    private val prefs: SharedPreferences,\n    private val key: String,\n    private val defValue: String\n) : LiveData<String>() {\n    \n    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->\n        if (k == key) {\n            postValue(prefs.getString(key, defValue))\n        }\n    }\n    \n    override fun onActive() {\n        super.onActive()\n        value = prefs.getString(key, defValue)\n        prefs.registerOnSharedPreferenceChangeListener(listener)\n    }\n    \n    override fun onInactive() {\n        prefs.unregisterOnSharedPreferenceChangeListener(listener)\n        super.onInactive()\n    }\n}\n\n// Использование\nval liveUsername = prefs.getLiveData(\"username\", \"default\")"
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "title": "Работа с камерой через интенты (Implicit Intents, Explicit Intents)",
+  "content": [
+    {
+      "type": "text",
+      "value": "Интенты при работе с камерой позволяют взаимодействовать с камерой устройства, не реализуя весь функционал самостоятельно. Рассмотрим основные сценарии использования как неявных, так и явных интентов для работы с камерой."
+    },
+    {
+      "type": "text",
+      "value": "**Основные подходы к работе с камерой**\n\n- **Неявные интенты (Implicit Intents)** — использование системного приложения камеры\n\n- **Явные интенты (Explicit Intents)** — использование Camera2 API или CameraX\n\n- **Специальные интенты** — для записи видео, сканирования QR-кодов и т.д."
+    },
+    {
+      "type": "text",
+      "value": "**Лучшие практики**\n\n- **Всегда проверяйте resolveActivity()**, чтобы избежать **ActivityNotFoundException**.\n\n\n\n- **Используйте FileProvider** для безопасной передачи файлов.\n\n\n\n- **Запрашивайте разрешения** (**CAMERA, WRITE_EXTERNAL_STORAGE** для API < 29).\n\n\n\n- **Обрабатывайте поворот экрана**, чтобы не потерять **currentPhotoPath**."
+    },
+    {
+      "type": "text",
+      "value": "### Захват фото через системное приложение камеры (неявный интент)"
+    },
+    {
+      "type": "text",
+      "value": "Самый простой способ сделать фото — запустить стандартное приложение камеры через **Intent(MediaStore.ACTION_IMAGE_CAPTURE)**."
+    },
+    {
+      "type": "text",
+      "value": "Базовый пример (без сохранения файла) \n\n**Ограничение:** Возвращается только миниатюра изображения (thumbnail). Для получения полного фото нужно сохранять его в файл."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)\nif (takePictureIntent.resolveActivity(packageManager) != null) {\n    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Получение результата в **onActivityResult**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    super.onActivityResult(requestCode, resultCode, data)\n    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {\n        val imageBitmap = data?.extras?.get(\"data\") as Bitmap\n        imageView.setImageBitmap(imageBitmap) // Показываем миниатюру\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Сохранение фото в файл (полноразмерное изображение)"
+    },
+    {
+      "type": "text",
+      "value": "**Чтобы получить полноразмерное фото, нужно указать URI места сохранения.**\n\nСоздание файла для сохранения:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "private fun createImageFile(): File {\n    val timeStamp = SimpleDateFormat(\"yyyyMMdd_HHmmss\").format(Date())\n    val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)\n    return File.createTempFile(\n        \"JPEG_${timeStamp}_\",\n        \".jpg\",\n        storageDir\n    ).apply {\n        currentPhotoPath = absolutePath\n    }\n}\n\nprivate lateinit var currentPhotoPath: String"
+    },
+    {
+      "type": "text",
+      "value": "Запуск камеры с сохранением в файл:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)\nif (takePictureIntent.resolveActivity(packageManager) != null) {\n    val photoFile = createImageFile()\n    val photoURI = FileProvider.getUriForFile(\n        this,\n        \"${packageName}.fileprovider\", // Указываем FileProvider\n        photoFile\n    )\n    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)\n    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Настройка FileProvider в AndroidManifest.xml:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<provider\n    android:name=\"androidx.core.content.FileProvider\"\n    android:authorities=\"${applicationId}.fileprovider\"\n    android:exported=\"false\"\n    android:grantUriPermissions=\"true\">\n    <meta-data\n        android:name=\"android.support.FILE_PROVIDER_PATHS\"\n        android:resource=\"@xml/file_paths\" />\n</provider>"
+    },
+    {
+      "type": "text",
+      "value": "Создание **res/xml/file_paths.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<paths>\n    <external-files-path name=\"my_images\" path=\"Pictures\" />\n</paths>"
+    },
+    {
+      "type": "text",
+      "value": "Отображение сохраненного фото:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {\n        val bitmap = BitmapFactory.decodeFile(currentPhotoPath)\n        imageView.setImageBitmap(bitmap)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Запись видео через интент:"
+    },
+    {
+      "type": "text",
+      "value": "Аналогично фото, можно записывать видео через **MediaStore.ACTION_VIDEO_CAPTURE.**\n\nБазовый пример записи видео:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)\nif (takeVideoIntent.resolveActivity(packageManager) != null) {\n    startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Получение URI видео:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {\n        val videoUri = data?.data\n        videoView.setVideoURI(videoUri)\n        videoView.start()\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Настройка параметров записи (длительность, качество):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE).apply {\n    putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30) // Ограничение 30 секунд\n    putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1) // 1 - высокое качество, 0 - низкое\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Интент для сканирования QR-кодов / штрих-кодов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(\"com.google.zxing.client.android.SCAN\")\nintent.putExtra(\"SCAN_MODE\", \"QR_CODE_MODE\")\ntry {\n    startActivityForResult(intent, REQUEST_SCAN)\n} catch (e: ActivityNotFoundException) {\n    Toast.makeText(this, \"Установите приложение для сканирования\", Toast.LENGTH_SHORT).show()\n}"
+    },
+    {
+      "type": "text",
+      "value": "Проверка наличия камеры на устройстве:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val hasCamera = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)\nif (!hasCamera) {\n    Toast.makeText(this, \"Камера не поддерживается\", Toast.LENGTH_SHORT).show()\n}"
+    }
+  ]
+}

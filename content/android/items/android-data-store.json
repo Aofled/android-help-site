@@ -1,0 +1,159 @@
+{
+  "title": "DataStore - современная замена SharedPreferences",
+  "content": [
+    {
+      "type": "text",
+      "value": "**DataStore** — это новое решение от Google для хранения данных, пришедшее на смену **SharedPreferences**. Он предлагает более безопасный, производительный и удобный способ работы с ключ-значение данными и поддерживает **Kotlin корутины и Flow**."
+    },
+    {
+      "type": "text",
+      "value": "### Типы DataStore\n\n**Preferences DataStore**\n\n- Аналог SharedPreferences\n\n- Хранит данные в виде ключ-значение\n\n- Не обеспечивает типобезопасность на уровне компиляции\n\n- Прост в использовании\n\n**Proto DataStore**\n\n- Хранит данные как экземпляры пользовательских типов\n\n- Использует Protocol Buffers для сериализации\n\n- Обеспечивает полную типобезопасность\n\n- Требует больше настроек"
+    },
+    {
+      "type": "text",
+      "value": "**Лучшие практики:**\n\n- **Используйте DI** для предоставления DataStore\n\n- **Не создавайте несколько экземпляров** для одного файла\n\n- **Для UI** преобразуйте Flow в LiveData:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val userLiveData = dataStore.data.asLiveData()"
+    },
+    {
+      "type": "text",
+      "value": "- **Тестируйте** с помощью **TestDataStore**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val testDataStore = TestDataStore()"
+    },
+    {
+      "type": "text",
+      "value": "- **Для больших данных** используйте Proto DataStore:"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка проекта"
+    },
+    {
+      "type": "text",
+      "value": "Добавление зависимостей в **build.gradle (Module: app):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    // Preferences DataStore\n    implementation \"androidx.datastore:datastore-preferences:1.0.0\"\n    \n    // Proto DataStore (опционально)\n    implementation \"androidx.datastore:datastore:1.0.0\"\n    implementation \"com.google.protobuf:protobuf-javalite:3.18.0\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Preferences DataStore"
+    },
+    {
+      "type": "text",
+      "value": "**Создание DataStore:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Создание в Kotlin (используйте делегат)\nval Context.dataStore by preferencesDataStore(\n    name = \"settings\" // Имя файла\n)"
+    },
+    {
+      "type": "text",
+      "value": "**Ключи для Preferences:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Определение ключей\nobject PreferencesKeys {\n    val USER_NAME = stringPreferencesKey(\"user_name\")\n    val NOTIFICATIONS_ENABLED = booleanPreferencesKey(\"notifications_enabled\")\n    val LAST_UPDATE_TIME = longPreferencesKey(\"last_update_time\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Запись данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "suspend fun saveUserName(name: String) {\n    context.dataStore.edit { preferences ->\n        preferences[PreferencesKeys.USER_NAME] = name\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Запись данных:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val userNameFlow: Flow<String> = context.dataStore.data\n    .map { preferences ->\n        preferences[PreferencesKeys.USER_NAME] ?: \"\"\n    }"
+    },
+    {
+      "type": "text",
+      "value": "### Proto DataStore"
+    },
+    {
+      "type": "text",
+      "value": "Определение схемы данных - создание файла **app/src/main/proto/user_prefs.proto**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "syntax = \"proto3\";\n\noption java_package = \"com.example.app.datastore\";\noption java_multiple_files = true;\n\nmessage UserPreferences {\n    string user_name = 1;\n    bool notifications_enabled = 2;\n    int64 last_update_time = 3;\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Сериализатор:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "object UserPreferencesSerializer : Serializer<UserPreferences> {\n    override val defaultValue = UserPreferences.getDefaultInstance()\n    \n    override suspend fun readFrom(input: InputStream): UserPreferences {\n        try {\n            return UserPreferences.parseFrom(input)\n        } catch (e: Exception) {\n            throw CorruptionException(\"Cannot read proto\", e)\n        }\n    }\n    \n    override suspend fun writeTo(t: UserPreferences, output: OutputStream) {\n        t.writeTo(output)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Создание Proto DataStore:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val Context.userPreferencesStore by dataStore(\n    fileName = \"user_prefs.pb\",\n    serializer = UserPreferencesSerializer\n)"
+    },
+    {
+      "type": "text",
+      "value": "**Работа с данными:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Запись\nsuspend fun updateUserName(name: String) {\n    context.userPreferencesStore.updateData { prefs ->\n        prefs.toBuilder().setUserName(name).build()\n    }\n}\n\n// Чтение\nval userPrefsFlow: Flow<UserPreferences> = context.userPreferencesStore.data"
+    },
+    {
+      "type": "text",
+      "value": "### Миграция с SharedPreferences:"
+    },
+    {
+      "type": "text",
+      "value": "- Автоматическая миграция:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val Context.dataStore by preferencesDataStore(\n    name = \"settings\",\n    produceMigrations = { context ->\n        listOf(SharedPreferencesMigration(\n            context,\n            \"legacy_prefs_name\" // Имя старых SharedPreferences\n        ))\n    }\n)"
+    },
+    {
+      "type": "text",
+      "value": "- Ручная миграция:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "suspend fun manualMigration() {\n    val oldPrefs = context.getSharedPreferences(\"old_prefs\", Context.MODE_PRIVATE)\n    val newData = oldPrefs.all.mapValues { (_, value) ->\n        // Преобразование значений\n        when (value) {\n            is String -> value\n            is Int -> value.toString()\n            else -> null\n        }\n    }\n    \n    context.dataStore.edit { prefs ->\n        newData.forEach { (key, value) ->\n            if (value != null) {\n                prefs[stringPreferencesKey(key)] = value\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Пример использования в ViewModel:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class SettingsViewModel(\n    private val dataStore: DataStore<Preferences>\n) : ViewModel() {\n    \n    val uiState = dataStore.data\n        .map { prefs ->\n            SettingsUiState(\n                userName = prefs[PreferencesKeys.USER_NAME] ?: \"\",\n                notificationsEnabled = prefs[PreferencesKeys.NOTIFICATIONS_ENABLED] ?: false\n            )\n        }\n        .stateIn(\n            scope = viewModelScope,\n            started = SharingStarted.WhileSubscribed(5000),\n            initialValue = SettingsUiState()\n        )\n    \n    fun updateUserName(name: String) {\n        viewModelScope.launch {\n            dataStore.edit { prefs ->\n                prefs[PreferencesKeys.USER_NAME] = name\n            }\n        }\n    }\n}"
+    }
+  ]
+}

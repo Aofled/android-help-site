@@ -1,0 +1,166 @@
+{
+  "title": "Модульное тестирование (Unit Testing)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Модульное тестирование** — это фундаментальная практика разработки, позволяющая проверять корректность работы отдельных компонентов приложения (юнитов) изолированно от остальной системы. В Android-разработке это особенно важно из-за сложности платформы и многообразия устройств."
+    },
+    {
+      "type": "text",
+      "value": "**Инструменты и библиотеки**\n\n**Инструмент\tНазначение**\n\n**JUnit 4/5**\tФреймворк для тестирования\n\n- **Mockito**\tМокирование зависимостей\n\n- **Kotlin Test**\tАльтернатива JUnit для Kotlin\n\n- **Truth**\tУлучшенные assertions от Google\n\n- **Turbine**\tТестирование Flow\n\n- **MockK**\tАльтернатива Mockito для Kotlin"
+    },
+    {
+      "type": "text",
+      "value": "### Основные принципы модульного тестирования:"
+    },
+    {
+      "type": "text",
+      "value": "#### Что такое unit test?\n\n- Тестирует **отдельный класс или метод** в изоляции\n\n- Быстрый (миллисекунды на тест)\n\n- Не зависит от Android-компонентов (Activity, Context и т.д.)\n\n- Должен быть **детерминированным** (всегда одинаковый результат)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Отличие от других типов тестов:\nТип теста\tЧто тестирует\t              Скорость\t        Зависимости\nUnit\t        Отдельные классы/методы\t      Очень быстрые\tМинимум\nIntegration\tВзаимодействие компонентов    Средние\t        Умеренные\nUI (Espresso)\tПользовательский интерфейс    Медленные\t        Полные"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка окружения для тестирования"
+    },
+    {
+      "type": "text",
+      "value": "Зависимости в **build.gradle**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "dependencies {\n    // Основные библиотеки для тестирования\n    testImplementation 'junit:junit:4.13.2'\n    testImplementation 'org.mockito:mockito-core:4.5.1'\n    testImplementation 'org.mockito.kotlin:mockito-kotlin:4.0.0'\n    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'\n    \n    // Для тестирования LiveData и Android-компонентов\n    testImplementation 'androidx.arch.core:core-testing:2.1.0'\n}"
+    },
+    {
+      "type": "text",
+      "value": "Структура папок:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "src/\n├── main/          # Основной код\n├── test/          # Unit-тесты (JVM)\n└── androidTest/   # Интеграционные и UI-тесты"
+    },
+    {
+      "type": "text",
+      "value": "### Написание unit-теста:"
+    },
+    {
+      "type": "text",
+      "value": "Тестируемый класс:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Calculator {\n    fun add(a: Int, b: Int): Int = a + b\n    \n    fun divide(a: Int, b: Int): Int {\n        if (b == 0) throw IllegalArgumentException(\"Cannot divide by zero\")\n        return a / b\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Тестовый класс:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "import org.junit.Test\nimport org.junit.Assert.*\n\nclass CalculatorTest {\n    private val calculator = Calculator()\n\n    @Test\n    fun `addition should return correct sum`() {\n        val result = calculator.add(2, 3)\n        assertEquals(5, result)\n    }\n\n    @Test\n    fun `division by zero should throw exception`() {\n        assertThrows(IllegalArgumentException::class.java) {\n            calculator.divide(10, 0)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Ключевые аннотации JUnit:"
+    },
+    {
+      "type": "text",
+      "value": "**Аннотация\tОписание**\n\n**@Test**\tПомечает метод как тестовый\n\n**@Before**\tВыполняется перед каждым тестом\n\n**@After**\tВыполняется после каждого теста\n\n**@BeforeClass**\tВыполняется один раз перед всеми тестами\n\n**@AfterClass**\tВыполняется один раз после всех тестов\n\n**@Rule**\tПозволяет добавлять правила тестирования"
+    },
+    {
+      "type": "text",
+      "value": "Пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ExampleTest {\n    companion object {\n        @BeforeClass @JvmStatic\n        fun setupAll() {\n            println(\"Before all tests\")\n        }\n    }\n\n    @Before\n    fun setup() {\n        println(\"Before each test\")\n    }\n\n    @Test\n    fun test1() = println(\"Test 1\")\n\n    @Test\n    fun test2() = println(\"Test 2\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Mocking с Mockito"
+    },
+    {
+      "type": "text",
+      "value": "Мокирование позволяет изолировать тестируемый класс, подменяя его зависимости."
+    },
+    {
+      "type": "text",
+      "value": "**Основные методы Mockito**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Создание мока\nval mockRepository = mock(UserRepository::class.java)\n\n// Задание поведения\n`when`(mockRepository.getUser(anyInt())).thenReturn(User(\"Test\"))\n\n// Проверка вызовов\nverify(mockRepository).getUser(1)"
+    },
+    {
+      "type": "text",
+      "value": "**Полный пример**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserServiceTest {\n    private val mockRepository = mock<UserRepository>()\n    private val userService = UserService(mockRepository)\n\n    @Test\n    fun `getUserName should return correct name`() {\n        // Подготовка\n        `when`(mockRepository.getUser(1)).thenReturn(User(\"Alice\"))\n        \n        // Действие\n        val name = userService.getUserName(1)\n        \n        // Проверка\n        assertEquals(\"Alice\", name)\n        verify(mockRepository).getUser(1)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Тестирование корутин"
+    },
+    {
+      "type": "text",
+      "value": "Для тестирования асинхронного кода используйте runTest (из kotlinx-coroutines-test):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class CoroutineTest {\n    private val testDispatcher = StandardTestDispatcher()\n\n    @Before\n    fun setup() {\n        Dispatchers.setMain(testDispatcher)\n    }\n\n    @After\n    fun tearDown() {\n        Dispatchers.resetMain()\n    }\n\n    @Test\n    fun `test coroutine`() = runTest {\n        val repository = TestRepository()\n        val result = repository.fetchData() // suspend-функция\n        assertEquals(\"expected\", result)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Тестирование ViewModel"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyViewModelTest {\n    private lateinit var viewModel: MyViewModel\n    private lateinit var mockRepository: MyRepository\n\n    @Before\n    fun setup() {\n        mockRepository = mock()\n        viewModel = MyViewModel(mockRepository)\n    }\n\n    @Test\n    fun `data loading test`() = runTest {\n        // Подготовка\n        val testData = listOf(Item(1), Item(2))\n        `when`(mockRepository.getItems()).thenReturn(testData)\n        \n        // Действие\n        viewModel.loadItems()\n        \n        // Проверка\n        val result = viewModel.items.getOrAwaitValue()\n        assertEquals(testData, result)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Вспомогательная функция для LiveData:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun <T> LiveData<T>.getOrAwaitValue(): T {\n    var data: T? = null\n    val latch = CountDownLatch(1)\n    \n    val observer = object : Observer<T> {\n        override fun onChanged(value: T) {\n            data = value\n            latch.countDown()\n            removeObserver(this)\n        }\n    }\n    \n    observeForever(observer)\n    latch.await(2, TimeUnit.SECONDS)\n    return data as T\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Лучшие практики модульного тестирования"
+    },
+    {
+      "type": "text",
+      "value": "- Правило 3A (Arrange-Act-Assert):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Test\nfun test() {\n    // Arrange - подготовка\n    val calculator = Calculator()\n    \n    // Act - действие\n    val result = calculator.add(2, 2)\n    \n    // Assert - проверка\n    assertEquals(4, result)\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Именование тестов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Плохо:\n@Test fun test1()\n\n// Хорошо:\n@Test fun `addition should return sum of two numbers`()"
+    }
+  ]
+}
