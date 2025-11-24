@@ -1,0 +1,207 @@
+{
+  "title": "Применение нескольких тем с использованием ?attr",
+  "content": [
+    {
+      "type": "text",
+      "value": "Использование **?attr** (атрибутов темы) — это мощный способ создания гибких стилей, которые динамически меняются в зависимости от текущей темы приложения. Этот подход особенно полезен для:"
+    },
+    {
+      "type": "text",
+      "value": "- Поддержки светлой/тёмной темы\n\n- Создания переиспользуемых стилевых компонентов\n\n- Кастомизации виджетов в зависимости от контекста"
+    },
+    {
+      "type": "text",
+      "value": "#### Основы ?attr синтаксиса\n\n**?attr/attribute_name** — ссылка на значение атрибута из текущей темы"
+    },
+    {
+      "type": "text",
+      "value": "Пример в XML:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<TextView\n    android:textColor=\"?attr/colorOnSurface\"\n    android:background=\"?attr/colorSurface\"/>"
+    },
+    {
+      "type": "text",
+      "value": "### Создание кастомных атрибутов темы"
+    },
+    {
+      "type": "text",
+      "value": "Определение атрибутов в **res/values/attrs.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<resources>\n    <!-- Базовый атрибут -->\n    <attr name=\"customTextColor\" format=\"color|reference\"/>\n    \n    <!-- Составной атрибут -->\n    <attr name=\"customCardStyle\" format=\"reference\"/>\n</resources>"
+    },
+    {
+      "type": "text",
+      "value": "Использование в теме в **res/values/themes.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <!-- Простой цвет -->\n    <item name=\"customTextColor\">@color/primary_dark</item>\n    \n    <!-- Стиль -->\n    <item name=\"customCardStyle\">@style/CardView.Default</item>\n</style>\n\n<style name=\"Theme.MyApp.Dark\" parent=\"Theme.MyApp\">\n    <item name=\"customTextColor\">@color/primary_light</item>\n    <item name=\"customCardStyle\">@style/CardView.Dark</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры использования"
+    },
+    {
+      "type": "text",
+      "value": "**Динамические цвета:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- В разметке -->\n<Button\n    android:background=\"?attr/colorPrimary\"\n    android:textColor=\"?attr/colorOnPrimary\"/>\n\n<!-- В стиле -->\n<style name=\"MyButton\">\n    <item name=\"android:background\">?attr/colorPrimary</item>\n    <item name=\"android:textColor\">?attr/colorOnPrimary</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "**Кастомные стили компонентов:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Определение стиля -->\n<style name=\"CardView.Default\">\n    <item name=\"cardBackgroundColor\">?attr/colorSurface</item>\n    <item name=\"cardElevation\">4dp</item>\n</style>\n\n<!-- Использование атрибута -->\n<androidx.cardview.widget.CardView\n    style=\"?attr/customCardStyle\"/>"
+    },
+    {
+      "type": "text",
+      "value": "**Иконки с тематическим tint:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<ImageView\n    android:src=\"@drawable/ic_settings\"\n    android:tint=\"?attr/colorOnBackground\"/>"
+    },
+    {
+      "type": "text",
+      "value": "### Работа с ?attr в коде"
+    },
+    {
+      "type": "text",
+      "value": "**Получение значения атрибута:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun getThemeColor(context: Context, attrRes: Int): Int {\n    val typedValue = TypedValue()\n    context.theme.resolveAttribute(attrRes, typedValue, true)\n    return typedValue.data\n}\n\n// Использование\nval textColor = getThemeColor(this, R.attr.customTextColor)\ntextView.setTextColor(textColor)"
+    },
+    {
+      "type": "text",
+      "value": "**Создание ColorStateList из ?attr:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun createColorStateList(context: Context, attrRes: Int): ColorStateList {\n    val color = getThemeColor(context, attrRes)\n    return ColorStateList.valueOf(color)\n}\n\n// Применение к View\nbutton.backgroundTintList = createColorStateList(this, R.attr.colorPrimary)"
+    },
+    {
+      "type": "text",
+      "value": "### Особенности Material Components"
+    },
+    {
+      "type": "text",
+      "value": "**Для Material Components используйте специальные атрибуты:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<com.google.android.material.button.MaterialButton\n    app:backgroundTint=\"?attr/colorPrimaryContainer\"\n    app:strokeColor=\"?attr/colorOutline\"\n    app:rippleColor=\"?attr/colorOnPrimaryContainer\"/>"
+    },
+    {
+      "type": "text",
+      "value": "### Наследование и переопределение ?attr:"
+    },
+    {
+      "type": "text",
+      "value": "**Базовые темы:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Базовая тема -->\n<style name=\"Base.Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <item name=\"colorPrimary\">@color/purple_500</item>\n    <item name=\"customCardCornerRadius\">8dp</item>\n</style>\n\n<!-- Дочерняя тема -->\n<style name=\"Theme.MyApp.Rounded\" parent=\"Base.Theme.MyApp\">\n    <item name=\"customCardCornerRadius\">24dp</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "**Использование в компонентах:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"CardView\" parent=\"Widget.MaterialComponents.CardView\">\n    <item name=\"shapeAppearance\">@style/ShapeAppearance.MyApp.MediumComponent</item>\n</style>\n\n<style name=\"ShapeAppearance.MyApp.MediumComponent\">\n    <item name=\"cornerFamily\">rounded</item>\n    <item name=\"cornerSize\">?attr/customCardCornerRadius</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "### Обработка разных тем (Day/Night)"
+    },
+    {
+      "type": "text",
+      "value": "Разные значения атрибутов в **res/values-night/themes.xml**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <item name=\"customTextColor\">@color/primary_light</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "Адаптивные иконки:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<ImageView\n    android:src=\"@drawable/ic_theme_aware\"\n    android:tint=\"?attr/iconTint\"/>"
+    },
+    {
+      "type": "text",
+      "value": "Где **iconTint** определяется в теме:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<attr name=\"iconTint\" format=\"color|reference\"/>\n<item name=\"iconTint\">?attr/colorOnSurface</item>"
+    },
+    {
+      "type": "text",
+      "value": "### Пример комплексного использования:"
+    },
+    {
+      "type": "text",
+      "value": "**Определение атрибутов:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- attrs.xml -->\n<attr name=\"customButtonStyle\" format=\"reference\"/>\n<attr name=\"customBorderWidth\" format=\"dimension\"/>\n<attr name=\"customBrandColor\" format=\"color|reference\"/>"
+    },
+    {
+      "type": "text",
+      "value": "**Настройка тем:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- values/themes.xml -->\n<style name=\"Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <item name=\"customBrandColor\">@color/brand_blue</item>\n    <item name=\"customButtonStyle\">@style/Button.Brand</item>\n    <item name=\"customBorderWidth\">2dp</item>\n</style>\n\n<!-- values-night/themes.xml -->\n<style name=\"Theme.MyApp\" parent=\"Theme.Material3.DayNight\">\n    <item name=\"customBrandColor\">@color/brand_light_blue</item>\n    <item name=\"customBorderWidth\">1dp</item>\n</style>"
+    },
+    {
+      "type": "text",
+      "value": "**Создание стилей:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<style name=\"Button.Brand\">\n    <item name=\"android:background\">@drawable/bg_brand_button</item>\n    <item name=\"android:textColor\">?attr/colorOnPrimary</item>\n    <item name=\"android:insetTop\">0dp</item>\n    <item name=\"android:insetBottom\">0dp</item>\n</style>\n\n<!-- drawable/bg_brand_button.xml -->\n<shape xmlns:android=\"http://schemas.android.com/apk/res/android\">\n    <solid android:color=\"?attr/customBrandColor\"/>\n    <stroke \n        android:width=\"?attr/customBorderWidth\"\n        android:color=\"?attr/colorOutline\"/>\n    <corners android:radius=\"?attr/shapeAppearanceSmallComponent\"/>\n</shape>"
+    },
+    {
+      "type": "text",
+      "value": "**Использование:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<Button\n    style=\"?attr/customButtonStyle\"\n    android:text=\"Brand Button\"/>"
+    }
+  ]
+}

@@ -117,21 +117,6 @@
         }
       ]
     },{
-      "title": "Intent (Намерение)",
-      "url": "#android-intent",
-      "contentFile": "android-intent.json",
-      "subItems": [
-        {
-          "title": "Implicit Intents (Неявные интенты)",
-          "url": "#android-implicit-intents",
-          "contentFile": "android-implicit-intents.json"
-        },{
-          "title": "Implicit Intents, Explicit Intents (Работа с камерой)",
-          "url": "#android-camera-intents",
-          "contentFile": "android-camera-intents.json"
-        }
-      ]
-    },{
       "title": "Многопоточность",
       "url": "#android-multithreading",
       "contentFile": "android-multithreading.json",
@@ -178,6 +163,25 @@
         }
       ]
     },{
+      "title": "Intent (Намерение)",
+      "url": "#android-intent",
+      "contentFile": "android-intent.json",
+      "subItems": [
+        {
+          "title": "Implicit Intents (Неявные интенты)",
+          "url": "#android-implicit-intents",
+          "contentFile": "android-implicit-intents.json"
+        },{
+          "title": "Implicit Intents, Explicit Intents (Работа с камерой)",
+          "url": "#android-camera-intents",
+          "contentFile": "android-camera-intents.json"
+        },{
+          "title": "Broadcast Intents (Широковещательные интенты)",
+          "url": "#android-broadcast-intents",
+          "contentFile": "android-broadcast-intents.json"
+        }
+      ]
+    },{
       "title": "Модульное тестирование (Unit Testing)",
       "url": "#android-unit-testing",
       "contentFile": "android-unit-testing.json"
@@ -185,6 +189,17 @@
       "title": "Диалоговые окна",
       "url": "#android-dialog-boxes",
       "contentFile": "android-dialog-boxes.json"
+    },{
+      "title": "Стили и темы (Style and Theme)",
+      "url": "#android-styles-themes",
+      "contentFile": "android-styles-themes.json",
+      "subItems": [
+        {
+          "title": "Переключение тем (?attr/)",
+          "url": "#android-styles-themes-attr",
+          "contentFile": "android-styles-themes-attr.json"
+        }
+      ]
     },{
       "title": "Панель приложения (Toolbar)",
       "url": "#android-toolbar",
@@ -194,13 +209,13 @@
       "url": "#android-android-manifest",
       "contentFile": "android-android-manifest.json"
     },{
+      "title": "WebView",
+      "url": "#android-web-view",
+      "contentFile": "android-web-view.json"
+    },{
       "title": "Parcelable и Serializable",
       "url": "#android-parcelable-serializable",
       "contentFile": "android-parcelable-serializable.json"
-    },{
-      "title": "Специальные возможности (TalkBack)",
-      "url": "#android-talk-back",
-      "contentFile": "android-talk-back.json"
     },{
       "title": "Специальные возможности (TalkBack)",
       "url": "#android-talk-back",

@@ -1,0 +1,177 @@
+{
+  "title": "Настройка WebView",
+  "content": [
+    {
+      "type": "text",
+      "value": "**WebView** — это системный компонент Android, позволяющий отображать веб-контент внутри приложения. Он использует движок рендеринга **Chrome** (начиная с Android 7.0) и предоставляет широкие возможности кастомизации."
+    },
+    {
+      "type": "text",
+      "value": "### Базовая настройка WebView:"
+    },
+    {
+      "type": "text",
+      "value": "**Добавление WebView в макет:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<WebView\n    android:id=\"@+id/webview\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\" />"
+    },
+    {
+      "type": "text",
+      "value": "**Основная настройка в коде:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val myWebView: WebView = findViewById(R.id.webview)\n\n// Включение JavaScript (по умолчанию выключен)\nmyWebView.settings.javaScriptEnabled = true\n\n// Загрузка URL\nmyWebView.loadUrl(\"https://example.com\")\n\n// Или загрузка HTML-строки\nval html = \"<html><body><h1>Hello WebView</h1></body></html>\"\nmyWebView.loadData(html, \"text/html\", \"UTF-8\")"
+    },
+    {
+      "type": "text",
+      "value": "### Настройки WebView (WebSettings)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val settings = myWebView.settings\n\n// Основные настройки\nsettings.domStorageEnabled = true // Для HTML5 localStorage\nsettings.databaseEnabled = true   // Для Web SQL Database\nsettings.setSupportZoom(true)     // Поддержка масштабирования\nsettings.builtInZoomControls = true // Встроенные элементы управления zoom\n\n// Оптимизация производительности\nsettings.cacheMode = WebSettings.LOAD_DEFAULT // Кэширование\nsettings.loadsImagesAutomatically = true      // Автозагрузка изображений\nsettings.allowFileAccess = true               // Доступ к файлам\n\n// Настройки контента\nsettings.defaultTextEncodingName = \"UTF-8\"    // Кодировка\nsettings.mediaPlaybackRequiresUserGesture = false // Автовоспроизведение медиа"
+    },
+    {
+      "type": "text",
+      "value": "### Обработка навигации\n\n- Переопределение загрузки ссылок"
+    },
+    {
+      "type": "text",
+      "value": "- Обработка ошибок загрузки"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "myWebView.webViewClient = object : WebViewClient() {\n    override fun onReceivedError(\n        view: WebView?,\n        errorCode: Int,\n        description: String?,\n        failingUrl: String?\n    ) {\n        super.onReceivedError(view, errorCode, description, failingUrl)\n        // Показать кастомную ошибку\n        myWebView.loadUrl(\"file:///android_asset/error.html\")\n    }\n\n    // Для API 23+\n    override fun onReceivedError(\n        view: WebView?,\n        request: WebResourceRequest?,\n        error: WebResourceError?\n    ) {\n        super.onReceivedError(view, request, error)\n        if (request?.isForMainFrame == true) {\n            myWebView.loadUrl(\"file:///android_asset/error.html\")\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Взаимодействие JavaScript ↔ Kotlin\n\nВызов Java/Kotlin из JavaScript"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Создаем интерфейс\nclass WebAppInterface(private val context: Context) {\n    @JavascriptInterface\n    fun showToast(message: String) {\n        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()\n    }\n}\n\n// Регистрируем интерфейс\nmyWebView.addJavascriptInterface(\n    WebAppInterface(this),\n    \"Android\"\n)"
+    },
+    {
+      "type": "text",
+      "value": "В JavaScript:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Android.showToast(\"Hello from JS!\");"
+    },
+    {
+      "type": "text",
+      "value": "**Вызов JavaScript из Kotlin:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "myWebView.evaluateJavascript(\"javascript:myJSFunction()\") { result ->\n    // Обработка результата\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка WebChromeClient:"
+    },
+    {
+      "type": "text",
+      "value": "Для обработки специфичных событий браузера:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "myWebView.webChromeClient = object : WebChromeClient() {\n    // Прогресс загрузки\n    override fun onProgressChanged(view: WebView?, newProgress: Int) {\n        progressBar.progress = newProgress\n        if (newProgress == 100) progressBar.visibility = View.GONE\n    }\n\n    // Обработка JavaScript alert()\n    override fun onJsAlert(\n        view: WebView?,\n        url: String?,\n        message: String?,\n        result: JsResult?\n    ): Boolean {\n        AlertDialog.Builder(this@MainActivity)\n            .setMessage(message)\n            .setPositiveButton(\"OK\") { _, _ -> result?.confirm() }\n            .create()\n            .show()\n        return true\n    }\n\n    // Разрешение доступа к камере/микрофону\n    override fun onPermissionRequest(request: PermissionRequest?) {\n        request?.grant(request.resources)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Оптимизация производительности:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Включение аппаратного ускорения\nif (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {\n    WebView.setWebContentsDebuggingEnabled(true) // Отладка в Chrome DevTools\n}\n\n// Оптимизация для энергоэффективности\nmyWebView.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING\n\n// Очистка кэша (при необходимости)\nmyWebView.clearCache(true)\nmyWebView.clearHistory()"
+    },
+    {
+      "type": "text",
+      "value": "### Безопасность WebView:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Отключение ненужных возможностей\nsettings.javaScriptCanOpenWindowsAutomatically = false\nsettings.allowContentAccess = false\nsettings.allowFileAccessFromFileURLs = false\nsettings.allowUniversalAccessFromFileURLs = false\n\n// Для API 21+\nif (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {\n    CookieManager.getInstance().setAcceptThirdPartyCookies(myWebView, false)\n    WebView.enableSlowWholeDocumentDraw() // Против спектативного рендеринга\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Обработка жизненного цикла:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "override fun onResume() {\n    super.onResume()\n    myWebView.onResume()\n    myWebView.resumeTimers() // Возобновление таймеров JavaScript\n}\n\noverride fun onPause() {\n    super.onPause()\n    myWebView.onPause()\n    myWebView.pauseTimers() // Пауза таймеров JavaScript\n}\n\noverride fun onDestroy() {\n    myWebView.destroy()\n    super.onDestroy()\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Полезные расширенные возможности:"
+    },
+    {
+      "type": "text",
+      "value": "**Загрузка локальных файлов:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "myWebView.loadUrl(\"file:///android_asset/index.html\")\n\n// Или из внутреннего хранилища\nval file = File(filesDir, \"local.html\")\nmyWebView.loadUrl(\"file://${file.absolutePath}\")"
+    },
+    {
+      "type": "text",
+      "value": "**Отладка в Chrome DevTools**\n\nВключите в приложении:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {\n    WebView.setWebContentsDebuggingEnabled(true)\n}"
+    },
+    {
+      "type": "text",
+      "value": "Откройте chrome://inspect в Chrome на ПК"
+    },
+    {
+      "type": "text",
+      "value": "**Кастомные HTTP-заголовки**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val headers = mapOf(\"Authorization\" to \"Bearer token123\")\nmyWebView.loadUrl(\"https://api.example.com\", headers)"
+    },
+    {
+      "type": "text",
+      "value": "### Альтернативные движки WebView"
+    },
+    {
+      "type": "text",
+      "value": "GeckoView (Mozilla)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation 'org.mozilla.geckoview:geckoview:91.0.0'"
+    },
+    {
+      "type": "text",
+      "value": "Crosswalk (устарел)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation 'org.xwalk:xwalk_core_library:23.53.589.4'"
+    }
+  ]
+}

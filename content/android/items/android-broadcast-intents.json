@@ -1,0 +1,167 @@
+{
+  "title": "Широковещательные интенты (Broadcast Intents)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Широковещательные интенты (Broadcast Intents)** — это механизм в Android, позволяющий рассылать сообщения между компонентами приложения или между разными приложениями. Это мощный инструмент для создания реактивной архитектуры и обработки системных событий."
+    },
+    {
+      "type": "text",
+      "value": "### Типы Broadcast-сообщений\n\n**Обычные (Normal Broadcasts)**\n\n- Рассылаются всем зарегистрированным приемникам асинхронно\n\n- Порядок доставки не гарантируется\n\n- Не могут прерывать передачу\n\n**Упорядоченные (Ordered Broadcasts)**\n\n- Доставляются приемникам последовательно согласно приоритету\n\n- Приемники могут прервать цепочку (abortBroadcast())\n\n- Могут передавать результаты между собой\n\n**Локальные (Local Broadcasts)**\n\n- Работают только в пределах одного процесса приложения\n\n- Более безопасны и эффективны\n\n- Используют LocalBroadcastManager (до API 26) или Context методы (API 26+)"
+    },
+    {
+      "type": "text",
+      "value": "### Широковещательные интенты — это мощный механизм Android для:\n\n- Реакции на системные события\n\n- Внутриприложенной коммуникации\n\n- Межприложенного взаимодействия (с ограничениями)\n\n**Для новых проектов:**\n\n- Используйте **LocalBroadcastManager** для внутренних событий\n\n- Для фоновых задач выбирайте **WorkManager**\n\n- Для UI-обновлений — **LiveData/Flow**"
+    },
+    {
+      "type": "text",
+      "value": "### Способы регистрации приемников\n\n- Статическая регистрация (в **AndroidManifest.xml**)"
+    },
+    {
+      "type": "text",
+      "value": "Приемник работает даже когда приложение не запущено."
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<receiver android:name=\".MyReceiver\"\n          android:exported=\"true|false\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.BOOT_COMPLETED\"/>\n        <action android:name=\"com.example.MY_CUSTOM_ACTION\"/>\n    </intent-filter>\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "**Особенности:**\n\n- Требует объявления в манифесте\n\n- Приемник может быть запущен системой\n\n- Для Android 8.0+ ограничены неявные интенты"
+    },
+    {
+      "type": "text",
+      "value": "- Динамическая регистрация (в коде)\n\nПриемник работает только когда активен компонент (**Activity**, **Service** и т.д.)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "private val receiver = object : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        when (intent.action) {\n            Intent.ACTION_AIRPLANE_MODE_CHANGED -> handleAirplaneMode()\n            \"com.example.CUSTOM_ACTION\" -> handleCustomAction()\n        }\n    }\n}\n\noverride fun onStart() {\n    super.onStart()\n    val filter = IntentFilter().apply {\n        addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)\n        addAction(\"com.example.CUSTOM_ACTION\")\n    }\n    registerReceiver(receiver, filter)\n}\n\noverride fun onStop() {\n    super.onStop()\n    unregisterReceiver(receiver) // Важно не забыть!\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Отправка Broadcast-сообщений:"
+    },
+    {
+      "type": "text",
+      "value": "**Обычный Broadcast:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(\"com.example.MY_ACTION\").apply {\n    putExtra(\"data\", \"value\")\n}\nsendBroadcast(intent)"
+    },
+    {
+      "type": "text",
+      "value": "**Упорядоченный Broadcast:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(\"com.example.ORDERED_ACTION\")\nsendOrderedBroadcast(intent, null) // null - permission"
+    },
+    {
+      "type": "text",
+      "value": "**Локальный Broadcast (API 26+):**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(\"com.example.LOCAL_ACTION\")\nLocalBroadcastManager.getInstance(this).sendBroadcast(intent)\n\n// Или для API 26+:\nContextCompat.sendBroadcast(this, intent)"
+    },
+    {
+      "type": "text",
+      "value": "### Примеры использования:"
+    },
+    {
+      "type": "text",
+      "value": "- Реакция на системные события:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class BootReceiver : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {\n            startService(context, MyService::class.java)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "В манифесте:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>\n\n<receiver android:name=\".BootReceiver\"\n          android:enabled=\"true\"\n          android:exported=\"true\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.BOOT_COMPLETED\"/>\n    </intent-filter>\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "- Кастомное событие в приложении:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Отправка\nval intent = Intent(\"com.example.DATA_LOADED\").apply {\n    putExtra(\"success\", true)\n}\nsendBroadcast(intent)\n\n// Прием\nprivate val dataReceiver = object : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        if (intent.getBooleanExtra(\"success\", false)) {\n            showSuccess()\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Защищенный Broadcast с разрешениями:"
+    },
+    {
+      "type": "text",
+      "value": "Отправка:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent(\"com.example.SECURE_ACTION\")\nsendBroadcast(intent, \"com.example.PERMISSION\")"
+    },
+    {
+      "type": "text",
+      "value": "Приемник в манифесте:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<receiver android:name=\".SecureReceiver\"\n          android:permission=\"com.example.PERMISSION\">\n    <intent-filter>\n        <action android:name=\"com.example.SECURE_ACTION\"/>\n    </intent-filter>\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "Объявление разрешения::"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<permission android:name=\"com.example.PERMISSION\"\n            android:protectionLevel=\"signature\"/>"
+    },
+    {
+      "type": "text",
+      "value": "### Пример: Полная реализация Broadcast:"
+    },
+    {
+      "type": "text",
+      "value": "1. Объявление в манифесте:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<receiver android:name=\".NetworkReceiver\"\n          android:exported=\"false\">\n    <intent-filter>\n        <action android:name=\"android.net.conn.CONNECTIVITY_CHANGE\"/>\n    </intent-filter>\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "2. Реализация приемника:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class NetworkReceiver : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        val connectivityManager = context.getSystemService<ConnectivityManager>()\n        val networkInfo = connectivityManager?.activeNetworkInfo\n        \n        val isConnected = networkInfo?.isConnected == true\n        EventBus.getDefault().post(NetworkChangeEvent(isConnected))\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "3. Отправка кастомного события:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun notifyDataUpdated() {\n    val intent = Intent(\"com.example.DATA_UPDATED\").apply {\n        putExtra(\"timestamp\", System.currentTimeMillis())\n    }\n    LocalBroadcastManager.getInstance(this).sendBroadcast(intent)\n}"
+    }
+  ]
+}
