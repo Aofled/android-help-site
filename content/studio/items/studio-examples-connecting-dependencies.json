@@ -1,0 +1,23 @@
+{
+  "title": "Завимости в Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### Material Components\n\n\n\n[Ссылка](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"com.google.android.material:material:1.10.0\")"
+    },
+    {
+      "type": "text",
+      "value": "#### Swiperefreshlayout\n\n\n\n[Ссылка](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout?hl=ru)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\")"
+    }
+  ]
+}

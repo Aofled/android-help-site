@@ -14,6 +14,16 @@
       "title": "Горячие клавиши",
       "url": "#studio-hotkey",
       "contentFile": "studio-hotkey.json"
+    },
+    {
+      "title": "Git",
+      "url": "#studio-git",
+      "contentFile": "studio-git.json"
+    },
+    {
+      "title": "Терминал",
+      "url": "#studio-terminal",
+      "contentFile": "studio-terminal.json"
     }
   ]
 }

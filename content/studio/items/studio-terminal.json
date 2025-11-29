@@ -1,0 +1,86 @@
+{
+  "title": "Команды для терминала Windows",
+  "content": [
+    {
+      "type": "text",
+      "value": "Переход в папку:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "cd ~/Desktop"
+    },
+    {
+      "type": "text",
+      "value": "Создание новой папки:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "mkdir my-project"
+    },
+    {
+      "type": "text",
+      "value": "Переход в папку:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "cd my-project"
+    },
+    {
+      "type": "text",
+      "value": "Создание файла с текстом:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "echo \"Some text\" > file.txt"
+    },
+    {
+      "type": "text",
+      "value": "Список файлов в папке:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "ls"
+    },
+    {
+      "type": "text",
+      "value": "Чтение файла:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "cat file.txt"
+    },
+    {
+      "type": "text",
+      "value": "Удаление файла:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "rm file.txt"
+    },
+    {
+      "type": "text",
+      "value": "Отображение скрытых папок и файлов\n\n- Git Bash (Windows):"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "ls -la"
+    },
+    {
+      "type": "text",
+      "value": "- PowerShell(Windows):"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "ls -Force"
+    }
+  ]
+}
