@@ -41,11 +41,11 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "@Entity(tableName = \"users\")\ndata class User(\n    @PrimaryKey(autoGenerate = true) val id: Int = 0,\n    @ColumnInfo(name = \"user_name\") val name: String,\n    @ColumnInfo(name = \"user_age\") val age: Int,\n    @ColumnInfo(name = \"registration_date\") val regDate: Long = System.currentTimeMillis()\n)"
+      "value": "@Entity(tableName = \"users\")\ndata class User(\n    @PrimaryKey(autoGenerate = true) val id: Int = 0,\n    @ColumnInfo(name = \"user_name\") val name: String,\n    @ColumnInfo(name = \"user_age\") val age: Int,\n    @ColumnInfo(name = \"registration_date\") val regDate: Long = System.currentTimeMillis()\n)\n\n//Пример, где primaryKeys - автоматически формируется на основе уникальных lat, lon\n@Entity(tableName = \"GeoCode\", primaryKeys = [\"lat\", \"lon\"])\nclass GeoCodeEntity(\n    @ColumnInfo(name = \"name\") val name: String,\n    @Embedded val localNames: LocalNames,\n    @ColumnInfo(name = \"lat\") val lat: Double,\n    @ColumnInfo(name = \"laon\") val lon: Double,\n    @ColumnInfo(name = \"country\") val country: String,\n    @ColumnInfo(name = \"isFavorite\") val isFavorite: Boolean = false\n)"
     },
     {
       "type": "text",
-      "value": "**Аннотации Entity:**\n\n**@Entity** Помечает класс как таблицу\n\n**@PrimaryKey**  Указывает первичный ключ (autoGenerate = true для автоинкремента)\n\n**@ColumnInfo**  Настраивает имя столбца и другие параметры\n\n**@Ignore**  Поле не будет сохранено в БД\n\n**@Embedded**  Вложенный объект (разбирается на отдельные колонки)"
+      "value": "**Аннотации Entity:**\n\n**@Entity** Помечает класс как таблицу\n\n**@PrimaryKey**  Указывает первичный ключ (autoGenerate = true для автоинкремента)\n\n**@ColumnInfo**  Настраивает имя столбца и другие параметры\n\n**@Ignore**  Поле не будет сохранено в БД\n\n**@Embedded**  Этой аннотацией помечается **вложенный объект** - объект будет разбит на отдельные колонки и добавлен в строку базы данных"
     },
     {
       "type": "text",

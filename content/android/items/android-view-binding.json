@@ -20,7 +20,7 @@
     {
       "type": "code",
       "language": "kotlin",
-      "value": "android {\n    ...\n    viewBinding {\n        enabled = true\n    }\n}"
+      "value": "android {\n    ...\n    buildFeatures {\n        viewBinding = true\n    }\n}"
     },
     {
       "type": "text",
