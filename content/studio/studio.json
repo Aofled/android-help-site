@@ -18,7 +18,14 @@
     {
       "title": "Git",
       "url": "#studio-git",
-      "contentFile": "studio-git.json"
+      "contentFile": "studio-git.json",
+      "subItems": [
+        {
+          "title": "Команды Git",
+          "url": "#studio-git-command",
+          "contentFile": "studio-git-command.json"
+        }
+      ]
     },
     {
       "title": "Терминал",
