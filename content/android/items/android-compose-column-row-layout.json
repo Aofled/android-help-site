@@ -1,0 +1,55 @@
+{
+  "title": "Column и Row layout в Compose",
+  "content": [
+    {
+      "type": "text",
+      "value": "В **отличие от XML-макетов**, где используются различные ViewGroup (LinearLayout, RelativeLayout и т.д.), в Compose все layout'ы являются **composable-функциями**, которые принимают дочерние элементы и располагают их согласно определенным правилам."
+    },
+    {
+      "type": "text",
+      "value": "### Column — вертикальное расположение"
+    },
+    {
+      "type": "text",
+      "value": "**Параметры Column:**\n\n\n\n`verticalArrangement`: расположение элементов по вертикали\n\n\n\n`horizontalAlignment`: выравнивание по горизонтали"
+    },
+    {
+      "type": "text",
+      "value": "**VerticalAlignment.Arrangement** в **Column** определяет, как дочерние элементы распределяются по вертикальной оси (основной оси Column). Это аналог `gravity` или `layout_gravity` в традиционных `LinearLayout`."
+    },
+    {
+      "type": "text",
+      "value": "- Arrangement.**Top** — выравнивание по **верху**. Все элементы прижаты к **верхнему** краю\n\n- Arrangement.**Bottom** — выравнивание по **низу**. Все элементы прижаты к **нижнему** краю\n\n- Arrangement.**Center** — выравнивание по **центру**. Элементы по **центру** вертикали\n\n- Arrangement.**SpaceEvenly** — **равномерное** распределение. **Равные промежутки** между элементами и по краям\n\n- Arrangement.**SpaceBetween** — **распределение между** элементами. Элементы по краям, равные промежутки между ними\n\n- Arrangement.**SpaceAround** — **распределение вокруг** элементов. Половина отступа по краям, полные отступы между элементами\n\n- Arrangement.**Absolute.SpaceEvenly** — **абсолютное равномерное** распределение\n\n- Arrangement.**Absolute.SpaceBetween** — **абсолютное распределение между**\n\n- Arrangement.**Absolute.SpaceAround** — **абсолютное распределение вокруг**\n\n- Arrangement.**Absolute.Top** — **абсолютное выравнивание сверху**\n\n- Arrangement.**Absolute.Bottom** — **абсолютное выравнивание снизу**\n\n- Arrangement.**Absolute.Center** — **абсолютное выравнивание по центру**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun MyColumn() {\n    Column(\n        modifier = Modifier\n            .fillMaxWidth()\n            .background(Color.LightGray)\n            .padding(16.dp),\n        verticalArrangement = Arrangement.Center, // выравнивание по вертикали\n        horizontalAlignment = Alignment.CenterHorizontally // выравнивание по горизонтали\n    ) {\n        Text(\"Первый элемент\", style = MaterialTheme.typography.h6)\n        Spacer(modifier = Modifier.height(8.dp)) // промежуток\n        Text(\"Второй элемент\")\n        Text(\"Третий элемент\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Row — горизонтальное расположение"
+    },
+    {
+      "type": "text",
+      "value": "**Параметры Row:**\n\n- `horizontalArrangement`: расположение элементов по горизонтали\n\n- `verticalAlignment`: выравнивание по вертикали"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun MyRow() {\n    Row(\n        modifier = Modifier\n            .fillMaxWidth()\n            .background(Color.LightGray)\n            .padding(16.dp),\n        horizontalArrangement = Arrangement.SpaceBetween, // расположение по горизонтали\n        verticalAlignment = Alignment.CenterVertically // выравнивание по вертикали\n    ) {\n        Text(\"Левый\")\n        Text(\"Центр\")\n        Text(\"Правый\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**HorizontalArrangement.Arrangement** в **Row** определяет, как дочерние элементы распределяются по горизонтальной оси (основной оси Row). Это аналог `gravity` или `layout_gravity` в традиционных `LinearLayout`."
+    },
+    {
+      "type": "text",
+      "value": "- Arrangement.**Start** — выравнивание по **началу**. Все элементы прижаты к **левому** краю.\n\n- Arrangement.**End** — выравнивание по **концу**. Все элементы прижаты к **правому** краю\n\n- Arrangement.**Center** — выравнивание по **центру**. Элементы **по центру** горизонтали\n\n- Arrangement.**SpaceEvenly** — **равномерное** распределение. **Равные промежутки** между элементами и по краям\n\n- Arrangement.**SpaceBetween** — **распределение между** элементами. Элементы по краям, равные промежутки между ними\n\n- Arrangement.**SpaceAround** — **распределение вокруг** элементов. Половина отступа по краям, полные отступы между элементами\n\n- Arrangement.**Absolute.SpaceEvenly** — **абсолютное равномерное распределение**\n\n- Arrangement.**Absolute.SpaceBetween** — **абсолютное распределение между**\n\n- Arrangement.**Absolute.SpaceAround** — **абсолютное распределение вокруг**\n\n- Arrangement.**Absolute.Left** — **абсолютное выравнивание слева**\n\n- Arrangement.**Absolute.Right** — **абсолютное выравнивание справа**\n\n- Arrangement.**Absolute.Center** — **абсолютное выравнивание по центру**"
+    },
+    {
+      "type": "text",
+      "value": "**Разница между обычными и Absolute Arrangement:**\n\n**Обычные Arrangement** учитывают layout direction (RTL/LTR):\n\n\n\n- Arrangement.**Start** будет слева для LTR, справа для RTL\n\n\n\n- Arrangement.**End** будет справа для LTR, слева для RTL\n\n\n\n**Absolute Arrangement** игнорируют layout direction:\n\n\n\n- Arrangement.**Absolute.Left** всегда слева\n\n\n\n- Arrangement.**Absolute.Right** всегда справа"
+    }
+  ]
+}

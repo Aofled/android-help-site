@@ -84,6 +84,28 @@
           "contentFile": "android-persistable-bundle.json"
         }
       ]
+    },{
+      "title": "Compose",
+      "url": "#android-compose",
+      "contentFile": "android-compose.json",
+      "subItems": [
+
+        {
+          "title": "Modifier",
+          "url": "#android-compose-modifier",
+          "contentFile": "android-compose-modifier.json"
+        },
+        {
+          "title": "Column and Row layout",
+          "url": "#android-compose-column-row-layout",
+          "contentFile": "android-compose-column-row-layout.json"
+        },
+        {
+          "title": "Box layout",
+          "url": "#android-compose-box-layout",
+          "contentFile": "android-compose-box-layout.json"
+        }
+      ]
     },
     {
       "title": "Архитектуры проекта",

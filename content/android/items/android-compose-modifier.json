@@ -1,0 +1,212 @@
+{
+  "title": "Modifier",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Modifier** — это цепочка настроек, которые применяются к composable-функциям для изменения их внешнего вида, поведения, размера, расположения и других свойств."
+    },
+    {
+      "type": "text",
+      "value": "#### Базовая структура"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun MyComponent() {\n    Text(\n        text = \"Привет, мир!\",\n        modifier = Modifier\n            .fillMaxWidth()           // заполнить всю ширину\n            .padding(16.dp)           // отступы\n            .background(Color.Blue)   // фон\n            .clickable { /* действие */ } // кликабельность\n    )\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Классификация модификаторов:"
+    },
+    {
+      "type": "text",
+      "value": "#### 1. Размер и расположение"
+    },
+    {
+      "type": "text",
+      "value": "- Размеры"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .size(100.dp)                    // фиксированный размер\n    .width(100.dp)                   // только ширина\n    .height(50.dp)                   // только высота\n    .sizeIn(minWidth = 50.dp, maxWidth = 200.dp) // ограничения размера"
+    },
+    {
+      "type": "text",
+      "value": "- Заполнение пространства"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .fillMaxSize()                   // заполнить все доступное пространство\n    .fillMaxWidth()                  // заполнить ширину\n    .fillMaxHeight()                 // заполнить высоту\n    .fillMaxWidth(0.8f)             // заполнить 80% ширины"
+    },
+    {
+      "type": "text",
+      "value": "- Отступы (Padding)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .padding(16.dp)                 // со всех сторон\n    .padding(horizontal = 16.dp, vertical = 8.dp) // горизонтально и вертикально\n    .padding(start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp) // с каждой стороны"
+    },
+    {
+      "type": "text",
+      "value": "- Выравнивание"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Box(modifier = Modifier.fillMaxSize()) {\n    Text(\n        \"Текст\",\n        modifier = Modifier.align(Alignment.Center) // выравнивание внутри Box\n    )\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### 2. Внешний вид"
+    },
+    {
+      "type": "text",
+      "value": "- Фон и границы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .background(Color.Blue)                  // сплошной цвет\n    .background(brush = Brush.verticalGradient(listOf(Color.Red, Color.Blue))) // градиент\n    .border(2.dp, Color.Black)               // граница\n    .border(2.dp, Color.Red, RoundedCornerShape(8.dp)) // граница со скруглением"
+    },
+    {
+      "type": "text",
+      "value": "- Скругление углов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .clip(RoundedCornerShape(8.dp))          // скругленные углы\n    .clip(CircleShape)                       // круг\n    .clip(MaterialTheme.shapes.medium)       // форма из темы"
+    },
+    {
+      "type": "text",
+      "value": "- Тень и прозрачность"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .shadow(4.dp, RoundedCornerShape(8.dp))  // тень\n    .alpha(0.7f)                            // прозрачность\n    .graphicsLayer(alpha = 0.5f)            // более продвинутая прозрачность"
+    },
+    {
+      "type": "text",
+      "value": "#### 3. Поведение"
+    },
+    {
+      "type": "text",
+      "value": "- Клики и жесты"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .clickable { /* действие при клике */ }\n    .clickable(\n        interactionSource = remember { MutableInteractionSource() },\n        indication = LocalIndication.current,\n        onClick = { /* действие */ }\n    )\n    .combinedClickable(\n        onClick = { /* обычный клик */ },\n        onDoubleClick = { /* двойной клик */ },\n        onLongClick = { /* долгий клик */ }\n    )"
+    },
+    {
+      "type": "text",
+      "value": "- Прокрутка"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .verticalScroll(rememberScrollState())   // вертикальная прокрутка\n    .horizontalScroll(rememberScrollState()) // горизонтальная прокрутка"
+    },
+    {
+      "type": "text",
+      "value": "- Прочие поведения"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .pointerInput(Unit) { /* кастомная обработка жестов */ }\n    .draggable(/* настройки перетаскивания */)\n    .swipeable(/* настройки свайпа */)\n    .focusable()                            // может получать фокус\n    .focusOrder()                           // порядок фокусировки"
+    },
+    {
+      "type": "text",
+      "value": "#### 4. Специальные модификаторы"
+    },
+    {
+      "type": "text",
+      "value": "- Вес (Weight) в Row/Column"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Row {\n    Text(\n        \"Левый\",\n        modifier = Modifier.weight(1f)      // займет 1/3\n    )\n    Text(\n        \"Правый\", \n        modifier = Modifier.weight(2f)      // займет 2/3\n    )\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Оборачивание контента"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .wrapContentSize()                      // оборачивает контент\n    .wrapContentWidth()                     // только по ширине\n    .wrapContentHeight()                    // только по высоте\n    .wrapContentSize(align = Alignment.Center) // с выравниванием"
+    },
+    {
+      "type": "text",
+      "value": "- Ограничения"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Modifier\n    .requiredWidth(100.dp)                  // обязательная ширина\n    .requiredHeight(50.dp)                  // обязательная высота\n    .aspectRatio(16f/9f)                    // соотношение сторон"
+    },
+    {
+      "type": "text",
+      "value": "#### 5. Специальные модификаторы"
+    },
+    {
+      "type": "text",
+      "value": "- Создание собственных модификаторов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun Modifier.customCard(\n    elevation: Dp = 4.dp,\n    cornerRadius: Dp = 8.dp\n) = this.then(\n    Modifier\n        .shadow(elevation, RoundedCornerShape(cornerRadius))\n        .background(Color.White, RoundedCornerShape(cornerRadius))\n        .padding(16.dp)\n)\n\n// Использование\nText(\n    \"Текст в карточке\",\n    modifier = Modifier.customCard(elevation = 8.dp)\n)"
+    },
+    {
+      "type": "text",
+      "value": "- Модификаторы с состоянием"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun Modifier.animateOnClick(): Modifier = composed {\n    var isPressed by remember { mutableStateOf(false) }\n    \n    Modifier\n        .graphicsLayer {\n            scaleX = if (isPressed) 0.95f else 1f\n            scaleY = if (isPressed) 0.95f else 1f\n        }\n        .clickable(\n            interactionSource = remember { MutableInteractionSource() },\n            indication = null\n        ) { /* действие */ }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Важность порядка модификаторов"
+    },
+    {
+      "type": "text",
+      "value": "**Порядок имеет критическое значение!**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Разный порядок = разный результат\nModifier\n    .background(Color.Red)\n    .padding(16.dp)    // padding ВНУТРИ фона\n// ████████████████████\n// █░░░░░░░░░░░░░░░░░░█\n// █░░░░░░Текст░░░░░░░█\n// █░░░░░░░░░░░░░░░░░░█\n// ████████████████████\n\nModifier\n    .padding(16.dp)\n    .background(Color.Red) // padding ВНЕ фона\n// ░░░░░░░░░░░░░░░░░░░░\n// ░█████████████████░\n// ░█░░░░░Текст░░░░░░█░\n// ░█████████████████░\n// ░░░░░░░░░░░░░░░░░░░░"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Карточка с тенью"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun Modifier.cardElevation(): Modifier = composed {\n    Modifier\n        .shadow(\n            elevation = 4.dp,\n            shape = RoundedCornerShape(8.dp),\n            clip = true\n        )\n        .background(Color.White, RoundedCornerShape(8.dp))\n        .padding(16.dp)\n}\n\n@Composable\nfun ProductCard(product: Product) {\n    Column(modifier = Modifier.cardElevation()) {\n        Image(/* ... */)\n        Text(product.name)\n        Text(\"$${product.price}\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Анимированная кнопка"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun Modifier.animatedButton(): Modifier = composed {\n    var pressed by remember { mutableStateOf(false) }\n    \n    Modifier\n        .graphicsLayer {\n            scaleX = if (pressed) 0.95f else 1f\n            scaleY = if (pressed) 0.95f else 1f\n            alpha = if (pressed) 0.8f else 1f\n        }\n        .background(\n            color = Color.Blue,\n            shape = RoundedCornerShape(8.dp)\n        )\n        .padding(horizontal = 24.dp, vertical = 12.dp)\n        .clickable(\n            interactionSource = remember { MutableInteractionSource() },\n            indication = null\n        ) { /* действие */ }\n}"
+    }
+  ]
+}

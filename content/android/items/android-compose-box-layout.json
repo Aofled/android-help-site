@@ -1,0 +1,133 @@
+{
+  "title": "Box контейнер",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Box** — это контейнер, который позволяет накладывать дочерние элементы друг на друга и точно позиционировать их внутри себя. Это аналог **FrameLayout** из традиционной Android-разработки, но с более мощным и гибким API."
+    },
+    {
+      "type": "text",
+      "value": "#### Базовая структура"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun BasicBox() {\n    Box(\n        modifier = Modifier\n            .size(200.dp)\n            .background(Color.LightGray)\n    ) {\n        // Дочерние элементы здесь\n        Text(\"Текст в Box\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Основные параметры Box"
+    },
+    {
+      "type": "text",
+      "value": "- **contentAlignment** — выравнивание содержимого"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Box(\n    modifier = Modifier.size(200.dp).background(Color.LightGray),\n    contentAlignment = Alignment.Center // выравнивание по центру\n) {\n    Text(\"Центрированный текст\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **propagateMinConstraints** — распространение ограничений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Box(\n    propagateMinConstraints = true // дочерние элементы получают min constraints\n) {\n    // Дочерние элементы\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Варианты выравнивания (Alignment)"
+    },
+    {
+      "type": "text",
+      "value": "Базовые выравнивания"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Alignment.TopStart\nAlignment.TopCenter\nAlignment.TopEnd\n\nAlignment.CenterStart\nAlignment.Center\nAlignment.CenterEnd\n\nAlignment.BottomStart\nAlignment.BottomCenter\nAlignment.BottomEnd"
+    },
+    {
+      "type": "text",
+      "value": "Кастомные выравнивания"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Alignment(0.2f, 0.8f) // 20% от левого края, 80% от верхнего"
+    },
+    {
+      "type": "text",
+      "value": "### Позиционирование дочерних элементов"
+    },
+    {
+      "type": "text",
+      "value": "- **Modifier.align()** — выравнивание внутри Box"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Box(\n    modifier = Modifier\n        .size(300.dp)\n        .background(Color.LightGray)\n) {\n    Text(\n        \"Вверху справа\",\n        modifier = Modifier.align(Alignment.TopEnd)\n    )\n    \n    Text(\n        \"По центру\",\n        modifier = Modifier.align(Alignment.Center)\n    )\n    \n    Text(\n        \"Внизу слева\", \n        modifier = Modifier.align(Alignment.BottomStart)\n    )\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Modifier.offset()** — смещение от позиции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Box(\n    modifier = Modifier\n        .size(200.dp)\n        .background(Color.LightGray)\n) {\n    Text(\n        \"Смещенный текст\",\n        modifier = Modifier\n            .align(Alignment.Center)\n            .offset(x = 20.dp, y = (-10).dp) // смещение от центра\n    )\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **AbsoluteOffset** — абсолютное смещение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Text(\n    \"Абсолютное смещение\",\n    modifier = Modifier\n        .absoluteOffset(x = 50.dp, y = 30.dp) // от левого верхнего угла\n)"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры использования"
+    },
+    {
+      "type": "text",
+      "value": "**Наложение текста на изображение**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun ImageWithTextOverlay() {\n    Box {\n        Image(\n            painter = rememberImagePainter(\"https://example.com/image.jpg\"),\n            contentDescription = \"Фон\",\n            modifier = Modifier\n                .fillMaxWidth()\n                .height(200.dp)\n                .clip(RoundedCornerShape(8.dp)),\n            contentScale = ContentScale.Crop\n        )\n        \n        Text(\n            \"Заголовок поверх изображения\",\n            modifier = Modifier\n                .align(Alignment.BottomStart)\n                .padding(16.dp)\n                .background(Color.Black.copy(alpha = 0.7f))\n                .padding(8.dp),\n            color = Color.White,\n            fontWeight = FontWeight.Bold\n        )\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Badge (значок уведомлений)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun IconWithBadge() {\n    Box {\n        Icon(\n            imageVector = Icons.Filled.Notifications,\n            contentDescription = \"Уведомления\",\n            modifier = Modifier.size(32.dp)\n        )\n        \n        // Красный кружок с цифрой\n        Box(\n            modifier = Modifier\n                .size(16.dp)\n                .align(Alignment.TopEnd)\n                .offset(x = (-4).dp, y = 4.dp)\n                .background(Color.Red, CircleShape)\n        ) {\n            Text(\n                \"5\",\n                color = Color.White,\n                fontSize = 10.sp,\n                modifier = Modifier.align(Alignment.Center)\n            )\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Progress overlay (загрузка)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun LoadingOverlay(isLoading: Boolean) {\n    Box {\n        // Основной контент\n        Content()\n        \n        if (isLoading) {\n            Box(\n                modifier = Modifier\n                    .matchParentSize()\n                    .background(Color.Black.copy(alpha = 0.5f))\n            ) {\n                CircularProgressIndicator(\n                    modifier = Modifier.align(Alignment.Center),\n                    color = Color.White\n                )\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Profile card с аватаром**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun ProfileCard(user: User) {\n    Box(\n        modifier = Modifier\n            .fillMaxWidth()\n            .height(200.dp)\n            .background(\n                brush = Brush.verticalGradient(\n                    listOf(Color(0xFF667EEA), Color(0xFF764BA2))\n                )\n            )\n    ) {\n        // Аватар\n        Image(\n            painter = rememberImagePainter(user.avatarUrl),\n            contentDescription = \"Аватар\",\n            modifier = Modifier\n                .size(80.dp)\n                .align(Alignment.TopCenter)\n                .offset(y = 40.dp)\n                .clip(CircleShape)\n                .border(3.dp, Color.White, CircleShape)\n        )\n        \n        // Имя пользователя\n        Text(\n            user.name,\n            modifier = Modifier\n                .align(Alignment.BottomCenter)\n                .padding(bottom = 16.dp),\n            color = Color.White,\n            style = MaterialTheme.typography.h6\n        )\n    }\n}"
+    }
+  ]
+}
