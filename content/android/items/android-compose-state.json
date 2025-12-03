@@ -1,0 +1,49 @@
+{
+  "title": "State в Compose",
+  "content": [
+    {
+      "type": "text",
+      "value": "**State** — это любые данные, которые могут меняться со временем и влияют на отображение **UI**. Когда состояние изменяется, Compose автоматически перерисовывает (recompose) affected parts of UI."
+    },
+    {
+      "type": "text",
+      "value": "Когда меняются значение в **State**, **все** Compose элементы которые на нее ссылаются, автоматически перерисовываются"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun SimpleCounter() {\n    // Создаем состояние-счетчик\n    var count by remember { mutableStateOf(0) }\n    \n    Column {\n        // Показываем текущее значение счетчика\n        Text(text = \"Счет: $count\")\n        \n        // Кнопка увеличивает счетчик\n        Button(onClick = { count = count + 1 }) {\n            Text(\"+1\")\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "`remember` — для запоминания между перерисовками"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun RememberExample() {\n    // БЕЗ remember - сбрасывается при каждой перерисовке\n    var badCount = 0\n    \n    // С remember - сохраняется между перерисовками  \n    var goodCount by remember { mutableStateOf(0) }\n    \n    Column {\n        Button(onClick = { \n            badCount++\n            goodCount++ \n        }) {\n            Text(\"Увеличить\")\n        }\n        Text(\"BAD: $badCount\") // Всегда покажет 0 или 1\n        Text(\"GOOD: $goodCount\") // Покажет правильное значение\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Работа с ViewModel и State"
+    },
+    {
+      "type": "text",
+      "value": "- Базовый ViewModel с State"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class CounterViewModel : ViewModel() {\n    private val _count = mutableStateOf(0)\n    val count: State<Int> get() = _count\n    \n    fun increment() {\n        _count.value++\n    }\n    \n    fun decrement() {\n        _count.value--\n    }\n}\n\n@Composable\nfun CounterScreen(viewModel: CounterViewModel = viewModel()) {\n    val count by viewModel.count\n    \n    Column {\n        Text(\"Count: $count\")\n        Button(onClick = { viewModel.increment() }) {\n            Text(\"Increment\")\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- UiState подход"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class UserProfileState(\n    val user: User? = null,\n    val isLoading: Boolean = false,\n    val error: String? = null\n)\n\nclass UserProfileViewModel : ViewModel() {\n    private val _uiState = mutableStateOf(UserProfileState())\n    val uiState: State<UserProfileState> get() = _uiState\n    \n    fun loadUserProfile() {\n        _uiState.value = _uiState.value.copy(isLoading = true)\n        \n        viewModelScope.launch {\n            try {\n                val user = userRepository.getUser()\n                _uiState.value = _uiState.value.copy(\n                    user = user,\n                    isLoading = false,\n                    error = null\n                )\n            } catch (e: Exception) {\n                _uiState.value = _uiState.value.copy(\n                    isLoading = false,\n                    error = e.message\n                )\n            }\n        }\n    }\n}\n\n@Composable\nfun UserProfileScreen(viewModel: UserProfileViewModel = viewModel()) {\n    val uiState by viewModel.uiState\n    \n    when {\n        uiState.isLoading -> LoadingIndicator()\n        uiState.error != null -> ErrorMessage(uiState.error)\n        uiState.user != null -> UserProfile(uiState.user)\n    }\n    \n    LaunchedEffect(Unit) {\n        viewModel.loadUserProfile()\n    }\n}"
+    }
+  ]
+}

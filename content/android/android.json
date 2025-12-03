@@ -89,16 +89,25 @@
       "url": "#android-compose",
       "contentFile": "android-compose.json",
       "subItems": [
-
         {
           "title": "Modifier",
           "url": "#android-compose-modifier",
           "contentFile": "android-compose-modifier.json"
         },
         {
+          "title": "State ",
+          "url": "#android-compose-state",
+          "contentFile": "android-compose-state.json"
+        },
+        {
           "title": "Column and Row layout",
           "url": "#android-compose-column-row-layout",
           "contentFile": "android-compose-column-row-layout.json"
+        },
+        {
+          "title": "LazyColumn and LazyRow layout",
+          "url": "#android-compose-lazycolumn-lazyrow-layout",
+          "contentFile": "android-compose-lazycolumn-lazyrow-layout.json"
         },
         {
           "title": "Box layout",

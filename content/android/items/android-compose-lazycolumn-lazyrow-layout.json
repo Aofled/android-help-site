@@ -1,0 +1,109 @@
+{
+  "title": "LazyColumn и LazyRow",
+  "content": [
+    {
+      "type": "text",
+      "value": "**LazyColumn** — это **вертикальный** список, который создает элементы только когда они видны на экране (**как RecyclerView**).\n\n\n\n**LazyRow** — это **горизонтальный** список с такой же оптимизацией."
+    },
+    {
+      "type": "text",
+      "value": "Основное отличие от обычного **Column/Row**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// ПЛОХО - создаст ВСЕ элементы сразу\nColumn {\n    repeat(1000) { index ->\n        Text(\"Элемент $index\")\n    }\n}\n\n// ХОРОШО - создаст только ВИДИМЫЕ элементы\nLazyColumn {\n    items(1000) { index ->\n        Text(\"Элемент $index\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Ключевые параметры и модификаторы:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "//Content padding:\nLazyColumn(\n    contentPadding = PaddingValues(16.dp) // отступы внутри списка\n)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "//Вертикальное расположение:\nLazyColumn(\n    verticalArrangement = Arrangement.spacedBy(8.dp) // расстояние между элементами\n)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "//Горизонтальное выравнивание:\nLazyColumn(\n    horizontalAlignment = Alignment.CenterHorizontally\n) {\n    items(items) { item ->\n        ItemCard(item) // все карточки по центру\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### items() Простейший список:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fruits = listOf(\"Apple\", \"Banana\", \"Orange\")\n\nLazyColumn {\n    items(fruits) { fruit ->\n        Text(fruit)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### itemsIndexed() c индексом:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val fruits = listOf(\"Apple\", \"Banana\", \"Orange\")\n\nLazyColumn {\n    itemsIndexed(fruits) { index, fruit ->\n        Text(\"$index: $fruit\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### items(count) для диапазона:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "LazyColumn {\n    items(100) { index ->\n        Text(\"Элемент $index\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "####  item() для отдельных элементов::"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "LazyColumn {\n    item {\n        Header(\"Список фруктов\")\n    }\n    \n    items(fruits) { fruit ->\n        FruitItem(fruit)\n    }\n    \n    item {\n        Footer(\"Всего: ${fruits.size} фруктов\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Grid (сетка) с LazyVerticalGrid"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun GridExample() {\n    val items = (1..50).map { \"Item $it\" }\n    \n    LazyVerticalGrid(\n        columns = GridCells.Fixed(2), // 2 колонки\n        verticalArrangement = Arrangement.spacedBy(8.dp),\n        horizontalArrangement = Arrangement.spacedBy(8.dp),\n        contentPadding = PaddingValues(8.dp)\n    ) {\n        items(items) { item ->\n            Box(\n                modifier = Modifier\n                    .height(100.dp)\n                    .background(Color.LightGray)\n                    .padding(8.dp),\n                contentAlignment = Alignment.Center\n            ) {\n                Text(item)\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Обработка кликов и жестов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun ClickableList() {\n    val items = listOf(\"Apple\", \"Banana\", \"Orange\")\n    \n    LazyColumn {\n        items(items) { item ->\n            var isExpanded by remember { mutableStateOf(false) }\n            \n            Card(\n                modifier = Modifier\n                    .fillMaxWidth()\n                    .padding(8.dp)\n                    .clickable { \n                        isExpanded = !isExpanded \n                    },\n                elevation = 4.dp\n            ) {\n                Column(\n                    modifier = Modifier.padding(16.dp)\n                ) {\n                    Text(\n                        text = item,\n                        fontWeight = FontWeight.Bold\n                    )\n                    \n                    if (isExpanded) {\n                        Text(\n                            text = \"Дополнительная информация о $item\",\n                            modifier = Modifier.padding(top = 8.dp)\n                        )\n                    }\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Работа с разными типами элементов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "sealed class ListItem {\n    data class Fruit(val name: String) : ListItem()\n    data class Vegetable(val name: String) : ListItem()\n    object Separator : ListItem()\n}\n\n@Composable\nfun MultiTypeList() {\n    val items = listOf(\n        ListItem.Fruit(\"Apple\"),\n        ListItem.Fruit(\"Banana\"),\n        ListItem.Separator,\n        ListItem.Vegetable(\"Carrot\"),\n        ListItem.Vegetable(\"Potato\")\n    )\n    \n    LazyColumn {\n        items(items) { item ->\n            when (item) {\n                is ListItem.Fruit -> FruitItem(item.name)\n                is ListItem.Vegetable -> VegetableItem(item.name)\n                ListItem.Separator -> Divider(thickness = 2.dp)\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Практический пример: Список пользователей:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class User(\n    val id: Long,\n    val name: String,\n    val email: String,\n    val avatarUrl: String\n)\n\n@Composable\nfun UserList(users: List<User>, onUserClick: (User) -> Unit) {\n    LazyColumn(\n        modifier = Modifier.fillMaxSize(),\n        contentPadding = PaddingValues(16.dp),\n        verticalArrangement = Arrangement.spacedBy(8.dp)\n    ) {\n        item {\n            Header(\"Пользователи: ${users.size}\")\n        }\n        \n        items(\n            items = users,\n            key = { it.id }\n        ) { user ->\n            UserCard(\n                user = user,\n                onClick = { onUserClick(user) }\n            )\n        }\n        \n        item {\n            Footer(\"Конец списка\")\n        }\n    }\n}\n\n@Composable\nfun UserCard(user: User, onClick: () -> Unit) {\n    Card(\n        modifier = Modifier\n            .fillMaxWidth()\n            .clickable(onClick = onClick),\n        elevation = 2.dp\n    ) {\n        Row(\n            modifier = Modifier.padding(16.dp),\n            verticalAlignment = Alignment.CenterVertically\n        ) {\n            // Аватар\n            Box(\n                modifier = Modifier\n                    .size(40.dp)\n                    .background(Color.LightGray, CircleShape)\n            )\n            \n            Spacer(modifier = Modifier.width(16.dp))\n            \n            // Информация\n            Column {\n                Text(\n                    text = user.name,\n                    fontWeight = FontWeight.Bold\n                )\n                Text(\n                    text = user.email,\n                    color = Color.Gray,\n                    fontSize = 14.sp\n                )\n            }\n        }\n    }\n}"
+    }
+  ]
+}
