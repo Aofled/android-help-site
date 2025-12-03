@@ -3,12 +3,23 @@
   "content": [
     {
       "type": "text",
-      "value": "### Типовые шаблоны заголовков"
+      "value": "### Типовые шаблоны заголовков (Conventional Commits стандарт)"
     },
     {
-      "type": "code",
-      "language": "xml",
-      "value": "Префикс       Когда использовать\t                                        Пример\nfeat:         Добавление новой функциональности\t                                feat: add user profile page\nfix:          Исправление ошибки (бага)\t                                        fix: prevent page crash on invalid login\ndocs:         Изменения в документации\t                                        docs: update API usage examples\nstyle:        Изменения, не влияющие на логику (форматирование, пробелы)        style: format code with prettier\nrefactor:     Изменения кода без исправления багов или добавления новых фич     refactor: simplify data fetching logic\ntest:         Добавление или исправление тестов\t                                test: add unit tests for utility functions\nchore:        Вспомогательные задачи (обновление зависимостей, настройка)       chore: update npm dependencies"
+      "type": "text",
+      "value": "`feat`        **Новая функциональность** (добавляет что-то новое пользователю)\t`feat`: add dark mode toggle\n\n`fix`          **Исправление бага** (что-то не работало — стало работать)\t`fix`: resolve memory leak in image gallery\n\n`docs`      **Изменения в документации**\t`docs`: update API authentication guide\n\n`style`      **Изменения форматирования** (не влияют на логику)\t`style`: format code with prettier\n\n`ui или design`      **Визуальные изменения интерфейса** \t`ui`: update button colors\n\n  `refactor` **Рефакторинг кода (без изменения поведения)**\t`refactor`: simplify user validation logic\n\n`perf`       **Изменения, улучшающие производительность**\t`perf`: optimize database queries in user profile\n\n`test`\t**Добавление или исправление тестов**\t`test`: add unit tests for utility functions\n\n`build`\t**Сборка проекта или внешние зависимости.**\t`build`: update webpack to version 5\n\n`ci`\t        **Настройка CI/CD** (GitHub Actions, GitLab CI)\t`ci`: add automated deployment pipeline\n\n`chore`\t**Вспомогательные задачи** (Рефакторинг без изменения логики, рутинные обновления)\t`chore`: update npm dependencies\n\n`revert`\t**Отмена предыдущего коммита**\t`revert`: commit 1234567"
+    },
+    {
+      "type": "text",
+      "value": "#### Если пользователь закроет глаза и будет работать с сайтом вслепую, заметит ли он разницу?\"\n\n- **НЕТ** (только визуальные изменения) → `ui/style`\n\n- **ДА** (изменилось поведение) → `feat/fix/refactor`"
+    },
+    {
+      "type": "text",
+      "value": "#### Область (scope) — уточнение контекста\n\nОбласть указывает, какая часть проекта затронута. Это делает коммиты еще более информативными:"
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры областей:\n\n\n\n**feat(auth)**: новая фича в модуле аутентификации\n\n\n\n**fix(ui)**: исправление в пользовательском интерфейсе\n\n\n\n**docs(readme)**: изменения в README файле\n\n\n\n**refactor(api)**: рефакторинг API модуля\n\n\n\n**test(unit)**: изменения в unit-тестах"
     },
     {
       "type": "text",
