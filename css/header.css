@@ -68,33 +68,34 @@
     --android-dark: #f8f9fa;
     --android-light: #202124;
     --sidebar-bg: #e0e0e0;
+}
 
-    .header, .footer {
-        background: var(--android-dark);
-        border-color: rgba(0, 0, 0, 0.1);
-    }
+[data-theme="light"] .header,
+[data-theme="light"] .footer {
+    background: var(--android-dark);
+    border-color: rgba(0, 0, 0, 0.1);
+}
 
-    .header-menu li a,
-    .footer-menu li a {
-        color: var(--android-light);
-    }
+[data-theme="light"] .header-menu li a,
+[data-theme="light"] .footer-menu li a {
+    color: var(--android-light);
+}
 
-    .header-menu li a:hover,
-    .footer-menu li a:hover {
-        background: rgba(0, 0, 0, 0.05);
-    }
+[data-theme="light"] .header-menu li a:hover,
+[data-theme="light"] .footer-menu li a:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
 
-    .header-menu li a.active,
-    .footer-menu li a.active {
-        background: #27ae60;
-        color: white;
-    }
+[data-theme="light"] .header-menu li a.active,
+[data-theme="light"] .footer-menu li a.active {
+    background: #27ae60;
+    color: white;
+}
 
-    .theme-toggle {
-        color: var(--android-light);
-    }
+[data-theme="light"] .theme-toggle {
+    color: var(--android-light);
+}
 
-    .json-generator a {
-        color: var(--android-light);
-    }
+[data-theme="light"] .json-generator a {
+    color: var(--android-light);
 }

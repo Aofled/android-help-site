@@ -69,12 +69,10 @@
     border-radius: 4px;
 }
 
-[data-theme="light"] {
-    .footer-menu .json-generator a {
-        color: var(--android-light);
-    }
+[data-theme="light"] .footer-menu .json-generator a {
+    color: var(--android-light);
+}
 
-    .footer-menu .json-generator a:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
+[data-theme="light"] .footer-menu .json-generator a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
 }

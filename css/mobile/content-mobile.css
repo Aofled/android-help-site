@@ -41,14 +41,16 @@
 
     .text-block {
         margin-bottom: 1em;
+    }
 
-        p, ul, ol {
-            margin: 0.6em 0;
-        }
+    .text-block p,
+    .text-block ul,
+    .text-block ol {
+        margin: 0.6em 0;
+    }
 
-        li {
-            margin: 0.3em 0;
-        }
+    .text-block li {
+        margin: 0.3em 0;
     }
 
     .content-image-wrapper {
@@ -72,19 +74,19 @@
 
     .loader {
         padding: 20px;
+    }
 
-        .spinner {
-            width: 30px;
-            height: 30px;
-        }
+    .loader .spinner {
+        width: 30px;
+        height: 30px;
     }
 
     .error-content {
         padding: 20px;
+    }
 
-        button {
-            padding: 6px 12px;
-        }
+    .error-content button {
+        padding: 6px 12px;
     }
 
     .gray-block a {

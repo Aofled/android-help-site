@@ -58,59 +58,60 @@
 .text-block {
     color: inherit;
     margin-bottom: 1.2em;
+}
 
-    p {
-        margin: 0.8em 0;
-        line-height: 1.6;
-    }
+.text-block p {
+    margin: 0.8em 0;
+    line-height: 1.6;
+}
 
-    ul, ol {
-        padding-left: 1.5em;
-        margin: 0.8em 0;
-    }
+.text-block ul,
+.text-block ol {
+    padding-left: 1.5em;
+    margin: 0.8em 0;
+}
 
-    li {
-        margin: 0.4em 0;
-        padding-left: 0.4em;
-    }
+.text-block li {
+    margin: 0.4em 0;
+    padding-left: 0.4em;
+}
 
-    code:not([class]) {
-        background: rgba(61, 220, 132, 0.15);
-        padding: 0.2em 0.4em;
-        font-size: 1.1em;
-        border-radius: 3px;
-        color: #3ddc84;
-        line-height: 1.6;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
+.text-block code:not([class]) {
+    background: rgba(61, 220, 132, 0.15);
+    padding: 0.2em 0.4em;
+    font-size: 1.1em;
+    border-radius: 3px;
+    color: #3ddc84;
+    line-height: 1.6;
+    font-family: 'Roboto', Arial, sans-serif;
+}
 
-    strong {
-        font-weight: bold;
-        color: #3ddc84;
-    }
+.text-block strong {
+    font-weight: bold;
+    color: #3ddc84;
+}
 
-    del {
-        text-decoration: line-through;
-        color: #aaa;
-    }
+.text-block del {
+    text-decoration: line-through;
+    color: #aaa;
+}
 
-    a {
-        color: #3ddc84;
-        text-decoration: none;
-        border-bottom: 1px solid rgba(61, 220, 132, 0.3);
-        transition: all 0.2s;
+.text-block a {
+    color: #3ddc84;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(61, 220, 132, 0.3);
+    transition: all 0.2s;
+}
 
-        &:hover {
-            color: #7fffd4;
-            border-bottom-color: currentColor;
-        }
-    }
+.text-block a:hover {
+    color: #7fffd4;
+    border-bottom-color: currentColor;
+}
 
-    br {
-        content: "";
-        display: block;
-        margin-bottom: 0.5em;
-    }
+.text-block br {
+    content: "";
+    display: block;
+    margin-bottom: 0.5em;
 }
 
 .content-image-wrapper {
@@ -157,105 +158,102 @@ figcaption {
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s;
+}
 
-    &:hover {
-        background: rgba(61, 220, 132, 0.2);
-        color: #3ddc84;
-    }
+.copy-code-btn:hover {
+    background: rgba(61, 220, 132, 0.2);
+    color: #3ddc84;
+}
 
-    &:active {
-        transform: scale(0.95);
-    }
+.copy-code-btn:active {
+    transform: scale(0.95);
+}
 
-    &.copied {
-        color: #3ddc84;
-        border-color: #3ddc84;
+.copy-code-btn.copied {
+    color: #3ddc84;
+    border-color: #3ddc84;
+}
 
-        &::after {
-            content: "✓";
-            margin-left: 4px;
-        }
-    }
+.copy-code-btn.copied::after {
+    content: "✓";
+    margin-left: 4px;
 }
 
 .loader {
     text-align: center;
     padding: 40px;
     color: #666;
+}
 
-    .spinner {
-        border: 4px solid rgba(61, 220, 132, 0.2);
-        border-radius: 50%;
-        border-top-color: #3ddc84;
-        width: 40px;
-        height: 40px;
-        margin: 0 auto 15px;
-        animation: spin 1s linear infinite;
-    }
+.loader .spinner {
+    border: 4px solid rgba(61, 220, 132, 0.2);
+    border-radius: 50%;
+    border-top-color: #3ddc84;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 15px;
+    animation: spin 1s linear infinite;
 }
 
 .error-content {
     text-align: center;
     padding: 30px;
     color: #e74c3c;
-
-    button {
-        background: #3ddc84;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 15px;
-    }
 }
 
-[data-theme="light"] {
-    & .content,
-    & .content-body,
-    & .text-block {
-        color: #444;
-    }
+.error-content button {
+    background: #3ddc84;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
 
-    & .content h1,
-    & .content h2,
-    & .content h3,
-    & .content-title {
-        color: #333;
-        font-weight: 600;
-    }
+[data-theme="light"] .content,
+[data-theme="light"] .content-body,
+[data-theme="light"] .text-block {
+    color: #444;
+}
 
-    & .content a,
-    & .text-block a {
-        color: #2a7f5f;
+[data-theme="light"] .content h1,
+[data-theme="light"] .content h2,
+[data-theme="light"] .content h3,
+[data-theme="light"] .content-title {
+    color: #333;
+    font-weight: 600;
+}
 
-        &:hover {
-            color: #3ddc84;
-        }
-    }
+[data-theme="light"] .content a,
+[data-theme="light"] .text-block a {
+    color: #2a7f5f;
+}
 
-    & figcaption {
-        color: #666;
-        font-weight: 500;
-    }
+[data-theme="light"] .content a:hover,
+[data-theme="light"] .text-block a:hover {
+    color: #3ddc84;
+}
 
-    & .content-image {
-        border-color: rgba(0, 0, 0, 0.05);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
+[data-theme="light"] figcaption {
+    color: #666;
+    font-weight: 500;
+}
 
-    & .text-block {
-        strong {
-            color: #2a7f5f;
-        }
+[data-theme="light"] .content-image {
+    border-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
-        code:not([class]) {
-            color: #2a7f5f;
-        }
+[data-theme="light"] .text-block strong {
+    color: #2a7f5f;
+}
 
-        del {
-            color: #777;
-        }
-    }
+[data-theme="light"] .text-block code:not([class]) {
+    color: #2a7f5f;
+}
+
+[data-theme="light"] .text-block del {
+    color: #777;
 }
 
 @keyframes spin {
