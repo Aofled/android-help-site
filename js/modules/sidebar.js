@@ -1,5 +1,5 @@
 import {loadContent} from '../core/content-loader.js';
-import {updateUrl} from '../core/utilities.js';
+import {updateUrl, escapeHtml} from '../core/utilities.js';
 import {setupSidebarControls} from './sidebar-controls.js';
 import {sidebarEl, sidebarEventListeners, addEventListener, cleanupEventListeners} from './sidebar-core.js';
 
@@ -61,7 +61,7 @@ function renderSidebarMenu(menuType, menuData) {
               ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
             </a>
             ${item.subItems ? `
-              <ul class="submenu" data-original-order='${JSON.stringify(item.subItems)}'>
+              <ul class="submenu" data-original-order='${escapeHtml(JSON.stringify(item.subItems))}'>
                 ${item.subItems.map(subItem => `
                   <li>
                     <a href="${subItem.url}"
@@ -97,7 +97,7 @@ function setupSidebarListeners() {
         if (!link) return;
 
         e.preventDefault();
-        document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+        sidebarEl.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
         link.classList.add('active');
 
         loadContent(link.dataset.section, link.dataset.contentFile);
