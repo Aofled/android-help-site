@@ -15,33 +15,39 @@ export async function loadSidebarMenu(menuType) {
         const menuData = await response.json();
         renderSidebarMenu(menuType, menuData);
 
+        const currentHash = window.location.hash;
+
+        const isHashForThisSection = currentHash.startsWith(`#${menuType}/`);
+
+        if (isHashForThisSection) {
+            const targetItem = findItemByGeneratedUrl(menuData.menuItems, menuType, currentHash);
+
+            if (targetItem) {
+                await loadContent(menuType, targetItem.contentFile);
+                activateSidebarLink(currentHash);
+                return;
+            }
+        }
+
         if (menuData.menuItems.length > 0) {
-            const currentHash = window.location.hash;
-            let itemToLoad = null;
+            const firstItem = menuData.menuItems[0];
+            await loadContent(menuType, firstItem.contentFile);
 
-            if (currentHash) {
-                itemToLoad = findItemRecursive(menuData.menuItems, currentHash);
-            }
+            const newUrl = generateUrl(menuType, firstItem.url);
 
-            if (!itemToLoad) {
-                itemToLoad = menuData.menuItems[0];
-            }
-
-            if (itemToLoad) {
-                await loadContent(menuType, itemToLoad.contentFile);
-
-                if (itemToLoad.url !== currentHash) {
-                    updateUrl(itemToLoad.url);
-                }
-
-                activateSidebarLink(itemToLoad.url);
-            }
+            updateUrl(newUrl);
+            activateSidebarLink(newUrl);
         }
 
     } catch (error) {
         console.error("Ошибка загрузки меню:", error);
         sidebarEl.innerHTML = `<p>Ошибка загрузки меню: ${error.message}</p>`;
     }
+}
+
+function generateUrl(section, originalJsonUrl) {
+    const cleanSlug = originalJsonUrl.replace(/^#/, '');
+    return `#${section}/${cleanSlug}`;
 }
 
 function renderSidebarMenu(menuType, menuData) {
@@ -64,35 +70,33 @@ function renderSidebarMenu(menuType, menuData) {
         </button>
       </div>
       <ul class="sidebar-main-list">
-        ${menuData.menuItems.map(item => `
-          <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
-            <a href="${item.url}"
-               data-content-file="${item.contentFile}"
-               data-section="${menuType}">
-              ${item.title}
-              ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
-            </a>
-            ${item.subItems ? `
-              <ul class="submenu" data-original-order='${escapeHtml(JSON.stringify(item.subItems))}'>
-                ${item.subItems.map(subItem => `
-                  <li>
-                    <a href="${subItem.url}"
-                       data-content-file="${subItem.contentFile}"
-                       data-section="${menuType}">
-                      ${subItem.title}
-                    </a>
-                  </li>
-                `).join('')}
-              </ul>
-            ` : ''}
-          </li>
-        `).join('')}
+        ${menuData.menuItems.map(item => renderMenuItem(item, menuType)).join('')}
       </ul>
     </nav>
   `;
 
     setupSidebarListeners();
     setupSidebarControls(hasSubItems);
+}
+
+function renderMenuItem(item, menuType) {
+    const href = generateUrl(menuType, item.url);
+
+    return `
+      <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
+        <a href="${href}"
+           data-content-file="${item.contentFile}"
+           data-section="${menuType}">
+          ${item.title}
+          ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
+        </a>
+        ${item.subItems ? `
+          <ul class="submenu" data-original-order='${escapeHtml(JSON.stringify(item.subItems))}'>
+            ${item.subItems.map(subItem => renderMenuItem(subItem, menuType)).join('')}
+          </ul>
+        ` : ''}
+      </li>
+    `;
 }
 
 function setupSidebarListeners() {
@@ -110,10 +114,11 @@ function setupSidebarListeners() {
 
         e.preventDefault();
 
-        activateSidebarLink(link.getAttribute('href'));
+        const href = link.getAttribute('href');
+        activateSidebarLink(href);
 
         loadContent(link.dataset.section, link.dataset.contentFile);
-        updateUrl(link.href);
+        updateUrl(href);
 
         if (window.matchMedia('(max-width: 1023px)').matches) {
             const sidebar = document.querySelector('.sidebar');
@@ -143,11 +148,13 @@ function activateSidebarLink(url) {
     }
 }
 
-function findItemRecursive(items, url) {
+function findItemByGeneratedUrl(items, menuType, targetUrl) {
     for (const item of items) {
-        if (item.url === url) return item;
+        const generated = generateUrl(menuType, item.url);
+        if (generated === targetUrl) return item;
+
         if (item.subItems) {
-            const found = findItemRecursive(item.subItems, url);
+            const found = findItemByGeneratedUrl(item.subItems, menuType, targetUrl);
             if (found) return found;
         }
     }

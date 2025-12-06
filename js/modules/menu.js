@@ -1,5 +1,4 @@
 import {loadSidebarMenu} from './sidebar.js';
-import {showLoader} from '../core/content-loader.js';
 
 export function setupMenu() {
     const burgerMenu = document.querySelector('.burger-menu');
@@ -13,9 +12,12 @@ export function setupMenu() {
     const menuItems = document.querySelectorAll('[data-menu-item]');
 
     function setActiveMenuItem(activeItem) {
+        menuItems.forEach(item => item.classList.remove('active'));
+
         menuItems.forEach(item => {
-            const isActive = item.dataset.menuItem === activeItem;
-            item.classList.toggle('active', isActive);
+            if (item.dataset.menuItem === activeItem) {
+                item.classList.add('active');
+            }
         });
     }
 
@@ -28,56 +30,19 @@ export function setupMenu() {
         });
     });
 
-    init(setActiveMenuItem);
-}
+    const hash = window.location.hash; // #java/basics
+    const validSections = ['android', 'kotlin', 'java', 'studio'];
+    let sectionToLoad = 'android';
 
-async function init(setActiveMenuItem) {
-    const hash = window.location.hash;
+    if (hash) {
+        const parts = hash.replace('#', '').split('/');
+        const potentialSection = parts[0];
 
-    if (!hash) {
-        setActiveMenuItem('android');
-        loadSidebarMenu('android');
-        return;
-    }
-
-    showLoader();
-
-    document.querySelectorAll('[data-menu-item]').forEach(el => el.classList.remove('active'));
-
-    const sections = ['android', 'kotlin', 'java', 'studio'];
-
-    const checkPromises = sections.map(async (section) => {
-        try {
-            const response = await fetch(`content/${section}/${section}.json?v=${Date.now()}`);
-            if (!response.ok) return null;
-            const data = await response.json();
-
-            if (findUrlInMenu(data.menuItems, hash)) {
-                return section;
-            }
-        } catch (e) {
-            console.error(e);
+        if (validSections.includes(potentialSection)) {
+            sectionToLoad = potentialSection;
         }
-        return null;
-    });
-
-    const results = await Promise.all(checkPromises);
-
-    const foundSection = results.find(s => s !== null);
-
-    if (foundSection) {
-        setActiveMenuItem(foundSection);
-        loadSidebarMenu(foundSection);
-    } else {
-        setActiveMenuItem('android');
-        loadSidebarMenu('android');
     }
-}
 
-function findUrlInMenu(items, url) {
-    for (const item of items) {
-        if (item.url === url) return true;
-        if (item.subItems && findUrlInMenu(item.subItems, url)) return true;
-    }
-    return false;
+    setActiveMenuItem(sectionToLoad);
+    loadSidebarMenu(sectionToLoad);
 }
