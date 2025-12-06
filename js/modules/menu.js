@@ -15,13 +15,6 @@ export function setupMenu() {
         menuItems.forEach(item => {
             const isActive = item.dataset.menuItem === activeItem;
             item.classList.toggle('active', isActive);
-
-            if (isActive) {
-                const sidebarItem = document.querySelector(`.sidebar-item a[href="#${activeItem}"]`);
-                if (sidebarItem) {
-                    sidebarItem.closest('.sidebar-item')?.classList.add('expanded');
-                }
-            }
         });
     }
 
@@ -31,13 +24,46 @@ export function setupMenu() {
             const menuItem = item.dataset.menuItem;
             setActiveMenuItem(menuItem);
             await loadSidebarMenu(menuItem);
-
-            if (window.location.hash.includes(menuItem)) {
-                window.dispatchEvent(new Event('hashchange'));
-            }
         });
     });
 
+    init(setActiveMenuItem);
+}
+
+async function init(setActiveMenuItem) {
+    const hash = window.location.hash;
+
+    if (!hash) {
+        setActiveMenuItem('android');
+        loadSidebarMenu('android');
+        return;
+    }
+
+    const sections = ['android', 'kotlin', 'java', 'studio'];
+
+    for (const section of sections) {
+        try {
+            const response = await fetch(`content/${section}/${section}.json?v=${Date.now()}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (findUrlInMenu(data.menuItems, hash)) {
+                    setActiveMenuItem(section);
+                    loadSidebarMenu(section);
+                }
+            }
+        } catch (e) {
+            console.error(`Ошибка при проверке раздела ${section}:`, e);
+        }
+    }
+
     setActiveMenuItem('android');
     loadSidebarMenu('android');
+}
+
+function findUrlInMenu(items, url) {
+    for (const item of items) {
+        if (item.url === url) return true;
+        if (item.subItems && findUrlInMenu(item.subItems, url)) return true;
+    }
+    return false;
 }

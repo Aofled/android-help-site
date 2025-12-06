@@ -16,16 +16,28 @@ export async function loadSidebarMenu(menuType) {
         renderSidebarMenu(menuType, menuData);
 
         if (menuData.menuItems.length > 0) {
-            const firstItem = menuData.menuItems[0];
-            await loadContent(menuType, firstItem.contentFile);
-            updateUrl(firstItem.url);
+            const currentHash = window.location.hash;
+            let itemToLoad = null;
 
-            const firstMenuItem = document.querySelector('.sidebar-menu a[data-content-file]');
-            if (firstMenuItem) {
-                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-                firstMenuItem.classList.add('active');
+            if (currentHash) {
+                itemToLoad = findItemRecursive(menuData.menuItems, currentHash);
+            }
+
+            if (!itemToLoad) {
+                itemToLoad = menuData.menuItems[0];
+            }
+
+            if (itemToLoad) {
+                await loadContent(menuType, itemToLoad.contentFile);
+
+                if (itemToLoad.url !== currentHash) {
+                    updateUrl(itemToLoad.url);
+                }
+
+                activateSidebarLink(itemToLoad.url);
             }
         }
+
     } catch (error) {
         console.error("Ошибка загрузки меню:", error);
         sidebarEl.innerHTML = `<p>Ошибка загрузки меню: ${error.message}</p>`;
@@ -97,8 +109,8 @@ function setupSidebarListeners() {
         if (!link) return;
 
         e.preventDefault();
-        sidebarEl.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
+
+        activateSidebarLink(link.getAttribute('href'));
 
         loadContent(link.dataset.section, link.dataset.contentFile);
         updateUrl(link.href);
@@ -114,12 +126,40 @@ function setupSidebarListeners() {
     addEventListener(sidebarEl, 'click', clickHandler);
 }
 
+function activateSidebarLink(url) {
+    sidebarEl.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+
+    const link = sidebarEl.querySelector(`a[href="${url}"]`);
+    if (link) {
+        link.classList.add('active');
+
+        const submenu = link.closest('.submenu');
+        if (submenu) {
+            const parentItem = submenu.closest('.sidebar-item');
+            if (parentItem) {
+                parentItem.classList.remove('collapsed');
+            }
+        }
+    }
+}
+
+function findItemRecursive(items, url) {
+    for (const item of items) {
+        if (item.url === url) return item;
+        if (item.subItems) {
+            const found = findItemRecursive(item.subItems, url);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
 export function setupHashChangeListener() {
     const hashHandler = () => {
         const hash = window.location.hash;
-        document.querySelectorAll('.sidebar-menu a').forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === hash);
-        });
+        if (hash) {
+            activateSidebarLink(hash);
+        }
     };
 
     window.addEventListener('hashchange', hashHandler);
