@@ -1,7 +1,7 @@
 import {loadContent} from '../core/content-loader.js';
-import {updateUrl, escapeHtml} from '../core/utilities.js';
+import {escapeHtml, updateUrl} from '../core/utilities.js';
 import {setupSidebarControls} from './sidebar-controls.js';
-import {sidebarEl, sidebarEventListeners, addEventListener, cleanupEventListeners} from './sidebar-core.js';
+import {addEventListener, cleanupEventListeners, sidebarEl, sidebarEventListeners} from './sidebar-core.js';
 
 export async function loadSidebarMenu(menuType) {
     if (!sidebarEl) return;
@@ -15,21 +15,39 @@ export async function loadSidebarMenu(menuType) {
         const menuData = await response.json();
         renderSidebarMenu(menuType, menuData);
 
+        const currentHash = window.location.hash;
+
+        const isHashForThisSection = currentHash.startsWith(`#${menuType}/`);
+
+        if (isHashForThisSection) {
+            const targetItem = findItemByGeneratedUrl(menuData.menuItems, menuType, currentHash);
+
+            if (targetItem) {
+                await loadContent(menuType, targetItem.contentFile);
+                activateSidebarLink(currentHash);
+                return;
+            }
+        }
+
         if (menuData.menuItems.length > 0) {
             const firstItem = menuData.menuItems[0];
             await loadContent(menuType, firstItem.contentFile);
-            updateUrl(firstItem.url);
 
-            const firstMenuItem = document.querySelector('.sidebar-menu a[data-content-file]');
-            if (firstMenuItem) {
-                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-                firstMenuItem.classList.add('active');
-            }
+            const newUrl = generateUrl(menuType, firstItem.url);
+
+            updateUrl(newUrl);
+            activateSidebarLink(newUrl);
         }
+
     } catch (error) {
         console.error("Ошибка загрузки меню:", error);
         sidebarEl.innerHTML = `<p>Ошибка загрузки меню: ${error.message}</p>`;
     }
+}
+
+function generateUrl(section, originalJsonUrl) {
+    const cleanSlug = originalJsonUrl.replace(/^#/, '');
+    return `#${section}/${cleanSlug}`;
 }
 
 function renderSidebarMenu(menuType, menuData) {
@@ -52,35 +70,33 @@ function renderSidebarMenu(menuType, menuData) {
         </button>
       </div>
       <ul class="sidebar-main-list">
-        ${menuData.menuItems.map(item => `
-          <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
-            <a href="${item.url}"
-               data-content-file="${item.contentFile}"
-               data-section="${menuType}">
-              ${item.title}
-              ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
-            </a>
-            ${item.subItems ? `
-              <ul class="submenu" data-original-order='${escapeHtml(JSON.stringify(item.subItems))}'>
-                ${item.subItems.map(subItem => `
-                  <li>
-                    <a href="${subItem.url}"
-                       data-content-file="${subItem.contentFile}"
-                       data-section="${menuType}">
-                      ${subItem.title}
-                    </a>
-                  </li>
-                `).join('')}
-              </ul>
-            ` : ''}
-          </li>
-        `).join('')}
+        ${menuData.menuItems.map(item => renderMenuItem(item, menuType)).join('')}
       </ul>
     </nav>
   `;
 
     setupSidebarListeners();
     setupSidebarControls(hasSubItems);
+}
+
+function renderMenuItem(item, menuType) {
+    const href = generateUrl(menuType, item.url);
+
+    return `
+      <li class="sidebar-item ${item.subItems ? 'has-submenu' : ''}">
+        <a href="${href}"
+           data-content-file="${item.contentFile}"
+           data-section="${menuType}">
+          ${item.title}
+          ${item.subItems ? '<span class="submenu-toggle">›</span>' : ''}
+        </a>
+        ${item.subItems ? `
+          <ul class="submenu" data-original-order='${escapeHtml(JSON.stringify(item.subItems))}'>
+            ${item.subItems.map(subItem => renderMenuItem(subItem, menuType)).join('')}
+          </ul>
+        ` : ''}
+      </li>
+    `;
 }
 
 function setupSidebarListeners() {
@@ -97,11 +113,12 @@ function setupSidebarListeners() {
         if (!link) return;
 
         e.preventDefault();
-        sidebarEl.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
+
+        const href = link.getAttribute('href');
+        activateSidebarLink(href);
 
         loadContent(link.dataset.section, link.dataset.contentFile);
-        updateUrl(link.href);
+        updateUrl(href);
 
         if (window.matchMedia('(max-width: 1023px)').matches) {
             const sidebar = document.querySelector('.sidebar');
@@ -114,12 +131,42 @@ function setupSidebarListeners() {
     addEventListener(sidebarEl, 'click', clickHandler);
 }
 
+function activateSidebarLink(url) {
+    sidebarEl.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+
+    const link = sidebarEl.querySelector(`a[href="${url}"]`);
+    if (link) {
+        link.classList.add('active');
+
+        const submenu = link.closest('.submenu');
+        if (submenu) {
+            const parentItem = submenu.closest('.sidebar-item');
+            if (parentItem) {
+                parentItem.classList.remove('collapsed');
+            }
+        }
+    }
+}
+
+function findItemByGeneratedUrl(items, menuType, targetUrl) {
+    for (const item of items) {
+        const generated = generateUrl(menuType, item.url);
+        if (generated === targetUrl) return item;
+
+        if (item.subItems) {
+            const found = findItemByGeneratedUrl(item.subItems, menuType, targetUrl);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
 export function setupHashChangeListener() {
     const hashHandler = () => {
         const hash = window.location.hash;
-        document.querySelectorAll('.sidebar-menu a').forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === hash);
-        });
+        if (hash) {
+            activateSidebarLink(hash);
+        }
     };
 
     window.addEventListener('hashchange', hashHandler);
