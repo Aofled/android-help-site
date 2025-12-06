@@ -1,4 +1,5 @@
 import {loadSidebarMenu} from './sidebar.js';
+import {showLoader} from '../core/content-loader.js';
 
 export function setupMenu() {
     const burgerMenu = document.querySelector('.burger-menu');
@@ -39,25 +40,38 @@ async function init(setActiveMenuItem) {
         return;
     }
 
+    showLoader();
+
+    document.querySelectorAll('[data-menu-item]').forEach(el => el.classList.remove('active'));
+
     const sections = ['android', 'kotlin', 'java', 'studio'];
 
-    for (const section of sections) {
+    const checkPromises = sections.map(async (section) => {
         try {
             const response = await fetch(`content/${section}/${section}.json?v=${Date.now()}`);
-            if (response.ok) {
-                const data = await response.json();
-                if (findUrlInMenu(data.menuItems, hash)) {
-                    setActiveMenuItem(section);
-                    loadSidebarMenu(section);
-                }
+            if (!response.ok) return null;
+            const data = await response.json();
+
+            if (findUrlInMenu(data.menuItems, hash)) {
+                return section;
             }
         } catch (e) {
-            console.error(`Ошибка при проверке раздела ${section}:`, e);
+            console.error(e);
         }
-    }
+        return null;
+    });
 
-    setActiveMenuItem('android');
-    loadSidebarMenu('android');
+    const results = await Promise.all(checkPromises);
+
+    const foundSection = results.find(s => s !== null);
+
+    if (foundSection) {
+        setActiveMenuItem(foundSection);
+        loadSidebarMenu(foundSection);
+    } else {
+        setActiveMenuItem('android');
+        loadSidebarMenu('android');
+    }
 }
 
 function findUrlInMenu(items, url) {

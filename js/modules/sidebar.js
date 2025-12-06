@@ -1,7 +1,7 @@
 import {loadContent} from '../core/content-loader.js';
-import {updateUrl, escapeHtml} from '../core/utilities.js';
+import {escapeHtml, updateUrl} from '../core/utilities.js';
 import {setupSidebarControls} from './sidebar-controls.js';
-import {sidebarEl, sidebarEventListeners, addEventListener, cleanupEventListeners} from './sidebar-core.js';
+import {addEventListener, cleanupEventListeners, sidebarEl, sidebarEventListeners} from './sidebar-core.js';
 
 export async function loadSidebarMenu(menuType) {
     if (!sidebarEl) return;

@@ -62,7 +62,7 @@ export async function loadContent(section, contentFile) {
     }
 }
 
-function showLoader() {
+export function showLoader() {
     contentEl.innerHTML = `
     <div class="loader">
       <div class="spinner"></div>
