@@ -5,6 +5,11 @@ export function setupSidebarControls(hasSubItems) {
 
     const controlsContainer = sidebarEl.querySelector('.sidebar-controls');
 
+    const existingSearch = sidebarEl.querySelector('.search-container');
+    if (existingSearch) {
+        existingSearch.remove();
+    }
+
     const searchContainer = document.createElement('div');
     searchContainer.className = 'search-container';
     searchContainer.innerHTML = `
@@ -22,22 +27,38 @@ export function setupSidebarControls(hasSubItems) {
     });
 
     function filterSidebarItems(searchTerm) {
-        const allItems = sidebarEl.querySelectorAll('.sidebar-item');
+        const rootItems = sidebarEl.querySelectorAll('.sidebar-main-list > .sidebar-item');
 
-        allItems.forEach(item => {
-            const title = item.querySelector('a').textContent.toLowerCase();
-            const subItems = item.querySelectorAll('.submenu li');
+        rootItems.forEach(item => {
+            const link = item.querySelector('a');
+            const title = link.textContent.toLowerCase();
+
+            const isMainMatch = title.includes(searchTerm);
+
+            const subItems = item.querySelectorAll('.submenu > li');
             let hasVisibleSubItems = false;
 
             subItems.forEach(subItem => {
                 const subTitle = subItem.textContent.toLowerCase();
-                const isMatch = subTitle.includes(searchTerm);
-                subItem.style.display = isMatch ? '' : 'none';
-                if (isMatch) hasVisibleSubItems = true;
+                const isSubMatch = subTitle.includes(searchTerm);
+
+                const shouldShow = isMainMatch || isSubMatch;
+
+                subItem.style.display = shouldShow ? '' : 'none';
+
+                if (shouldShow) hasVisibleSubItems = true;
             });
 
-            const isMainMatch = title.includes(searchTerm);
             item.style.display = (isMainMatch || hasVisibleSubItems) ? '' : 'none';
+
+            if (searchTerm !== '') {
+                if (isMainMatch || hasVisibleSubItems) {
+                    item.classList.remove('collapsed');
+                }
+            } else {
+                item.style.display = '';
+                subItems.forEach(sub => sub.style.display = '');
+            }
         });
     }
 
@@ -68,7 +89,12 @@ export function setupSidebarControls(hasSubItems) {
 
             allSubmenus.forEach(submenu => {
                 const items = Array.from(submenu.children);
-                const originalOrder = JSON.parse(submenu.dataset.originalOrder);
+                let originalOrder;
+                try {
+                    originalOrder = JSON.parse(submenu.dataset.originalOrder || '[]');
+                } catch (e) {
+                    return;
+                }
 
                 items.sort((a, b) => {
                     return isSorted
