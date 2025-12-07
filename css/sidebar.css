@@ -3,12 +3,32 @@
     background: var(--sidebar-bg);
     overflow-y: auto;
     position: sticky;
-    top: var(--header-height);
-    height: calc(100vh - var(--footer-height));
+    top: 0;
+    height: 100vh;
     z-index: 1;
     display: flex;
     flex-direction: column;
     padding-bottom: 50px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--android-green);
 }
 
 .sidebar-menu ul {
@@ -276,4 +296,12 @@
 
 [data-theme="light"] .sidebar-search::placeholder {
     color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .sidebar {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+[data-theme="light"] .sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
 }
