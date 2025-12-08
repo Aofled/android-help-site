@@ -70,6 +70,10 @@
     color: #4285f4;
 }
 
+.status-success {
+    color: #3ddc84;
+}
+
 [data-theme="dark"] .json-body {
     background: #202124;
 }
@@ -92,14 +96,6 @@
 
 [data-theme="dark"] .json-textarea.drag-over {
     background-color: rgba(61, 220, 132, 0.2) !important;
-}
-
-.status-success {
-    color: #3ddc84;
-}
-
-.status-info {
-    color: #4285f4;
 }
 
 .json-editor-wrapper {

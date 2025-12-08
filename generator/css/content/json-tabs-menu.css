@@ -5,73 +5,9 @@
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 12px;
-}
-
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 #add-to-json {
     width: 100%;
     margin-top: 10px;
-}
-
-.radio-group {
-    margin-bottom: 15px;
-}
-
-.radio-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-}
-
-.radio-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.radio-label input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-}
-
-.radio-custom {
-    position: relative;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    border: 2px solid var(--android-green);
-    border-radius: 50%;
-    transition: all 0.2s;
-}
-
-.radio-label input[type="radio"]:checked + .radio-custom {
-    background-color: var(--android-green);
-}
-
-.radio-label input[type="radio"]:checked + .radio-custom::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
 }
 
 #init-json-structure {
