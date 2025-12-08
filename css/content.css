@@ -139,6 +139,29 @@ figcaption {
     padding: 0 15%;
 }
 
+.content pre {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.content pre::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+.content pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content pre::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.content pre::-webkit-scrollbar-thumb:hover {
+    background-color: #3ddc84;
+}
+
 .code-block-wrapper {
     position: relative;
     margin: 15px 0;
@@ -159,6 +182,7 @@ figcaption {
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s;
+    z-index: 5;
 }
 
 .copy-code-btn:hover {
@@ -255,6 +279,14 @@ figcaption {
 
 [data-theme="light"] .text-block del {
     color: #777;
+}
+
+[data-theme="light"] .content pre {
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+[data-theme="light"] .content pre::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 @keyframes spin {
