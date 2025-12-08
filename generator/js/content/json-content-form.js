@@ -14,6 +14,24 @@ export function initContentForm() {
         image: document.getElementById("image-input-group"),
     };
 
+    document.addEventListener("json-editor-cleared", () => {
+        document.getElementById("text-value").value = "";
+
+        document.getElementById("code-value").value = "";
+        const kotlinRadio = document.querySelector('input[name="code-language"][value="kotlin"]');
+        if (kotlinRadio) kotlinRadio.checked = true;
+
+        document.getElementById("image-src").value = "";
+        document.getElementById("image-alt").value = "";
+        document.getElementById("image-caption").value = "";
+
+        const textRadio = document.querySelector('input[name="content-type"][value="text"]');
+        if (textRadio) {
+            textRadio.checked = true;
+            textRadio.dispatchEvent(new Event("change"));
+        }
+    });
+
     let buttonsContainer = inputGroups.text.querySelector(".text-format-buttons");
 
     if (!buttonsContainer) {

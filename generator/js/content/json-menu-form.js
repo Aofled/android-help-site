@@ -8,6 +8,15 @@ export function initMenuForm() {
     const initStructureButton = document.getElementById("init-json-structure");
     const subItemsCheckbox = document.getElementById("menu-has-subitems");
 
+    document.addEventListener("json-editor-cleared", () => {
+        titleInput.value = "";
+        urlInput.value = "";
+        subItemsCheckbox.checked = false;
+
+        const androidRadio = document.querySelector('input[name="platform"][value="android"]');
+        if (androidRadio) androidRadio.checked = true;
+    });
+
     initStructureButton.addEventListener("click", () => {
         const baseStructure = {
             menuItems: [],

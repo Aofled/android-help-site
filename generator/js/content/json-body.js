@@ -76,13 +76,19 @@ export function initJsonBody() {
     });
 
     clearBtn.addEventListener("click", () => {
-        if (textarea.value.trim() !== "") {
-            if (!confirm("Вы уверены, что хотите очистить всё?")) {
+        const hasContent = textarea.value.trim() !== "";
+
+        if (hasContent) {
+            if (!confirm("Вы уверены, что хотите очистить всё (редактор и поля ввода)?")) {
                 return;
             }
         }
+
         textarea.value = "";
-        updateStatus("Очищено", "info");
+
+        document.dispatchEvent(new Event("json-editor-cleared"));
+
+        updateStatus("Всё очищено", "info");
         if (window.updateLineNumbers) window.updateLineNumbers();
     });
 
