@@ -42,6 +42,7 @@ export function setupSidebarControls(hasSubItems) {
                 const subTitle = subItem.textContent.toLowerCase();
                 const isSubMatch = subTitle.includes(searchTerm);
 
+                // If parent matches, show all children. If child matches, show child.
                 const shouldShow = isMainMatch || isSubMatch;
 
                 subItem.style.display = shouldShow ? '' : 'none';
@@ -49,6 +50,7 @@ export function setupSidebarControls(hasSubItems) {
                 if (shouldShow) hasVisibleSubItems = true;
             });
 
+            // Show parent if it matches or has matching children
             item.style.display = (isMainMatch || hasVisibleSubItems) ? '' : 'none';
 
             if (searchTerm !== '') {
@@ -91,6 +93,7 @@ export function setupSidebarControls(hasSubItems) {
                 const items = Array.from(submenu.children);
                 let originalOrder;
                 try {
+                    // We stored the original JSON structure in data-attribute to restore order later
                     originalOrder = JSON.parse(submenu.dataset.originalOrder || '[]');
                 } catch (e) {
                     return;

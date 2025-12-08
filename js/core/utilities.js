@@ -1,3 +1,4 @@
+// Prevents XSS attacks by escaping special characters
 export function escapeHtml(unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
@@ -9,6 +10,7 @@ export function escapeHtml(unsafe) {
 
 export function updateUrl(url) {
     if (window.location.href !== url) {
+        // Updates URL without reloading the page
         window.history.pushState(null, '', url);
     }
 }
@@ -24,6 +26,7 @@ export function validateContent(data) {
         throw new Error('Контент должен быть массивом');
     }
 
+    // Ensure only supported content types are processed
     data.content.forEach(item => {
         if (!item.type || !['text', 'image', 'code'].includes(item.type)) {
             throw new Error(`Неизвестный тип контента: ${item.type}`);

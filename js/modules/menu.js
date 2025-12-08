@@ -30,7 +30,8 @@ export function setupMenu() {
         });
     });
 
-    const hash = window.location.hash; // #java/basics
+    // Parse URL hash to determine which section to load (e.g., #java/basics -> load 'java')
+    const hash = window.location.hash;
     const validSections = ['android', 'kotlin', 'java', 'studio'];
     let sectionToLoad = 'android';
 

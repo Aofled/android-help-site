@@ -5,6 +5,7 @@ const contentEl = document.querySelector('.content');
 
 const marked = window.marked || {
     parse: (text) => {
+        // Custom replacements to support specific styles (underlining, custom classes)
         return text
             // internet link
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
@@ -50,6 +51,7 @@ export async function loadContent(section, contentFile) {
     showLoader();
 
     try {
+        // "v=Date.now()" prevents the browser from caching the JSON file
         const response = await fetch(`content/${section}/items/${contentFile}?v=${Date.now()}`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -168,6 +170,7 @@ async function copyToClipboard(text) {
     if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(text);
     } else {
+        // Fallback for older browsers or non-secure contexts (HTTP)
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);

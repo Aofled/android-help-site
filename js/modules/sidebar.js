@@ -17,6 +17,7 @@ export async function loadSidebarMenu(menuType) {
 
         const currentHash = window.location.hash;
 
+        // Check if the current URL hash belongs to the loaded section (e.g. #android/activity)
         const isHashForThisSection = currentHash.startsWith(`#${menuType}/`);
 
         if (isHashForThisSection) {
@@ -148,6 +149,7 @@ function activateSidebarLink(url) {
     }
 }
 
+// Recursively search for an item in the menu tree (including sub-items)
 function findItemByGeneratedUrl(items, menuType, targetUrl) {
     for (const item of items) {
         const generated = generateUrl(menuType, item.url);
