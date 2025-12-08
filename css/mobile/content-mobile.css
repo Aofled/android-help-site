@@ -72,6 +72,10 @@
         font-size: 11px;
     }
 
+    .copy-code-btn span {
+        display: none;
+    }
+
     .loader {
         padding: 20px;
     }

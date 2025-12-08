@@ -136,7 +136,7 @@ function renderCodeBlock(block) {
         <svg width="14" height="16" viewBox="0 0 14 16" fill="#aaa">
           <path d="M2 4H0V16H11V14H2V4ZM5 0H14V12H5V0ZM4 1H1V13H4V1Z"/>
         </svg>
-        Копировать
+        <span>Копировать</span>
       </button>
       <pre><code class="language-${block.language || 'text'}">${escapeHtml(block.value)}</code></pre>
     </div>`;
@@ -179,7 +179,7 @@ async function copyToClipboard(text) {
 
 function showCopySuccess(btn, originalHtml) {
     btn.classList.add('copied');
-    btn.innerHTML = '<svg width="14" height="16" viewBox="0 0 14 16" fill="#3ddc84"><path d="M2 4H0V16H11V14H2V4ZM5 0H14V12H5V0ZM4 1H1V13H4V1Z"/></svg> ✓ Скопировано!';
+    btn.innerHTML = '<svg width="14" height="16" viewBox="0 0 14 16" fill="#3ddc84"><path d="M2 4H0V16H11V14H2V4ZM5 0H14V12H5V0ZM4 1H1V13H4V1Z"/></svg> <span>✓ Скопировано!</span>';
 
     setTimeout(() => {
         btn.classList.remove('copied');
