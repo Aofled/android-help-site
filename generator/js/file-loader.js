@@ -1,7 +1,8 @@
+import {updateStatus} from "./content/json-body.js";
+
 export function initFileLoader() {
     const fileInput = document.getElementById("file-input");
     const jsonTextarea = document.getElementById("json-input");
-    const statusBar = document.getElementById("json-status");
     const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
 
     document.querySelectorAll('[data-menu-item="load"]').forEach((button) => {
@@ -89,17 +90,6 @@ export function initFileLoader() {
                 fileInput.dispatchEvent(event);
             }
         });
-    }
-
-    function updateStatus(message, type) {
-        statusBar.textContent = message;
-        statusBar.className = "json-status-bar";
-        statusBar.style.color = "";
-        statusBar.style.backgroundColor = "";
-
-        if (type) {
-            statusBar.classList.add(`status-${type}`);
-        }
     }
 
     document.querySelectorAll('[data-menu-item="save"]').forEach((button) => {

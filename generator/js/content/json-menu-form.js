@@ -1,8 +1,12 @@
+import {updateStatus, insertJsonAtCursor} from "./json-body.js";
+
 export function initMenuForm() {
     const addButton = document.getElementById("add-to-json");
     const jsonTextarea = document.getElementById("json-input");
     const urlInput = document.getElementById("menu-url");
+    const titleInput = document.getElementById("menu-title");
     const initStructureButton = document.getElementById("init-json-structure");
+    const subItemsCheckbox = document.getElementById("menu-has-subitems");
 
     initStructureButton.addEventListener("click", () => {
         const baseStructure = {
@@ -27,9 +31,9 @@ export function initMenuForm() {
     });
 
     addButton.addEventListener("click", () => {
-        const title = document.getElementById("menu-title").value.trim();
+        const title = titleInput.value.trim();
         const urlSlug = urlInput.value.trim();
-        const hasSubItems = document.getElementById("menu-has-subitems").checked;
+        const hasSubItems = subItemsCheckbox.checked;
         const platform = document.querySelector(
             'input[name="platform"]:checked',
         ).value;
@@ -56,23 +60,10 @@ export function initMenuForm() {
 
         const jsonString = `,\n${JSON.stringify(menuItem, null, 2)}`;
         insertJsonAtCursor(jsonString);
+
+        titleInput.value = "";
+        urlInput.value = "";
+        subItemsCheckbox.checked = false;
+        updateStatus("Пункт меню добавлен", "success");
     });
-
-    function insertJsonAtCursor(jsonText) {
-        const startPos = jsonTextarea.selectionStart;
-        const endPos = jsonTextarea.selectionEnd;
-        const currentValue = jsonTextarea.value;
-
-        jsonTextarea.value =
-            currentValue.substring(0, startPos) +
-            jsonText +
-            currentValue.substring(endPos);
-
-        if (window.updateLineNumbers) {
-            window.updateLineNumbers();
-        }
-
-        const newCursorPos = startPos + jsonText.length;
-        jsonTextarea.setSelectionRange(newCursorPos, newCursorPos);
-    }
 }

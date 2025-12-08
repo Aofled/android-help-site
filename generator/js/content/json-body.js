@@ -1,7 +1,51 @@
+export function updateStatus(message, type) {
+    const statusBar = document.getElementById("json-status");
+    if (!statusBar) return;
+
+    statusBar.textContent = message;
+    statusBar.className = "json-status-bar";
+    statusBar.style.color = "";
+    statusBar.style.backgroundColor = "";
+
+    if (type) {
+        statusBar.classList.add(`status-${type}`);
+    }
+
+    if (type === "success") {
+        setTimeout(() => {
+            if (statusBar.textContent === message) {
+                statusBar.textContent = "Готов к работе";
+                statusBar.className = "json-status-bar";
+            }
+        }, 3000);
+    }
+}
+
+export function insertJsonAtCursor(jsonText) {
+    const textarea = document.getElementById("json-input");
+    if (!textarea) return;
+
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+    const currentValue = textarea.value;
+
+    textarea.value =
+        currentValue.substring(0, startPos) +
+        jsonText +
+        currentValue.substring(endPos);
+
+    if (window.updateLineNumbers) {
+        window.updateLineNumbers();
+    }
+
+    const newCursorPos = startPos + jsonText.length;
+    textarea.setSelectionRange(newCursorPos, newCursorPos);
+    textarea.focus();
+}
+
 export function initJsonBody() {
     const textarea = document.getElementById("json-input");
     const lineNumbers = document.querySelector(".line-numbers");
-    const statusBar = document.getElementById("json-status");
     const formatBtn = document.getElementById("format-json");
     const minifyBtn = document.getElementById("minify-json");
     const clearBtn = document.getElementById("clear-json");
@@ -32,34 +76,19 @@ export function initJsonBody() {
     });
 
     clearBtn.addEventListener("click", () => {
+        if (textarea.value.trim() !== "") {
+            if (!confirm("Вы уверены, что хотите очистить всё?")) {
+                return;
+            }
+        }
         textarea.value = "";
         updateStatus("Очищено", "info");
+        if (window.updateLineNumbers) window.updateLineNumbers();
     });
 
     textarea.addEventListener("input", () => {
         debounceValidation();
     });
-
-    function updateStatus(message, type) {
-        statusBar.textContent = message;
-
-        statusBar.className = "json-status-bar";
-        statusBar.style.color = "";
-        statusBar.style.backgroundColor = "";
-
-        if (type) {
-            statusBar.classList.add(`status-${type}`);
-        }
-
-        if (type === "success") {
-            setTimeout(() => {
-                if (statusBar.textContent === message) {
-                    statusBar.textContent = "Готов к работе";
-                    statusBar.className = "json-status-bar";
-                }
-            }, 3000);
-        }
-    }
 
     let debounceTimer;
 
