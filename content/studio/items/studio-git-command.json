@@ -275,6 +275,15 @@
     },
     {
       "type": "text",
+      "value": "- **Посмотреть мерженные ветки**:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "# Локальные ветки, которые уже влиты в текущую\ngit branch --merged\n\n# Ветки, которые НЕ влиты в текущую\ngit branch --no-merged"
+    },
+    {
+      "type": "text",
       "value": "- **Удаляет** ветку (если она уже была влита в другую)."
     },
     {
@@ -357,6 +366,24 @@
       "type": "code",
       "language": "xml",
       "value": "git fetch"
+    },
+    {
+      "type": "text",
+      "value": "- **Проверяет что ветка смержена**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "# Проверить, влита ли ветка в main\ngit log --oneline main..feature/my-feature"
+    },
+    {
+      "type": "text",
+      "value": "- **Удаляет ветку** на **удаленном** репозитории (например GitHub)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git push origin --delete feature/awesome-feature"
     },
     {
       "type": "text",
