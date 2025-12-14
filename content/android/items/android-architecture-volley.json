@@ -1,0 +1,105 @@
+{
+  "title": "Volley",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Volley** - это HTTP-библиотека от Google, разработанная специально для Android-приложений. Она упрощает работу с сетевыми запросами и управляет их выполнением в фоновом режиме."
+    },
+    {
+      "type": "text",
+      "value": "**Volley:**\n\n- Простыу REST API запросы\n\n- Загрузка изображений\n\n- Приложения с частыми сетевыми запросами\n\n- Встроенный кэш\n\n**Retrofit**\n\n- Сложные сценарии (кеширование, офлайн-работа)\n\n- Потоковые передачи данных\n\n- WebSocket соединений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Пример - Создание запроса\nval queue = Volley.newRequestQueue(context)\nval stringRequest = StringRequest(\n    Request.Method.GET, url,\n    { response ->\n        // Обработка успешного ответа\n        textView.text = \"Response: ${response.substring(0, 500)}\"\n    },\n    { error ->\n        // Обработка ошибки\n        textView.text = \"Error: ${error.message}\"\n    }\n)\nqueue.add(stringRequest)"
+    },
+    {
+      "type": "text",
+      "value": "#### Автоматическое кэширование:\n\n- Volley автоматически кэширует ответы\n\n- Поддержка заголовков Cache-Control\n\n- Экономит трафик и ускоряет загрузку"
+    },
+    {
+      "type": "text",
+      "value": "#### Приоритизация запросов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "request.priority = Request.Priority.HIGH  // Высокий приоритет\nrequest.priority = Request.Priority.LOW   // Низкий приоритет"
+    },
+    {
+      "type": "text",
+      "value": "#### Автоматическая отмена запросов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Запрос автоматически отменяется при уничтожении Activity/Fragment\nrequest.tag = \"TAG\"\n// В onStop() или onDestroy():\nqueue?.cancelAll(\"TAG\")"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные компоненты:"
+    },
+    {
+      "type": "text",
+      "value": "**RequestQueue**\n\n- Очередь для управления сетевыми запросами\n\n- Обычно создается один экземпляр на все приложение"
+    },
+    {
+      "type": "text",
+      "value": "**Типы запросов**\n\n- **StringRequest** - для текстовых данных\n\n- **JsonObjectRequest** - для JSON объектов\n\n- **JsonArrayRequest** - для JSON массивов\n\n- **ImageRequest** - для загрузки изображений"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры"
+    },
+    {
+      "type": "text",
+      "value": "- **GET**-запрос с JSON"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val jsonObjectRequest = JsonObjectRequest(\n    Request.Method.GET, url, null,\n    { response ->\n        // Обработка JSON ответа\n        val name = response.getString(\"name\")\n        val email = response.getString(\"email\")\n    },\n    { error ->\n        // Обработка ошибки\n        Log.e(\"Volley\", \"Error: ${error.message}\")\n    }\n)\nqueue.add(jsonObjectRequest)"
+    },
+    {
+      "type": "text",
+      "value": "- **POST**-запрос с параметрами"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val postRequest = object : StringRequest(\n    Method.POST, url,\n    { response ->\n        // Успешный ответ\n    },\n    { error ->\n        // Ошибка\n    }\n) {\n    override fun getParams(): Map<String, String> {\n        val params = HashMap<String, String>()\n        params[\"username\"] = \"user123\"\n        params[\"password\"] = \"pass123\"\n        return params\n    }\n}\nqueue.add(postRequest)"
+    },
+    {
+      "type": "text",
+      "value": "- Загрузка изображений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val imageLoader = ImageLoader(queue, object : ImageLoader.ImageCache {\n    private val cache = LruCache<String, Bitmap>(20)\n    \n    override fun getBitmap(url: String): Bitmap? = cache.get(url)\n    override fun putBitmap(url: String, bitmap: Bitmap) {\n        cache.put(url, bitmap)\n    }\n})\n\n// Использование NetworkImageView в XML\n// <com.android.volley.toolbox.NetworkImageView />\nnetworkImageView.setImageUrl(imageUrl, imageLoader)"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка и зависимости"
+    },
+    {
+      "type": "text",
+      "value": "**Добавление в проект (build.gradle)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    implementation 'com.android.volley:volley:1.2.1'\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Создание Singleton RequestQueue**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class VolleySingleton constructor(context: Context) {\n    companion object {\n        @Volatile\n        private var INSTANCE: VolleySingleton? = null\n        fun getInstance(context: Context) = \n            INSTANCE ?: synchronized(this) {\n                INSTANCE ?: VolleySingleton(context).also { INSTANCE = it }\n            }\n    }\n    \n    val requestQueue: RequestQueue by lazy {\n        Volley.newRequestQueue(context.applicationContext)\n    }\n}"
+    }
+  ]
+}

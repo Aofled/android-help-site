@@ -145,6 +145,10 @@
           "title": "Architecture: Retrofit",
           "url": "#android-architecture-retrofit",
           "contentFile": "android-architecture-retrofit.json"
+        },{
+          "title": "Architecture: Volley",
+          "url": "#android-architecture-volley",
+          "contentFile": "android-architecture-volley.json"
         }
       ]
     },{
