@@ -7,7 +7,37 @@
     },
     {
       "type": "text",
+      "value": "**mutableStateOf** — это создание \"реактивной переменной\", которая умеет уведомлять Compose о своих изменениях."
+    },
+    {
+      "type": "text",
       "value": "Когда меняются значение в **State**, **все** Compose элементы которые на нее ссылаются, автоматически перерисовываются"
+    },
+    {
+      "type": "text",
+      "value": "#### Способы работы с mutableStateOf:"
+    },
+    {
+      "type": "text",
+      "value": "-  Через **.value** (без делегата)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun CounterWithoutDelegate() {\n    val countState = remember { mutableStateOf(0) }\n    \n    Column {\n        Text(\"Count: ${countState.value}\") // постоянно писать .value\n        Button(onClick = { countState.value++ }) { // и здесь .value\n            Text(\"Increment\")\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "-  Через **делегат by** (рекомендуется)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun CounterWithDelegate() {\n    var count by remember { mutableStateOf(0) } // делегат by\n    \n    Column {\n        Text(\"Count: $count\") // работаем напрямую!\n        Button(onClick = { count++ }) { // работаем напрямую!\n            Text(\"Increment\")\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример изменения состояния:"
     },
     {
       "type": "code",
