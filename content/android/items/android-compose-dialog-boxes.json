@@ -1,0 +1,79 @@
+{
+  "title": "Диалоговые окна в Compose",
+  "content": [
+    {
+      "type": "text",
+      "value": "#### Типы диалоговых окон в Compose:\n\n- **AlertDialog** - базовый диалог\n\n- **Dialog** - кастомный диалог\n\n- **BottomSheetDialog** - диалог снизу\n\n- **DatePickerDialog / TimePickerDialog** - выбор даты/времени"
+    },
+    {
+      "type": "text",
+      "value": "### AlertDialog - стандартный диалог"
+    },
+    {
+      "type": "text",
+      "value": "- Простейший пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun SimpleAlertDialogExample() {\n    var showDialog by remember { mutableStateOf(false) }\n    \n    Column(\n        modifier = Modifier.fillMaxSize(),\n        horizontalAlignment = Alignment.CenterHorizontally,\n        verticalArrangement = Arrangement.Center\n    ) {\n        Button(onClick = { showDialog = true }) {\n            Text(\"Показать диалог\")\n        }\n    }\n    \n    if (showDialog) {\n        AlertDialog(\n            onDismissRequest = { showDialog = false },\n            title = { Text(\"Заголовок диалога\") },\n            text = { Text(\"Это текст диалогового окна\") },\n            confirmButton = {\n                TextButton(onClick = { showDialog = false }) {\n                    Text(\"ОК\")\n                }\n            },\n            dismissButton = {\n                TextButton(onClick = { showDialog = false }) {\n                    Text(\"Отмена\")\n                }\n            }\n        )\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- AlertDialog с кастомизацией:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun CustomAlertDialog() {\n    var showDialog by remember { mutableStateOf(false) }\n    \n    Button(onClick = { showDialog = true }) {\n        Text(\"Кастомный диалог\")\n    }\n    \n    if (showDialog) {\n        AlertDialog(\n            onDismissRequest = { showDialog = false },\n            title = { \n                Text(\n                    \"Внимание!\",\n                    color = Color.Red,\n                    fontWeight = FontWeight.Bold\n                )\n            },\n            text = { \n                Column {\n                    Text(\"Вы уверены, что хотите удалить этот элемент?\")\n                    Text(\"Это действие нельзя отменить.\", color = Color.Gray)\n                }\n            },\n            confirmButton = {\n                TextButton(\n                    onClick = { \n                        // Действие подтверждения\n                        showDialog = false \n                    }\n                ) {\n                    Text(\"УДАЛИТЬ\", color = Color.Red)\n                }\n            },\n            dismissButton = {\n                TextButton(onClick = { showDialog = false }) {\n                    Text(\"ОТМЕНА\")\n                }\n            },\n            shape = RoundedCornerShape(12.dp),\n            containerColor = Color.White,\n            tonalElevation = 8.dp\n        )\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Dialog - полностью кастомный диалог"
+    },
+    {
+      "type": "text",
+      "value": "- Простой кастомный диалог:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun CustomDialogExample() {\n    var showDialog by remember { mutableStateOf(false) }\n    \n    Button(onClick = { showDialog = true }) {\n        Text(\"Кастомный диалог\")\n    }\n    \n    if (showDialog) {\n        Dialog(\n            onDismissRequest = { showDialog = false }\n        ) {\n            Card(\n                modifier = Modifier\n                    .fillMaxWidth()\n                    .height(200.dp)\n                    .padding(16.dp),\n                shape = RoundedCornerShape(16.dp),\n            ) {\n                Column(\n                    modifier = Modifier\n                        .fillMaxSize()\n                        .background(Color.White)\n                        .padding(16.dp),\n                    horizontalAlignment = Alignment.CenterHorizontally,\n                    verticalArrangement = Arrangement.Center\n                ) {\n                    Text(\"Мой кастомный диалог\", style = MaterialTheme.typography.headlineSmall)\n                    Spacer(modifier = Modifier.height(16.dp))\n                    Text(\"Здесь может быть любой контент\")\n                    Spacer(modifier = Modifier.height(24.dp))\n                    Button(onClick = { showDialog = false }) {\n                        Text(\"Закрыть\")\n                    }\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Диалог с формой:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun FormDialogExample() {\n    var showDialog by remember { mutableStateOf(false) }\n    var text by remember { mutableStateOf(\"\") }\n    \n    Button(onClick = { showDialog = true }) {\n        Text(\"Диалог с формой\")\n    }\n    \n    if (showDialog) {\n        Dialog(onDismissRequest = { showDialog = false }) {\n            Surface(\n                shape = RoundedCornerShape(16.dp),\n                modifier = Modifier.fillMaxWidth()\n            ) {\n                Column(\n                    modifier = Modifier.padding(24.dp)\n                ) {\n                    Text(\n                        \"Новая заметка\",\n                        style = MaterialTheme.typography.headlineSmall\n                    )\n                    \n                    Spacer(modifier = Modifier.height(16.dp))\n                    \n                    OutlinedTextField(\n                        value = text,\n                        onValueChange = { text = it },\n                        label = { Text(\"Текст заметки\") },\n                        modifier = Modifier.fillMaxWidth(),\n                        maxLines = 3\n                    )\n                    \n                    Spacer(modifier = Modifier.height(24.dp))\n                    \n                    Row(\n                        modifier = Modifier.fillMaxWidth(),\n                        horizontalArrangement = Arrangement.End\n                    ) {\n                        TextButton(onClick = { showDialog = false }) {\n                            Text(\"Отмена\")\n                        }\n                        Spacer(modifier = Modifier.width(8.dp))\n                        Button(\n                            onClick = { \n                                // Сохраняем данные\n                                showDialog = false \n                            },\n                            enabled = text.isNotBlank()\n                        ) {\n                            Text(\"Сохранить\")\n                        }\n                    }\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### BottomSheetDialog"
+    },
+    {
+      "type": "text",
+      "value": "- Использование ModalBottomSheet:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@OptIn(ExperimentalMaterial3Api::class)\n@Composable\nfun BottomSheetDialogExample() {\n    var showBottomSheet by remember { mutableStateOf(false) }\n    val sheetState = rememberModalBottomSheetState()\n    \n    Column(\n        modifier = Modifier.fillMaxSize(),\n        horizontalAlignment = Alignment.CenterHorizontally,\n        verticalArrangement = Arrangement.Center\n    ) {\n        Button(onClick = { showBottomSheet = true }) {\n            Text(\"Показать bottom sheet\")\n        }\n    }\n    \n    if (showBottomSheet) {\n        ModalBottomSheet(\n            onDismissRequest = { showBottomSheet = false },\n            sheetState = sheetState\n        ) {\n            Column(\n                modifier = Modifier\n                    .fillMaxWidth()\n                    .padding(16.dp)\n            ) {\n                Text(\n                    \"Выберите действие\",\n                    style = MaterialTheme.typography.headlineSmall\n                )\n                \n                Spacer(modifier = Modifier.height(16.dp))\n                \n                ListItem(\n                    headlineContent = { Text(\"Редактировать\") },\n                    leadingContent = {\n                        Icon(Icons.Filled.Edit, \"Редактировать\")\n                    },\n                    modifier = Modifier.clickable { /* действие */ }\n                )\n                \n                ListItem(\n                    headlineContent = { Text(\"Удалить\") },\n                    leadingContent = {\n                        Icon(Icons.Filled.Delete, \"Удалить\")\n                    },\n                    modifier = Modifier.clickable { /* действие */ }\n                )\n                \n                ListItem(\n                    headlineContent = { Text(\"Поделиться\") },\n                    leadingContent = {\n                        Icon(Icons.Filled.Share, \"Поделиться\")\n                    },\n                    modifier = Modifier.clickable { /* действие */ }\n                )\n                \n                Spacer(modifier = Modifier.height(16.dp))\n                \n                Button(\n                    onClick = { showBottomSheet = false },\n                    modifier = Modifier.fillMaxWidth()\n                ) {\n                    Text(\"Закрыть\")\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### DatePickerDialog и TimePickerDialog"
+    },
+    {
+      "type": "text",
+      "value": "- DatePickerDialog:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@OptIn(ExperimentalMaterial3Api::class)\n@Composable\nfun DatePickerDialogExample() {\n    var showDatePicker by remember { mutableStateOf(false) }\n    var selectedDate by remember { mutableStateOf(\"\") }\n    \n    Column {\n        Button(onClick = { showDatePicker = true }) {\n            Text(\"Выбрать дату\")\n        }\n        \n        if (selectedDate.isNotBlank()) {\n            Text(\"Выбранная дата: $selectedDate\")\n        }\n    }\n    \n    if (showDatePicker) {\n        DatePickerDialog(\n            onDismissRequest = { showDatePicker = false },\n            confirmButton = {\n                TextButton(\n                    onClick = {\n                        // Обработка выбранной даты\n                        showDatePicker = false\n                    }\n                ) {\n                    Text(\"OK\")\n                }\n            },\n            dismissButton = {\n                TextButton(onClick = { showDatePicker = false }) {\n                    Text(\"Отмена\")\n                }\n            }\n        ) {\n            DatePicker { date ->\n                // Обработка выбранной даты\n                selectedDate = date.toString()\n            }\n        }\n    }\n}"
+    }
+  ]
+}

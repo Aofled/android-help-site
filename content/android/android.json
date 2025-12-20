@@ -113,6 +113,16 @@
           "title": "Box layout",
           "url": "#android-compose-box-layout",
           "contentFile": "android-compose-box-layout.json"
+        },
+        {
+          "title": "Primary TabRow",
+          "url": "#android-compose-primary-tabrow",
+          "contentFile": "android-compose-primary-tabrow.json"
+        },
+        {
+          "title": "Dialog boxes",
+          "url": "#android-compose-dialog-boxes",
+          "contentFile": "android-compose-dialog-boxes.json"
         }
       ]
     },

@@ -1,0 +1,26 @@
+{
+  "title": "Primary TabRow",
+  "content": [
+    {
+      "type": "text",
+      "value": "**TabRow** deprecated (устарел) в более новых версиях Jetpack Compose."
+    },
+    {
+      "type": "text",
+      "value": "**Primary TabRow** — это основные вкладки приложения, используемые для высокоуровневой навигации между ключевыми разделами. Они визуально **prominent** и обычно расположены в верхней части экрана."
+    },
+    {
+      "type": "text",
+      "value": "#### Ключевые параметры Primary TabRow:\n\n- **selectedTabIndex** - индекс выбранной вкладки\n\n- **containerColor** - цвет фона (берется из темы)\n\n- **contentColor** - цвет контента (берется из темы)\n\n- **indicator** - кастомный индикатор\n\n- **divider** - разделитель"
+    },
+    {
+      "type": "text",
+      "value": "#### Базовое использование"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Data class to represent each tab item\ndata class TabItem(\n    val title: String,\n    val selectedIcon: ImageVector,\n    val unselectedIcon: ImageVector\n)\n\n@Composable\nfun PrimaryTabRowExample() {\n    val tabItems = listOf(\n        TabItem(\"Home\", Icons.Filled.Home, Icons.Outlined.Home),\n        TabItem(\"Profile\", Icons.Filled.Person, Icons.Outlined.Person),\n        TabItem(\"Favorites\", Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder)\n    )\n\n    val pagerState = rememberPagerState(initialPage = 0) {\n        tabItems.size\n    }\n    val coroutineScope = rememberCoroutineScope()\n\n    Column(modifier = Modifier.fillMaxSize()) {\n        PrimaryTabRow(\n            selectedTabIndex = pagerState.currentPage,\n            containerColor = Color.White, // Set your desired background color here\n            contentColor = Color.White // Color text and image\n            ,\n            indicator = {\n                TabRowDefaults.PrimaryIndicator(\n                    modifier = Modifier.tabIndicatorOffset(\n                        selectedTabIndex = pagerState.currentPage,\n                        matchContentSize = false // matchContentSize = true - подстраивает под размер таба, matchContentSize = false - полный размер\n                    ),\n                    width = Dp.Unspecified,\n                    color = Color.Black,\n                )\n            }\n        ) {\n            tabItems.forEachIndexed { index, item ->\n                Tab(\n                    selected = index == pagerState.currentPage,\n                    onClick = {\n                        coroutineScope.launch {\n                            pagerState.animateScrollToPage(index)\n                        }\n                    },\n                    text = { Text(item.title) },\n                    icon = {\n                        Icon(\n                            imageVector = if (index == pagerState.currentPage) item.selectedIcon else item.unselectedIcon,\n                            contentDescription = item.title\n                        )\n                    }\n                )\n            }\n        }\n\n        HorizontalPager(\n            state = pagerState,\n            modifier = Modifier.fillMaxSize()\n        ) { page ->\n            // Content for each tab\n            Text(text = \"Content for ${tabItems[page].title} Tab\", modifier = Modifier.fillMaxSize())\n        }\n    }\n}"
+    }
+  ]
+}
