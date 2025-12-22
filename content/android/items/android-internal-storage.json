@@ -1,0 +1,101 @@
+{
+  "title": "Internal Storage",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Internal Storage** — это защищенное файловое пространство, выделенное исключительно для вашего приложения. Это аналог \"домашней директории\" вашего приложения в системе."
+    },
+    {
+      "type": "text",
+      "value": "**Ключевые особенности**\n\n- **Приватность:** Файлы доступны только вашему приложению\n\n- **Автоматическое удаление:** Удаляются вместе с приложением\n\n- **Ограниченный размер:** Зависит от свободного места на устройстве\n\n- **Без разрешений:** Не требует запроса разрешений у пользователя"
+    },
+    {
+      "type": "text",
+      "value": "### Работа с файлом"
+    },
+    {
+      "type": "text",
+      "value": "Запись файла:"
+    },
+    {
+      "type": "text",
+      "value": "**Режимы записи (File Modes)**\n\n- `Context.MODE_PRIVATE` - файл доступен только вашему приложению\n\n- `Context.MODE_APPEND` - добавлять данные в конец существующего файла"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun writeFileToInternalStorage(context: Context, filename: String, content: String) {\n    try {\n        // Открываем FileOutputStream\n        context.openFileOutput(filename, Context.MODE_PRIVATE).use { outputStream ->\n            outputStream.write(content.toByteArray())\n        }\n        Log.d(\"Storage\", \"Файл $filename успешно записан\")\n    } catch (e: Exception) {\n        Log.e(\"Storage\", \"Ошибка записи файла\", e)\n    }\n}\n\n// Использование\nwriteFileToInternalStorage(requireContext(), \"user_data.txt\", \"Привет, мир!\")"
+    },
+    {
+      "type": "text",
+      "value": "Чтение файла:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun readFileFromInternalStorage(context: Context, filename: String): String? {\n    return try {\n        context.openFileInput(filename).bufferedReader().use { reader ->\n            reader.readText()\n        }\n    } catch (e: FileNotFoundException) {\n        Log.e(\"Storage\", \"Файл не найден\", e)\n        null\n    } catch (e: Exception) {\n        Log.e(\"Storage\", \"Ошибка чтения файла\", e)\n        null\n    }\n}\n\n// Использование\nval content = readFileFromInternalStorage(requireContext(), \"user_data.txt\")"
+    },
+    {
+      "type": "text",
+      "value": "Проверка существования файла:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun fileExists(context: Context, filename: String): Boolean {\n    return File(context.filesDir, filename).exists()\n}"
+    },
+    {
+      "type": "text",
+      "value": "Удаление файла:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun deleteFileFromInternalStorage(context: Context, filename: String): Boolean {\n    return try {\n        context.deleteFile(filename)\n    } catch (e: Exception) {\n        Log.e(\"Storage\", \"Ошибка удаления файла\", e)\n        false\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Получение информации о файлах - список всех файлов приложения:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun listAllAppFiles(context: Context): Array<String> {\n    return context.fileList()\n}\n\nfun getFileInfo(context: Context, filename: String) {\n    val file = File(context.filesDir, filename)\n    if (file.exists()) {\n        val size = file.length()\n        val lastModified = Date(file.lastModified())\n        Log.d(\"FileInfo\", \"Размер: $size байт, Изменен: $lastModified\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Работа с директориями"
+    },
+    {
+      "type": "text",
+      "value": "Создание поддиректорий"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun createAppSubdirectory(context: Context, dirName: String): File {\n    val directory = File(context.filesDir, dirName)\n    if (!directory.exists()) {\n        directory.mkdirs()\n    }\n    return directory\n}\n\n// Создание файла в поддиректории\nfun writeToSubdirectory(context: Context) {\n    val imagesDir = createAppSubdirectory(context, \"images\")\n    val imageFile = File(imagesDir, \"profile.jpg\")\n    \n    // Запись данных в файл\n    // imageFile.outputStream().use { ... }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры"
+    },
+    {
+      "type": "text",
+      "value": "Хранение JSON данных:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserSettingsManager(private val context: Context) {\n    \n    private val SETTINGS_FILE = \"user_settings.json\"\n    \n    fun saveUserSettings(settings: UserSettings) {\n        val json = Gson().toJson(settings)\n        context.openFileOutput(SETTINGS_FILE, Context.MODE_PRIVATE).use {\n            it.write(json.toByteArray())\n        }\n    }\n    \n    fun loadUserSettings(): UserSettings? {\n        return try {\n            val json = context.openFileInput(SETTINGS_FILE).bufferedReader().readText()\n            Gson().fromJson(json, UserSettings::class.java)\n        } catch (e: Exception) {\n            null\n        }\n    }\n}\n\ndata class UserSettings(val theme: String, val notifications: Boolean)"
+    },
+    {
+      "type": "text",
+      "value": "Кэширование изображений:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ImageCacheManager(private val context: Context) {\n    \n    fun cacheImage(url: String, bitmap: Bitmap): Boolean {\n        return try {\n            val filename = \"image_${url.hashCode()}.cache\"\n            context.openFileOutput(filename, Context.MODE_PRIVATE).use { stream ->\n                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)\n            }\n            true\n        } catch (e: Exception) {\n            false\n        }\n    }\n    \n    fun getCachedImage(url: String): Bitmap? {\n        return try {\n            val filename = \"image_${url.hashCode()}.cache\"\n            val file = File(context.filesDir, filename)\n            if (file.exists()) {\n                BitmapFactory.decodeFile(file.absolutePath)\n            } else {\n                null\n            }\n        } catch (e: Exception) {\n            null\n        }\n    }\n}"
+    }
+  ]
+}

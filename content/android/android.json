@@ -205,6 +205,10 @@
           "title": "Room Library",
           "url": "#android-room-library",
           "contentFile": "android-room-library.json"
+        },{
+          "title": "Internal Storage",
+          "url": "#android-internal-storage",
+          "contentFile": "android-internal-storage.json"
         }
       ]
     },{
