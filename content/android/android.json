@@ -142,34 +142,44 @@
           "contentFile": "android-project-architectures-mvvm.json"
         }
       ]
+    },
+    {
+      "title": "Navigation",
+      "url": "#android-navigation",
+      "contentFile": "android-navigation.json"
+    },{
+      "title": "Работа с сетью",
+      "url": "#android-network",
+      "contentFile": "android-network.json",
+      "subItems": [
+        {
+          "title": "Architecture: Retrofit",
+          "url": "#android-network-retrofit",
+          "contentFile": "android-network-retrofit.json"
+        },{
+          "title": "Architecture: Volley",
+          "url": "#android-network-volley",
+          "contentFile": "android-network-volley.json"
+        }
+      ]
     },{
       "title": "Android Jetpack",
       "url": "#android-android-jetpack",
-      "contentFile": "android-android-jetpack.json",
-      "subItems": [
-        {
-          "title": "Architecture: Navigation",
-          "url": "#android-architecture-navigation",
-          "contentFile": "android-architecture-navigation.json"
-        },{
-          "title": "Architecture: Retrofit",
-          "url": "#android-architecture-retrofit",
-          "contentFile": "android-architecture-retrofit.json"
-        },{
-          "title": "Architecture: Volley",
-          "url": "#android-architecture-volley",
-          "contentFile": "android-architecture-volley.json"
-        }
-      ]
+      "contentFile": "android-android-jetpack.json"
     },{
       "title": "Многопоточность",
       "url": "#android-multithreading",
       "contentFile": "android-multithreading.json",
       "subItems": [
         {
-          "title": "Корутины",
-          "url": "#android-coroutine",
-          "contentFile": "android-coroutine.json"
+          "title": "Корутины: теория",
+          "url": "#android-coroutine-theory",
+          "contentFile": "android-coroutine-theory.json"
+        },
+        {
+          "title": "Корутины: практика",
+          "url": "#android-coroutine-practice",
+          "contentFile": "android-coroutine-practice.json"
         },{
           "title": "WorkManager",
           "url": "#android-work-manager",
