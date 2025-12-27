@@ -1,6 +1,11 @@
 {
   "menuItems": [
     {
+      "title": "Android Jetpack",
+      "url": "#android-android-jetpack",
+      "contentFile": "android-android-jetpack.json"
+    },
+    {
       "title": "View",
       "url": "#android-view",
       "contentFile": "android-view.json",
@@ -31,7 +36,8 @@
           "contentFile": "android-graphic-objects.json"
         }
       ]
-    },{
+    },
+    {
       "title": "Activity",
       "url": "#android-activity",
       "contentFile": "android-activity.json",
@@ -42,7 +48,8 @@
           "contentFile": "android-activity-lifecycle.json"
         }
       ]
-    },{
+    },
+    {
       "title": "Fragment",
       "url": "#android-fragment",
       "contentFile": "android-fragment.json",
@@ -51,21 +58,40 @@
           "title": "Жизненный цикл Fragment",
           "url": "#android-fragment-lifecycle",
           "contentFile": "android-fragment-lifecycle.json"
-        },{
+        },
+        {
           "title": "FragmentManager",
           "url": "#android-fragment-manager",
           "contentFile": "android-fragment-manager.json"
-        },{
+        },
+        {
           "title": "Аргументы Fragment",
           "url": "#android-fragment-argument",
           "contentFile": "android-fragment-argument.json"
         }
       ]
-    },{
+    },
+    {
+      "title": "Диалоговые окна",
+      "url": "#android-dialog-boxes",
+      "contentFile": "android-dialog-boxes.json"
+    },
+    {
+      "title": "Панель приложения (Toolbar)",
+      "url": "#android-toolbar",
+      "contentFile": "android-toolbar.json"
+    },
+    {
+      "title": "WebView",
+      "url": "#android-web-view",
+      "contentFile": "android-web-view.json"
+    },
+    {
       "title": "ViewModel",
       "url": "#android-view-model",
       "contentFile": "android-view-model.json"
-    },{
+    },
+    {
       "title": "Сохранение и восстановление состояния",
       "url": "#android-state-preservation-restoration",
       "contentFile": "android-state-preservation-restoration.json",
@@ -74,17 +100,42 @@
           "title": "onSaveInstanceState ",
           "url": "#android-on-save-instance-state ",
           "contentFile": "android-on-save-instance-state.json"
-        },{
+        },
+        {
           "title": "SavedStateHandle",
           "url": "#android-saved-state-handle",
           "contentFile": "android-saved-state-handle.json"
-        },{
+        },
+        {
           "title": "PersistableBundle",
           "url": "#android-persistable-bundle",
           "contentFile": "android-persistable-bundle.json"
         }
       ]
-    },{
+    },
+    {
+      "title": "Архитектуры проекта",
+      "url": "#android-project-architectures",
+      "contentFile": "android-project-architectures.json",
+      "subItems": [
+        {
+          "title": "MVC (Model-View-Controller)",
+          "url": "#android-project-architectures-mvc",
+          "contentFile": "android-project-architectures-mvc.json"
+        },
+        {
+          "title": "MVVM (Model-View-ViewModel)",
+          "url": "#android-project-architectures-mvvm",
+          "contentFile": "android-project-architectures-mvvm.json"
+        }
+      ]
+    },
+    {
+      "title": "Navigation",
+      "url": "#android-navigation",
+      "contentFile": "android-navigation.json"
+    },
+    {
       "title": "Compose",
       "url": "#android-compose",
       "contentFile": "android-compose.json",
@@ -127,70 +178,6 @@
       ]
     },
     {
-      "title": "Архитектуры проекта",
-      "url": "#android-project-architectures",
-      "contentFile": "android-project-architectures.json",
-      "subItems": [
-        {
-          "title": "MVC (Model-View-Controller)",
-          "url": "#android-project-architectures-mvc",
-          "contentFile": "android-project-architectures-mvc.json"
-        },
-        {
-          "title": "MVVM (Model-View-ViewModel)",
-          "url": "#android-project-architectures-mvvm",
-          "contentFile": "android-project-architectures-mvvm.json"
-        }
-      ]
-    },
-    {
-      "title": "Navigation",
-      "url": "#android-navigation",
-      "contentFile": "android-navigation.json"
-    },{
-      "title": "Работа с сетью",
-      "url": "#android-network",
-      "contentFile": "android-network.json",
-      "subItems": [
-        {
-          "title": "Architecture: Retrofit",
-          "url": "#android-network-retrofit",
-          "contentFile": "android-network-retrofit.json"
-        },{
-          "title": "Architecture: Volley",
-          "url": "#android-network-volley",
-          "contentFile": "android-network-volley.json"
-        }
-      ]
-    },{
-      "title": "Android Jetpack",
-      "url": "#android-android-jetpack",
-      "contentFile": "android-android-jetpack.json"
-    },{
-      "title": "Многопоточность",
-      "url": "#android-multithreading",
-      "contentFile": "android-multithreading.json",
-      "subItems": [
-        {
-          "title": "Корутины: теория",
-          "url": "#android-coroutine-theory",
-          "contentFile": "android-coroutine-theory.json"
-        },
-        {
-          "title": "Корутины: практика",
-          "url": "#android-coroutine-practice",
-          "contentFile": "android-coroutine-practice.json"
-        },{
-          "title": "WorkManager",
-          "url": "#android-work-manager",
-          "contentFile": "android-work-manager.json"
-        },{
-          "title": "Looper, Handler, HandlerThread",
-          "url": "#android-looper-handler-handler-thread",
-          "contentFile": "android-looper-handler-handler-thread.json"
-        }
-      ]
-    },{
       "title": "Хранение данных",
       "url": "#android-data-storage",
       "contentFile": "android-data-storage.json",
@@ -199,29 +186,75 @@
           "title": "DataStore",
           "url": "#android-data-store",
           "contentFile": "android-data-store.json"
-        },{
+        },
+        {
           "title": "SharedPreferences",
           "url": "#android-shared-preferences",
           "contentFile": "android-shared-preferences.json"
-        },{
+        },
+        {
           "title": "Encrypted SharedPreferences",
           "url": "#android-encrypted-shared-preferences",
           "contentFile": "android-encrypted-shared-preferences.json"
-        },{
+        },
+        {
           "title": "MMKV",
           "url": "#android-mmkv",
           "contentFile": "android-mmkv.json"
-        },{
+        },
+        {
           "title": "Room Library",
           "url": "#android-room-library",
           "contentFile": "android-room-library.json"
-        },{
+        },
+        {
           "title": "Internal Storage",
           "url": "#android-internal-storage",
           "contentFile": "android-internal-storage.json"
         }
       ]
-    },{
+    },
+    {
+      "title": "Работа с сетью",
+      "url": "#android-network",
+      "contentFile": "android-network.json",
+      "subItems": [
+        {
+          "title": "Architecture: Retrofit",
+          "url": "#android-network-retrofit",
+          "contentFile": "android-network-retrofit.json"
+        },
+        {
+          "title": "Architecture: Volley",
+          "url": "#android-network-volley",
+          "contentFile": "android-network-volley.json"
+        }
+      ]
+    },
+    {
+      "title": "Многопоточность",
+      "url": "#android-multithreading",
+      "contentFile": "android-multithreading.json",
+      "subItems": [
+
+        {
+          "title": "Корутины: практика",
+          "url": "#android-coroutine-practice",
+          "contentFile": "android-coroutine-practice.json"
+        },
+        {
+          "title": "WorkManager",
+          "url": "#android-work-manager",
+          "contentFile": "android-work-manager.json"
+        },
+        {
+          "title": "Looper, Handler, HandlerThread",
+          "url": "#android-looper-handler-handler-thread",
+          "contentFile": "android-looper-handler-handler-thread.json"
+        }
+      ]
+    },
+    {
       "title": "Intent (Намерение)",
       "url": "#android-intent",
       "contentFile": "android-intent.json",
@@ -230,25 +263,30 @@
           "title": "Implicit Intents (Неявные интенты)",
           "url": "#android-implicit-intents",
           "contentFile": "android-implicit-intents.json"
-        },{
+        },
+        {
           "title": "Implicit Intents, Explicit Intents (Работа с камерой)",
           "url": "#android-camera-intents",
           "contentFile": "android-camera-intents.json"
-        },{
+        },
+        {
           "title": "Broadcast Intents (Широковещательные интенты)",
           "url": "#android-broadcast-intents",
           "contentFile": "android-broadcast-intents.json"
         }
       ]
-    },{
-      "title": "Модульное тестирование (Unit Testing)",
-      "url": "#android-unit-testing",
-      "contentFile": "android-unit-testing.json"
-    },{
-      "title": "Диалоговые окна",
-      "url": "#android-dialog-boxes",
-      "contentFile": "android-dialog-boxes.json"
-    },{
+    },
+    {
+      "title": "AndroidManifest",
+      "url": "#android-android-manifest",
+      "contentFile": "android-android-manifest.json"
+    },
+    {
+      "title": "Parcelable и Serializable",
+      "url": "#android-parcelable-serializable",
+      "contentFile": "android-parcelable-serializable.json"
+    },
+    {
       "title": "Стили и темы (Style and Theme)",
       "url": "#android-styles-themes",
       "contentFile": "android-styles-themes.json",
@@ -259,42 +297,36 @@
           "contentFile": "android-styles-themes-attr.json"
         }
       ]
-    },{
-      "title": "Панель приложения (Toolbar)",
-      "url": "#android-toolbar",
-      "contentFile": "android-toolbar.json"
-    },{
-      "title": "AndroidManifest",
-      "url": "#android-android-manifest",
-      "contentFile": "android-android-manifest.json"
-    },{
-      "title": "WebView",
-      "url": "#android-web-view",
-      "contentFile": "android-web-view.json"
-    },{
-      "title": "Parcelable и Serializable",
-      "url": "#android-parcelable-serializable",
-      "contentFile": "android-parcelable-serializable.json"
-    },{
-      "title": "Специальные возможности (TalkBack)",
-      "url": "#android-talk-back",
-      "contentFile": "android-talk-back.json"
-    },{
-      "title": "Device Owner",
-      "url": "#android-device-owner",
-      "contentFile": "android-device-owner.json"
-    },{
+    },
+    {
       "title": "Форматирование строк (String Format)",
       "url": "#android-string-format",
       "contentFile": "android-string-format.json"
-    },{
+    },
+    {
       "title": "Логи в Android",
       "url": "#android-log",
       "contentFile": "android-log.json"
-    },{
+    },
+    {
       "title": "Версии Android SDK",
       "url": "#android-android-sdk",
       "contentFile": "android-android-sdk.json"
+    },
+    {
+      "title": "Специальные возможности (TalkBack)",
+      "url": "#android-talk-back",
+      "contentFile": "android-talk-back.json"
+    },
+    {
+      "title": "Device Owner",
+      "url": "#android-device-owner",
+      "contentFile": "android-device-owner.json"
+    },
+    {
+      "title": "Модульное тестирование (Unit Testing)",
+      "url": "#android-unit-testing",
+      "contentFile": "android-unit-testing.json"
     }
   ]
 }
