@@ -136,6 +136,23 @@
       "contentFile": "android-navigation.json"
     },
     {
+      "title": "Dependency Injection",
+      "url": "#android-dependency-injection",
+      "contentFile": "android-dependency-injection.json",
+      "subItems": [
+        {
+          "title": "Dagger 2 / Hilt",
+          "url": "#android-dependency-injection-hilt",
+          "contentFile": "android-dependency-injection-hilt.json"
+        },
+        {
+          "title": "MVVM (Model-View-ViewModel)",
+          "url": "#android-project-architectures-mvvm",
+          "contentFile": "android-project-architectures-mvvm.json"
+        }
+      ]
+    },
+    {
       "title": "Compose",
       "url": "#android-compose",
       "contentFile": "android-compose.json",
