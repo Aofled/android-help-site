@@ -146,9 +146,9 @@
           "contentFile": "android-dependency-injection-hilt.json"
         },
         {
-          "title": "MVVM (Model-View-ViewModel)",
-          "url": "#android-project-architectures-mvvm",
-          "contentFile": "android-project-architectures-mvvm.json"
+          "title": "Koin",
+          "url": "#android-dependency-injection-koin",
+          "contentFile": "android-dependency-injection-koin.json"
         }
       ]
     },

@@ -1,0 +1,305 @@
+{
+  "title": "Koin",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Koin** — это легковесная библиотека внедрения зависимостей (**Dependency Injection, DI**) для языка программирования Kotlin, используемая в разработке под Android. Она упрощает управление зависимостями в приложении, позволяя декларативно определять, какие объекты должны предоставляться другим частям программы. Вместо того чтобы создавать свои зависимости, компоненты запрашивают их у Koin, что делает код чище и проще в поддержке."
+    },
+    {
+      "type": "text",
+      "value": "**Koin** — это pure-Kotlin DI-фреймворк, который **работает во время выполнения** (runtime), в отличие от **Hilt**, который **работает во время компиляции**."
+    },
+    {
+      "type": "text",
+      "value": "#### Преимущества:\n\n**Простота изучения**\n\n- Минимальный бойлерплейт\n\n- Нет аннотаций на классах\n\n- Нет кодогенерации\n\n- Меньше файлов конфигурации\n\n**Pure Kotlin**\n\n- Работает через Kotlin DSL\n\n- Использует возможности языка, а не аннотаций\n\n- Лучшая совместимость с Kotlin-фичами\n\n**Быстрая компиляция**\n\n- Нет кодогенерации = быстрее сборка\n\n- Особенно заметно в больших проектах\n\n**Гибкость**\n\n- Легко подменять зависимости в runtime\n\n- Простая настройка для разных сборок"
+    },
+    {
+      "type": "text",
+      "value": "### Добавление зависимостей:"
+    },
+    {
+      "type": "text",
+      "value": "**libs.versions.toml**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "[versions]\n. . .\nkoinAndroid = \"4.1.1\"\nkoinAndroidxCompose = \"4.1.1\"\nkoinAndroidxWorkmanager = \"4.1.1\"\nkoinTest = \"4.1.1\"\nkoinTestJunit4 = \"4.1.1\"\n\n[libraries]\n. . .\nkoin-android = { module = \"io.insert-koin:koin-android\", version.ref = \"koinAndroid\" }\nkoin-androidx-compose = { module = \"io.insert-koin:koin-androidx-compose\", version.ref = \"koinAndroidxCompose\" }\nkoin-androidx-workmanager = { module = \"io.insert-koin:koin-androidx-workmanager\", version.ref = \"koinAndroidxWorkmanager\" }\nkoin-test = { module = \"io.insert-koin:koin-test\", version.ref = \"koinTest\" }\nkoin-test-junit4 = { module = \"io.insert-koin:koin-test-junit4\", version.ref = \"koinTestJunit4\" }"
+    },
+    {
+      "type": "text",
+      "value": "**App-level** build.gradle.kts:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    // Основная библиотека Koin\n    implementation(libs.koin.android)\n\n    // Для поддержки Jetpack Compose\n    implementation(libs.koin.androidx.compose)\n\n    // Для поддержки ViewModel\n    implementation(libs.koin.androidx.workmanager)\n\n    // Для тестирования\n    testImplementation(libs.koin.test)\n    testImplementation(libs.koin.test.junit4)\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Инициализация:\n\n**Application** класс:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyApplication : Application() {\n    override fun onCreate() {\n        super.onCreate()\n        \n        startKoin {\n            // Контекст Android\n            androidContext(this@MyApplication)\n            \n            // Модули\n            modules(appModule, networkModule, repositoryModule)\n            \n            // Логирование (опционально)\n            androidLogger(Level.ERROR)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Основные компоненты Koin:"
+    },
+    {
+      "type": "text",
+      "value": "#### Module - контейнер определений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val appModule = module {\n    // Здесь описываем все зависимости\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Определения зависимостей:\n\n`single` - один экземпляр на всё приложение"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "single { \n    Retrofit.Builder().build() \n}\n// Аналог @Singleton в Hilt"
+    },
+    {
+      "type": "text",
+      "value": "`factory` - новый экземпляр при каждом запросе"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "factory { \n    UserAdapter() \n}\n// Новый адаптер для каждого экрана"
+    },
+    {
+      "type": "text",
+      "value": "`viewModel` - специально для ViewModel"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "viewModel { \n    UserViewModel(get()) \n}\n// Автоматически привязывается к жизненному циклу"
+    },
+    {
+      "type": "text",
+      "value": "### Внедрение зависимостей:"
+    },
+    {
+      "type": "text",
+      "value": "**Constructor injection** (автоматически)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserRepository(\n    private val api: ApiService,  // Koin автоматически находит ApiService\n    private val db: Database\n)"
+    },
+    {
+      "type": "text",
+      "value": "**Property injection** через `by inject()`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    // Lazy injection\n    private val userRepository by inject<UserRepository>()\n    private val analytics by inject<AnalyticsService>()\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Прямое получение через** `get()`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val userRepository: UserRepository = get()"
+    },
+    {
+      "type": "text",
+      "value": "### Ключевые DSL функции:"
+    },
+    {
+      "type": "text",
+      "value": "`get()` - получение зависимости"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "single { \n    UserRepository(get()) // Koin найдет ApiService \n}\n\nsingle {\n    ApiService(get()) // Koin найдет Retrofit\n}"
+    },
+    {
+      "type": "text",
+      "value": "`bind` - привязка интерфейса"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "single<ApiService> { \n    RetrofitApiService() \n} bind ApiService::class"
+    },
+    {
+      "type": "text",
+      "value": "`named` - квалификаторы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val apiModule = module {\n    single(named(\"prod\")) { \n        Retrofit.Builder().baseUrl(\"https://api.com\").build() \n    }\n    \n    single(named(\"dev\")) { \n        Retrofit.Builder().baseUrl(\"https://dev.api.com\").build() \n    }\n}\n\n// Использование\nclass Repository(\n    @Named(\"prod\") private val retrofit: Retrofit\n)"
+    },
+    {
+      "type": "text",
+      "value": "###  Scope в Koin:"
+    },
+    {
+      "type": "text",
+      "value": "**Создание scope:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Session scope для пользовательской сессии\nval sessionModule = module {\n    scope<SessionActivity> {\n        scoped { UserSession() } // Живет пока жив scope\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Использование scope:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class SessionActivity : AppCompatActivity() {\n    private val sessionScope = getKoin().getOrCreateScope(\"session\", named<SessionActivity>())\n    private val userSession: UserSession by sessionScope.inject()\n    \n    override fun onDestroy() {\n        sessionScope.close()\n        super.onDestroy()\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Полный пример приложения:"
+    },
+    {
+      "type": "text",
+      "value": "**1. Data Layer**"
+    },
+    {
+      "type": "text",
+      "value": "Что здесь важно для Koin:\n\n- Эти классы **не используют Koin напрямую**\n\n- Koin будет управлять созданием AppDatabase через модуль\n\n- UserDao получается из AppDatabase, поэтому Koin тоже управляет им"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Entity - обычная data class, никакой магии Koin\n@Entity\ndata class User(\n    @PrimaryKey val id: Int,\n    val name: String,\n    val email: String\n)\n\n// DAO - интерфейс, Room сам генерирует реализацию\n@Dao\ninterface UserDao {\n    @Query(\"SELECT * FROM user\")\n    suspend fun getUsers(): List<User>\n    \n    @Insert\n    suspend fun insertUser(user: User)\n}\n\n// Database - абстрактный класс, Room генерирует реализацию\n@Database(entities = [User::class], version = 1)\nabstract class AppDatabase : RoomDatabase() {\n    abstract fun userDao(): UserDao\n    // Koin НЕ создает этот класс напрямую!\n    // Он создается через databaseModule\n}"
+    },
+    {
+      "type": "text",
+      "value": "**2. Network Layer**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Интерфейс для Retrofit - Retrofit сам создает реализацию\ninterface ApiService {\n    @GET(\"users\")\n    suspend fun getUsers(): List<User>\n}\n// Koin НЕ создает этот интерфейс напрямую!\n// Он создается через networkModule"
+    },
+    {
+      "type": "text",
+      "value": "**3. Repository**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserRepository(\n    private val apiService: ApiService,    // Koin автоматически найдет ApiService\n    private val userDao: UserDao          // Koin автоматически найдет UserDao\n) {\n    suspend fun getUsers(): List<User> {\n        val networkUsers = apiService.getUsers()  // Используем ApiService\n        userDao.insertUser(networkUsers)          // Используем UserDao\n        return userDao.getUsers()\n    }\n}\n// Когда Koin видит конструктор с параметрами, он понимает:\n// \"Чтобы создать UserRepository, мне нужны ApiService и UserDao\"\n// Koin ищет в своих модулях, как создать эти зависимости\n// НИКАКИХ АННОТАЦИЙ! Koin работает через рефлексию"
+    },
+    {
+      "type": "text",
+      "value": "**4. Modules - Сердце koin**"
+    },
+    {
+      "type": "text",
+      "value": "DatabaseModule:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Объект модуля\nval databaseModule = module {\n    // single = создай только ОДИН экземпляр на всё приложение\n    single { \n        Room.databaseBuilder(\n            androidApplication(),  // Koin автоматически предоставляет Context\n            AppDatabase::class.java,\n            \"app.db\"\n        ).build()\n    }\n    \n    // factory = создавай новый экземпляр при каждом запросе\n    // НО здесь мы используем single, т.к. database.userDao() всегда возвращает тот же экземпляр\n    single { \n        get<AppDatabase>().userDao()  // get() = \"найди зависимость типа AppDatabase\"\n    }\n    // Koin автоматически передаст AppDatabase, который мы создали выше\n}"
+    },
+    {
+      "type": "text",
+      "value": "NetworkModule:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val networkModule = module {\n    // single = Retrofit - тяжелый объект, создай его только один раз\n    single {\n        Retrofit.Builder()\n            .baseUrl(\"https://jsonplaceholder.typicode.com/\")\n            .addConverterFactory(GsonConverterFactory.create())\n            .build()\n    }\n    \n    // single = ApiService, т.к. retrofit.create() легковесный, но мы хотим один экземпляр\n    single {\n        get<Retrofit>().create(ApiService::class.java)\n    }\n    // Koin автоматически передаст Retrofit, который мы создали выше\n}"
+    },
+    {
+      "type": "text",
+      "value": "RepositoryModule:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val repositoryModule = module {\n    // single = UserRepository создается один раз на всё приложение\n    single { \n        UserRepository(\n            apiService = get(),  // Koin найдет ApiService\n            userDao = get()      // Koin найдет UserDao\n        )\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**5. ViewModel**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserViewModel(\n    private val userRepository: UserRepository  // Koin предоставляет UserRepository\n) : ViewModel() {\n    // Koin создает ViewModel через специальную фабрику\n    // Это позволяет ViewModel переживать смену конфигурации\n    \n    private val _users = MutableStateFlow<List<User>>(emptyList())\n    val users: StateFlow<List<User>> = _users.asStateFlow()\n    \n    private val _isLoading = MutableStateFlow(false)\n    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()\n    \n    fun loadUsers() {\n        viewModelScope.launch {\n            _isLoading.value = true\n            try {\n                // Используем UserRepository, который предоставил Koin\n                _users.value = userRepository.getUsers()\n            } catch (e: Exception) {\n                // Обработка ошибок\n            } finally {\n                _isLoading.value = false\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "ViewModel Module:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val viewModelModule = module {\n    // viewModel = специальная функция для ViewModel\n    viewModel { \n        UserViewModel(get())  // Koin найдет UserRepository\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**6. Activity**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    \n    // by viewModel() - Koin автоматически создает ViewModel\n    private val viewModel: UserViewModel by viewModel()\n    // Под капотом Koin использует свою фабрику для создания ViewModel\n    // с правильными зависимостями (UserRepository)\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        \n        setupObservers()\n        viewModel.loadUsers()  // Запускаем загрузку данных\n    }\n    \n    private fun setupObservers() {\n        lifecycleScope.launch {\n            repeatOnLifecycle(Lifecycle.State.STARTED) {\n                // Следим за изменением списка пользователей\n                viewModel.users.collect { users ->\n                    updateUserList(users)  // Обновляем UI\n                }\n            }\n        }\n        \n        lifecycleScope.launch {\n            repeatOnLifecycle(Lifecycle.State.STARTED) {\n                // Следим за состоянием загрузки\n                viewModel.isLoading.collect { isLoading ->\n                    progressBar.isVisible = isLoading  // Показываем/скрываем индикатор\n                }\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**7. Application**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyApplication : Application() {\n    override fun onCreate() {\n        super.onCreate()\n        \n        // Инициализация Koin\n        startKoin {\n            // Android контекст\n            androidContext(this@MyApplication)\n            \n            // Все модули\n            modules(\n                databaseModule,\n                networkModule, \n                repositoryModule,\n                viewModelModule\n            )\n            \n            // Логирование (опционально)\n            androidLogger(Level.ERROR)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "AndroidManifest.xml:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<application\n    android:name=\".MyApplication\"\n    ...>\n</application>"
+    },
+    {
+      "type": "text",
+      "value": "#### Полный граф зависимостей Koin"
+    },
+    {
+      "type": "image",
+      "src": "/images/android/android_dependency_injection_koin_example.png",
+      "alt": "Визуализация работы Koin",
+      "caption": "Визуализация работы Koin"
+    },
+    {
+      "type": "text",
+      "value": "#### Что происходит при запуске приложения:\n\n- **Старт приложения** → `startKoin` инициализирует контейнер зависимостей\n\n\n\n- **Koin создает** `Retrofit` и `AppDatabase` (тяжелые объекты, один раз - `single`)\n\n\n\n- **При создании** `UserRepository` → Koin передает ему `ApiService` и `UserDao`\n\n\n\n- **При создании** `UserViewModel` → Koin передает ему `UserRepository`\n\n\n\n- **При открытии** `MainActivity` → Koin предоставляет готовый `UserViewModel` через `by viewModel()`"
+    },
+    {
+      "type": "text",
+      "value": "#### Преимущества такого подхода:\n\n- **Минимум бойлерплейта** - нет аннотаций на каждом классе\n\n- **Простота** - интуитивно понятный DSL\n\n- **Гибкость** - легко менять зависимости в runtime\n\n- **Kotlin-first** - использует лучшие практики Kotlin"
+    },
+    {
+      "type": "text",
+      "value": "**Koin** предлагает **более легкий и Kotlin-ориентированный** подход к DI по сравнению с Hilt!"
+    }
+  ]
+}
