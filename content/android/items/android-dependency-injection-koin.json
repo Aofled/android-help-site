@@ -86,6 +86,41 @@
     },
     {
       "type": "text",
+      "value": "### Основные способы объявления зависимостей"
+    },
+    {
+      "type": "text",
+      "value": "`get()` - явный контроль, самый быстрый\n\n`singleOf()` - минимальный код\n\n`bind` - для интерфейсов"
+    },
+    {
+      "type": "text",
+      "value": "`get()` - явное получение зависимостей (самый частый)\n\n**Когда использовать:** Когда нужно явно контролировать, какие зависимости передавать"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val module = module {\n    viewModel { \n        UserViewModel(\n            repository = get(),  // Явно указываем зависимость\n            analytics = get()    // Еще одна зависимость\n        )\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "`singleOf(::Constructor)` - автоматическое разрешение\n\n**Когда использовать:** Для простых случаев, когда все зависимости уже зарегистрированы в Koin"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val module = module {\n    singleOf(::UserRepository)  // Koin автоматически найдет все зависимости конструктора\n    \n    singleOf(::ApiService)      // Автоматически найдет Retrofit\n}"
+    },
+    {
+      "type": "text",
+      "value": "`bind` - привязка интерфейсов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val module = module {\n    singleOf(::FirebaseAnalytics) bind AnalyticsService::class\n    // Теперь можно inject как AnalyticsService\n}"
+    },
+    {
+      "type": "text",
       "value": "### Внедрение зависимостей:"
     },
     {
@@ -167,6 +202,59 @@
       "type": "code",
       "language": "kotlin",
       "value": "class SessionActivity : AppCompatActivity() {\n    private val sessionScope = getKoin().getOrCreateScope(\"session\", named<SessionActivity>())\n    private val userSession: UserSession by sessionScope.inject()\n    \n    override fun onDestroy() {\n        sessionScope.close()\n        super.onDestroy()\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Koin + ViewModel + Compose"
+    },
+    {
+      "type": "text",
+      "value": "**ViewModel**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class CounterViewModel : ViewModel() {\n    private val _count = MutableStateFlow(0)\n    val count = _count.asStateFlow()\n    \n    fun increment() {\n        _count.value += 1\n    }\n    \n    fun decrement() {\n        _count.value -= 1\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Модуль Koin**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val appModule = module {\n    viewModel { CounterViewModel() }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Application**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyApp : Application() {\n    override fun onCreate() {\n        super.onCreate()\n        startKoin {\n            androidContext(this@MyApp)\n            modules(appModule)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Compose Screen**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun CounterScreen(\n    viewModel: CounterViewModel = koinViewModel()  // 🔑 Магия Koin!\n) {\n    val count by viewModel.count.collectAsStateWithLifecycle()\n    \n    Column(\n        modifier = Modifier\n            .fillMaxSize()\n            .padding(16.dp),\n        horizontalAlignment = Alignment.CenterHorizontally,\n        verticalArrangement = Arrangement.Center\n    ) {\n        Text(\n            text = \"Счетчик: $count\",\n            style = MaterialTheme.typography.headlineMedium,\n            modifier = Modifier.padding(16.dp)\n        )\n        \n        Row(\n            horizontalArrangement = Arrangement.spacedBy(16.dp)\n        ) {\n            Button(onClick = { viewModel.decrement() }) {\n                Text(\"-1\")\n            }\n            \n            Button(onClick = { viewModel.increment() }) {\n                Text(\"+1\")\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Activity**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : ComponentActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContent {\n            CounterScreen()  // 🔑 ViewModel автоматически внедряется!\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Koin регистрирует** CounterViewModel в модуле\n\n- **Compose функция** вызывает koinViewModel()\n\n- **Koin находит** зарегистрированный ViewModel\n\n- **Автоматическое внедрение** - ViewModel передается в Composable"
     },
     {
       "type": "text",
