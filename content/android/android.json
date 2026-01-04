@@ -253,11 +253,14 @@
       "url": "#android-multithreading",
       "contentFile": "android-multithreading.json",
       "subItems": [
-
         {
           "title": "Корутины: практика",
           "url": "#android-coroutine-practice",
           "contentFile": "android-coroutine-practice.json"
+        },{
+          "title": "Корутины: Flow",
+          "url": "#android-coroutine-flow",
+          "contentFile": "android-coroutine-flow.json"
         },
         {
           "title": "WorkManager",

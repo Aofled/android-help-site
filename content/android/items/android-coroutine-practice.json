@@ -1,0 +1,199 @@
+{
+  "title": "Корутины: практика",
+  "content": [
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Ситуация\t        Что использовать\tПример\nРазовая операция\tlaunch\t                launch { saveData() }\nОперация с результатом\tasync/await\t        val result = async { load() }.await()\nПараллельные операции\tНесколько async\t        async { task1() }; async { task2() }\nВременная смена потока\twithContext\t        withContext(IO) { networkCall() }\nUI обновления\t        Dispatchers.Main\tlaunch(Main) { updateUI() }\nСеть/БД/Файлы\t        Dispatchers.IO\t        launch(IO) { api.call() }\nВычисления\t        Dispatchers.Default\tlaunch(Default) { calculate() }"
+    },
+    {
+      "type": "text",
+      "value": "#### Всегда нужно:\n\n- **Указывать Scope** - не использовать GlobalScope\n\n- **Выбирать правильный Dispatcher** - Main для UI, IO для сети/БД, Default для вычислений\n\n- **Использовать withContext для смены потоков** - не не блокировать Main поток\n\n- **Обрабатывать ошибки** - можно использовать try/catch или CoroutineExceptionHandler\n\n- **Управлять временем жизни** - отменять корутины когда они не нужны"
+    },
+    {
+      "type": "text",
+      "value": "### Основные строители корутин:"
+    },
+    {
+      "type": "text",
+      "value": "`launch` - \"запусти и забудь\"."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Простой launch\nval job = scope.launch {\n    // асинхронная работа\n    fetchData()\n}\n\n// Launch с контекстом\nval job = scope.launch(Dispatchers.IO) {\n    // работа в IO потоке\n    saveToDatabase()\n}"
+    },
+    {
+      "type": "text",
+      "value": "`async` - \"запусти и верни результат\"."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Async с возвратом результата\nval deferred: Deferred<User> = scope.async {\n    fetchUser() // возвращает User\n}\n\n// Получение результата\nval user = deferred.await()"
+    },
+    {
+      "type": "text",
+      "value": "`withContext` - \"временно смени контекст\"."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "suspend fun loadUser(): User {\n    return withContext(Dispatchers.IO) {\n        // временно переключаемся на IO\n        api.getUser()\n    }\n    // автоматически возвращаемся в предыдущий контекст\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Настройка корутин:"
+    },
+    {
+      "type": "text",
+      "value": "### CoroutineScope - область видимости"
+    },
+    {
+      "type": "text",
+      "value": "В Android уже есть готовые scope:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// В Activity\nlifecycleScope.launch {\n    // отменяется при уничтожении Activity\n}\n\n// В Fragment\nviewLifecycleOwner.lifecycleScope.launch {\n    // отменяется при уничтожении View Fragment\n}\n\n// В ViewModel  \nviewModelScope.launch {\n    // отменяется при очистке ViewModel\n}"
+    },
+    {
+      "type": "text",
+      "value": "Создание кастомного Scope:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Создаем свой scope\nclass MyService {\n    private val customScope = CoroutineScope(Dispatchers.Main + SupervisorJob())\n    \n    fun doWork() {\n        customScope.launch {\n            // работа в кастомной области\n        }\n    }\n    \n    fun cleanup() {\n        customScope.cancel() // отменяем все корутины в scope\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### CoroutineContext - настройки корутины"
+    },
+    {
+      "type": "text",
+      "value": "Компоненты контекста:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val customContext = Dispatchers.IO + // диспетчер\n                   CoroutineName(\"MyCoroutine\") + // имя для отладки\n                   CoroutineExceptionHandler { _, e -> // обработчик ошибок\n                       println(\"Ошибка: $e\")\n                   }\n\nscope.launch(customContext) {\n    // корутина с кастомными настройками\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Dispatcher - выбор потока"
+    },
+    {
+      "type": "text",
+      "value": "**Основные диспетчеры:**"
+    },
+    {
+      "type": "text",
+      "value": "`Dispatchers.Main` - UI поток"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "lifecycleScope.launch(Dispatchers.Main) {\n    textView.text = \"Обновляем UI\" // безопасно для UI\n    updateRecyclerView()\n}"
+    },
+    {
+      "type": "text",
+      "value": "`Dispatchers.IO` - для операций ввода/вывода"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "viewModelScope.launch(Dispatchers.IO) {\n    // Сеть, БД, файлы\n    val data = api.fetchData()\n    database.save(data)\n    File(\"data.txt\").writeText(data)\n}"
+    },
+    {
+      "type": "text",
+      "value": "`Dispatchers.Default` - для вычислений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "viewModelScope.launch(Dispatchers.Default) {\n    // Сортировка, математика, обработка данных\n    val sortedList = largeList.sorted()\n    val result = heavyCalculation()\n    processImage(bitmap)\n}"
+    },
+    {
+      "type": "text",
+      "value": "`Dispatchers.Unconfined` - без привязки (редко)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Используется в специфических случаях\nlaunch(Dispatchers.Unconfined) {\n    // продолжает в том же потоке, где была приостановка\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Виды корутин и когда их использовать"
+    },
+    {
+      "type": "text",
+      "value": "- Однократные операции - `launch`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Когда: Нужно выполнить операцию без возврата результата\nfun saveUserData(user: User) {\n    viewModelScope.launch(Dispatchers.IO) {\n        userRepository.save(user)\n        // не возвращаем результат, просто выполняем\n    }\n}\n\n// Когда: Пользовательское действие\nfun onButtonClick() {\n    lifecycleScope.launch {\n        showProgress()\n        loadData()\n        hideProgress()\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Операции с результатом - `async/await`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Когда: Нужен результат операции\nsuspend fun loadUserProfile(): UserProfile {\n    return viewModelScope.async(Dispatchers.IO) {\n        userRepository.getUser() // возвращаем User\n    }.await()\n}\n\n// Когда: Параллельные операции\nfun loadDashboardData() {\n    viewModelScope.launch {\n        val userDeferred = async { userRepo.getUser() }\n        val postsDeferred = async { postRepo.getPosts() }\n        val statsDeferred = async { statsRepo.getStats() }\n        \n        // Ждем все результаты\n        val user = userDeferred.await()\n        val posts = postsDeferred.await() \n        val stats = statsDeferred.await()\n        \n        updateDashboard(user, posts, stats)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Временное переключение контекста - `withContext`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Когда: Нужно временно сменить поток\nsuspend fun fetchAndSaveUser(): User {\n    // Начинаем в Main (предположительно)\n    val user = withContext(Dispatchers.IO) {\n        api.getUser() // работаем в IO\n    }\n    // Возвращаемся в Main\n    updateUI(user)\n    return user\n}\n\n// Когда: Цепочка операций в разных потоках\nsuspend fun processData(): Result {\n    val rawData = withContext(Dispatchers.IO) { loadData() }\n    val processed = withContext(Dispatchers.Default) { process(rawData) }\n    withContext(Dispatchers.IO) { save(processed) }\n    return withContext(Dispatchers.Main) { createResult(processed) }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Практические сценарии в Android"
+    },
+    {
+      "type": "text",
+      "value": "#### Загрузка данных с UI обновлением"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun loadUserData(userId: String) {\n    viewModelScope.launch {\n        try {\n            _uiState.value = UiState.Loading\n            val user = withContext(Dispatchers.IO) {\n                userRepository.getUser(userId)\n            }\n            _uiState.value = UiState.Success(user)\n        } catch (e: Exception) {\n            _uiState.value = UiState.Error(e.message)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Параллельная загрузка"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun loadUserDashboard(userId: String) {\n    viewModelScope.launch {\n        val userAsync = async(Dispatchers.IO) { userRepo.getUser(userId) }\n        val postsAsync = async(Dispatchers.IO) { postsRepo.getUserPosts(userId) }\n        val friendsAsync = async(Dispatchers.IO) { friendsRepo.getUserFriends(userId) }\n        \n        val user = userAsync.await()\n        val posts = postsAsync.await()\n        val friends = friendsAsync.await()\n        \n        _dashboardData.value = DashboardData(user, posts, friends)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Отмена операции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class SearchViewModel : ViewModel() {\n    private var searchJob: Job? = null\n    \n    fun search(query: String) {\n        // Отменяем предыдущий поиск\n        searchJob?.cancel()\n        \n        searchJob = viewModelScope.launch {\n            delay(300) // debounce\n            if (query.isNotEmpty()) {\n                val results = withContext(Dispatchers.IO) {\n                    searchRepository.search(query)\n                }\n                _searchResults.value = results\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Таймаут операции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "suspend fun loadDataWithTimeout(): Data {\n    return withTimeout(5000) { // 5 секунд таймаут\n        api.loadData()\n    }\n}\n\n// Использование с обработкой таймаута\nfun loadDataSafely() {\n    viewModelScope.launch {\n        try {\n            val data = loadDataWithTimeout()\n            _data.value = data\n        } catch (e: TimeoutCancellationException) {\n            _error.value = \"Превышено время ожидания\"\n        }\n    }\n}"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "title": "Flow",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Flow"
+    },
+    {
+      "type": "text",
+      "value": "**Flow** — это поток данных, который может асинхронно emit (испускать) несколько значений over time."
+    },
+    {
+      "type": "text",
+      "value": "**Flow нужен для работы с потоками данных, которые изменяются over time:**\n\n\n\n- **Live данные** из БД (Room)\n\n\n\n- **Стримы** из сети (WebSockets, SSE)\n\n\n\n- **Пользовательский ввод** (поиск, текстовые поля)\n\n\n\n- **Таймеры/интервалы**\n\n\n\n- **Состояния загрузки** с прогрессом\n\n\n\n**Flow = RxJava Observable**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Flow - как лента новостей в соцсети\nval newsFeed: Flow<News> = flow {\n    emit(News(\"Новость 1\")) // публикуем новость\n    delay(1000)\n    emit(News(\"Новость 2\")) // еще одну\n    delay(1000) \n    emit(News(\"Новость 3\")) // и еще\n}\n\n// Подписчик - как пользователь, читающий ленту\nlaunch {\n    newsFeed.collect { news -> // \"подписываемся\" на поток\n        println(\"Получена новость: ${news.title}\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Обычная корутина - возвращает ОДНО значение:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "suspend fun getUser(): User { // возвращает одного пользователя\n    return api.getUser()\n}\n\n// Использование:\nval user = getUser() // одно значение"
+    },
+    {
+      "type": "text",
+      "value": "**Flow - возвращает ПОТОК значений:**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun getUsers(): Flow<User> = flow { // поток пользователей\n    while (true) {\n        val users = api.getUsers() // получаем обновленный список\n        emit(users)                // отправляем в поток\n        delay(5000)                // ждем 5 секунд\n    }\n}\n\n// Использование:\ngetUsers().collect { users -> // получаем много значений over time\n    updateUI(users) // UI обновляется при каждом новом списке\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Создание Flow"
+    },
+    {
+      "type": "text",
+      "value": "`flow { } builder` - ручное создание"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun countdownFlow(): Flow<Int> = flow {\n    var count = 10\n    while (count > 0) {\n        emit(count) // отправляем значение\n        delay(1000)\n        count--\n    }\n    emit(0) // финальное значение\n}"
+    },
+    {
+      "type": "text",
+      "value": "`asFlow()` - из коллекций"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbersFlow = listOf(1, 2, 3, 4, 5).asFlow()\n\nval rangeFlow = (1..10).asFlow()"
+    },
+    {
+      "type": "text",
+      "value": "`flowOf()` - из значений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val staticFlow = flowOf(\"A\", \"B\", \"C\")"
+    },
+    {
+      "type": "text",
+      "value": "`channelFlow` - для сложных сценариев"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun userUpdatesFlow(): Flow<User> = channelFlow {\n    // Можем отправлять значения из разных корутин\n    launch {\n        while (true) {\n            val user = api.getUserUpdates()\n            send(user)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Зачем нужен Flow в корутинах:"
+    },
+    {
+      "type": "text",
+      "value": "- **Потоки данных в реальном времени**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Live данные из Room\n@Dao\ninterface UserDao {\n    @Query(\"SELECT * FROM users\")\n    fun getUsers(): Flow<List<User>> // Автоматически эмитит при изменении БД\n}\n\n// В ViewModel\nval users: Flow<List<User>> = userDao.getUsers()\n\n// В UI\nusers.collect { users ->\n    recyclerViewAdapter.submitList(users) // Автообновление при изменении БД\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Сетевые стримы**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun getStockPrices(symbol: String): Flow<Double> = flow {\n    while (true) {\n        val price = api.getStockPrice(symbol)\n        emit(price)\n        delay(5000) // Обновляем каждые 5 секунд\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Пользовательский ввод**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun searchQueryFlow(): Flow<String> = callbackFlow {\n    val listener = object : TextWatcher {\n        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {\n            s?.toString()?.let { trySend(it) }\n        }\n        // ... другие методы\n    }\n    \n    editText.addTextChangedListener(listener)\n    awaitClose { editText.removeTextChangedListener(listener) }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Flow vs Suspend функции"
+    },
+    {
+      "type": "text",
+      "value": "- Когда использовать suspend функции:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// ОДНО значение, ОДНА операция\nsuspend fun loginUser(email: String, password: String): AuthResult {\n    return api.login(email, password) // один запрос, один ответ\n}\n\nsuspend fun uploadFile(file: File): UploadResult {\n    return api.upload(file) // одна загрузка, один результат\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Когда использовать Flow::"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// МНОГО значений over time\nfun observeMessages(chatId: String): Flow<Message> {\n    return messageDao.observeMessages(chatId) // новые сообщения приходят постоянно\n}\n\nfun getLocationUpdates(): Flow<Location> {\n    return locationManager.getLocationUpdates() // местоположение постоянно обновляется\n}\n\nfun downloadFileWithProgress(fileId: String): Flow<DownloadState> = flow {\n    emit(DownloadState.Progress(0))\n    // ... загрузка\n    emit(DownloadState.Progress(50))\n    // ... загрузка  \n    emit(DownloadState.Progress(100))\n    emit(DownloadState.Completed)\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Практические примеры в Android:"
+    },
+    {
+      "type": "text",
+      "value": "- Live данные из Room"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Dao\ninterface UserDao {\n    @Query(\"SELECT * FROM users WHERE is_active = 1\")\n    fun getActiveUsers(): Flow<List<User>>\n}\n\nclass UserViewModel : ViewModel() {\n    val activeUsers: Flow<List<User>> = userDao.getActiveUsers()\n        .map { users -> users.sortedBy { it.name } }\n    \n    init {\n        viewModelScope.launch {\n            activeUsers.collect { users ->\n                _uiState.value = UiState.Success(users)\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Поиск с debounce"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class SearchViewModel : ViewModel() {\n    private val _searchQuery = MutableStateFlow(\"\")\n    \n    val searchResults = _searchQuery\n        .debounce(300)\n        .distinctUntilChanged()\n        .filter { it.length > 2 }\n        .flatMapLatest { query ->\n            searchRepository.search(query)\n        }\n        .stateIn(\n            scope = viewModelScope,\n            started = SharingStarted.WhileSubscribed(5000),\n            initialValue = emptyList()\n        )\n    \n    fun onSearchQueryChanged(query: String) {\n        _searchQuery.value = query\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Таймер/обратный отсчет"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun createTimerFlow(duration: Long): Flow<Long> = flow {\n    var timeLeft = duration\n    while (timeLeft > 0) {\n        emit(timeLeft)\n        delay(1000)\n        timeLeft -= 1000\n    }\n    emit(0L)\n}\n\n// Использование в UI\n@Composable\nfun CountdownTimer(duration: Long) {\n    val timeLeft by createTimerFlow(duration)\n        .collectAsStateWithLifecycle(initialValue = duration)\n    \n    Text(text = \"Осталось: ${timeLeft / 1000} сек\")\n}"
+    }
+  ]
+}
