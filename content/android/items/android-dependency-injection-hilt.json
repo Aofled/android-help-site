@@ -189,7 +189,20 @@
     },
     {
       "type": "text",
-      "value": "#### 1. Data Layer\n\n- Эти классы **не используют Hilt напрямую**\n\n- **Hilt** будет управлять созданием AppDatabase через модуль\n\n- UserDao получается из AppDatabase, поэтому Hilt тоже управляет им"
+      "value": "#### 1. @HiltAndroidApp"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@HiltAndroidApp\nclass MyApplication : Application()"
+    },
+    {
+      "type": "text",
+      "value": "- **Обязательная** аннотация для **Application** класса\n\n- Генерирует корневой компонент приложения"
+    },
+    {
+      "type": "text",
+      "value": "#### 2. Data Layer\n\n- Эти классы **не используют Hilt напрямую**\n\n- **Hilt** будет управлять созданием AppDatabase через модуль\n\n- UserDao получается из AppDatabase, поэтому Hilt тоже управляет им"
     },
     {
       "type": "code",
@@ -198,7 +211,7 @@
     },
     {
       "type": "text",
-      "value": "#### 2. Network Layer"
+      "value": "#### 3. Network Layer"
     },
     {
       "type": "code",
@@ -207,7 +220,7 @@
     },
     {
       "type": "text",
-      "value": "#### 3. Repository"
+      "value": "#### 4. Repository"
     },
     {
       "type": "code",
@@ -216,7 +229,7 @@
     },
     {
       "type": "text",
-      "value": "#### 4. Modules - СЕРДЦЕ HILT"
+      "value": "#### 5. Modules - СЕРДЦЕ HILT"
     },
     {
       "type": "text",
@@ -238,7 +251,7 @@
     },
     {
       "type": "text",
-      "value": "### 5. ViewModel"
+      "value": "### 6. ViewModel"
     },
     {
       "type": "code",
@@ -247,7 +260,7 @@
     },
     {
       "type": "text",
-      "value": "### 6. Activity"
+      "value": "### 7. Activity"
     },
     {
       "type": "code",

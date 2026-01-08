@@ -190,6 +190,33 @@
     },
     {
       "type": "text",
+      "value": "- **Создать метку для последнего коммита:** (например, v1.0.0)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git tag <tag_name>"
+    },
+    {
+      "type": "text",
+      "value": "- **Создать аннотированную метку:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git tag -a <tag_name> -m \"Message for the label\""
+    },
+    {
+      "type": "text",
+      "value": "- **Создать метку для конкретного коммита:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git tag <tag_name> <commit_hash>"
+    },
+    {
+      "type": "text",
       "value": "### Команды для работы с ветками (branches)"
     },
     {
