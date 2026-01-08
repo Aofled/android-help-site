@@ -1,0 +1,14 @@
+{
+  "title": "Retrofit",
+  "content": [
+    {
+      "type": "text",
+      "value": "[Ссылка Git](https://github.com/square/retrofit?tab=readme-ov-file)\n\n[Ссылка Сайт](https://square.github.io/retrofit/)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"com.squareup.retrofit2:retrofit:3.1.0-SNAPSHOT\")"
+    }
+  ]
+}

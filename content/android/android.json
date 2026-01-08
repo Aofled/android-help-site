@@ -119,6 +119,11 @@
       "contentFile": "android-project-architectures.json",
       "subItems": [
         {
+          "title": "Многомодульная архитектура",
+          "url": "#android-project-architectures-multi-module",
+          "contentFile": "android-project-architectures-multi-module.json"
+        },
+        {
           "title": "MVC (Model-View-Controller)",
           "url": "#android-project-architectures-mvc",
           "contentFile": "android-project-architectures-mvc.json"

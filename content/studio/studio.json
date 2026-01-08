@@ -1,9 +1,36 @@
 {
   "menuItems": [
     {
-      "title": "Примеры подключения зависимостей",
-      "url": "#studio-examples-connecting-dependencies",
-      "contentFile": "studio-examples-connecting-dependencies.json"
+      "title": "Подключения зависимостей",
+      "url": "#studio-connecting-dependencies",
+      "contentFile": "studio-connecting-dependencies.json",
+      "subItems": [
+        {
+          "title": "Swiperefreshlayout",
+          "url": "#studio-connecting-dependencies-swipe-refresh",
+          "contentFile": "studio-connecting-dependencies-swipe-refresh.json"
+        },
+        {
+          "title": "Material Components",
+          "url": "#studio-connecting-dependencies-material-components",
+          "contentFile": "studio-connecting-dependencies-material-components.json"
+        },
+        {
+          "title": "Retrofit",
+          "url": "#studio-connecting-dependencies-retrofit",
+          "contentFile": "studio-connecting-dependencies-retrofit.json"
+        },
+        {
+          "title": "Kotlinx Coroutines",
+          "url": "#studio-connecting-dependencies-kotlinx-coroutines",
+          "contentFile": "studio-connecting-dependencies-kotlinx-coroutines.json"
+        },
+        {
+          "title": "Kotlinx Serialization",
+          "url": "#studio-connecting-dependencies-kotlinx-serialization",
+          "contentFile": "studio-connecting-dependencies-kotlinx-serialization.json"
+        }
+      ]
     },
     {
       "title": "Отображение типов данных",

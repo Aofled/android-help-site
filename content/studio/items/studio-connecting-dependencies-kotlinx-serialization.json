@@ -1,0 +1,19 @@
+{
+  "title": "Kotlinx Serialization",
+  "content": [
+    {
+      "type": "text",
+      "value": "[Ссылка Git](https://github.com/Kotlin/kotlinx.serialization)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n    id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.0'\n}"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0\")"
+    }
+  ]
+}

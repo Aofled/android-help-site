@@ -1,0 +1,14 @@
+{
+  "title": "Swiperefreshlayout",
+  "content": [
+    {
+      "type": "text",
+      "value": "[Ссылка](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout?hl=ru)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\")"
+    }
+  ]
+}
