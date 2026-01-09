@@ -1,0 +1,24 @@
+{
+  "title": "Kotlin Symbol Processing API",
+  "content": [
+    {
+      "type": "text",
+      "value": "[ссылка KSP](https://kotlinlang.org/docs/ksp-quickstart.html)\n\n[ссылка KSP-version](https://github.com/google/ksp/releases)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n    id(\"com.google.devtools.ksp\") version \"2.2.10-2.0.2\"\n}"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    implementation(\"com.google.dagger:dagger-compiler:2.51.1\")\n    ksp(\"com.google.dagger:dagger-compiler:2.51.1\")\n}"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    ksp(\"androidx.room:room-compiler:2.8.3\")\n}"
+    }
+  ]
+}

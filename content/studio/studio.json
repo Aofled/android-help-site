@@ -6,9 +6,14 @@
       "contentFile": "studio-connecting-dependencies.json",
       "subItems": [
         {
-          "title": "Swiperefreshlayout",
-          "url": "#studio-connecting-dependencies-swipe-refresh",
-          "contentFile": "studio-connecting-dependencies-swipe-refresh.json"
+          "title": "Ksp",
+          "url": "#studio-connecting-dependencies-ksp",
+          "contentFile": "studio-connecting-dependencies-ksp.json"
+        },
+        {
+          "title": "Lifecycle",
+          "url": "#studio-connecting-dependencies-lifecycle",
+          "contentFile": "studio-connecting-dependencies-lifecycle.json"
         },
         {
           "title": "Material Components",
@@ -29,6 +34,16 @@
           "title": "Kotlinx Serialization",
           "url": "#studio-connecting-dependencies-kotlinx-serialization",
           "contentFile": "studio-connecting-dependencies-kotlinx-serialization.json"
+        },
+        {
+          "title": "Room",
+          "url": "#studio-connecting-dependencies-room",
+          "contentFile": "studio-connecting-dependencies-room.json"
+        },
+        {
+          "title": "Swiperefreshlayout",
+          "url": "#studio-connecting-dependencies-swipe-refresh",
+          "contentFile": "studio-connecting-dependencies-swipe-refresh.json"
         }
       ]
     },

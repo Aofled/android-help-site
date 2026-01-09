@@ -1,0 +1,14 @@
+{
+  "title": "Room",
+  "content": [
+    {
+      "type": "text",
+      "value": "[Ссылка developer.android](https://developer.android.com/jetpack/androidx/releases/room?hl=ru)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n    val room_version = \"2.8.3\"\n\n    implementation(\"androidx.room:room-runtime:$room_version\")\n\n    // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)\n    // See Add the KSP plugin to your project\n    ksp(\"androidx.room:room-compiler:$room_version\")\n\n    // If this project only uses Java source, use the Java annotationProcessor\n    // No additional plugins are necessary\n    annotationProcessor(\"androidx.room:room-compiler:$room_version\")\n\n    // optional - Kotlin Extensions and Coroutines support for Room\n    implementation(\"androidx.room:room-ktx:$room_version\")\n\n    // optional - RxJava2 support for Room\n    implementation(\"androidx.room:room-rxjava2:$room_version\")\n\n    // optional - RxJava3 support for Room\n    implementation(\"androidx.room:room-rxjava3:$room_version\")\n\n    // optional - Guava support for Room, including Optional and ListenableFuture\n    implementation(\"androidx.room:room-guava:$room_version\")\n\n    // optional - Test helpers\n    testImplementation(\"androidx.room:room-testing:$room_version\")\n\n    // optional - Paging 3 Integration\n    implementation(\"androidx.room:room-paging:$room_version\")\n}"
+    }
+  ]
+}
