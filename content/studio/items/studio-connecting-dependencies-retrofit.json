@@ -9,6 +9,20 @@
       "type": "code",
       "language": "kotlin",
       "value": "implementation(\"com.squareup.retrofit2:retrofit:3.1.0-SNAPSHOT\")"
+    },
+    {
+      "type": "text",
+      "value": "- **Retrofit Adapters**"
+    },
+    {
+      "type": "text",
+      "value": "[Ссылка Git](https://github.com/skydoves/retrofit-adapters)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"com.github.skydoves:retrofit-adapters-result:1.1.0\")"
     }
+
   ]
 }

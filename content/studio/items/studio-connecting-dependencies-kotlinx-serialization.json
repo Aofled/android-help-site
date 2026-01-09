@@ -3,6 +3,10 @@
   "content": [
     {
       "type": "text",
+      "value": "- **Kotlinx Serialization**"
+    },
+    {
+      "type": "text",
       "value": "[Ссылка Git](https://github.com/Kotlin/kotlinx.serialization)"
     },
     {
@@ -14,6 +18,19 @@
       "type": "code",
       "language": "kotlin",
       "value": "implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0\")"
+    },
+    {
+      "type": "text",
+      "value": "- **Kotlin Serialization Converter**"
+    },
+    {
+      "type": "text",
+      "value": "[Ссылка Git](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "implementation(\"com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0\")"
     }
   ]
 }
