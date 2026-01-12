@@ -41,6 +41,16 @@
           "contentFile": "studio-connecting-dependencies-room.json"
         },
         {
+          "title": "Dagger",
+          "url": "#studio-connecting-dependencies-dagger",
+          "contentFile": "studio-connecting-dependencies-dagger.json"
+        },
+        {
+          "title": "Dagger-Hilt",
+          "url": "#studio-connecting-dependencies-dagger-hilt",
+          "contentFile": "studio-connecting-dependencies-dagger-hilt.json"
+        },
+        {
           "title": "Swiperefreshlayout",
           "url": "#studio-connecting-dependencies-swipe-refresh",
           "contentFile": "studio-connecting-dependencies-swipe-refresh.json"

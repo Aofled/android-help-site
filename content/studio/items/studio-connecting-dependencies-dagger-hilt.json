@@ -1,0 +1,19 @@
+{
+  "title": "Dagger Hilt",
+  "content": [
+    {
+      "type": "text",
+      "value": "[Ссылка developer.android.com](https://developer.android.com/training/dependency-injection/hilt-android)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "plugins {\n  id 'com.google.dagger.hilt.android' version '2.57.1' apply false\n}"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "dependencies {\n  implementation \"com.google.dagger:hilt-android:2.57.1\"\n  ksp \"com.google.dagger:hilt-compiler:2.57.1\"\n}"
+    }
+  ]
+}
