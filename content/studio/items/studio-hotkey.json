@@ -12,6 +12,10 @@
     {
       "type": "text",
       "value": "- Преобразовать выделенный текст в верхний регистр: `CTRL + SHIFT + U`"
+    },
+    {
+      "type": "text",
+      "value": "- Вырезать код в функцию в Android Studio: `ALT + CTRL + M`"
     }
   ]
 }
