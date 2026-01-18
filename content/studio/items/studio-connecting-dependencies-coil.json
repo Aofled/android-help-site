@@ -3,16 +3,16 @@
   "content": [
     {
       "type": "text",
-      "value": "[Coil](https://coil-kt.github.io/coil/getting_started/)"
+      "value": "[coil-kt.github.io](https://coil-kt.github.io/coil/getting_started/)"
     },
     {
       "type": "text",
-      "value": "[Coil github](https://github.com/coil-kt/coil)"
+      "value": "[github.com](https://github.com/coil-kt/coil)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "dependencies {\n  implementation(\"io.coil-kt.coil3:coil-compose:3.3.0\")\n  implementation(\"io.coil-kt.coil3:coil-network-okhttp:3.3.0\")\n}"
+      "value": "dependencies {\n    . . .\n    implementation(\"io.coil-kt.coil3:coil-compose:3.3.0\")\n    implementation(\"io.coil-kt.coil3:coil-network-okhttp:3.3.0\")\n}"
     }
   ]
 }

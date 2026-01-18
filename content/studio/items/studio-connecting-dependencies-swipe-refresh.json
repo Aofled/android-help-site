@@ -3,12 +3,12 @@
   "content": [
     {
       "type": "text",
-      "value": "[Ссылка](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout?hl=ru)"
+      "value": "[developer.android.com](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout?hl=ru)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "implementation(\"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\")"
+      "value": "dependencies {\n    . . .\n    implementation(\"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\")\n}"
     }
   ]
 }

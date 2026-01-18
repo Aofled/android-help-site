@@ -3,24 +3,24 @@
   "content": [
     {
       "type": "text",
-      "value": "[Detekt](https://detekt.dev/)"
+      "value": "[detekt.dev](https://detekt.dev/)"
     },
     {
       "type": "text",
-      "value": "[Detekt plugins](https://plugins.gradle.org/plugin/io.gitlab.arturbosch.detekt)"
+      "value": "[plugins.gradle.org](https://plugins.gradle.org/plugin/io.gitlab.arturbosch.detekt)"
     },
     {
       "type": "text",
-      "value": "[Detekt github](https://github.com/detekt/detekt)"
+      "value": "[github.com](https://github.com/detekt/detekt)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "plugins {\n  id(\"io.gitlab.arturbosch.detekt\") version \"1.23.8\"\n}"
+      "value": "plugins {\n    . . .\n    id(\"io.gitlab.arturbosch.detekt\") version \"1.23.8\"\n}"
     },
     {
       "type": "text",
-      "value": "[Detekt plugins formatting](https://detekt.dev/docs/rules/formatting)"
+      "value": "[detekt.dev/docs/rules/formatting](https://detekt.dev/docs/rules/formatting)"
     }
   ]
 }

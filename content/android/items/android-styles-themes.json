@@ -107,7 +107,7 @@
     },
     {
       "type": "text",
-      "value": "**Генерация цветов**\n\nОфициальный инструмент:\n\n- [Material Theme Builder](https://material-foundation.github.io/material-theme-builder/)\n\n\n\n- Или плагин Android Studio: File → New → Material Design 3 Theme"
+      "value": "**Генерация цветов**\n\nОфициальный инструмент:\n\n- [material-foundation.github.io](https://material-foundation.github.io/material-theme-builder/)\n\n\n\n- Или плагин Android Studio: File → New → Material Design 3 Theme"
     },
     {
       "type": "text",

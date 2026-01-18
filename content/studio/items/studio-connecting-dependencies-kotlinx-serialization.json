@@ -7,17 +7,17 @@
     },
     {
       "type": "text",
-      "value": "[Ссылка Git](https://github.com/Kotlin/kotlinx.serialization)"
+      "value": "[github.com](https://github.com/Kotlin/kotlinx.serialization)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "plugins {\n    id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.0'\n}"
+      "value": "plugins {\n    . . . \n    id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.0'\n}"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0\")"
+      "value": "dependencies {\n    . . . \n    implementation(\"org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0\")\n}"
     },
     {
       "type": "text",
@@ -25,12 +25,12 @@
     },
     {
       "type": "text",
-      "value": "[Ссылка Git](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)"
+      "value": "[github.com](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "implementation(\"com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0\")"
+      "value": "dependencies {\n    . . . \n    implementation(\"com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0\")\n}"
     }
   ]
 }

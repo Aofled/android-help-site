@@ -3,12 +3,12 @@
   "content": [
     {
       "type": "text",
-      "value": "[Dagger](https://github.com/google/dagger/releases)"
+      "value": "[github.com](https://github.com/google/dagger/releases)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "dependencies {\n  implementation 'com.google.dagger:dagger:2.x'\n  annotationProcessor 'com.google.dagger:dagger-compiler:2.x'\n}"
+      "value": "dependencies {\n    . . .\n    implementation 'com.google.dagger:dagger:2.57.2'\n    annotationProcessor 'com.google.dagger:dagger-compiler:2.57.2' \n}"
     }
   ]
 }

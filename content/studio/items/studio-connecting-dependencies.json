@@ -3,21 +3,19 @@
   "content": [
     {
       "type": "text",
-      "value": "#### Material Components\n\n\n\n[Ссылка](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)"
-    },
-    {
-      "type": "code",
-      "language": "kotlin",
-      "value": "implementation(\"com.google.android.material:material:1.10.0\")"
+      "value": "#### Gradle - основной инструмент"
     },
     {
       "type": "text",
-      "value": "#### Swiperefreshlayout\n\n\n\n[Ссылка](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout?hl=ru)"
+      "value": "В Android проектах зависимости подключаются через систему сборки **Gradle**. Основные файлы:\n\n- `build.gradle (Project level)`\n\n- `build.gradle (Module level)`\n\n- `settings.gradle`"
     },
     {
-      "type": "code",
-      "language": "kotlin",
-      "value": "implementation(\"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\")"
+      "type": "text",
+      "value": "#### Конфигурации зависимостей"
+    },
+    {
+      "type": "text",
+      "value": "- `implementation` - зависимость доступна только текущему модулю\n\n\n\n- `api` - зависимость транзитивно доступна другим модулям\n\n\n\n- `compileOnly` - только для компиляции, не включается в APK\n\n\n\n- `runtimeOnly` - только для runtime\n\n\n\n- `testImplementation` - для unit тестов\n\n\n\n- `androidTestImplementation` - для instrumentation тестов"
     }
   ]
 }

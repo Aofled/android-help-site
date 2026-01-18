@@ -3,12 +3,12 @@
   "content": [
     {
       "type": "text",
-      "value": "[Ссылка](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)"
+      "value": "[github.com](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)"
     },
     {
       "type": "code",
       "language": "kotlin",
-      "value": "implementation(\"com.google.android.material:material:1.10.0\")"
+      "value": "dependencies {\n    . . .\n    implementation(\"com.google.android.material:material:1.10.0\")\n}"
     }
   ]
 }
