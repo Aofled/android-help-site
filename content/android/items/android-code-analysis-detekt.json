@@ -1,0 +1,98 @@
+{
+  "title": "Detekt",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Detekt** — это статический анализатор, специально разработанный для Kotlin. Он находит:"
+    },
+    {
+      "type": "text",
+      "value": "- Code smells (запахи кода)\n\n- Потенциальные баги\n\n- Сложность кода\n\n- Стилевые проблемы\n\n- Кастомные правила для команды"
+    },
+    {
+      "type": "text",
+      "value": "### Базовая настройка Detekt"
+    },
+    {
+      "type": "text",
+      "value": "Добавление в проект `Project-level build.gradle.kts`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "id(\"io.gitlab.arturbosch.detekt\") version \"[version]\"\ndetektPlugins \"io.gitlab.arturbosch.detekt:detekt-formatting:$version\"\n\nplugins {\n    . . . \n    alias(libs.plugins.detekt) apply true\n}\nallprojects.onEach { project ->\n\n    project.afterEvaluate {\n        with(project.plugins) {\n            if (hasPlugin(libs.plugins.kotlin.android.get().pluginId)\n                || hasPlugin(libs.plugins.jetbrains.kotlin.jvm.get().pluginId)\n            ) {\n                project.plugins.apply(libs.plugins.detekt.get().pluginId)\n\n                project.extensions.configure<DetektExtension>() {\n                    config.setFrom(rootProject.files(\"default-detekt-config.yml\"))\n                }\n                //detekt-formatting\n                project.dependencies.add(\"detektPlugins\", libs.detekt.formatting.get().toString())\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "image",
+      "src": "/images/studio/studio_setting_detekt.png",
+      "alt": "Настройка плагина Detect",
+      "caption": "Настройка плагина Detect"
+    },
+    {
+      "type": "text",
+      "value": "Исправления Compouse c большой буквы - FunctionNaming"
+    },
+    {
+      "type": "text",
+      "value": "[FunctionNaming](https://detekt.dev/docs/introduction/compose)"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "FunctionNaming:\n    active: true\n    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']\n    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'\n    excludeClassPattern: '$^'\n    ignoreAnnotated: ['Composable']"
+    },
+    {
+      "type": "text",
+      "value": "Запуск Detekt"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "# Базовая проверка\n./gradlew detekt\n\n# С генерацией отчета\n./gradlew detektMain\n./gradlew detektDebug\n\n# Создание baseline (для игнорирования существующих проблем)\n./gradlew detektBaseline\n\n# Проверка с кастомной конфигурацией\n./gradlew detekt -c config/detekt.yml"
+    },
+    {
+      "type": "text",
+      "value": "### Конфигурация Detekt"
+    },
+    {
+      "type": "text",
+      "value": "Файл конфигурации default-detekt-config.yml"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "# config/detekt.yml\nbuild:\n  maxIssues: 10\n  weights:\n    complexity: 2\n    style: 1\n    comments: 1\n\nconfig:\n  validation: true\n  warningsAsErrors: true\n\nprocessors:\n  active: true\n  ForbiddenImport:\n    active: true\n    imports: [\n      'java.util.Date',\n      'java.sql.*'\n    ]\n\nformatting:\n  active: true\n  ConsecutiveBlankLines:\n    active: true\n    allowedInFunctions: 2"
+    },
+    {
+      "type": "text",
+      "value": "Структура конфигурации:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "# Основные секции:\nstyle:           # Стилевые правила\ncomplexity:      # Сложность кода  \nperformance:     # Производительность\ncoroutines:      # Kotlin Coroutines\nexceptions:      # Обработка исключений\nnaming:          # Правила именования\ncomments:        # Комментарии и документация"
+    },
+    {
+      "type": "text",
+      "value": "### Отчеты и метрики:"
+    },
+    {
+      "type": "text",
+      "value": "- Генерация отчетов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "# detekt.yml\nreporting:\n  active: true\n  HtmlOutputReport:\n    active: true\n    outputPath: \"build/reports/detekt/detekt.html\"\n  TxtOutputReport:\n    active: true  \n    outputPath: \"build/reports/detekt/detekt.txt\"\n  XmlOutputReport:\n    active: true\n    outputPath: \"build/reports/detekt/detekt.xml\""
+    },
+    {
+      "type": "text",
+      "value": "- Метрики кода"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "complexity:\n  active: true\n  CyclomaticComplexity:\n    active: true\n    threshold: 10\n  LongMethod:\n    active: true\n    threshold: 30\n  LongParameterList:\n    active: true\n    threshold: 5\n  LargeClass:\n    active: true\n    threshold: 300"
+    }
+  ]
+}

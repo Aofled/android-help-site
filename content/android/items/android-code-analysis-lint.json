@@ -1,0 +1,93 @@
+{
+  "title": "Android Lint",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Lint** — это статический анализатор, который проверяет исходный код Android-приложения на наличие:"
+    },
+    {
+      "type": "text",
+      "value": "- Потенциальных багов\n\n- Проблем производительности\n\n- Нарушений безопасности\n\n- Неоптимального кода\n\n- Проблем совместимости"
+    },
+    {
+      "type": "text",
+      "value": "### Базовая настройка Lint"
+    },
+    {
+      "type": "text",
+      "value": "- Запуск Lint"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "# Базовая проверка\n./gradlew lint\n\n# Для конкретной сборки\n./gradlew lintDebug\n./gradlew lintRelease\n\n# С генерацией отчета\n./gradlew lintDebug -x lintReport"
+    },
+    {
+      "type": "text",
+      "value": "- Конфигурация в build.gradle.kts"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    lint {\n        // Базовые настройки\n        abortOnError = false\n        checkAllWarnings = true\n        warningsAsErrors = true\n        explainIssues = true\n        \n        // Игнорирование тестов\n        ignoreTestSources = true\n        \n        // Пути к отчетам\n        textOutput = file(\"${buildDir}/reports/lint/lint-result.txt\")\n        htmlOutput = file(\"${buildDir}/reports/lint/lint-report.html\")\n        xmlOutput = file(\"${buildDir}/reports/lint/lint-report.xml\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Детальная конфигурация Lint:"
+    },
+    {
+      "type": "text",
+      "value": "**lint.xml** файл конфигурации"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- app/lint.xml -->\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<lint>\n    <!-- Отключение конкретных правил -->\n    <issue id=\"HardcodedText\" severity=\"ignore\" />\n    <issue id=\"MissingTranslation\" severity=\"ignore\" />\n    \n    <!-- Изменение severity -->\n    <issue id=\"UnusedResources\" severity=\"error\" />\n    <issue id=\"TypographyQuotes\" severity=\"warning\" />\n    \n    <!-- Настройка правил -->\n    <issue id=\"ContentDescription\">\n        <ignore path=\"**/legacy_*.xml\" />\n    </issue>\n    \n    <!-- Кастомные настройки -->\n    <issue id=\"SpUsage\">\n        <option name=\"mode\" value=\"all\" />\n    </issue>\n</lint>"
+    },
+    {
+      "type": "text",
+      "value": "Подключение **lint.xml**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    lint {\n        lintConfig = file(\"lint.xml\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Annotation-based конфигурация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Игнорирование предупреждений в коде\n@SuppressLint(\"HardcodedText\", \"SetTextI18n\")\nfun updateTextView() {\n    textView.text = \"Hardcoded text\" // Lint проигнорирует\n}\n\n// Для конкретных полей/методов\n@SuppressLint(\"HandlerLeak\")\nclass MyHandler : Handler() {\n    // ...\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Baseline - игнорирование существующих проблем"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    lint {\n        baseline = file(\"lint-baseline.xml\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Создание baseline:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "./gradlew lintDebug -x lintBaseline"
+    },
+    {
+      "type": "text",
+      "value": "Проверка зависимостей:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    lint {\n        checkDependencies = true\n    }\n}"
+    }
+  ]
+}

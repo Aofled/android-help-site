@@ -61,11 +61,6 @@
           "contentFile": "studio-connecting-dependencies-detekt.json"
         },
         {
-          "title": "KtLint",
-          "url": "#studio-connecting-dependencies-ktlint",
-          "contentFile": "studio-connecting-dependencies-ktlint.json"
-        },
-        {
           "title": "Swiperefreshlayout",
           "url": "#studio-connecting-dependencies-swipe-refresh",
           "contentFile": "studio-connecting-dependencies-swipe-refresh.json"

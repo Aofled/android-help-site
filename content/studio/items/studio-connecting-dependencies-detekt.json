@@ -21,30 +21,6 @@
     {
       "type": "text",
       "value": "[Detekt plugins formatting](https://detekt.dev/docs/rules/formatting)"
-    },
-    {
-      "type": "code",
-      "language": "kotlin",
-      "value": "id(\"io.gitlab.arturbosch.detekt\") version \"[version]\"\ndetektPlugins \"io.gitlab.arturbosch.detekt:detekt-formatting:$version\"\n\nplugins {\n    . . . \n    alias(libs.plugins.detekt) apply true\n}\nallprojects.onEach { project ->\n\n    project.afterEvaluate {\n        with(project.plugins) {\n            if (hasPlugin(libs.plugins.kotlin.android.get().pluginId)\n                || hasPlugin(libs.plugins.jetbrains.kotlin.jvm.get().pluginId)\n            ) {\n                project.plugins.apply(libs.plugins.detekt.get().pluginId)\n\n                project.extensions.configure<DetektExtension>() {\n                    config.setFrom(rootProject.files(\"default-detekt-config.yml\"))\n                }\n                //detekt-formatting\n                project.dependencies.add(\"detektPlugins\", libs.detekt.formatting.get().toString())\n            }\n        }\n    }\n}"
-    },
-    {
-      "type": "image",
-      "src": "/images/studio/studio_setting_detekt.png",
-      "alt": "Настройка плагина Detect",
-      "caption": "Настройка плагина Detect"
-    },
-    {
-      "type": "text",
-      "value": "Исправления Compouse c большой буквы - FunctionNaming"
-    },
-    {
-      "type": "text",
-      "value": "[FunctionNaming](https://detekt.dev/docs/introduction/compose)"
-    },
-    {
-      "type": "code",
-      "language": "xml",
-      "value": "FunctionNaming:\n    active: true\n    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']\n    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'\n    excludeClassPattern: '$^'\n    ignoreAnnotated: ['Composable']"
     }
   ]
 }

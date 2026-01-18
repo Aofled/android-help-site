@@ -352,6 +352,28 @@
       "title": "Модульное тестирование (Unit Testing)",
       "url": "#android-unit-testing",
       "contentFile": "android-unit-testing.json"
+    },
+    {
+      "title": "Анализ кода",
+      "url": "#android-code-analysis",
+      "contentFile": "android-code-analysis.json",
+      "subItems": [
+        {
+          "title": "Lint",
+          "url": "#android-code-analysis-lint",
+          "contentFile": "android-code-analysis-lint.json"
+        },
+        {
+          "title": "Detekt",
+          "url": "#android-code-analysis-detekt",
+          "contentFile": "android-code-analysis-detekt.json"
+        },
+        {
+          "title": "KtLint",
+          "url": "#android-code-analysis-ktlint",
+          "contentFile": "android-code-analysis-ktlint.json"
+        }
+      ]
     }
   ]
 }

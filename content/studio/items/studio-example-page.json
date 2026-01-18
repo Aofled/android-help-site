@@ -1,0 +1,103 @@
+{
+  "title": "Примеры форматирования",
+  "content": [
+    {
+      "type": "text",
+      "value": "Код на xml:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity\n    android:name=\".MainActivity\"\n    android:exported=\"true\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.MAIN\" />\n        <category android:name=\"android.intent.category.LAUNCHER\" />\n    </intent-filter>\n</activity>"
+    },
+    {
+      "type": "text",
+      "value": "Код на Java:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "btn_true.setOnClickListener(new View.OnClickListener() {\n    @Override\n    public void onClick(View v) {\n    Toast toast = Toast.makeText(MainActivity.this, R.string.answer_true, Toast.LENGTH_SHORT);\n    toast.setGravity(Gravity.TOP, 0, 200);\n    toast.show();\n    //Toast.makeText(MainActivity.this, R.string.answer_true, Toast.LENGTH_SHORT).show();\n    }\n});"
+    },
+    {
+      "type": "text",
+      "value": "Код на Kotlin:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "private lateinit var binding: ActivityMainBinding\noverride fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    binding = ActivityMainBinding.inflate(layoutInflater)\n    enableEdgeToEdge()\n    setContentView(binding.root)\n    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->\n        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())\n        v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)\n        insets\n    }\n}"
+    },
+    {
+      "type": "image",
+      "src": "/images/android/android_fragment_life_cycle.png",
+      "alt": "Архитектура Android",
+      "caption": "Рис. 1. Компоненты Android Runtime"
+    },
+    {
+      "type": "text",
+      "value": "# Заголовок H1 (пример)"
+    },
+    {
+      "type": "text",
+      "value": "## Заголовок H2 (пример)"
+    },
+    {
+      "type": "text",
+      "value": "### Заголовок H3 (пример)"
+    },
+    {
+      "type": "text",
+      "value": "#### Заголовок H4 (пример)"
+    },
+    {
+      "type": "text",
+      "value": "Обычный абзац текста с переносами строк.\n\nИ вторым абзацем."
+    },
+    {
+      "type": "text",
+      "value": "Текст такой текст\nВторой текст"
+    },
+    {
+      "type": "text",
+      "value": "- Маркированный список\n- Второй пункт\n- Третий пункт"
+    },
+
+    {
+      "type": "text",
+      "value": "1. Маркированный список\n2. Второй пункт\n3. Третий пункт"
+    },
+    {
+      "type": "text",
+      "value": "**Жирный текст** или __альтернативный синтаксис__"
+    },
+    {
+      "type": "text",
+      "value": "*Курсив текст* или _альтернативный синтаксис_"
+    },
+    {
+      "type": "text",
+      "value": "~~Зачеркнутый текст~~"
+    },
+    {
+      "type": "text",
+      "value": "~~*Комбинированный зачеркнутый курсив*~~"
+    },
+    {
+      "type": "text",
+      "value": "[Ссылка](https://example.com)"
+    },
+    {
+      "type": "text",
+      "value": "`Код в строке`"
+    },
+    {
+      "type": "text",
+      "value": "```\nБлок кода\n```"
+    },
+    {
+      "type": "text",
+      "value": "Какой-то текст\n\nПеренос\n\n\n\nЖирный **жирный**\n\nНаклонный *наклонный*\n\n~~Зачеркнутый зачеркнутый~~\n\nКод `код`\n\n# Заголовок 1\n\n## Заголовок 2\n\n### Заголовок 3\n\n#### Заголовок 4\n\n\n\n~~Жирный и зачеркнутый (не жирный)~~\n\n\n**~~Жирный и зачеркнутый~~**\n\n*~~Зачеркнутый и наклонный~~*\n\n***Жирный и наклонный***"
+    }
+  ]
+}

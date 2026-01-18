@@ -1,0 +1,66 @@
+{
+  "title": "Анализ кода Android",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Анализ кода Android** — это процесс проверки качества, безопасности и производительности вашего приложения. Давайте разберем все аспекты."
+    },
+    {
+      "type": "text",
+      "value": "**Анализ кода нужен что бы:**\n\n- Найти баги до продакшена\n\n- Улучшить производительность\n\n- Повысить безопасность"
+    },
+    {
+      "type": "text",
+      "value": "### Инструменты для анализа кода"
+    },
+    {
+      "type": "text",
+      "value": "- **Lint** - встроенный статический анализатор"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "./gradlew lint\n./gradlew lintDebug\n./gradlew lintRelease"
+    },
+    {
+      "type": "text",
+      "value": "Настройка Lint в build.gradle:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    lint {\n        abortOnError = false\n        warningsAsErrors = true\n        disable += \"HardcodedText\"\n        enable += \"UnusedResources\"\n        \n        // Генерация HTML отчета\n        htmlOutput = file(\"${buildDir}/reports/lint/lint-report.html\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Detekt** - статический анализатор для Kotlin"
+    },
+    {
+      "type": "text",
+      "value": "Настройка Detekt:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// project/build.gradle.kts\nplugins {\n    id(\"io.gitlab.arturbosch.detekt\") version \"1.23.0\"\n}\n\ndetekt {\n    toolVersion = \"1.23.0\"\n    config = files(\"$projectDir/config/detekt.yml\")\n    reportsDir = file(\"$projectDir/build/reports/detekt\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "Пример правил Detekt:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "# config/detekt.yml\ncomplexity:\n  active: true\n  LongMethod:\n    active: true\n    threshold: 20\n  LongParameterList:\n    active: true \n    threshold: 5\n\nstyle:\n  active: true\n  MagicNumber:\n    active: true\n    excludes: ['-1', '0', '1', '2']"
+    },
+    {
+      "type": "text",
+      "value": "- **SonarQube** - комплексный анализ"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// project/build.gradle.kts\nplugins {\n    id(\"org.sonarqube\") version \"4.0.0.2929\"\n}\n\nsonar {\n    properties {\n        property(\"sonar.projectKey\", \"my-android-app\")\n        property(\"sonar.host.url\", \"http://localhost:9000\")\n        property(\"sonar.coverage.jacoco.xmlReportPaths\", \n                 \"build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.xml\")\n    }\n}"
+    }
+  ]
+}
