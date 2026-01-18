@@ -1,0 +1,26 @@
+{
+  "title": "Ktlint",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Ktlint** — это утилита для проверки и автоматического форматирования кода на языке **Kotlin** в соответствии со стандартами кодирования. Она помогает обеспечить единообразный стиль в проекте, предотвращая такие проблемы, как лишние пробелы или неиспользуемые импорты."
+    },
+    {
+      "type": "text",
+      "value": "[ktlint github](https://github.com/pinterest/ktlint)"
+    },
+    {
+      "type": "text",
+      "value": "[ktlint site](https://pinterest.github.io/ktlint/latest/)"
+    },
+    {
+      "type": "text",
+      "value": "Правила ktlint добавляются в `.editorconfig`"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "//пример правил\n[{*.kt,*.kts}]\n\nktlint_code_style = ktlint_official\nktlint_ignore_back_ticked_identifier = true\n\nktlint_standard = enabled\n\n# Experimental rules run by default run on the ktlint code base itself. Experimental rules should not be released if\n# we are not pleased ourselves with the results on the ktlint code base.\nktlint_experimental = enabled"
+    }
+  ]
+}

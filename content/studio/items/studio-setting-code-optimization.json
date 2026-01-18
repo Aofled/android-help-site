@@ -1,0 +1,42 @@
+{
+  "title": "Оптимизация кода",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Предупреждения:"
+    },
+    {
+      "type": "text",
+      "value": "- `File must end with a newline` (Файл должен заканчиваться новой строкой.)"
+    },
+    {
+      "type": "image",
+      "src": "/images/studio/studio_setting_new_line.png",
+      "alt": "Настройки конца файла с кодом",
+      "caption": "Настройки конца файла с кодом"
+    },
+    {
+      "type": "text",
+      "value": "Добавить в `.editorconfig`"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "[{*.kt,*.kts}]\ninsert_final_newline = true"
+    },
+    {
+      "type": "text",
+      "value": "- `Unused import` (Неиспользованный импорт)"
+    },
+    {
+      "type": "image",
+      "src": "/images/studio/studio_unused_import.png",
+      "alt": "Настройки для удаления неиспользуемых импортов",
+      "caption": "Настройки для удаления неиспользуемых импортов"
+    },
+    {
+      "type": "text",
+      "value": "- `Needless blank line(s)` Ненужные пустые строки"
+    }
+  ]
+}
