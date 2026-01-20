@@ -85,6 +85,33 @@
       ]
     },
     {
+      "title": "Настройки Gradle",
+      "url": "#studio-setting-gradle",
+      "contentFile": "studio-setting-gradle.json"
+    },
+    {
+      "title": "Настройки релизной версии",
+      "url": "#studio-setting-release",
+      "contentFile": "studio-setting-release.json",
+      "subItems": [
+        {
+          "title": "Gradle",
+          "url": "#studio-setting-release-gradle",
+          "contentFile": "studio-setting-release-gradle.json"
+        },
+        {
+          "title": "Минификация кода",
+          "url": "#studio-setting-release-code-minification",
+          "contentFile": "studio-setting-release-code-minification.json"
+        },
+        {
+          "title": "Baseline Profile",
+          "url": "#studio-setting-release-baseline-profile",
+          "contentFile": "studio-setting-release-baseline-profile.json"
+        }
+      ]
+    },
+    {
       "title": "Горячие клавиши",
       "url": "#studio-hotkey",
       "contentFile": "studio-hotkey.json"
@@ -105,6 +132,11 @@
       "title": "Терминал",
       "url": "#studio-terminal",
       "contentFile": "studio-terminal.json"
+    },
+    {
+      "title": "Пример заполнения страницы сайта",
+      "url": "#studio-example-page",
+      "contentFile": "studio-example-page.json"
     }
   ]
 }

@@ -1,0 +1,48 @@
+{
+  "title": "Baseline Profile",
+  "content": [
+    {
+      "type": "text",
+      "value": "В Google Play есть свой профиль поведения пользователей при работе с приложением. Baseline Profile позволяет указать свой набор методов и передать его, что фактически ускорит работу приложения."
+    },
+    {
+      "type": "text",
+      "value": "**Baseline Profile** — это файл, который содержит список критических путей в вашем приложении, которые должны быть заранее скомпилированы для ускорения запуска и улучшения производительности."
+    },
+    {
+      "type": "text",
+      "value": "Без Baseline Profile:\n\nЗапуск приложения → Интерпретация кода → JIT-компиляция → Оптимизация\n\n\n\nС Baseline Profile:  \n\nЗапуск приложения → Готовый скомпилированный код → Максимальная производительность"
+    },
+    {
+      "type": "text",
+      "value": "**Ускорение запуска приложения**\n\n- 20-30% быстрее холодный старт\n\n- 10-15% быстрее горячий старт\n\n**Улучшение производительности UI**\n\n- Плавная прокрутка\n\n- Быстрая реакция на действия пользователя\n\n**Снижение потребления батареи**\n\n- Меньше работы процессора\n\n- Эффективное использование памяти"
+    },
+    {
+      "type": "text",
+      "value": "#### Добавление зависимостей"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// app/build.gradle.kts\nplugins {\n    id(\"androidx.baselineprofile\")\n}\n\ndependencies {\n    implementation(\"androidx.profileinstaller:profileinstaller:1.3.1\")\n    \n    // Для генерации профилей\n    baselineProfile(project(\":baselineprofile\"))\n}"
+    },
+    {
+      "type": "text",
+      "value": "####  Создание модуля для генерации профилей"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// baselineprofile/build.gradle.kts\nplugins {\n    id(\"androidx.baselineprofile\")\n}\n\nandroid {\n    defaultConfig {\n        minSdk = 28  // Baseline Profile требует API 28+\n    }\n}\n\ndependencies {\n    implementation(project(\":app\"))\n}"
+    },
+    {
+      "type": "text",
+      "value": "####  Создание тестов для генерации"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// baselineprofile/src/main/java/com/example/baseline/BaselineProfileGenerator.kt\n@RunWith(AndroidJUnit4::class)\nclass BaselineProfileGenerator {\n    \n    @Test\n    fun generateBaselineProfile() = generateBaselineProfileRule.collectBaselineProfile(\n        packageName = \"com.example.yourapp\",\n        profileBlock = {\n            // Критические сценарии использования приложения\n            \n            // 1. Запуск приложения\n            startActivityAndWait()\n            \n            // 2. Навигация по основным экранам\n            device.findObject(By.text(\"Home\")).clickAndWait()\n            device.findObject(By.text(\"Profile\")).clickAndWait()\n            device.findObject(By.text(\"Settings\")).clickAndWait()\n            \n            // 3. Взаимодействие с ключевыми элементами\n            device.findObject(By.res(\"login_button\")).click()\n            device.findObject(By.res(\"search_field\")).setText(\"query\")\n            device.findObject(By.res(\"submit_button\")).click()\n            \n            // 4. Прокрутка списков\n            val recyclerView = device.findObject(By.res(\"news_list\"))\n            recyclerView.scroll(Direction.DOWN, 1.0f)\n            recyclerView.scroll(Direction.DOWN, 1.0f)\n            \n            // 5. Работа с BottomNavigation\n            device.findObject(By.res(\"bottom_nav_home\")).click()\n            device.findObject(By.res(\"bottom_nav_search\")).click()\n            device.findObject(By.res(\"bottom_nav_profile\")).click()\n        }\n    )\n}"
+    }
+  ]
+}

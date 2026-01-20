@@ -1,0 +1,43 @@
+{
+  "title": "Минификация кода",
+  "content": [
+    {
+      "type": "text",
+      "value": "[guardsquare.com](https://www.guardsquare.com/manual/home)"
+    },
+    {
+      "type": "text",
+      "value": "**Минификация кода в Android** — это процесс оптимизации приложения для уменьшения размера APK и улучшения производительности."
+    },
+    {
+      "type": "text",
+      "value": "**Минификация** может уменьшить размер APK на **30-60%** и улучшить производительность!"
+    },
+    {
+      "type": "text",
+      "value": "**Минификация** — это процесс удаления ненужного кода и ресурсов из приложения:\n\n\n\n- Неиспользуемые классы, методы, поля\n\n\n\n- Debug информация\n\n\n\n- Лишние ресурсы\n\n\n\n- Оптимизация байт-кода"
+    },
+    {
+      "type": "text",
+      "value": "####  Основные инструменты минификации\n\n- R8 (заменяет ProGuard)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// build.gradle.kts\nandroid {\n    buildTypes {\n        release {\n            isMinifyEnabled = true    // Включает минификацию\n            isShrinkResources = true  // Удаляет неиспользуемые ресурсы\n            proguardFiles(\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\n                \"proguard-rules.pro\"\n            )\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Настройка `proguard-rules.pro`"
+    },
+    {
+      "type": "text",
+      "value": "Так же нужно брать правила для сторонних библиотек, например  kotlinx serialization: [github.com](https://github.com/Kotlin/kotlinx.serialization/blob/master/rules/r8.pro), retrofit2 [gist.github.com](https://gist.github.com/chris-carneiro/e183bb1f2390231356d95c791d76f3a3)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// выключить обфускацию \n-dontobfuscate\n\n// 5 раундов оптимизации\n-optimizationpasses 5\n\n// код, который не влияет на финальный результат приложения (его можно удалить) \n// особо не влияет на размер приложения\n-assumenosideeffects class kotlin.jvm.internal.Intrinsics.checkNotNullParameter {\n    public static void checkNotNullParameter(...);\n    public static void checkParameterIsNotNull(...);\n    public static void checkFieldIsNotNull(...);\n    public static void checkReturnedValueIsNotNull(...);\n    public static void checkExpressionValueIsNotNull(...);\n    public static void checkNotNullExpressionValue(...);\n    public static void throwUndefinedForReified(...);\n}"
+    }
+  ]
+}

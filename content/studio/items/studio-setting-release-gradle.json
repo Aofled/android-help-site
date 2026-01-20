@@ -1,0 +1,36 @@
+{
+  "title": "Настройка Gradle",
+  "content": [
+    {
+      "type": "text",
+      "value": "Эти настройки распространяются на все сборки:"
+    },
+    {
+      "type": "text",
+      "value": "- `excludes` позволяет убрать лишнее из билда"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    . . . \n    packaging {\n        resources {\n            excludes += \"/META-INF/{AL2.0,LGPL2.1}\"\n            excludes += \"/META-INF/androidx.*\"\n            excludes += \"/META-INF/com.google.*\"\n            excludes += \"/META-INF/kotlinx_.*.version\"\n            excludes += \"/kotlin/**\"\n            excludes += \"kotlin-tooling-metadata.json\"\n            excludes += \"DebugProbesKt.bin\"\n            excludes += \"/META-INF/com/android/build/gradle/app-metadata.properties\"\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Настройка языковых ресурсов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "android {\n    defaultConfig {\n        // ... other configurations\n    }\n    androidResources {\n        localeFilters += setOf(\"en\", \"es\", \"fr\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Эта конфигурация определяет, на какие двоичные интерфейсы приложений (ABI) должен ориентироваться Android Native Development Kit (NDK) при создании собственных библиотек для приложения.\n\n\n\nБлагодаря включению **armeabi-v7a** и **arm64-v8a**, нативные библиотеки приложения будут собраны как для 32-битной, так и для 64-битной архитектуры ARM, обеспечивая совместимость и оптимальную производительность на широком спектре устройств Android. Это распространённая и рекомендуемая практика для современных приложений Android, использующих нативный код."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "ndk {\n    abiFilters += setOf(\"armeabi-v7a\", \"arm64-v8a\")\n}"
+    }
+  ]
+}

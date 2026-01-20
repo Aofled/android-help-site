@@ -1,0 +1,9 @@
+{
+  "title": "Настройки релизной версии",
+  "content": [
+    {
+      "type": "text",
+      "value": "Путь к папке с **debug** версией: `AppName\\\\app\\build\\outputs\\apk\\debug`\n\nПуть к папке с **release** версией: `AppName\\app\\build\\outputs\\apk\\release`"
+    }
+  ]
+}

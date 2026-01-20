@@ -1,0 +1,53 @@
+{
+  "title": "Настройки Gradle",
+  "content": [
+    {
+      "type": "text",
+      "value": "Команды Gradle:"
+    },
+    {
+      "type": "text",
+      "value": "#### Detekt"
+    },
+    {
+      "type": "text",
+      "value": "- Сформировать `default-detekt-config.yml`:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Tasks -> verification -> detektGenerateConfig"
+    },
+    {
+      "type": "text",
+      "value": "- Запустить **detekt**:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Tasks -> verification -> detekt"
+    },
+    {
+      "type": "text",
+      "value": "#### Работа со сборкой приложения"
+    },
+    {
+      "type": "text",
+      "value": "- Собрать **релизную** версию:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Tasks -> other -> assembleRelease"
+    },
+    {
+      "type": "text",
+      "value": "- Собрать версию **для дебага** :"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Tasks -> other -> assembleDebug"
+    }
+  ]
+}
