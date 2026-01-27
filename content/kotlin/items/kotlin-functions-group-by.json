@@ -1,0 +1,131 @@
+{
+  "title": "Функция высшего порядка groupBy",
+  "content": [
+    {
+      "type": "text",
+      "value": "**groupBy** — это функция, которая группирует элементы коллекции по заданному ключу и возвращает `Map<K, List<T>>`, где:\n\n\n\n- `K` - тип ключа группировки\n\n\n\n- `List<T>` - список элементов, соответствующих этому ключу"
+    },
+    {
+      "type": "text",
+      "value": "#### Когда что использовать:\n\n- **groupBy** - когда нужны все элементы сгруппированные по ключу\n\n- **groupingBy + eachCount()** - когда нужна статистика (количество, сумма)\n\n- **associateBy** - когда ключи уникальные и нужен быстрый поиск"
+    },
+    {
+      "type": "text",
+      "value": "#### Простая группировка по свойству:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Person(val name: String, val age: Int, val city: String)\n\nval people = listOf(\n    Person(\"Alice\", 25, \"Moscow\"),\n    Person(\"Bob\", 30, \"Moscow\"), \n    Person(\"Charlie\", 25, \"SPb\"),\n    Person(\"Diana\", 30, \"SPb\")\n)\n\n// Группировка по возрасту\nval byAge = people.groupBy { it.age }\nprintln(byAge)\n// Output: {25=[Person(name=Alice, age=25, city=Moscow), Person(name=Charlie, age=25, city=SPb)], \n//          30=[Person(name=Bob, age=30, city=Moscow), Person(name=Diana, age=30, city=SPb)]}\n\n// Группировка по городу\nval byCity = people.groupBy { it.city }\nprintln(byCity)\n// Output: {Moscow=[Person(name=Alice, age=25, city=Moscow), Person(name=Bob, age=30, city=Moscow)],\n//          SPb=[Person(name=Charlie, age=25, city=SPb), Person(name=Diana, age=30, city=SPb)]}"
+    },
+    {
+      "type": "text",
+      "value": "#### Группировка с преобразованием значения:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val people = listOf(\n    Person(\"Alice\", 25, \"Moscow\"),\n    Person(\"Bob\", 30, \"Moscow\"), \n    Person(\"Charlie\", 25, \"SPb\"),\n    Person(\"Diana\", 30, \"SPb\")\n)\n\n// Группировка по возрасту, но сохраняем только имена\nval namesByAge = people.groupBy(\n    keySelector = { it.age },\n    valueTransform = { it.name }\n)\nprintln(namesByAge)\n// Output: {25=[Alice, Charlie], 30=[Bob, Diana]}"
+    },
+    {
+      "type": "text",
+      "value": "### groupByTo"
+    },
+    {
+      "type": "text",
+      "value": "**groupByTo** - это версия groupBy, которая позволяет указать целевую коллекцию для результатов."
+    },
+    {
+      "type": "text",
+      "value": "- базовое использование"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val people = listOf(\n    Person(\"Alice\", 25, \"Moscow\"),\n    Person(\"Bob\", 30, \"Moscow\"),\n    Person(\"Charlie\", 25, \"SPb\")\n)\n\n// Создаем целевую Map\nval resultMap = mutableMapOf<String, MutableList<Person>>()\n\n// Группируем в существующую Map\npeople.groupByTo(resultMap, { it.city })\n\nprintln(resultMap)\n// Output: {Moscow=[Alice, Bob], SPb=[Charlie]}"
+    },
+    {
+      "type": "text",
+      "value": "- с valueTransform"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val namesByCity = mutableMapOf<String, MutableList<String>>()\npeople.groupByTo(\n    destination = namesByCity,\n    keySelector = { it.city },\n    valueTransform = { it.name }\n)\n\nprintln(namesByCity)\n// Output: {Moscow=[Alice, Bob], SPb=[Charlie]}"
+    },
+    {
+      "type": "text",
+      "value": "### groupingBy"
+    },
+    {
+      "type": "text",
+      "value": "**groupingBy** - это **ленивая** операция, которая создает объект Grouping, с которым можно работать дальше."
+    },
+    {
+      "type": "text",
+      "value": "#### Ключевые отличия:\n\n- **Ленивая** - не вычисляется сразу\n\n\n\n- **Позволяет делать агрегации** (count, sum, reduce, etc.)\n\n\n\n- **Эффективна для больших данных**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val people = listOf(\n    Person(\"Alice\", 25, \"Moscow\"),\n    Person(\"Bob\", 30, \"Moscow\"), \n    Person(\"Charlie\", 25, \"SPb\"),\n    Person(\"Diana\", 30, \"SPb\")\n)\n\nval grouping = people.groupingBy { it.city }\n// Пока ничего не вычислено!"
+    },
+    {
+      "type": "text",
+      "value": "#### Методы Grouping"
+    },
+    {
+      "type": "text",
+      "value": "- `eachCount()` - подсчет элементов в каждой группе"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val countByCity = people.groupingBy { it.city }.eachCount()\nprintln(countByCity)\n// Output: {Moscow=2, SPb=2}\n\nval countByAge = people.groupingBy { it.age }.eachCount()  \nprintln(countByAge)\n// Output: {25=2, 30=2}"
+    },
+    {
+      "type": "text",
+      "value": "- `fold()` - агрегация с начальным значением"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Сумма возрастов по городам\nval totalAgeByCity = people.groupingBy { it.city }\n    .fold(0) { accumulator, person -> \n        accumulator + person.age \n    }\nprintln(totalAgeByCity)\n// Output: {Moscow=55, SPb=55}\n\n// Собираем имена в одну строку\nval namesByCity = people.groupingBy { it.city }\n    .fold(\"\") { acc, person ->\n        if (acc.isEmpty()) person.name else \"$acc, ${person.name}\"\n    }\nprintln(namesByCity)\n// Output: {Moscow=Alice, Bob, SPb=Charlie, Diana}"
+    },
+    {
+      "type": "text",
+      "value": "- `reduce()` - агрегация без начального значения"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Находим самого старшего человека в каждом городе\nval oldestByCity = people.groupingBy { it.city }\n    .reduce { _, acc, person ->\n        if (person.age > acc.age) person else acc\n    }\nprintln(oldestByCity)\n// Output: {Moscow=Bob(30), SPb=Diana(30)}"
+    },
+    {
+      "type": "text",
+      "value": "- `aggregate()` - универсальная агрегация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Сложная агрегация - средний возраст и список имен\nval statsByCity = people.groupingBy { it.city }\n    .aggregate { key, accumulator: Pair<Int, List<String>>?, person, first ->\n        if (first) {\n            // Первый элемент в группе\n            person.age to listOf(person.name)\n        } else {\n            // Последующие элементы\n            val (totalAge, names) = accumulator!!\n            (totalAge + person.age) to (names + person.name)\n        }\n    }\n    .mapValues { (_, value) ->\n        val (totalAge, names) = value!!\n        val avgAge = totalAge.toDouble() / names.size\n        \"Avg age: $avgAge, Names: ${names.joinToString()}\"\n    }\n\nprintln(statsByCity)\n// Output: {Moscow=Avg age: 27.5, Names: Alice, Bob, SPb=Avg age: 27.5, Names: Charlie, Diana}"
+    },
+    {
+      "type": "text",
+      "value": "### associateBy"
+    },
+    {
+      "type": "text",
+      "value": "**associateBy** - создает Map, где **ключи уникальные**, а значения - оригинальные элементы."
+    },
+    {
+      "type": "text",
+      "value": "- Если встречаются дубликаты ключей - **последний элемент побеждает**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val people = listOf(\n    Person(\"Alice\", 25, \"Moscow\"),\n    Person(\"Bob\", 30, \"Moscow\"),\n    Person(\"Charlie\", 25, \"SPb\")\n)\n\n// Создаем Map: ID -> Person\nval byId = people.associateBy { it.id }\n// Тип: Map<Long, Person>\n\n// Создаем Map: Name -> Person  \nval byName = people.associateBy { it.name }\n// Тип: Map<String, Person>\n\nprintln(byName[\"Alice\"]?.age) // 25"
+    }
+  ]
+}

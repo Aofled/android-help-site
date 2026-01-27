@@ -1,0 +1,40 @@
+{
+  "title": "Множества Set",
+  "content": [
+    {
+      "type": "text",
+      "value": "`Set` — это коллекция, которая хранит уникальные элементы без определенного порядка. Дубликаты автоматически удаляются."
+    },
+    {
+      "type": "text",
+      "value": "#### Основные характеристики:\n\n- **Уникальность** - все элементы различны\n\n- **Нет порядка** - порядок элементов не гарантируется\n\n- **Быстрый поиск** - оптимизирован для проверки наличия элемента"
+    },
+    {
+      "type": "text",
+      "value": "#### Добавление и удаление"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val set = mutableSetOf(\"A\", \"B\", \"C\")\n\n// Добавление\nset.add(\"D\")           // true - добавлен\nset.add(\"A\")           // false - уже есть\nset += \"E\"             // оператор добавления\nset.addAll(listOf(\"F\", \"G\")) // добавление коллекции\n\n// Удаление  \nset.remove(\"B\")        // true - удален\nset -= \"C\"             // оператор удаления\nset.removeAll(listOf(\"D\", \"E\")) // удаление коллекции\nset.clear()            // очистка всего Set\n\nprintln(set) // []"
+    },
+    {
+      "type": "text",
+      "value": "#### Проверки"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val colors = setOf(\"red\", \"green\", \"blue\")\n\n// Проверка наличия\nprintln(\"red\" in colors)    // true\nprintln(colors.contains(\"red\")) // true\nprintln(colors.containsAll(setOf(\"red\", \"green\"))) // true\n\n// Размер и пустота\nprintln(colors.size)        // 3\nprintln(colors.count())     // 3\nprintln(colors.isEmpty())   // false\nprintln(colors.isNotEmpty()) // true"
+    },
+    {
+      "type": "text",
+      "value": "#### Итерация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = setOf(10, 20, 30)\n\n// For loop\nfor (number in numbers) {\n    println(number)\n}\n\n// ForEach\nnumbers.forEach { println(it) }\n\n// ForEach с индексом\nnumbers.forEachIndexed { index, value ->\n    println(\"$index: $value\")\n}"
+    }
+  ]
+}
