@@ -1,0 +1,71 @@
+{
+  "title": "Функция высшего порядка apply",
+  "content": [
+    {
+      "type": "text",
+      "value": "**apply** — это scope-функция в Kotlin, которая:\n\n\n\n- Выполняет блок кода с контекстом объекта\n\n\n\n- Всегда **возвращает сам объект**\n\n\n\n- Использует this как контекст (можно опускать)"
+    },
+    {
+      "type": "text",
+      "value": "Базовый пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person {\n    var name: String = \"\"\n    var age: Int = 0\n    var city: String = \"\"\n}\n\n// Без apply\nval person1 = Person()\nperson1.name = \"Alice\"\nperson1.age = 25\nperson1.city = \"Moscow\"\n\n// С apply\nval person2 = Person().apply {\n    name = \"Alice\"    // this.name = \"Alice\" (this можно опускать)\n    age = 25          // this.age = 25\n    city = \"Moscow\"   // this.city = \"Moscow\"\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные возможности:"
+    },
+    {
+      "type": "text",
+      "value": "- Инициализация объектов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Car(var brand: String, var model: String, var year: Int)\n\nval car = Car(\"\", \"\", 0).apply {\n    brand = \"Toyota\"\n    model = \"Camry\"\n    year = 2022\n}\nprintln(car) // Car(brand=Toyota, model=Camry, year=2022)"
+    },
+    {
+      "type": "text",
+      "value": "- Настройка UI компонентов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Android пример\nval button = Button(context).apply {\n    text = \"Click me\"\n    textSize = 16.0f\n    setOnClickListener { \n        showMessage(\"Button clicked!\")\n    }\n    setBackgroundColor(Color.BLUE)\n}\n// button - готовый к использованию Button"
+    },
+    {
+      "type": "text",
+      "value": "- Конфигурация коллекций"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val names = mutableListOf<String>().apply {\n    add(\"Alice\")\n    add(\"Bob\")\n    add(\"Charlie\")\n    sort() // можно вызывать методы объекта\n    reverse()\n}\nprintln(names) // [Charlie, Bob, Alice]"
+    },
+    {
+      "type": "text",
+      "value": "#### Практические примеры"
+    },
+    {
+      "type": "text",
+      "value": "- Builder-паттерн"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class HttpClient {\n    var baseUrl: String = \"\"\n    var timeout: Int = 30\n    var retryCount: Int = 3\n    \n    fun build() = this\n}\n\nval client = HttpClient().apply {\n    baseUrl = \"https://api.example.com\"\n    timeout = 60\n    retryCount = 5\n}.build()"
+    },
+    {
+      "type": "text",
+      "value": "- Настройка Intent (Android)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent().apply {\n    action = Intent.ACTION_VIEW\n    data = Uri.parse(\"https://example.com\")\n    putExtra(\"source\", \"main_activity\")\n    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)\n}"
+    }
+  ]
+}

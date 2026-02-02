@@ -132,9 +132,19 @@
           "contentFile": "kotlin-functions-with.json"
         },
         {
+          "title": "Функция apply",
+          "url": "#kotlin-functions-apply",
+          "contentFile": "kotlin-functions-apply.json"
+        },
+        {
           "title": "Функция let",
           "url": "#kotlin-functions-let",
           "contentFile": "kotlin-functions-let.json"
+        },
+        {
+          "title": "Функция run",
+          "url": "#kotlin-functions-run",
+          "contentFile": "kotlin-functions-run.json"
         },
         {
           "title": "Функция filter",
