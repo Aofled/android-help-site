@@ -67,6 +67,58 @@
       "type": "code",
       "language": "kotlin",
       "value": "val listWithNulls = listOf(1, null, 2, null)\nval withoutNulls = listWithNulls.filterNotNull()  // [1, 2]"
+    },
+    {
+      "type": "text",
+      "value": "####  any - проверка наличия"
+    },
+    {
+      "type": "text",
+      "value": "`any` проверяет, удовлетворяет ли **хотя бы один** элемент условию."
+    },
+    {
+      "type": "text",
+      "value": "Базовое использование:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(1, 2, 3, 4, 5)\n\n// Есть ли хотя бы одно четное число?\nval hasEven = numbers.any { it % 2 == 0 }\nprintln(hasEven) // true\n\n// Есть ли числа больше 10?\nval hasGreaterThanTen = numbers.any { it > 10 }\nprintln(hasGreaterThanTen) // false"
+    },
+    {
+      "type": "text",
+      "value": "**any** без предиката - проверка на пустоту:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val emptyList = emptyList<Int>()\nval nonEmptyList = listOf(1, 2, 3)\n\nprintln(emptyList.any())    // false - список пустой\nprintln(nonEmptyList.any()) // true - список не пустой"
+    },
+    {
+      "type": "text",
+      "value": "#### all - проверка всех элементов"
+    },
+    {
+      "type": "text",
+      "value": "`all` проверяет, удовлетворяют ли **все** элементы условию"
+    },
+    {
+      "type": "text",
+      "value": "Базовое использование"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(2, 4, 6, 8, 10)\n\n// Все числа четные?\nval allEven = numbers.all { it % 2 == 0 }\nprintln(allEven) // true\n\nval mixedNumbers = listOf(2, 4, 5, 8, 10)\n\n// Все числа четные?\nval allEvenMixed = mixedNumbers.all { it % 2 == 0 }\nprintln(allEvenMixed) // false"
+    },
+    {
+      "type": "text",
+      "value": "**all** на пустой коллекции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val emptyList = emptyList<Int>()\n\n// На пустой коллекции all всегда возвращает true!\nprintln(emptyList.all { it > 10 }) // true"
     }
   ]
 }
