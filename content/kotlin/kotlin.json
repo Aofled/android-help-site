@@ -147,6 +147,11 @@
           "contentFile": "kotlin-functions-run.json"
         },
         {
+          "title": "Функция also",
+          "url": "#kotlin-functions-also",
+          "contentFile": "kotlin-functions-also.json"
+        },
+        {
           "title": "Функция filter",
           "url": "#kotlin-functions-filter",
           "contentFile": "kotlin-functions-filter.json"

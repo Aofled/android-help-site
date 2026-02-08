@@ -1,0 +1,71 @@
+{
+  "title": "Функция высшего порядка run",
+  "content": [
+    {
+      "type": "text",
+      "value": "`run` — это scope-функция в Kotlin, которая:\n\n\n\n- Выполняет блок кода с контекстом объекта\n\n\n\n- **Возвращает результат последнего выражения** в блоке\n\n\n\n- Использует this как контекст (можно опускать)"
+    },
+    {
+      "type": "text",
+      "value": "Базовый пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Person(var name: String, var age: Int, var city: String)\n\nval person = Person(\"Alice\", 25, \"Moscow\")\n\n// Без run\nval isAdult1 = person.age >= 18\nval description1 = \"${person.name} from ${person.city}\"\n\n// С run\nval description2 = person.run {\n    val isAdult = age >= 18  // this.age >= 18 (this можно опускать)\n    \"$name from $city, adult: $isAdult\" // ⭐ возвращается эта строка\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Run vs Обычный подход"
+    },
+    {
+      "type": "text",
+      "value": "Без run:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val person = Person(\"Alice\", 25, \"Moscow\")\n\nval isAdult = person.age >= 18\nval cityUpper = person.city.uppercase()\nval description = \"Summary: ${person.name}, $cityUpper, adult: $isAdult\"\n\n// Много обращений к person.\n// Переменные разбросаны."
+    },
+    {
+      "type": "text",
+      "value": "С run:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val description = person.run {\n    val isAdult = age >= 18\n    val cityUpper = city.uppercase()\n    \"Summary: $name, $cityUpper, adult: $isAdult\" // всё сгруппировано\n}\n// Чисто, читаемо, все в одном блоке"
+    },
+    {
+      "type": "text",
+      "value": "#### Основные возможности:"
+    },
+    {
+      "type": "text",
+      "value": "- Вычисление производных значений"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Rectangle(val width: Int, val height: Int)\n\nval rect = Rectangle(10, 5)\n\nval area = rect.run {\n    val area = width * height\n    val perimeter = 2 * (width + height)\n    \"Area: $area, Perimeter: $perimeter\" // возвращается строка\n}\nprintln(area) // \"Area: 50, Perimeter: 30\""
+    },
+    {
+      "type": "text",
+      "value": "- Проверка условий и преобразование"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class User(val name: String, val email: String, val age: Int)\n\nval user = User(\"Alice\", \"alice@email.com\", 25)\n\nval validationResult = user.run {\n    when {\n        name.isEmpty() -> \"Name is required\"\n        !email.contains(\"@\") -> \"Invalid email\"\n        age < 18 -> \"Must be adult\"\n        else -> \"Valid user: $name\" // возвращается при успехе\n    }\n}\nprintln(validationResult) // \"Valid user: Alice\""
+    },
+    {
+      "type": "text",
+      "value": "- Цепочка преобразований"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val numbers = listOf(1, 2, 3, 4, 5)\n\nval result = numbers.run {\n    filter { it % 2 == 0 }  // [2, 4]\n        .map { it * 2 }     // [4, 8]\n        .sum()              // 12  возвращается это число\n}\nprintln(result) // 12"
+    }
+  ]
+}

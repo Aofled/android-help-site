@@ -1,0 +1,53 @@
+{
+  "title": "Функция высшего порядка also",
+  "content": [
+    {
+      "type": "text",
+      "value": "`also` — это scope-функция в Kotlin, которая:\n\n\n\n- Выполняет дополнительные действия с объектом\n\n\n\n- **Всегда возвращает сам объект**\n\n\n\n- Использует it как контекст (нельзя опускать)"
+    },
+    {
+      "type": "text",
+      "value": "`apply` - лучше для настройки. Использует **this** (можно опускать)\n\n`also` - лучше для действий. Использует **it** (нельзя опускать)"
+    },
+    {
+      "type": "text",
+      "value": "Базовый пример:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "data class Person(var name: String, var age: Int, var city: String)\n\nval person = Person(\"Alice\", 25, \"Moscow\")\n\n// Без also\nprintln(\"Создан человек: ${person.name}\")\nperson.name = \"Alice Updated\"\n\n// С also\nval updatedPerson = person.also { p ->\n    println(\"Создан человек: ${p.name}\") // дополнительное действие\n    p.name = \"Alice Updated\"             // изменяем объект\n} // возвращается тот же объект Person"
+    },
+    {
+      "type": "text",
+      "value": "#### Also в Android разработке"
+    },
+    {
+      "type": "text",
+      "value": "- Настройка **View** с логированием"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val button = Button(context).also { btn ->\n    btn.text = \"Click me\"\n    btn.textSize = 16f\n    btn.setOnClickListener { \n        showMessage(\"Button clicked!\") \n    }\n    println(\"Button created with text: ${btn.text}\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Intent** с дополнительными действиями"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val intent = Intent().apply {\n    action = Intent.ACTION_VIEW\n    data = Uri.parse(\"https://example.com\")\n}.also {\n    // Дополнительные действия после настройки\n    println(\"Intent created for: ${it.data}\")\n    logIntentCreation(it)\n}"
+    },
+    {
+      "type": "text",
+      "value": "- Работа с **SharedPreferences**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val prefs = context.getSharedPreferences(\"app_prefs\", Context.MODE_PRIVATE)\n\nprefs.edit().apply {\n    putString(\"username\", \"Alice\")\n    putInt(\"user_age\", 25)\n}.also {\n    it.apply() // apply() из SharedPreferences\n    println(\"Preferences saved\")\n}"
+    }
+  ]
+}
