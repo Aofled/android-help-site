@@ -81,6 +81,11 @@
           "title": "Оптимизация кода",
           "url": "#studio-setting-code-optimization",
           "contentFile": "studio-setting-code-optimization.json"
+        },
+        {
+          "title": "Включение дополнительных настроек gradle",
+          "url": "#studio-setting-additional-settings-gradle",
+          "contentFile": "studio-setting-additional-settings-gradle.json"
         }
       ]
     },
@@ -125,6 +130,10 @@
           "title": "Команды Git",
           "url": "#studio-git-command",
           "contentFile": "studio-git-command.json"
+        },{
+          "title": "Структура Git",
+          "url": "#studio-git-structure",
+          "contentFile": "studio-git-structure.json"
         }
       ]
     },
