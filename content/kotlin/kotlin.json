@@ -39,6 +39,11 @@
           "title": "Исключения (Exeption)",
           "url": "#kotlin-exeption",
           "contentFile": "kotlin-exeption.json"
+        },
+        {
+          "title": "Приведение типа  (Smart Cast)",
+          "url": "#kotlin-basic-concepts-smart-cast",
+          "contentFile": "#kotlin-basic-concepts-smart-cast.json"
         }
       ]
     },
@@ -243,11 +248,6 @@
           "title": "Деструктуризация  (Destructuring Declarations)",
           "url": "#kotlin-oop-destructuring",
           "contentFile": "kotlin-oop-destructuring.json"
-        },
-        {
-          "title": "Приведение типа  (Smart Cast)",
-          "url": "#kotlin-oop-smart-cast",
-          "contentFile": "kotlin-oop-smart-cast.json"
         },
         {
           "title": "Data class (класс данных)",
