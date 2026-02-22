@@ -7,28 +7,28 @@
       "subItems": [
         {
           "title": "Переменные",
-          "url": "#kotlin-variables",
-          "contentFile": "kotlin-variables.json"
+          "url": "#kotlin-basic-concepts-variables",
+          "contentFile": "kotlin-basic-concepts-variables.json"
         },
         {
           "title": "Константы",
-          "url": "#kotlin-constants",
-          "contentFile": "kotlin-constants.json"
+          "url": "#kotlin-basic-concepts-constants",
+          "contentFile": "kotlin-basic-concepts-constants.json"
         },
         {
           "title": "Преобразование типов",
-          "url": "#kotlin-type-conversion",
-          "contentFile": "kotlin-type-conversion.json"
+          "url": "#kotlin-basic-concepts-type-conversion",
+          "contentFile": "kotlin-basic-concepts-type-conversion.json"
         },
         {
           "title": "Оператор выбора If",
-          "url": "#kotlin-if-operator",
-          "contentFile": "kotlin-if-operator.json"
+          "url": "#kotlin-basic-concepts-if-operator",
+          "contentFile": "kotlin-basic-concepts-if-operator.json"
         },
         {
           "title": "Оператор выбора when",
-          "url": "#kotlin-when-selection-operator",
-          "contentFile": "kotlin-when-selection-operator.json"
+          "url": "#kotlin-basic-concepts-when-operator",
+          "contentFile": "kotlin-basic-concepts-when-operator.json"
         },
         {
           "title": "Базовые операции со строками",
@@ -36,14 +36,14 @@
           "contentFile": "kotlin-basic-string.json"
         },
         {
-          "title": "Исключения (Exeption)",
-          "url": "#kotlin-exeption",
-          "contentFile": "kotlin-exeption.json"
+          "title": "Исключения (Exceptions)",
+          "url": "#kotlin-basic-concepts-exception",
+          "contentFile": "kotlin-basic-concepts-exceptions.json"
         },
         {
           "title": "Приведение типа  (Smart Cast)",
           "url": "#kotlin-basic-concepts-smart-cast",
-          "contentFile": "#kotlin-basic-concepts-smart-cast.json"
+          "contentFile": "kotlin-basic-concepts-smart-cast.json"
         }
       ]
     },
@@ -71,55 +71,55 @@
     },
     {
       "title": "Коллекции и массивы (Collections and Array)",
-      "url": "#kotlin-basic-collections-and-array",
-      "contentFile": "kotlin-basic-collections-and-array.json",
+      "url": "#kotlin-collections-array",
+      "contentFile": "kotlin-collections-array.json",
       "subItems": [
         {
           "title": "Массивы (Array)",
-          "url": "#kotlin-basic-array",
-          "contentFile": "kotlin-basic-array.json"
+          "url": "#kotlin-collections-array-basic-array",
+          "contentFile": "kotlin-collections-array-basic-array.json"
         },
         {
           "title": "Коллекции (Collections)",
-          "url": "#kotlin-basic-collections",
-          "contentFile": "kotlin-basic-collections.json"
+          "url": "#kotlin-collections-array-basic-collections",
+          "contentFile": "kotlin-collections-array-basic-collections.json"
         },
         {
           "title": "Коллекции: Списки (List)",
-          "url": "#kotlin-collections-list",
-          "contentFile": "kotlin-collections-list.json"
+          "url": "#kotlin-collections-array-list",
+          "contentFile": "kotlin-collections-array-list.json"
         },
         {
           "title": "Коллекции: Множества (Set)",
-          "url": "#kotlin-collections-set",
-          "contentFile": "kotlin-collections-set.json"
+          "url": "#kotlin-collections-array-set",
+          "contentFile": "kotlin-collections-array-set.json"
         },
         {
           "title": "Коллекции: Ассоциативные массивы (Map)",
-          "url": "#kotlin-collections-map",
-          "contentFile": "kotlin-collections-map.json"
+          "url": "#kotlin-collections-array-map",
+          "contentFile": "kotlin-collections-array-map.json"
         },
         {
           "title": "Коллекция пар (Pair)",
-          "url": "#kotlin-collections-pair",
-          "contentFile": "kotlin-collections-pair.json"
+          "url": "#kotlin-collections-array-pair",
+          "contentFile": "kotlin-collections-array-pair.json"
         },
         {
           "title": "Бесконечные последовательности (Sequence)",
-          "url": "#kotlin-functions-sequence",
-          "contentFile": "kotlin-functions-sequence.json"
+          "url": "#kotlin-collections-array-sequence",
+          "contentFile": "kotlin-collections-array-sequence.json"
         }
       ]
     },
     {
       "title": "Функции (fun)",
-      "url": "#kotlin-basic-functions",
-      "contentFile": "kotlin-basic-functions.json",
+      "url": "#kotlin-functions",
+      "contentFile": "kotlin-functions.json",
       "subItems": [
         {
           "title": "Лямбда выражения (Анонимные функции)",
-          "url": "#kotlin-lambda-expressions",
-          "contentFile": "kotlin-lambda-expressions.json"
+          "url": "#kotlin-functions-lambda-expressions",
+          "contentFile": "kotlin-functions-lambda-expressions.json"
         },
         {
           "title": "Функции высшего порядка, inline функции",
@@ -211,8 +211,8 @@
     },
     {
       "title": "ООП (Объектно-ориентированное программирование)",
-      "url": "#kotlin-basic-oop",
-      "contentFile": "kotlin-basic-oop.json",
+      "url": "#kotlin-oop",
+      "contentFile": "kotlin-oop.json",
       "subItems": [
         {
           "title": "Наследование",
@@ -271,8 +271,8 @@
         },
         {
           "title": "Generics (обобщённые типы)",
-          "url": "#kotlin-basic-generics",
-          "contentFile": "kotlin-basic-generics.json"
+          "url": "#kotlin-oop-generics",
+          "contentFile": "kotlin-oop-generics.json"
         }
       ]
     },
