@@ -215,6 +215,10 @@
       "contentFile": "kotlin-oop.json",
       "subItems": [
         {
+          "title": "Классы и обьекты",
+          "url": "#kotlin-oop-classes-objects",
+          "contentFile": "kotlin-oop-classes-objects.json"
+        },{
           "title": "Наследование",
           "url": "#kotlin-oop-inheritance",
           "contentFile": "kotlin-oop-inheritance.json"

@@ -1,0 +1,105 @@
+{
+  "title": "Классы и объекты",
+  "content": [
+    {
+      "type": "text",
+      "value": "### Классы"
+    },
+    {
+      "type": "text",
+      "value": "**Класс** - это шаблон или чертеж для создания объектов."
+    },
+    {
+      "type": "text",
+      "value": "#### Геттеры и Сеттер:"
+    },
+    {
+      "type": "text",
+      "value": "**Поле field** (для хранения значения)\n\n**Геттер get()** (для чтения)\n\n**Сеттер set(value)** (для записи)"
+    },
+    {
+      "type": "text",
+      "value": "- Стандартные геттер/сеттер (по умолчанию)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person {\n    var age: Int = 0\n        get() = field       // Возвращает значение поля\n        set(value) {        // Присваивает полю значение\n            field = value\n        }\n}\n\n// Использование\nval person = Person()\nperson.age = 25            // Вызывается сеттер\nprintln(person.age)        // Вызывается геттер"
+    },
+    {
+      "type": "text",
+      "value": "- Кастомный геттер (вычисляемое свойство)"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Rectangle(val width: Int, val height: Int) {\n    val area: Int\n        get() = width * height  // Вычисляется при каждом обращении\n}\n\nval rect = Rectangle(5, 10)\nprintln(rect.area) // 50 (5 * 10)\n// Поля `area` не существует - значение вычисляется в get()"
+    },
+    {
+      "type": "text",
+      "value": "- Кастомный сеттер с логикой"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class BankAccount {\n    var balance: Double = 0.0\n        set(value) {\n            // Валидация перед записью\n            if (value >= 0) {\n                field = value\n            } else {\n                println(\"Баланс не может быть отрицательным\")\n            }\n        }\n}\n\nval account = BankAccount()\naccount.balance = 100.0  // Ок\naccount.balance = -50.0  // \"Баланс не может быть отрицательным\""
+    },
+    {
+      "type": "text",
+      "value": "- Сеттер с дополнительной логикой"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class User {\n    var name: String = \"\"\n        set(value) {\n            println(\"Имя меняется с '$field' на '$value'\")\n            field = value.trim()  // Убираем пробелы\n        }\n}\n\nval user = User()\nuser.name = \"  Вася  \" \n// Вывод: \"Имя меняется с '' на '  Вася  '\"\nprintln(user.name) // \"Вася\" (без пробелов)"
+    },
+    {
+      "type": "text",
+      "value": "#### Конструкторы:"
+    },
+    {
+      "type": "text",
+      "value": "- Первичный конструктор"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person constructor(firstName: String, age: Int) {\n    val name: String\n    val age: Int\n    \n    init {\n        this.name = firstName\n        this.age = age\n        println(\"Создан человек: $name, возраст: $age\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Упрощенная запись (более идиоматичная для Kotlin):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(val name: String, var age: Int)"
+    },
+    {
+      "type": "text",
+      "value": "- Вторичные конструкторы"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person(val name: String, var age: Int) {\n    var email: String = \"\"\n    \n    // Вторичный конструктор\n    constructor(name: String, age: Int, email: String) : this(name, age) {\n        this.email = email\n    }\n    \n    // Еще один вторичный конструктор\n    constructor(name: String) : this(name, 0)\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Поле (Field)** — это техническая переменная класса, которая **хранит данные**. Обычно объявляется как private.\n\n\n\n**Свойство (Property)** — это концепция, объединяющая **поле и методы доступа** к нему (геттер/сеттер). В Kotlin свойство реализуется \"из коробки\"."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class Person {\n    // Поле (внутренняя переменная, обычно private)\n    private var _age: Int = 0\n\n    // Свойство (публичный интерфейс для работы с полем)\n    var age: Int\n        get() = _age // Геттер\n        set(value) { // Сеттер\n            _age = if (value >= 0) value else 0\n        }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### Обьекты"
+    },
+    {
+      "type": "text",
+      "value": "**Объект** - это экземпляр класса, конкретная сущность с состоянием и поведением."
+    }
+  ]
+}
