@@ -1,0 +1,112 @@
+{
+  "title": "Context",
+  "content": [
+    {
+      "type": "text",
+      "value": "Если говорить простым языком, **Context** — это «ручка» или «пульт управления», который система Android выдает приложению."
+    },
+    {
+      "type": "text",
+      "value": "**Context нужен, чтобы:**\n\n- **Получить доступ к ресурсам приложения** (строки, картинки, файлы, БД).\n\n- **Взаимодействовать с внешним миром** (запуск других Activity, отправка Broadcast).\n\n- **Получать доступ к системным сервисам** (Location, Notification, Keyboard, AlarmManager)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "Context (абстрактный класс)\n └── ContextWrapper (обертка, делегирует вызовы реальному контексту)\n      ├── ContextThemeWrapper (добавляет поддержку ТЕМ и СТИЛЕЙ)\n      │    └── Activity\n      │\n      ├── Service\n      └── Application"
+    },
+    {
+      "type": "text",
+      "value": "**Activity** наследуется от ContextThemeWrapper. Поэтому **Activity** знает про UI, темы, стили и умеет правильно отображать View.\n\n**Application** и **Service** наследуются напрямую от **ContextWrapper** (у Application база чуть другая, но суть та же — у них нет ThemeWrapper). Они ничего не знают про UI-темы."
+    },
+    {
+      "type": "text",
+      "value": "#### Application Context"
+    },
+    {
+      "type": "text",
+      "value": "**Что это:** Синглтон. Живет столько же, сколько живет процесс твоего приложения.\n\n**Как получить:** getApplicationContext(), или внутри Activity/Service просто application.\n\n**Особенность:** Он ничего не знает про текущий экран, про темы, про стили. Он \"голый\".\n\n**Когда использовать:**\n\n- Когда тебе нужен контекст, который переживет текущую Activity.\n\n- Для инициализации библиотек (Analytics, Crashlytics, Dagger/Hilt graph).\n\n- Для работы с базами данных или SharedPreferences (если они живут в синглтоне).\n\n- Для Toast (ему все равно на тему)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val appContext = context.applicationContext\n// или\nval appContext = requireActivity().application\n// или внутри Application класса:\nclass MyApp : Application() {\n    override fun onCreate() {\n        super.onCreate()\n        val appContext = this // this здесь - Application Context\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Activity Context"
+    },
+    {
+      "type": "text",
+      "value": "**Что это:** Привязан к жизненному циклу конкретной Activity.\n\n**Как получить:** Внутри Activity это this.\n\n**Особенность:** Содержит информацию о Theme (цвета, стили шрифтов). Имеет ссылку на иерархию View. При уничтожении Activity (поворот экрана, кнопка Back) этот контекст становится невалидным.\n\n**Когда использовать:**\n\n- Почти всегда при работе с UI.\n\n- Создание View программно (new TextView(activityContext)).\n\n- Инфлейтинг XML (layoutInflater).\n\n- Показ Dialog и AlertDialog.\n\n- Запуск другой Activity (чтобы сохранить стек навигации)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MainActivity : AppCompatActivity() {\n    fun example() {\n        val activityContext = this // Activity контекст\n    }\n}\n\nclass MyFragment : Fragment() {\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        val activityContext = requireActivity() // Контекст родительской Activity\n        val fragmentContext = requireContext() // Контекст фрагмента (чаще всего это тоже контекст Activity)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Другие (Service, BroadcastReceiver)"
+    },
+    {
+      "type": "text",
+      "value": "**Service:** Похож на Application (без UI), но имеет свой жизненный цикл.\n\n**BroadcastReceiver:** Получает Context в методе onReceive(). Этот контекст очень ограничен (restricted). С ним нельзя делать долгие операции или показывать диалоги."
+    },
+    {
+      "type": "text",
+      "value": "#### Context в современном Android (Jetpack, Compose)"
+    },
+    {
+      "type": "text",
+      "value": "- **ViewModel:** ViewModel не должна содержать ссылку на Context. Если нужен Context, нужно использовать AndroidViewModel (которая содержит Application Context)."
+    },
+    {
+      "type": "text",
+      "value": "- **Compose:** В большинстве случаев Context не нужен напрямую."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun MyComposable() {\n    // Получение Context в Compose\n    val context = LocalContext.current\n    \n    Button(onClick = {\n        // Используем для не-UI операций\n        Toast.makeText(context, \"Hello!\", Toast.LENGTH_SHORT).show()\n    }) {\n        Text(\"Click me\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "- **Dependency Injection (Dagger/Hilt)**: Контекст внедряется автоматически."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Module\n@InstallIn(SingletonComponent::class)\nobject AppModule {\n    @Provides\n    fun provideContext(@ApplicationContext context: Context): Context = context\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Примеры:"
+    },
+    {
+      "type": "text",
+      "value": "В **синглтонах** и **долгоживущих** объектах всегда используется`Application Context`."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyRepository private constructor(context: Context) {\n    // Сохраняем Application Context\n    private val appContext = context.applicationContext\n    \n    companion object {\n        @Volatile private var INSTANCE: MyRepository? = null\n        \n        fun getInstance(context: Context): MyRepository {\n            return INSTANCE ?: synchronized(this) {\n                INSTANCE ?: MyRepository(context.applicationContext).also { INSTANCE = it }\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "В **адаптерах** используется `Activity Context`, переданный извне (обычно от активити/фрагмента)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyAdapter(\n    private val context: Context, // Сохраняем для использования в методах\n    private val items: List<Item>\n) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {\n    // ...\n}"
+    },
+    {
+      "type": "text",
+      "value": "Во **Fragment** используется `requireContext()` или `requireActivity()` в методах жизненного цикла после onAttach()."
+    },
+    {
+      "type": "text",
+      "value": "#### Запреты:\n\n- Нельзя хранить **Activity Context** в статическом поле:\n\n- Нельзя передавать **Context** в анонимные внутренние классы, которые могут пережить Activity:\n\n- Нельзя использовать **Application Context** для UI-операций:"
+    }
+  ]
+}
