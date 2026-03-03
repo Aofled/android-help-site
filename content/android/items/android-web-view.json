@@ -118,6 +118,37 @@
     },
     {
       "type": "text",
+      "value": "### Работа с JavaScript"
+    },
+    {
+      "type": "text",
+      "value": "Настройка WebView для работы с JavaScript"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class MyWebViewActivity : AppCompatActivity() {\n    \n    private lateinit var webView: WebView\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        \n        webView = WebView(this)\n        setContentView(webView)\n        \n        // Включаем поддержку JavaScript (обязательно!)\n        webView.settings.javaScriptEnabled = true\n        \n        // Разрешаем отладку (только для debug)\n        if (BuildConfig.DEBUG) {\n            WebView.setWebContentsDebuggingEnabled(true)\n        }\n        \n        // Дополнительные настройки\n        webView.settings.apply {\n            domStorageEnabled = true // Для HTML5 localStorage\n            databaseEnabled = true   // Для HTML5 database\n            javaScriptCanOpenWindowsAutomatically = true\n        }\n        \n        // Настраиваем клиент для обработки событий\n        webView.webViewClient = MyWebViewClient()\n        webView.webChromeClient = MyWebChromeClient()\n        \n        // Загружаем контент\n        // webView.loadUrl(\"https://example.com\")\n        // Или локальный HTML из assets:\n        webView.loadUrl(\"file:///android_asset/index.html\")\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Базовый вызов JavaScript функции"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Простой вызов функции без параметров\nfun callJavaScriptFunction() {\n    webView.evaluateJavascript(\"javascript:myFunction()\") { result ->\n        // result содержит возвращаемое значение JS функции\n        Log.d(\"WebView\", \"JS result: $result\")\n    }\n}\n\n// Вызов функции с параметрами\nfun callJSWithParameters() {\n    val name = \"John\"\n    val age = 30\n    \n    // Вариант 1: Через evaluateJavascript (рекомендуется)\n    webView.evaluateJavascript(\n        \"javascript:greetUser('$name', $age)\"\n    ) { result ->\n        // Обработка результата\n    }\n    \n    // Вариант 2: Через loadUrl (устаревший, но работает)\n    webView.loadUrl(\"javascript:greetUser('$name', $age)\")\n}"
+    },
+    {
+      "type": "text",
+      "value": "Безопасная передача данных в JavaScript"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "fun sendDataToJS(data: String) {\n    // Экранируем специальные символы\n    val escapedData = data\n        .replace(\"\\\\\", \"\\\\\\\\\")\n        .replace(\"'\", \"\\\\'\")\n        .replace(\"\\\"\", \"\\\\\\\"\")\n        .replace(\"\\n\", \"\\\\n\")\n    \n    val jsCode = \"\"\"\n        if (window.androidCallback) {\n            window.androidCallback.receiveData('$escapedData');\n        }\n    \"\"\".trimIndent()\n    \n    webView.evaluateJavascript(jsCode, null)\n}\n\n// Передача JSON объектов\nfun sendJsonToJS(jsonData: Map<String, Any>) {\n    val gson = Gson()\n    val jsonString = gson.toJson(jsonData)\n    val escapedJson = JSONObject.quote(jsonString)\n    \n    val jsCode = \"\"\"\n        if (window.processAndroidData) {\n            window.processAndroidData($escapedJson);\n        }\n    \"\"\".trimIndent()\n    \n    webView.post {\n        webView.evaluateJavascript(jsCode, null)\n    }\n}"
+    },
+    {
+      "type": "text",
       "value": "### Полезные расширенные возможности:"
     },
     {
