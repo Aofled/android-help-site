@@ -1,0 +1,35 @@
+{
+  "title": "Permissions",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Permissions в Android** - это механизм, когда **приложение запрашивает разрешения у самого себя** для доступа к защищенным функциям системы (камера, контакты, местоположение и т.д.)."
+    },
+    {
+      "type": "text",
+      "value": "#### Типы разрешений:"
+    },
+    {
+      "type": "text",
+      "value": "- **Нормальные (Normal)** — автоматически выдаются\n\n\n\n- **Опасные (Dangerous)** — требуют явного запроса\n\n\n\n- **Особые (Special)** — READ_EXTERNAL_STORAGE и т.д.\n\n\n\n- **Сигнатурные (Signature)** — для системных приложений"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример - использование Activity Result API"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Регистрация контракта для запроса разрешений\nprivate val requestPermissionLauncher = registerForActivityResult(\n    ActivityResultContracts.RequestPermission()\n) { isGranted: Boolean ->\n    if (isGranted) {\n        // Разрешение получено\n        startCamera()\n    } else {\n        // Разрешение отклонено\n        showPermissionDeniedDialog()\n    }\n}\n\n// Для нескольких разрешений\nprivate val requestMultiplePermissionsLauncher = registerForActivityResult(\n    ActivityResultContracts.RequestMultiplePermissions()\n) { permissions: Map<String, Boolean> ->\n    permissions.forEach { (permission, isGranted) ->\n        when {\n            isGranted -> {\n                // Каждое разрешение обрабатываем отдельно\n                handlePermissionGranted(permission)\n            }\n            shouldShowRequestPermissionRationale(permission) -> {\n                showRationaleForPermission(permission)\n            }\n            else -> {\n                openAppSettingsForPermission()\n            }\n        }\n    }\n}\n\n// Использование\nfun checkAndRequestCameraPermission() {\n    when {\n        ContextCompat.checkSelfPermission(\n            this, \n            Manifest.permission.CAMERA\n        ) == PackageManager.PERMISSION_GRANTED -> {\n            startCamera()\n        }\n        shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {\n            // Показываем объяснение перед запросом\n            showCameraPermissionRationale()\n        }\n        else -> {\n            // Запрашиваем разрешение\n            requestPermissionLauncher.launch(Manifest.permission.CAMERA)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Управление разрешениями в ViewModel"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class PermissionViewModel : ViewModel() {\n    private val _permissionState = MutableStateFlow<PermissionState>(PermissionState.Idle)\n    val permissionState: StateFlow<PermissionState> = _permissionState\n    \n    sealed class PermissionState {\n        object Idle : PermissionState()\n        object Checking : PermissionState()\n        data class Granted(val permission: String) : PermissionState()\n        data class Denied(val permission: String, val showRationale: Boolean) : PermissionState()\n    }\n    \n    fun checkPermission(context: Context, permission: String) {\n        viewModelScope.launch {\n            _permissionState.value = PermissionState.Checking\n            \n            val isGranted = ContextCompat.checkSelfPermission(\n                context, \n                permission\n            ) == PackageManager.PERMISSION_GRANTED\n            \n            _permissionState.value = if (isGranted) {\n                PermissionState.Granted(permission)\n            } else {\n                PermissionState.Denied(\n                    permission = permission,\n                    showRationale = ActivityCompat.shouldShowRequestPermissionRationale(\n                        context as Activity, \n                        permission\n                    )\n                )\n            }\n        }\n    }\n}"
+    }
+  ]
+}

@@ -34,6 +34,10 @@
           "title": "RecyclerView",
           "url": "#android-recycler-view",
           "contentFile": "android-recycler-view.json"
+        },{
+          "title": "CardView ",
+          "url": "#android-card-view",
+          "contentFile": "android-card-view.json"
         },
         {
           "title": "Собственные графические объекты",
@@ -201,6 +205,11 @@
           "title": "Dialog boxes",
           "url": "#android-compose-dialog-boxes",
           "contentFile": "android-compose-dialog-boxes.json"
+        },
+        {
+          "title": "CardView",
+          "url": "#android-compose-card-view",
+          "contentFile": "android-compose-card-view.json"
         }
       ]
     },
@@ -238,6 +247,11 @@
           "title": "Internal Storage",
           "url": "#android-internal-storage",
           "contentFile": "android-internal-storage.json"
+        },
+        {
+          "title": "Assets",
+          "url": "#android-internal-assets",
+          "contentFile": "android-internal-assets.json"
         }
       ]
     },
@@ -309,7 +323,19 @@
     {
       "title": "AndroidManifest",
       "url": "#android-android-manifest",
-      "contentFile": "android-android-manifest.json"
+      "contentFile": "android-android-manifest.json",
+      "subItems": [
+        {
+          "title": "Permissions",
+          "url": "#android-manifest-permissions",
+          "contentFile": "android-manifest-permissions.json"
+        },
+        {
+          "title": "Intent Filters",
+          "url": "#android--manifest-intent-filters",
+          "contentFile": "android-manifest-intent-filters.json"
+        }
+      ]
     },
     {
       "title": "Parcelable и Serializable",
@@ -352,11 +378,21 @@
       "title": "Device Owner",
       "url": "#android-device-owner",
       "contentFile": "android-device-owner.json"
-    },
-    {
-      "title": "Модульное тестирование (Unit Testing)",
-      "url": "#android-unit-testing",
-      "contentFile": "android-unit-testing.json"
+    },{
+      "title": "Тестирование",
+      "url": "#android-testing",
+      "contentFile": "android-testing.json",
+      "subItems": [
+        {
+          "title": "Модульное тестирование (Unit Testing)",
+          "url": "#android-testing-unit-testing",
+          "contentFile": "android-testing-unit-testing.json"
+        },{
+          "title": "Интеграционное тестирование (Integration Testing)",
+          "url": "#android-testing-integration-testing",
+          "contentFile": "android-testing-integration-testing.json"
+        }
+      ]
     },
     {
       "title": "Анализ кода",

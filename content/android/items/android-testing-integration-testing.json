@@ -1,0 +1,39 @@
+{
+  "title": "Интеграционное тестирование (Integration Testing)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Интеграционное тестирование**  - тестирование **взаимодействия нескольких компонентов** вместе."
+    },
+    {
+      "type": "text",
+      "value": "#### Характеристики:\n\n- **Объект тестирования:** Группа классов/модулей\n\n- **Изоляция:** Частичная или полная интеграция\n\n- **Скорость:** Медленная\n\n- **Когда запускать:** После сборки или перед релизом\n\n- **Цель:** Проверить взаимодействие между компонентами"
+    },
+    {
+      "type": "text",
+      "value": "**Инструменты для Android:**\n\n- **Espresso:** UI-тесты (Activity/Fragment)\n\n\n\n- **UI Automator:** Межприложенные тесты\n\n\n\n- **HiltTest:** DI-интеграционные тесты"
+    },
+    {
+      "type": "text",
+      "value": "#### Виды интеграционных тестов в Android:"
+    },
+    {
+      "type": "text",
+      "value": "- Интеграция с реальными зависимостями:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class UserRepositoryIntegrationTest {\n    @Test\n    fun `repository should fetch from api and cache to db`() = runTest {\n        // Используем реальные, а не mock-объекты\n        val api = RetrofitApi.create() // Real API (test endpoint)\n        val db = Room.inMemoryDatabaseBuilder() // In-memory DB\n        val repo = UserRepository(api, db)\n        \n        // Тестируем всю цепочку\n        val user = repo.getUser(\"1\")\n        \n        assertNotNull(user)\n        assertEquals(\"1\", user.id)\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "Пример с Room + DAO:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@RunWith(AndroidJUnit4::class)\nclass UserDaoIntegrationTest {\n    private lateinit var db: AppDatabase\n    \n    @Before\n    fun setup() {\n        // In-memory база для тестов\n        db = Room.inMemoryDatabaseBuilder(\n            ApplicationProvider.getApplicationContext(),\n            AppDatabase::class.java\n        ).build()\n    }\n    \n    @Test\n    fun `insert and retrieve user`() = runTest {\n        // Arrange\n        val user = User(id = \"1\", name = \"John\")\n        val dao = db.userDao()\n        \n        // Act\n        dao.insert(user)\n        val retrieved = dao.getById(\"1\")\n        \n        // Assert\n        assertEquals(user, retrieved)\n    }\n}"
+    }
+  ]
+}

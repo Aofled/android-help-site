@@ -6,6 +6,11 @@
       "contentFile": "kotlin-basic-concepts.json",
       "subItems": [
         {
+          "title": "Typealias",
+          "url": "#kotlin-basic-concepts-typealias",
+          "contentFile": "kotlin-basic-concepts-typealias.json"
+        },
+        {
           "title": "Переменные",
           "url": "#kotlin-basic-concepts-variables",
           "contentFile": "kotlin-basic-concepts-variables.json"

@@ -1,0 +1,63 @@
+{
+  "title": "Intent Filters",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Intent Filter** — это декларация в AndroidManifest.xml, которая сообщает системе Android, какие типы **intent'ов** может обрабатывать компонент вашего приложения `(Activity, Service, Broadcast Receiver)`."
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<activity android:name=\".MyActivity\">\n    <intent-filter>\n        <!-- ДЕЙСТВИЕ (Action) - Что сделать? -->\n        <action android:name=\"android.intent.action.VIEW\" />\n        \n        <!-- КАТЕГОРИЯ (Category) - В каком контексте? -->\n        <category android:name=\"android.intent.category.DEFAULT\" />\n        <category android:name=\"android.intent.category.BROWSABLE\" />\n        \n        <!-- ДАННЫЕ (Data) - С какими данными работать? -->\n        <data android:scheme=\"https\" />\n        <data android:host=\"example.com\" />\n        <data android:mimeType=\"image/*\" />\n    </intent-filter>\n</activity>"
+    },
+    {
+      "type": "text",
+      "value": "### Intent Filters нужны для:"
+    },
+    {
+      "type": "text",
+      "value": "- **Интеграция с системой и другими приложениями**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Ваше приложение может открывать ссылки -->\n<intent-filter>\n    <action android:name=\"android.intent.action.VIEW\" />\n    <category android:name=\"android.intent.category.DEFAULT\" />\n    <category android:name=\"android.intent.category.BROWSABLE\" />\n    <data android:scheme=\"https\" />\n    <data android:host=\"myapp.com\" />\n</intent-filter>\n\n<!-- Может делиться контентом -->\n<intent-filter>\n    <action android:name=\"android.intent.action.SEND\" />\n    <category android:name=\"android.intent.category.DEFAULT\" />\n    <data android:mimeType=\"text/plain\" />\n</intent-filter>"
+    },
+    {
+      "type": "text",
+      "value": "- **Обработка глубоких ссылок (Deep Links)**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Глубокая ссылка на конкретный товар -->\n<intent-filter>\n    <action android:name=\"android.intent.action.VIEW\" />\n    <category android:name=\"android.intent.category.DEFAULT\" />\n    <category android:name=\"android.intent.category.BROWSABLE\" />\n    <data \n        android:scheme=\"https\"\n        android:host=\"myshop.com\"\n        android:pathPrefix=\"/product/\" />\n</intent-filter>\n\n<!-- Кастомная схема -->\n<intent-filter>\n    <action android:name=\"android.intent.action.VIEW\" />\n    <category android:name=\"android.intent.category.DEFAULT\" />\n    <category android:name=\"android.intent.category.BROWSABLE\" />\n    <data android:scheme=\"myshop\" />\n</intent-filter>"
+    },
+    {
+      "type": "text",
+      "value": "- **Регистрация Broadcast Receiver'ов**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Реакция на системные события -->\n<receiver android:name=\".MyReceiver\">\n    <intent-filter>\n        <action android:name=\"android.intent.action.BOOT_COMPLETED\" />\n        <action android:name=\"android.intent.action.AIRPLANE_MODE\" />\n    </intent-filter>\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "- **Создание домашних виджетов (App Widgets)**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Виджет на домашнем экране -->\n<receiver android:name=\".MyAppWidget\">\n    <intent-filter>\n        <action android:name=\"android.appwidget.action.APPWIDGET_UPDATE\" />\n    </intent-filter>\n    <meta-data \n        android:name=\"android.appwidget.provider\"\n        android:resource=\"@xml/my_widget_info\" />\n</receiver>"
+    },
+    {
+      "type": "text",
+      "value": "- **Обработка MIME-типов**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- Ваше приложение может открывать PDF файлы -->\n<intent-filter>\n    <action android:name=\"android.intent.action.VIEW\" />\n    <category android:name=\"android.intent.category.DEFAULT\" />\n    <data android:mimeType=\"application/pdf\" />\n</intent-filter>\n\n<!-- Или все изображения -->\n<intent-filter>\n    <action android:name=\"android.intent.action.VIEW\" />\n    <category android:name=\"android.intent.category.DEFAULT\" />\n    <data android:mimeType=\"image/*\" />\n</intent-filter>"
+    }
+  ]
+}

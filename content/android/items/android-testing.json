@@ -1,0 +1,35 @@
+{
+  "title": "Тестирование",
+  "content": [
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "UI Tests (E2E)\n        /        \\\n   (медленно)   (дорого)\n      /            \\\n  Интеграционные тесты\n        |\n   (баланс скорости/покрытия)\n        |\n    Модульные тесты\n  (быстро, много, дешево)"
+    },
+    {
+      "type": "text",
+      "value": "#### Для модульных тестов:"
+    },
+    {
+      "type": "text",
+      "value": "**Тестируется бизнес-логика** (ViewModels, UseCases, Repositories)\n\n**Используется CoroutineTestRule** для асинхронного кода\n\n**Mock**:\n\n- Базы данных\n\n- API-клиенты\n\n- Системные сервисы (Location, Notification)"
+    },
+    {
+      "type": "text",
+      "value": "#### Для интеграционных тестов:"
+    },
+    {
+      "type": "text",
+      "value": "**Тестируется:**\n\n- Room DAO + Repository\n\n- Retrofit API клиенты\n\n- WorkManager задачи\n\n- Навигацию между экранами\n\n**Используется:**\n\n- In-memory базы для Room\n\n- MockWebServer для Retrofit\n\n- HiltTest для DI"
+    },
+    {
+      "type": "text",
+      "value": "#### Пример реального кода:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// МОДУЛЬНЫЙ ТЕСТ (ViewModel + Mock Repository)\n@Test\nfun `login should update state on success`() = runTest {\n    val mockRepo = mock<AuthRepository>()\n    val viewModel = AuthViewModel(mockRepo)\n    \n    viewModel.login(\"test@email.com\", \"pass\")\n    \n    verify(mockRepo).login(\"test@email.com\", \"pass\")\n    assertTrue(viewModel.state.value.isLoading)\n}\n\n// ИНТЕГРАЦИОННЫЙ ТЕСТ (Repository + Real API + DB)\n@Test\nfun `repository should sync user data`() = runTest {\n    // Real test API with MockWebServer\n    val api = createTestApi() \n    // In-memory database\n    val db = createTestDb()\n    val repo = UserRepository(api, db)\n    \n    repo.syncUserData(\"1\")\n    \n    val localUser = db.userDao().getById(\"1\")\n    assertNotNull(localUser)\n}"
+    }
+  ]
+}

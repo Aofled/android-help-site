@@ -1,0 +1,26 @@
+{
+  "title": "CardView",
+  "content": [
+    {
+      "type": "text",
+      "value": "**CardView** — один из самых популярных компонентов в Android UI."
+    },
+    {
+      "type": "text",
+      "value": "CardView стала стандартом Material Design с 2014 года. Она воплощает ключевые принципы:"
+    },
+    {
+      "type": "text",
+      "value": "- **Осязаемость** (tangible surfaces)\n\n\n\n- **Глубина и тени** (elevation & shadows)\n\n\n\n- **Скругленные углы** (rounded corners)\n\n\n\n- **Визуальная иерархия**"
+    },
+    {
+      "type": "text",
+      "value": "#### Базовый Card в Compose"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun ProductCard(\n    product: Product,\n    onCardClick: () -> Unit\n) {\n    Card(\n        modifier = Modifier\n            .fillMaxWidth()\n            .padding(8.dp)\n            .clickable { onCardClick() },\n        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),\n        shape = RoundedCornerShape(8.dp),\n        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),\n        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)\n    ) {\n        Column(\n            modifier = Modifier.padding(16.dp)\n        ) {\n            // Контент карточки\n            Image(\n                painter = rememberAsyncImagePainter(model = product.imageUrl),\n                contentDescription = \"Product image\",\n                modifier = Modifier\n                    .fillMaxWidth()\n                    .height(150.dp)\n                    .clip(RoundedCornerShape(4.dp))\n            )\n            \n            Spacer(modifier = Modifier.height(8.dp))\n            \n            Text(\n                text = product.title,\n                style = MaterialTheme.typography.titleMedium,\n                fontWeight = FontWeight.Bold\n            )\n            \n            Spacer(modifier = Modifier.height(4.dp))\n            \n            Text(\n                text = product.description,\n                style = MaterialTheme.typography.bodyMedium,\n                color = MaterialTheme.colorScheme.onSurfaceVariant,\n                maxLines = 2,\n                overflow = TextOverflow.Ellipsis\n            )\n            \n            Spacer(modifier = Modifier.height(12.dp))\n            \n            Button(\n                onClick = { /* Buy action */ },\n                modifier = Modifier.align(Alignment.End)\n            ) {\n                Text(\"Buy Now\")\n            }\n        }\n    }\n}"
+    }
+  ]
+}

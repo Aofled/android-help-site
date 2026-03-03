@@ -1,0 +1,31 @@
+{
+  "title": "CardView",
+  "content": [
+    {
+      "type": "text",
+      "value": "**CardView** — один из самых популярных компонентов в Android UI."
+    },
+    {
+      "type": "text",
+      "value": "CardView стала стандартом Material Design с 2014 года. Она воплощает ключевые принципы:"
+    },
+    {
+      "type": "text",
+      "value": "- **Осязаемость** (tangible surfaces)\n\n\n\n- **Глубина и тени** (elevation & shadows)\n\n\n\n- **Скругленные углы** (rounded corners)\n\n\n\n- **Визуальная иерархия**"
+    },
+    {
+      "type": "text",
+      "value": "#### Базовая реализация"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "<!-- build.gradle -->\ndependencies {\n    implementation 'androidx.cardview:cardview:1.0.0'\n}"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "<!-- layout/card_item.xml -->\n<androidx.cardview.widget.CardView\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\"\n    android:layout_margin=\"8dp\"\n    \n    <!-- Основные атрибуты -->\n    app:cardCornerRadius=\"8dp\"\n    app:cardElevation=\"4dp\"\n    app:cardUseCompatPadding=\"true\"\n    app:cardBackgroundColor=\"@color/white\"\n    app:cardPreventCornerOverlap=\"true\">\n    \n    <!-- Контент внутри карточки -->\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:orientation=\"vertical\"\n        android:padding=\"16dp\">\n        \n        <ImageView\n            android:id=\"@+id/imageView\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"150dp\"\n            android:scaleType=\"centerCrop\"\n            android:src=\"@drawable/product_image\" />\n        \n        <TextView\n            android:id=\"@+id/titleTextView\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"8dp\"\n            android:text=\"Product Title\"\n            android:textSize=\"16sp\"\n            android:textStyle=\"bold\" />\n        \n        <TextView\n            android:id=\"@+id/descriptionTextView\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"4dp\"\n            android:text=\"Product description goes here...\"\n            android:textSize=\"14sp\"\n            android:textColor=\"@color/gray_600\" />\n        \n        <Button\n            android:id=\"@+id/actionButton\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"12dp\"\n            android:text=\"Buy Now\" />\n    </LinearLayout>\n</androidx.cardview.widget.CardView>"
+    }
+  ]
+}

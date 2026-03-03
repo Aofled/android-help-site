@@ -1,0 +1,53 @@
+{
+  "title": "Typealias",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Typealias** позволяет давать новое имя существующему типу, не создавая новый тип."
+    },
+    {
+      "type": "text",
+      "value": "#### Typealias используется для:"
+    },
+    {
+      "type": "text",
+      "value": "- Упрощение сложных типов"
+    },
+    {
+      "type": "text",
+      "value": "В Android много сложных дженериков и функциональных типов:"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Без typealias\nfun setOnItemClickListener(listener: (View, Int, Long) -> Unit) { ... }\nfun observeData(observer: Observer<Map<String, List<User>>>) { ... }\n\n// С typealias - гораздо читаемее!\ntypealias OnItemClick = (View, Int, Long) -> Unit\ntypealias UserDataObserver = Observer<Map<String, List<User>>>\n\nfun setOnItemClickListener(listener: OnItemClick) { ... }\nfun observeData(observer: UserDataObserver) { ... }"
+    },
+    {
+      "type": "text",
+      "value": "- Создание доменно-специфичных имен"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Вместо примитивных типов - осмысленные имена\ntypealias UserId = String\ntypealias Timestamp = Long\ntypealias Percentage = Float\ntypealias HexColor = String\n\n// Использование\ndata class User(\n    val id: UserId,        // Вместо String\n    val createdAt: Timestamp, // Вместо Long\n    val progress: Percentage   // Вместо Float\n)\n\nfun setColor(color: HexColor) { ... }"
+    },
+    {
+      "type": "text",
+      "value": "- Упрощение дженериков в Android"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Сложные вьюмодели с лайвдатой\ntypealias LiveDataResult<T> = LiveData<Result<T>>\ntypealias StateFlowList<T> = StateFlow<List<T>>\n\n// Композ\ntypealias ComposableFun = @Composable () -> Unit\n\n// ViewBinding\ntypealias ActivityMainBinding = ActivityMainBinding\ntypealias FragmentProfileBinding = FragmentProfileBinding"
+    },
+    {
+      "type": "text",
+      "value": "- Сокращение длинных имен классов"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Длинные имена из сторонних библиотек\ntypealias Glide = com.bumptech.glide.Glide\ntypealias Gson = com.google.gson.Gson\ntypealias Timber = com.jakewharton.timber.Timber\n\n// Собственные длинные имена\ntypealias Analytics = com.myapp.analytics.AnalyticsTracker"
+    }
+  ]
+}
