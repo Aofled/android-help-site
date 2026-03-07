@@ -35,7 +35,7 @@
           "url": "#android-recycler-view",
           "contentFile": "android-recycler-view.json"
         },{
-          "title": "CardView ",
+          "title": "CardView",
           "url": "#android-card-view",
           "contentFile": "android-card-view.json"
         },
@@ -106,8 +106,8 @@
       "contentFile": "android-state-preservation-restoration.json",
       "subItems": [
         {
-          "title": "onSaveInstanceState ",
-          "url": "#android-on-save-instance-state ",
+          "title": "onSaveInstanceState",
+          "url": "#android-on-save-instance-state",
           "contentFile": "android-on-save-instance-state.json"
         },
         {
