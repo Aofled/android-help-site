@@ -1,0 +1,51 @@
+{
+  "title": "Sealed Classes (Запечатанные классы)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Sealed class** — это механизм ограничения **иерархии наследования**. Все возможные наследники этого класса должны быть известны заранее (во время компиляции). Никто не может создать наследника этого класса \"извне\" или динамически."
+    },
+    {
+      "type": "text",
+      "value": "Все его подклассы должны быть объявлены **в том же файле** (до Kotlin 1.5) или **в том же пакете** (Kotlin 1.5+)."
+    },
+    {
+      "type": "text",
+      "value": "Sealed Classes и Enums:"
+    },
+    {
+      "type": "text",
+      "value": "- **Enum (Перечисление)**: Это просто список ярлыков."
+    },
+    {
+      "type": "text",
+      "value": "- **Sealed Class (Супер-перечисление)**: Это список классов."
+    },
+    {
+      "type": "text",
+      "value": "В Android разработке **Sealed Classes** — это стандарт де-факто для **управления состоянием** (State)."
+    },
+    {
+      "type": "text",
+      "value": "### Примеры использования Sealed Class в Android:"
+    },
+    {
+      "type": "text",
+      "value": "**Моделирование состояний UI**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Без sealed class (плохо)\nclass ViewState(\n    val isLoading: Boolean = false,\n    val data: List<User>? = null,\n    val error: String? = null\n) {\n    // Какие комбинации валидны? Все? Никакие?\n    // Легко создать неконсистентное состояние:\n    // ViewState(isLoading = true, error = \"Error\") - Что это??\n}\n\n// С sealed class (отлично!)\nsealed class UserState {\n    object Loading : UserState()\n    data class Success(val users: List<User>) : UserState()\n    data class Error(val message: String) : UserState()\n    object Empty : UserState()\n}\n\n// Использование в ViewModel\nclass UserViewModel : ViewModel() {\n    private val _state = MutableStateFlow<UserState>(UserState.Loading)\n    val state: StateFlow<UserState> = _state\n    \n    fun loadUsers() {\n        viewModelScope.launch {\n            _state.value = UserState.Loading\n            try {\n                val users = repository.getUsers()\n                _state.value = if (users.isEmpty()) {\n                    UserState.Empty\n                } else {\n                    UserState.Success(users)\n                }\n            } catch (e: Exception) {\n                _state.value = UserState.Error(e.message ?: \"Unknown error\")\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Обработка в Compose UI**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@Composable\nfun UserScreen(viewModel: UserViewModel) {\n    val state by viewModel.state.collectAsState()\n    \n    when (state) {\n        is UserState.Loading -> LoadingScreen()\n        is UserState.Success -> UserList(users = (state as UserState.Success).users)\n        is UserState.Error -> ErrorScreen(message = (state as UserState.Error).message)\n        UserState.Empty -> EmptyScreen()\n        // Компилятор проверяет, что все cases обработаны!\n    }\n}\n\n// Smart cast работает автоматически!\n@Composable\nfun UserScreenBetter(viewModel: UserViewModel) {\n    val state by viewModel.state.collectAsState()\n    \n    when (state) {\n        UserState.Loading -> LoadingScreen()\n        is UserState.Success -> {\n            // Smart cast: state автоматически становится UserState.Success\n            UserList(users = state.users)\n        }\n        is UserState.Error -> {\n            ErrorScreen(message = state.message)\n        }\n        UserState.Empty -> EmptyScreen()\n    }\n}"
+    }
+  ]
+}

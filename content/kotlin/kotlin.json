@@ -262,6 +262,10 @@
           "title": "Data class (класс данных)",
           "url": "#kotlin-oop-data-class",
           "contentFile": "kotlin-oop-data-class.json"
+        },{
+          "title": "Sealed Classes (запечатанные классы)",
+          "url": "#kotlin-oop-sealed-classes",
+          "contentFile": "kotlin-oop-sealed-classes.json"
         },
         {
           "title": "Enum class (перечисление)",
