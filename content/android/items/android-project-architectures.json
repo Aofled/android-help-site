@@ -40,7 +40,7 @@
     },
     {
       "type": "text",
-      "value": "**Структура**:\n\n\n\n- **Model** - данные и бизнес-логика\n\n\n\n- **View - UI** (Activity/Fragment)\n\n\n\n- **ViewModel** - хранит и обрабатывает данные для UI\n\n\n\n**Особенности**:\n\n\n\n- Использует Data Binding** и **LiveData/Flow\n\n\n\n- Поддержка Android Architecture Components\n\n\n\n**Плюсы**:\n\n\n\n- Автоматическая привязка данных\n\n\n\n- Выживание при повороте экрана\n\n\n\n- Минимум кода в Activity/Fragment\n\n\n\n**Минусы**:\n\n\n\n- Сложнее отлаживать Data Binding\n\n\n\n- Больше абстракций"
+      "value": "**Структура**:\n\n\n\n- **Model** - данные и бизнес-логика\n\n\n\n- **View - UI** (Activity/Fragment)\n\n\n\n- **ViewModel** - хранит и обрабатывает данные для UI\n\n\n\n**Особенности**:\n\n\n\n- Использует **Data Binding** и **LiveData/Flow**\n\n\n\n- Поддержка Android Architecture Components\n\n\n\n**Плюсы**:\n\n\n\n- Автоматическая привязка данных\n\n\n\n- Выживание при повороте экрана\n\n\n\n- Минимум кода в Activity/Fragment\n\n\n\n**Минусы**:\n\n\n\n- Сложнее отлаживать Data Binding\n\n\n\n- Больше абстракций"
     },
     {
       "type": "text",
