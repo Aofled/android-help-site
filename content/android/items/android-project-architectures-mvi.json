@@ -1,0 +1,56 @@
+{
+  "title": "MVI (Model-View-Intent)",
+  "content": [
+    {
+      "type": "text",
+      "value": "**MVI (Model-View-Intent)** — это реактивная архитектура с однонаправленным потоком данных, где:\n\n\n\n- **Model** — состояние приложения\n\n\n\n- **View** — отображает состояние\n\n\n\n- **Intent** — намерения пользователя"
+    },
+    {
+      "type": "text",
+      "value": "#### Как работает MVI?"
+    },
+    {
+      "type": "text",
+      "value": "**Поток данных в MVI:**"
+    },
+    {
+      "type": "text",
+      "value": "1. Пользователь совершает действие (Intent)\n\n2. Intent преобразуется в новое состояние (Model)\n\n3. View получает новое состояние и перерисовывается\n\n4. Цикл повторяется"
+    },
+    {
+      "type": "text",
+      "value": "**Основные характеристики:**\n\n- Однонаправленный поток данных\n\n- Иммутабельность состояний\n\n- Предсказуемость — одно и то же состояние всегда дает одинаковый UI\n\n- Декларативность — View описывает, ЧТО отобразить, а не КАК"
+    },
+    {
+      "type": "text",
+      "value": "### Компоненты MVI в Android:"
+    },
+    {
+      "type": "text",
+      "value": "**Model (Состояние)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Иммутабельное состояние экрана\ndata class NewsState(\n    val isLoading: Boolean = false,\n    val news: List<NewsItem> = emptyList(),\n    val error: String? = null,\n    val selectedCategory: String = \"all\",\n    val searchQuery: String = \"\"\n) {\n    // Валидные производные свойства\n    val filteredNews: List<NewsItem>\n        get() = news.filter { \n            (selectedCategory == \"all\" || it.category == selectedCategory) &&\n            (searchQuery.isEmpty() || it.title.contains(searchQuery, true))\n        }\n    \n    val isEmpty: Boolean\n        get() = news.isEmpty() && !isLoading && error == null\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Intent (Намерения/Действия)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// Все возможные действия пользователя\nsealed class NewsIntent {\n    object LoadNews : NewsIntent()\n    data class SearchNews(val query: String) : NewsIntent()\n    data class SelectCategory(val category: String) : NewsIntent()\n    data class ToggleFavorite(val newsId: String) : NewsIntent()\n    object Refresh : NewsIntent()\n    object Retry : NewsIntent()\n    object ClearError : NewsIntent()\n}"
+    },
+    {
+      "type": "text",
+      "value": "**View (UI)**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "// В Compose\n@Composable\nfun NewsScreen(viewModel: NewsViewModel) {\n    val state by viewModel.state.collectAsState()\n    \n    NewsContent(\n        state = state,\n        onIntent = viewModel::processIntent\n    )\n}\n\n@Composable\nfun NewsContent(\n    state: NewsState,\n    onIntent: (NewsIntent) -> Unit\n) {\n    Column {\n        // Search\n        SearchBar(\n            query = state.searchQuery,\n            onQueryChange = { onIntent(NewsIntent.SearchNews(it)) }\n        )\n        \n        // Categories\n        CategoryChips(\n            selected = state.selectedCategory,\n            onSelect = { onIntent(NewsIntent.SelectCategory(it)) }\n        )\n        \n        // Content based on state\n        when {\n            state.isLoading -> LoadingIndicator()\n            state.error != null -> ErrorView(\n                error = state.error,\n                onRetry = { onIntent(NewsIntent.Retry) }\n            )\n            state.isEmpty -> EmptyState()\n            else -> NewsList(\n                news = state.filteredNews,\n                onToggleFavorite = { onIntent(NewsIntent.ToggleFavorite(it)) }\n            )\n        }\n    }\n}"
+    }
+  ]
+}

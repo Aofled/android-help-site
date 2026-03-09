@@ -141,6 +141,11 @@
           "title": "MVVM (Model-View-ViewModel)",
           "url": "#android-project-architectures-mvvm",
           "contentFile": "android-project-architectures-mvvm.json"
+        },
+        {
+          "title": "MVI (Model-View-Intent)",
+          "url": "#android-project-architectures-mvi",
+          "contentFile": "android-project-architectures-mvi.json"
         }
       ]
     },
