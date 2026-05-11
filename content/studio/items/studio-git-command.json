@@ -150,6 +150,55 @@
     },
     {
       "type": "text",
+      "value": "- **Создать аннотированную метку:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git tag -a <tag_name> -m \"Message for the label\""
+    },
+    {
+      "type": "text",
+      "value": "- **Создать метку для конкретного коммита:**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git tag <tag_name> <commit_hash>"
+    },
+    {
+      "type": "text",
+      "value": "- **Исправить самый последний коммит (текст):**"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git commit --amend -m \"Новое правильное сообщение\""
+    },
+    {
+      "type": "text",
+      "value": "- **Дополнить коммит** (добавить забытые файлы):"
+    },
+    {
+      "type": "text",
+      "value": "Добавить забытые изменения в индекс:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git add название_файла"
+    },
+    {
+      "type": "text",
+      "value": "Добавить индексированные изменения в последний коммит:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git commit --amend --no-edit"
+    },
+    {
+      "type": "text",
       "value": "### Команды для просмотра истории и изменений"
     },
     {
@@ -187,33 +236,6 @@
       "type": "code",
       "language": "xml",
       "value": "git show <commit-hash>"
-    },
-    {
-      "type": "text",
-      "value": "- **Создать метку для последнего коммита:** (например, v1.0.0)"
-    },
-    {
-      "type": "code",
-      "language": "xml",
-      "value": "git tag <tag_name>"
-    },
-    {
-      "type": "text",
-      "value": "- **Создать аннотированную метку:**"
-    },
-    {
-      "type": "code",
-      "language": "xml",
-      "value": "git tag -a <tag_name> -m \"Message for the label\""
-    },
-    {
-      "type": "text",
-      "value": "- **Создать метку для конкретного коммита:**"
-    },
-    {
-      "type": "code",
-      "language": "xml",
-      "value": "git tag <tag_name> <commit_hash>"
     },
     {
       "type": "text",
@@ -317,6 +339,37 @@
       "type": "code",
       "language": "xml",
       "value": "git branch -d <name>"
+    },
+    {
+      "type": "text",
+      "value": "- **Использование «тайника» (Git Stash)**:"
+    },
+    {
+      "type": "text",
+      "value": "Спрятать изменения в тайник:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git stash"
+    },
+    {
+      "type": "text",
+      "value": "Создать новую ветку и перейти на неё:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git checkout -b имя-новой-ветки"
+    },
+    {
+      "type": "text",
+      "value": "Достать изменения из «тайника»:"
+    },
+    {
+      "type": "code",
+      "language": "xml",
+      "value": "git stash pop"
     },
     {
       "type": "text",
