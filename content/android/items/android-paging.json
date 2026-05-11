@@ -1,0 +1,121 @@
+{
+  "title": "Paging 3",
+  "content": [
+    {
+      "type": "text",
+      "value": "**Paging 3** — это мощная и элегантная библиотека для пагинации в Android. Она полностью переписана по сравнению с Paging 2 и работает с корутинами и Flow."
+    },
+    {
+      "type": "text",
+      "value": "**Пагинация в программировании** — это механизм разбиения большого объема данных (например, товаров в магазине, новостей, комментариев) на более мелкие, управляемые страницы для удобства пользователя, улучшения производительности сайта и облегчения навигации, с помощью нумерованных ссылок или кнопок, позволяющих переходить между этими частями. Это делается для ускорения загрузки страниц и снижения нагрузки на сервер, так как весь массив данных не загружается сразу."
+    },
+    {
+      "type": "text",
+      "value": "#### Преимущества Paging 3\n\n - **Корутины и Flow нативно** — отличная интеграция с современным стеком Android\n\n - **Отделение логики** — четкое разделение на источник данных, преобразования и UI\n\n - **Встроенная поддержка ошибок** и retry механизмов\n\n - **Трансформации данных** через операторы map, filter\n\n - **RemoteMediator** для гибридной пагинации (кэш + сеть)"
+    },
+    {
+      "type": "text",
+      "value": "### Основные компоненты Paging 3:"
+    },
+    {
+      "type": "text",
+      "value": "**PagingSource**"
+    },
+    {
+      "type": "text",
+      "value": "Источник данных, который загружает данные порциями (страницами)."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ExamplePagingSource(\n    private val apiService: ApiService\n) : PagingSource<Int, Item>() {\n    \n    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Item> {\n        return try {\n            val page = params.key ?: 1\n            val response = apiService.getItems(page)\n            \n            LoadResult.Page(\n                data = response.items,\n                prevKey = if (page == 1) null else page - 1,\n                nextKey = if (response.isLastPage) null else page + 1\n            )\n        } catch (e: Exception) {\n            LoadResult.Error(e)\n        }\n    }\n    \n    override fun getRefreshKey(state: PagingState<Int, Item>): Int? {\n        return state.anchorPosition?.let { anchorPosition ->\n            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)\n                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Pager**"
+    },
+    {
+      "type": "text",
+      "value": "Основной класс, который создает поток пагинированных данных."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "val pagingDataFlow = Pager(\n    config = PagingConfig(\n        pageSize = 20,\n        enablePlaceholders = false,\n        prefetchDistance = 5\n    ),\n    pagingSourceFactory = { ExamplePagingSource(apiService) }\n).flow"
+    },
+    {
+      "type": "text",
+      "value": "PagingData"
+    },
+    {
+      "type": "text",
+      "value": "Контейнер для пагинированных данных, которые можно наблюдать через Flow, LiveData или RxJava."
+    },
+    {
+      "type": "text",
+      "value": "**PagingDataAdapter**"
+    },
+    {
+      "type": "text",
+      "value": "Адаптер RecyclerView для отображения пагинированных данных."
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ItemsAdapter : PagingDataAdapter<Item, ItemViewHolder>(DIFF_CALLBACK) {\n    \n    companion object {\n        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Item>() {\n            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {\n                return oldItem.id == newItem.id\n            }\n            \n            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {\n                return oldItem == newItem\n            }\n        }\n    }\n    \n    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {\n        val item = getItem(position)\n        item?.let { holder.bind(it) }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Полная реализация в ViewModel"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ItemsViewModel(\n    private val repository: ItemsRepository\n) : ViewModel() {\n    \n    val items: Flow<PagingData<Item>> = Pager(\n        config = PagingConfig(\n            pageSize = 20,\n            enablePlaceholders = true,\n            maxSize = 200\n        )\n    ) {\n        ItemsPagingSource(repository)\n    }.flow\n        .cachedIn(viewModelScope)\n}"
+    },
+    {
+      "type": "text",
+      "value": "#### Использование в Activity/Fragment"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "class ItemsFragment : Fragment() {\n    \n    private val viewModel: ItemsViewModel by viewModels()\n    private lateinit var adapter: ItemsAdapter\n    \n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        \n        adapter = ItemsAdapter()\n        recyclerView.adapter = adapter\n        \n        lifecycleScope.launch {\n            viewModel.items.collectLatest { pagingData ->\n                adapter.submitData(pagingData)\n            }\n        }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "### RemoteMediator для кэширования в БД"
+    },
+    {
+      "type": "text",
+      "value": "**RemoteMediator**"
+    },
+    {
+      "type": "text",
+      "value": "Для сложных случаев (например, когда данные сначала берутся из сети, а потом кэшируются в Room):"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "@ExperimentalPagingApi\nclass ExampleRemoteMediator(\n    private val database: AppDatabase,\n    private val apiService: ApiService\n) : RemoteMediator<Int, Item>() {\n    \n    override suspend fun load(\n        loadType: LoadType,\n        state: PagingState<Int, Item>\n    ): MediatorResult {\n        // Логика загрузки с кэшированием\n    }\n}"
+    },
+    {
+      "type": "text",
+      "value": "**Конфигурация PagingConfig**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "PagingConfig(\n    pageSize = 20,          // Количество элементов на странице\n    prefetchDistance = 10,  // Когда начинать подгружать следующую страницу\n    enablePlaceholders = true, // Плейсхолдеры во время загрузки\n    initialLoadSize = 40,   // Размер первой загрузки\n    maxSize = 200           // Максимальное количество элементов в памяти\n)"
+    },
+    {
+      "type": "text",
+      "value": "**Обработка состояний**"
+    },
+    {
+      "type": "code",
+      "language": "kotlin",
+      "value": "lifecycleScope.launch {\n    adapter.loadStateFlow.collect { loadState ->\n        // Показывать/скрывать прогресс-бар\n        // Обрабатывать ошибки\n        // Отображать пустое состояние\n    }\n}"
+    }
+  ]
+}

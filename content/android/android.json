@@ -101,6 +101,11 @@
       "contentFile": "android-view-model.json"
     },
     {
+      "title": "Paging 3",
+      "url": "#android-paging",
+      "contentFile": "android-paging.json"
+    },
+    {
       "title": "Сохранение и восстановление состояния",
       "url": "#android-state-preservation-restoration",
       "contentFile": "android-state-preservation-restoration.json",

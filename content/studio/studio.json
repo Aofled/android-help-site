@@ -93,6 +93,10 @@
       "title": "Настройки Gradle",
       "url": "#studio-setting-gradle",
       "contentFile": "studio-setting-gradle.json"
+    },{
+      "title": "Настройки нового проекта",
+      "url": "#studio-new-project",
+      "contentFile": "studio-new-project.json"
     },
     {
       "title": "Настройки релизной версии",
