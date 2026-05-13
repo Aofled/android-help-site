@@ -15,7 +15,7 @@
     },
     {
       "type": "image",
-      "src": "/images/android/android_fragment_lifecycle.png",
+      "src": "/content/images/android/android_fragment_lifecycle.png",
       "alt": "Жизненный цикл Fragmen",
       "caption": "Жизненный цикл Fragmen"
     },

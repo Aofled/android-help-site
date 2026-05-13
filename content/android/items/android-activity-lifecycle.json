@@ -3,7 +3,7 @@
   "content": [
     {
       "type": "image",
-      "src": "/images/android/android_activity_lifecycle.png",
+      "src": "/content/images/android/android_activity_lifecycle.png",
       "alt": "Жизненный цикл Activity",
       "caption": "Жизненный цикл Activity"
     },

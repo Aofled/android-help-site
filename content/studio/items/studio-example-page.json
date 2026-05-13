@@ -30,7 +30,7 @@
     },
     {
       "type": "image",
-      "src": "/images/android/android_fragment_life_cycle.png",
+      "src": "/content/images/android/android_fragment_life_cycle.png",
       "alt": "Архитектура Android",
       "caption": "Рис. 1. Компоненты Android Runtime"
     },

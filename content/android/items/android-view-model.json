@@ -24,13 +24,13 @@
     },
     {
       "type": "image",
-      "src": "/images/android/android_activity_viewmodel.png",
+      "src": "/content/images/android/android_activity_viewmodel.png",
       "alt": "Жизненный цикл ViewModel в Activity",
       "caption": "Жизненный цикл ViewModel в Activity"
     },
     {
       "type": "image",
-      "src": "/images/android/android_fragment_view_model.png",
+      "src": "/content/images/android/android_fragment_view_model.png",
       "alt": "Жизненный цикл ViewModel во Fragmen",
       "caption": "Жизненный цикл ViewModel в Fragmen"
     },

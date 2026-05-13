@@ -373,7 +373,7 @@
     },
     {
       "type": "image",
-      "src": "/images/android/android_dependency_injection_koin_example.png",
+      "src": "/content/images/android/android_dependency_injection_koin_example.png",
       "alt": "Визуализация работы Koin",
       "caption": "Визуализация работы Koin"
     },

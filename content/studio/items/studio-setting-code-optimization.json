@@ -11,7 +11,7 @@
     },
     {
       "type": "image",
-      "src": "/images/studio/studio_setting_new_line.png",
+      "src": "/content/images/studio/studio_setting_new_line.png",
       "alt": "Настройки конца файла с кодом",
       "caption": "Настройки конца файла с кодом"
     },
@@ -30,7 +30,7 @@
     },
     {
       "type": "image",
-      "src": "/images/studio/studio_unused_import.png",
+      "src": "/content/images/studio/studio_unused_import.png",
       "alt": "Настройки для удаления неиспользуемых импортов",
       "caption": "Настройки для удаления неиспользуемых импортов"
     },

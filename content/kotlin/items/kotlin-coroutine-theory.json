@@ -111,7 +111,7 @@
     },
     {
       "type": "image",
-      "src": "/images/kotlin/kotlin_coroutine_life_cycle.png",
+      "src": "/content/images/kotlin/kotlin_coroutine_life_cycle.png",
       "alt": "Жизеннный цикл корутины",
       "caption": "Жизеннный цикл корутины"
     },
@@ -302,7 +302,7 @@
     },
     {
       "type": "image",
-      "src": "/images/kotlin/kotlin_coroutine_channel.png",
+      "src": "/content/images/kotlin/kotlin_coroutine_channel.png",
       "alt": "Работа каналов в корутинах",
       "caption": "Работа каналов в корутинах"
     },

@@ -7,7 +7,7 @@
     },
     {
       "type": "image",
-      "src": "/images/studio/studio_git_structure.png",
+      "src": "/content/images/studio/studio_git_structure.png",
       "alt": "Структура git",
       "caption": "Структура git"
     },
@@ -33,7 +33,7 @@
     },
     {
       "type": "image",
-      "src": "/images/studio/studio_git_сommit_structure.png",
+      "src": "/content/images/studio/studio_git_сommit_structure.png",
       "alt": "Структура коммита",
       "caption": "Структура коммита"
     },

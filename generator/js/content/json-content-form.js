@@ -218,8 +218,8 @@ export function initContentForm() {
                     alert("Пожалуйста, укажите URL изображения");
                     return;
                 }
-                if (!imageSrc.startsWith("/images/")) {
-                    imageSrc = "/images/" + imageSrc;
+                if (!imageSrc.startsWith("/content/images/")) {
+                    imageSrc = "/content/images/" + imageSrc;
                 }
                 const alt = document.getElementById("image-alt").value.trim();
                 const caption = document.getElementById("image-caption").value.trim();

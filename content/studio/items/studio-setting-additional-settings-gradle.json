@@ -3,7 +3,7 @@
   "content": [
     {
       "type": "image",
-      "src": "/images/studio/studio_setting_gradle.png",
+      "src": "/content/images/studio/studio_setting_gradle.png",
       "alt": "Включение дополнительных настроек gradle",
       "caption": "Включение дополнительных настроек gradle"
     }
