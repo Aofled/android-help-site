@@ -3,50 +3,58 @@
     align-items: center;
     width: 100%;
     height: var(--header-height);
-    padding: 0 20px;
+    padding: 0 24px;
     box-sizing: border-box;
-    background: var(--android-dark, #2c3e50);
-    color: white;
-    border-bottom: 2px solid var(--android-green, #27ae60);
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    background: var(--surface-color);
+    color: var(--text-primary);
+    border-bottom: 2px solid transparent;
+    border-image: var(--brand-gradient) 1;
+    box-shadow: var(--shadow-md);
     position: relative;
     z-index: 10;
+    transition: var(--transition-theme);
 }
 
 .header-logo {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 24px;
     flex-shrink: 0;
+    color: var(--primary-color);
 }
 
 .header-logo svg {
     width: 32px;
     height: 32px;
-    transition: transform 0.3s;
-}
-
-.theme-toggle {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 8px;
-    margin-left: 15px;
-    display: flex;
-    align-items: center;
-}
-
-.theme-toggle svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
+    transition: transform var(--transition-duration) var(--md-easing);
 }
 
 .header-logo:hover svg {
-    transform: scale(1.1);
+    transform: scale(1.05);
+}
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+.theme-toggle:hover {
+    background-color: var(--hover-overlay);
+    color: var(--primary-color);
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 
 .header-menu {
@@ -54,48 +62,8 @@
     justify-content: flex-end;
 }
 
-[data-theme="light"] body {
-    background: #f0f0f0;
-}
-
 @media (min-width: 1024px) {
     .burger-menu {
         display: none;
     }
-}
-
-[data-theme="light"] {
-    --android-dark: #f8f9fa;
-    --android-light: #202124;
-    --sidebar-bg: #e0e0e0;
-}
-
-[data-theme="light"] .header,
-[data-theme="light"] .footer {
-    background: var(--android-dark);
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .header-menu li a,
-[data-theme="light"] .footer-menu li a {
-    color: var(--android-light);
-}
-
-[data-theme="light"] .header-menu li a:hover,
-[data-theme="light"] .footer-menu li a:hover {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="light"] .header-menu li a.active,
-[data-theme="light"] .footer-menu li a.active {
-    background: #27ae60;
-    color: white;
-}
-
-[data-theme="light"] .theme-toggle {
-    color: var(--android-light);
-}
-
-[data-theme="light"] .json-generator a {
-    color: var(--android-light);
 }

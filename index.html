@@ -9,8 +9,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <link rel="manifest" href="/favicon/site.webmanifest">
-    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-TileColor" content="#1E8E3E">
     <meta name="theme-color" content="#3ddc84">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Basic styles -->
     <link rel="stylesheet" href="css/base.css">
@@ -54,7 +58,7 @@
     </button>
     <div class="header-logo">
         <svg width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#3ddc84"
+            <path fill="currentColor"
                   d="M3,18l6-6l-6-6l1.41-1.41L11.83,12l-7.42,7.41L3,18z M15,18l6-6l-6-6l1.41-1.41L23.83,12l-7.42,7.41L15,18z"/>
         </svg>
     </div>
@@ -108,11 +112,7 @@
 </style>
 -->
 <script>
-    window.marked = window.marked || {
-        parse: function (text) {
-            return text;
-        }
-    };
+    window.marked = window.marked || { parse: function (text) { return text; } };
 
     // Load theme from LocalStorage or default to 'dark'
     const savedTheme = localStorage.getItem('theme') || 'dark';

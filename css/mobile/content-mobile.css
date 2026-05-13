@@ -1,22 +1,21 @@
 @media (max-width: 1023px) {
     .content {
-        padding: 10px;
+        padding: 16px;
         min-height: auto;
     }
 
     .content-title {
-        font-size: 1.6rem;
-        margin: 0.8rem 0;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
     }
 
     .content h1 {
-        font-size: 1.5rem;
-        margin: 1.2rem 0 0.8rem;
+        font-size: 1.3rem;
     }
 
     .content h2 {
-        font-size: 1.3rem;
-        margin: 1.1rem 0 0.7rem;
+        font-size: 1.2rem;
+        margin: 1.2rem 0 0.8rem;
     }
 
     .content h3 {
@@ -25,75 +24,62 @@
     }
 
     .content h4 {
-        font-size: 1rem;
-        margin: 0.9rem 0 0.5rem;
+        font-size: 1.05rem;
     }
 
     .content h5 {
-        font-size: 0.9rem;
-        margin: 0.8rem 0 0.4rem;
+        font-size: 1rem;
     }
 
     .content h6 {
-        font-size: 0.8rem;
-        margin: 0.7rem 0 0.3rem;
+        font-size: 0.95rem;
     }
 
-    .text-block {
-        margin-bottom: 1em;
+    .text-block p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0.8em 0;
     }
 
-    .text-block p,
     .text-block ul,
     .text-block ol {
-        margin: 0.6em 0;
+        margin: 0.8em 0;
+        padding-left: 1.5em;
     }
 
     .text-block li {
-        margin: 0.3em 0;
+        margin: 0.4em 0;
+        font-size: 0.95rem;
     }
 
-    .content-image-wrapper {
-        margin: 1em 0;
+    .content pre {
+        padding: 0.3rem;
     }
 
-    figcaption {
-        font-size: 0.85rem;
-        padding: 0 5%;
-        margin-top: 8px;
+    .content pre code {
+        font-size: 0.8rem;
     }
 
     .code-block-wrapper {
-        margin: 10px 0;
+        margin: 1rem 0;
     }
 
     .copy-code-btn {
-        padding: 3px 6px;
-        font-size: 11px;
+        padding: 8px;
+        border-radius: 50%;
+        gap: 0;
     }
 
     .copy-code-btn span {
         display: none;
     }
 
-    .loader {
-        padding: 20px;
+    .content-image-wrapper {
+        margin: 1.5em 0;
     }
 
-    .loader .spinner {
-        width: 30px;
-        height: 30px;
-    }
-
-    .error-content {
-        padding: 20px;
-    }
-
-    .error-content button {
-        padding: 6px 12px;
-    }
-
-    .gray-block a {
-        font-size: 0.9em;
+    figcaption {
+        font-size: 0.85rem;
+        margin-top: 8px;
     }
 }
