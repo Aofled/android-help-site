@@ -1,32 +1,21 @@
 .footer {
-    background: var(--android-dark);
-    border-top: 2px solid var(--android-green);
-    color: white;
-    padding: 10px 0;
+    background: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 24px 0;
     width: 100%;
     box-sizing: border-box;
-    position: relative;
     z-index: 2;
+    transition: var(--transition-theme);
     margin-top: auto;
 }
 
 .footer-year {
-    margin-top: 10px;
-    color: var(--android-green);
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
-[data-theme="light"] {
-    .footer {
-        background: var(--android-dark);
-        border-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .footer-menu li a {
-        color: var(--android-light);
-    }
-
-    .footer-year {
-        color: #333;
-        background-color: rgba(0, 0, 0, 0.05);
-    }
+.footer-year span {
+    color: var(--primary-color);
 }

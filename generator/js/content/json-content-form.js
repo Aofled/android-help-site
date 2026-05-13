@@ -1,23 +1,4 @@
-function updateStatus(message, type) {
-    const statusBar = document.getElementById("json-status");
-    if (!statusBar) return;
-
-    statusBar.textContent = message;
-    statusBar.className = "json-status-bar";
-
-    if (type) {
-        statusBar.classList.add(`status-${type}`);
-    }
-
-    if (type === "success") {
-        setTimeout(() => {
-            if (statusBar.textContent === message) {
-                statusBar.textContent = "Готов к работе";
-                statusBar.className = "json-status-bar";
-            }
-        }, 3000);
-    }
-}
+import {updateStatus, insertJsonAtCursor} from "./json-body.js";
 
 export function initContentForm() {
     const initContentBtn = document.getElementById("init-content-structure");
@@ -32,6 +13,24 @@ export function initContentForm() {
         code: document.getElementById("code-input-group"),
         image: document.getElementById("image-input-group"),
     };
+
+    document.addEventListener("json-editor-cleared", () => {
+        document.getElementById("text-value").value = "";
+
+        document.getElementById("code-value").value = "";
+        const kotlinRadio = document.querySelector('input[name="code-language"][value="kotlin"]');
+        if (kotlinRadio) kotlinRadio.checked = true;
+
+        document.getElementById("image-src").value = "";
+        document.getElementById("image-alt").value = "";
+        document.getElementById("image-caption").value = "";
+
+        const textRadio = document.querySelector('input[name="content-type"][value="text"]');
+        if (textRadio) {
+            textRadio.checked = true;
+            textRadio.dispatchEvent(new Event("change"));
+        }
+    });
 
     let buttonsContainer = inputGroups.text.querySelector(".text-format-buttons");
 
@@ -235,43 +234,8 @@ export function initContentForm() {
 
         const jsonString = `,\n${JSON.stringify(contentItem, null, 2)}`;
         insertJsonAtCursor(jsonString);
-    });
-
-    function insertJsonAtCursor(jsonText) {
-        const startPos = jsonTextarea.selectionStart;
-        const endPos = jsonTextarea.selectionEnd;
-        const currentValue = jsonTextarea.value;
-
-        jsonTextarea.value =
-            currentValue.substring(0, startPos) +
-            jsonText +
-            currentValue.substring(endPos);
-
-        if (window.updateLineNumbers) window.updateLineNumbers();
         updateStatus("Контент добавлен", "success");
-    }
-
-    function formatBlockCode(textarea) {
-        const selectedText = textarea.value.substring(
-            textarea.selectionStart,
-            textarea.selectionEnd,
-        );
-
-        if (!selectedText) {
-            alert("Выделите текст для оформления как блочный код");
-            return;
-        }
-
-        const beforeText = textarea.value.substring(0, textarea.selectionStart);
-        const afterText = textarea.value.substring(textarea.selectionEnd);
-
-        const formattedText = `\n\`\`\`\n${selectedText}\n\`\`\`\n`;
-        textarea.value = beforeText + formattedText + afterText;
-
-        textarea.focus();
-        const newPos = textarea.selectionStart + selectedText.length + 8; // 8 символов добавлено
-        textarea.setSelectionRange(newPos, newPos);
-    }
+    });
 
     function addHeaderPrefix(textarea, prefix) {
         const startPos = textarea.selectionStart;
