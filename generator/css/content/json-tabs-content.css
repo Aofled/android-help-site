@@ -1,85 +1,134 @@
 .content-form {
-    padding: 15px;
-    background: var(--bg-secondary);
-    border-radius: 6px;
-    margin-bottom: 20px;
+    background: transparent;
 }
 
-.content-init-button {
+.json-button {
+    background: var(--primary-color);
+    color: var(--on-primary);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--shape-pill);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: var(--font-ui);
+    transition: opacity var(--transition-duration), transform 0.1s;
     width: 100%;
-    background: var(--android-accent);
-    margin-bottom: 15px;
 }
 
-.content-init-button:hover {
-    background: #3367d6;
+.json-button:hover {
+    opacity: 0.9;
 }
 
-.text-content, .code-content {
+.json-button:active {
+    transform: scale(0.98);
+}
+
+.content-init-button,
+#init-json-structure {
+    background: var(--surface-variant);
+    color: var(--text-primary);
+    border: 1px dashed rgba(160, 160, 165, 0.4);
+    margin-bottom: 20px;
+    box-shadow: none;
+    font-weight: 500;
+}
+
+[data-theme="light"] .content-init-button,
+[data-theme="light"] #init-json-structure {
+    border-color: rgba(66, 73, 64, 0.3);
+}
+
+.content-init-button:hover,
+#init-json-structure:hover {
+    background: var(--hover-overlay);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    opacity: 1;
+}
+
+.code-content,
+.text-content {
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    line-height: 1.5;
     resize: vertical;
+    border-radius: var(--shape-small);
+    background: var(--surface-variant);
 }
 
 .text-content {
-    min-height: 100px;
+    min-height: 150px;
 }
 
 .code-content {
-    min-height: 150px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.4;
+    min-height: 200px;
 }
 
-.text-format-buttons, .formatting-buttons {
+.formatting-buttons {
     display: flex;
-    gap: 5px;
-    margin-top: 5px;
-}
-
-.text-format-buttons {
     flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .buttons-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
+.formatting-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-top: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.buttons-row {
+    display: contents;
+}
+
 .format-button {
-    background: var(--android-accent);
-    color: white;
-    border: none;
+    background: var(--surface-variant);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
     padding: 4px 8px;
-    border-radius: 3px;
+    border-radius: var(--shape-small);
     cursor: pointer;
     font-size: 0.8rem;
-    transition: background 0.2s;
+    font-family: var(--font-code);
+    transition: all var(--transition-duration);
+    white-space: nowrap;
 }
 
 .format-button:hover {
-    background: #3367d6;
-}
-
-.formatting-tools {
-    margin-top: 10px;
+    background: var(--hover-overlay);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .formatting-hints {
     margin-top: 8px;
-    font-size: 0.85rem;
-    color: #777;
+    padding: 10px 12px;
+    background: var(--surface-variant);
+    border-radius: var(--shape-small);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: var(--font-code);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
 }
 
-.hint-row {
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 5px;
+.hint-row br {
+    display: none;
 }
 
 .hint-row span {
-    white-space: nowrap;
-}
-
-[data-theme="dark"] .formatting-hints {
-    color: #aaa;
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.2;
 }

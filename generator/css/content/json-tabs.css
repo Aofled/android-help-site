@@ -1,53 +1,52 @@
 .json-tabs {
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 5px;
-    padding: 0 8px 4px;
-    margin-bottom: 10px;
+    gap: 8px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .json-tab {
     box-sizing: border-box;
     height: var(--desktop-tab-height);
-    padding: 6px 16px;
-    min-width: 70px;
+    padding: 0 20px;
     font-size: var(--desktop-tab-font-size);
     font-weight: 500;
-    color: var(--text-color);
-    white-space: nowrap;
-    user-select: none;
-    background: var(--tab-bg);
-    border: 1px solid transparent;
-    border-radius: 5px 5px 0 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    color: var(--text-secondary);
+    background: var(--surface-variant);
+    border: none;
+    border-radius: var(--shape-pill);
     cursor: pointer;
-    transition: background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    transition: all var(--transition-duration) var(--md-easing);
 }
 
 .json-tab:hover {
-    background: var(--tab-hover-bg);
-    border-color: var(--android-green);
+    background: var(--hover-overlay);
+    color: var(--text-primary);
 }
 
 .json-tab.active {
-    background: var(--android-green);
-    color: white !important;
+    background: var(--primary-color);
+    color: var(--on-primary) !important;
     font-weight: 600;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .json-tab-content {
     display: none;
-    color: var(--text-color);
+    animation: fadeIn 0.3s ease;
 }
 
 .json-tab-content.active {
     display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

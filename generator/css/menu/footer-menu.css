@@ -1,7 +1,7 @@
 .footer-menu {
     width: clamp(1200px, 60%, 1800px);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
     box-sizing: border-box;
 }
 
@@ -11,70 +11,29 @@
     padding: 0;
     margin: 0;
     gap: 8px;
-    justify-content: flex-start;
-}
-
-.footer-menu li,
-.footer-menu .json-generator {
-    position: relative;
-    cursor: pointer;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .footer-menu li a,
 .footer-menu .json-generator a {
     display: block;
-    color: white;
+    color: var(--text-secondary);
     text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 8px 15px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: var(--shape-pill);
+    transition: all 0.2s var(--md-easing);
 }
 
-.footer-menu li a.active {
-    background-color: #27ae60;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.footer-menu li a.active:hover {
-    background-color: #2ecc71;
-}
-
-.footer-menu li a:hover {
-    background-color: #34495e;
-}
-
-.footer-menu .json-generator {
-    margin-left: auto;
-}
-
-.footer-menu .json-generator a {
-    background-color: transparent;
-    border: none;
+.footer-menu li a:hover,
+.footer-menu .json-generator a:hover {
+    color: var(--text-primary);
+    background-color: var(--hover-overlay);
 }
 
 .footer-info {
-    margin-top: 15px;
+    margin-top: 16px;
     width: 100%;
     text-align: center;
-}
-
-.footer-year {
-    font-size: 0.9rem;
-    color: #ecf0f1;
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-}
-
-[data-theme="light"] {
-    .footer-menu .json-generator a {
-        color: var(--android-light);
-    }
-
-    .footer-menu .json-generator a:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
 }

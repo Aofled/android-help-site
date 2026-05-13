@@ -1,8 +1,13 @@
 .menu-form {
-    padding: 15px;
-    background: var(--bg-secondary);
-    border-radius: 6px;
-    margin-bottom: 20px;
+    background: transparent;
+}
+
+.radio-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 8px;
 }
 
 #add-to-json {
@@ -10,20 +15,9 @@
     margin-top: 10px;
 }
 
-#init-json-structure {
-    width: 100%;
-    background: var(--android-accent);
-    margin-bottom: 15px;
-}
-
-#init-json-structure:hover {
-    background: #3367d6;
-}
-
-/* Desktop specific styles */
 @media (min-width: 1024px) {
     .json-tab {
         padding: 12px 24px;
-        border-radius: 6px 6px 0 0;
+        border-radius: var(--shape-pill);
     }
 }
