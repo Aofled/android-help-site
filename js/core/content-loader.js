@@ -96,6 +96,9 @@ function renderContent(data) {
 
     initCodeHighlighting();
     setupCopyButtons();
+
+    contentEl.scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderContentBlock(block) {
