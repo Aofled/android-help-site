@@ -131,6 +131,8 @@ export function initContentForm() {
                 alert("Выделите текст для ссылки");
                 return;
             }
+            
+            const scrollPos = textarea.scrollTop;
 
             const beforeText = textarea.value.substring(0, textarea.selectionStart);
             const afterText = textarea.value.substring(textarea.selectionEnd);
@@ -139,6 +141,8 @@ export function initContentForm() {
             textarea.focus();
             const newPos = textarea.selectionStart + selectedText.length + 11;
             textarea.setSelectionRange(newPos, newPos);
+
+            textarea.scrollTop = scrollPos;
         });
 
         h1Btn.addEventListener("click", () => addHeaderPrefix(textarea, "# "));
@@ -242,6 +246,8 @@ export function initContentForm() {
         const endPos = textarea.selectionEnd;
         const selectedText = textarea.value.substring(startPos, endPos);
 
+        const scrollPos = textarea.scrollTop;
+
         if (selectedText) {
             const beforeText = textarea.value.substring(0, startPos);
             const afterText = textarea.value.substring(endPos);
@@ -259,6 +265,8 @@ export function initContentForm() {
             const newPos = startPos + prefix.length;
             textarea.setSelectionRange(newPos, newPos);
         }
+
+        textarea.scrollTop = scrollPos;
     }
 
     function formatText(textarea, wrapper, alertMessage) {
@@ -271,6 +279,8 @@ export function initContentForm() {
             return;
         }
 
+        const scrollPos = textarea.scrollTop;
+
         const beforeText = textarea.value.substring(0, startPos);
         const afterText = textarea.value.substring(endPos);
 
@@ -281,5 +291,7 @@ export function initContentForm() {
         const newCursorPos =
             startPos + wrapper.length + selectedText.length + wrapper.length;
         textarea.setSelectionRange(newCursorPos, newCursorPos);
+
+        textarea.scrollTop = scrollPos;
     }
 }
