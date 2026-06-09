@@ -133,6 +133,11 @@
       "contentFile": "android-project-architectures.json",
       "subItems": [
         {
+          "title": "SOLID",
+          "url": "#android-project-architectures-solid",
+          "contentFile": "android-project-architectures-solid.json"
+        },
+        {
           "title": "Многомодульная архитектура",
           "url": "#android-project-architectures-multi-module",
           "contentFile": "android-project-architectures-multi-module.json"
@@ -295,6 +300,10 @@
           "title": "Корутины: Flow",
           "url": "#android-coroutine-flow",
           "contentFile": "android-coroutine-flow.json"
+        },{
+          "title": "Корутины: Channel",
+          "url": "#android-coroutine-channel",
+          "contentFile": "android-coroutine-channel.json"
         },
         {
           "title": "WorkManager",
